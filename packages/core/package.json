@@ -1,0 +1,47 @@
+{
+  "name": "@bankai-vue/core",
+  "version": "0.0.0",
+  "description": "The agnostic, accessibility-first Vue 3 component framework — core components.",
+  "homepage": "https://github.com/bankai-vue/bankai/tree/main/packages/core",
+  "license": "MIT",
+  "author": "Christopher Quadflieg <chrissi92@hotmail.de> (https://github.com/Shinigami92)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bankai-vue/bankai.git",
+    "directory": "packages/core"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./version": {
+      "types": "./dist/version.d.ts",
+      "import": "./dist/version.js"
+    },
+    "./composables/usePrefixedId": {
+      "types": "./dist/composables/usePrefixedId.d.ts",
+      "import": "./dist/composables/usePrefixedId.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown"
+  },
+  "devDependencies": {
+    "vue": "catalog:"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0"
+  }
+}

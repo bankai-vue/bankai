@@ -1,0 +1,11 @@
+{
+  // Aggregate config for the native TS 7.0 compiler (`tsgo`) — fast .ts-only
+  // type-checking across the publishable, SFC-free packages (SPEC.md §4.8).
+  // .vue files are checked separately by vue-tsc on the TS 6.x bridge.
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": ["packages/*/src/**/*.ts"],
+  "exclude": ["**/*.vue", "**/dist/**", "**/node_modules/**"]
+}

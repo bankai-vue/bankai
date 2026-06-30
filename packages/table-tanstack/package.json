@@ -1,0 +1,45 @@
+{
+  "name": "@bankai-vue/table-tanstack",
+  "version": "0.0.0",
+  "description": "Opt-in TanStack Table adapter for the bankai-vue DataTable.",
+  "homepage": "https://github.com/bankai-vue/bankai/tree/main/packages/table-tanstack",
+  "license": "MIT",
+  "author": "Christopher Quadflieg <chrissi92@hotmail.de> (https://github.com/Shinigami92)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bankai-vue/bankai.git",
+    "directory": "packages/table-tanstack"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown"
+  },
+  "devDependencies": {
+    "vue": "catalog:"
+  },
+  "peerDependencies": {
+    "@tanstack/vue-table": ">=8.0.0",
+    "vue": "^3.5.0"
+  },
+  "peerDependenciesMeta": {
+    "@tanstack/vue-table": {
+      "optional": true
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "@bankai-vue/docs",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Reserved: the future documentation site, built on Nuxt + bankai-vue (SPEC.md §4.15). Not yet scaffolded."
+}

@@ -1,0 +1,41 @@
+{
+  "name": "@bankai-vue/nuxt",
+  "version": "0.0.0",
+  "description": "First-party Nuxt module for bankai-vue (SSR/SSG/client-only).",
+  "homepage": "https://github.com/bankai-vue/bankai/tree/main/packages/nuxt",
+  "license": "MIT",
+  "author": "Christopher Quadflieg <chrissi92@hotmail.de> (https://github.com/Shinigami92)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bankai-vue/bankai.git",
+    "directory": "packages/nuxt"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/module.mjs",
+  "types": "./dist/types.d.mts",
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.mts",
+      "import": "./dist/module.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "nuxt-module-build build",
+    "prepack": "nuxt-module-build build"
+  },
+  "dependencies": {
+    "@nuxt/kit": "catalog:"
+  },
+  "devDependencies": {
+    "@nuxt/module-builder": "catalog:",
+    "nuxt": "catalog:"
+  }
+}

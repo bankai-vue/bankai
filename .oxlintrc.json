@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "import", "promise"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn"
+  },
+  "ignorePatterns": [
+    "**/dist/**",
+    "**/.nuxt/**",
+    "**/.output/**",
+    "**/node_modules/**",
+    "**/coverage/**",
+    "**/test-results/**",
+    "**/playwright-report/**"
+  ]
+}
