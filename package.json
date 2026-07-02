@@ -21,6 +21,7 @@
     "typecheck:scripts": "tsgo --noEmit -p scripts/tsconfig.json",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:types": "vitest --run --typecheck.only",
     "test:e2e": "playwright test",
     "test:update-visual-snapshots": "node scripts/update-visual-snapshots.ts",
     "lint": "oxlint",
@@ -30,7 +31,7 @@
     "changeset": "changeset",
     "version": "changeset version",
     "release": "pnpm run build && changeset publish",
-    "preflight": "pnpm install && run-s format:check lint typecheck build test"
+    "preflight": "pnpm install && run-s format:check lint typecheck test:types build test"
   },
   "devDependencies": {
     "@changesets/cli": "catalog:",

@@ -1,0 +1,67 @@
+/*
+ * BankaiButton styling.
+ *
+ * Targets the `bankai-button` class and reflected state (`data-variant`, `data-size`, native `:disabled`).
+ * Every selector is wrapped in `:where()` so a consumer can override any rule with a single plain selector,
+ * or retune the `--bankai-button-*` tokens below.
+ */
+
+:where(:root) {
+  --bankai-button-fg: light-dark(#f8fafc, #0f172a);
+  --bankai-button-bg: light-dark(#1e293b, #e2e8f0);
+  --bankai-button-border: transparent;
+}
+
+:where(.bankai-button) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--bankai-button-border);
+  border-radius: var(--bankai-radius);
+  background: var(--bankai-button-bg);
+  color: var(--bankai-button-fg);
+  font: inherit;
+  cursor: pointer;
+}
+
+:where(.bankai-button[data-size='sm']) {
+  padding: 0.125rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+:where(.bankai-button[data-size='md']) {
+  padding: 0.375rem 0.75rem;
+}
+
+:where(.bankai-button[data-size='lg']) {
+  padding: 0.5rem 1rem;
+  font-size: 1.125rem;
+}
+
+/*
+ * `outline` and `ghost` are the "quiet" variants: transparent background and `color: inherit`,
+ * so they adopt the ambient text color of whatever surface they sit on (light/dark, colored panels).
+ * That means `--bankai-button-fg` / `--bankai-button-bg` only drive the `solid` variant by design — retune those two tokens for solid,
+ * and the surrounding `color` for outline/ghost.
+ */
+:where(.bankai-button[data-variant='outline']) {
+  border-color: currentcolor;
+  background: transparent;
+  color: inherit;
+}
+
+:where(.bankai-button[data-variant='ghost']) {
+  border-color: transparent;
+  background: transparent;
+  color: inherit;
+}
+
+:where(.bankai-button:focus-visible) {
+  outline: 2px solid var(--bankai-focus-ring);
+  outline-offset: 2px;
+}
+
+:where(.bankai-button:disabled) {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

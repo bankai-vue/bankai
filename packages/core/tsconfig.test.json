@@ -1,0 +1,11 @@
+{
+  // Tests (both runtime `*.test.ts` and type-level `*.test-d.ts`). Kept out of
+  // the main `tsconfig.json` because its `rootDir: "src"` would reject files
+  // under `test/`. Source types are pulled in on demand through the `../src`
+  // imports, so only the test files themselves are listed here.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "."
+  },
+  "include": ["test/**/*.ts"]
+}
