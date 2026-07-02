@@ -1,11 +1,6 @@
 {
-  "extends": "../tsconfig.base.json",
-  "compilerOptions": {
-    "types": ["vite/client"],
-    "paths": {
-      "@bankai-vue/core": ["../packages/core/src/index.ts"]
-    },
-    "noEmit": true
-  },
-  "include": ["src/**/*.ts", "src/**/*.vue"]
+  // Solution config: `tsconfig.app.json` covers the browser app (vue-tsc),
+  // `tsconfig.node.json` covers Node-land tooling like `vite.config.ts`.
+  "files": [],
+  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]
 }

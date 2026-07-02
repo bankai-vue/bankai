@@ -1,9 +1,22 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["typescript", "import", "promise"],
+  "plugins": ["import", "oxc", "promise", "typescript", "unicorn", "vitest", "vue"],
   "categories": {
     "correctness": "error",
-    "suspicious": "warn"
+    "suspicious": "error",
+    "pedantic": "error",
+    "perf": "error",
+    "restriction": "off"
+  },
+  "options": {
+    "reportUnusedDisableDirectives": "error",
+    "typeAware": true,
+    "typeCheck": false
+  },
+  "env": {
+    "builtin": true,
+    "browser": true,
+    "node": true
   },
   "ignorePatterns": [
     "**/dist/**",
@@ -13,5 +26,42 @@
     "**/coverage/**",
     "**/test-results/**",
     "**/playwright-report/**"
+  ],
+  "rules": {
+    // --- eslint core (curly/sort-imports/no-use-before-define are `style`/`restriction` → off by default) ---
+    "curly": "error",
+    // `eqeqeq` is already error via the `pedantic` category; this only sets the `null: ignore` option.
+    "eqeqeq": ["error", "always", { "null": "ignore" }],
+    "sort-imports": ["error", { "ignoreCase": true, "ignoreDeclarationSort": true }],
+    "no-use-before-define": "error",
+
+    // --- import ---
+    "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
+
+    // --- typescript ---
+    "typescript/explicit-function-return-type": "error",
+    "typescript/explicit-module-boundary-types": "error",
+    "typescript/array-type": ["error", { "default": "array-simple", "readonly": "generic" }],
+    "typescript/consistent-type-imports": "error",
+    "typescript/prefer-find": "error",
+    "typescript/prefer-for-of": "error",
+    // Too aggressive for Vue props/handlers and 3rd-party fixtures (e.g. Playwright's `page`).
+    "typescript/prefer-readonly-parameter-types": "off",
+
+    // --- unicorn ---
+    "unicorn/prefer-ternary": "error"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.{test,spec}.ts", "e2e/**/*.ts"],
+      "rules": {}
+    },
+    {
+      // Config/tooling files: idiomatic `process.env.X` boolean coercion is fine here.
+      "files": ["*.config.ts", "**/*.config.ts", "playwright.config.ts"],
+      "rules": {
+        "typescript/strict-boolean-expressions": "off"
+      }
+    }
   ]
 }
