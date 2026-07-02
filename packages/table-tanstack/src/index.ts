@@ -8,4 +8,4 @@
  * `@tanstack/vue-table` is an OPTIONAL peer dependency — never a hard dep of
  * core — and its exact version (stable 8.x vs 9.x beta) is chosen with the spike.
  */
-export const adapterName = "tanstack" as const;
+export const adapterName = 'tanstack' as const;

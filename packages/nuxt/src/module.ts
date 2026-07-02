@@ -1,4 +1,4 @@
-import { defineNuxtModule } from "@nuxt/kit";
+import { defineNuxtModule } from '@nuxt/kit';
 
 export interface ModuleOptions {}
 
@@ -10,10 +10,10 @@ export interface ModuleOptions {}
  */
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: "@bankai-vue/nuxt",
-    configKey: "bankaiVue",
+    name: '@bankai-vue/nuxt',
+    configKey: 'bankaiVue',
     compatibility: {
-      nuxt: ">=3.0.0",
+      nuxt: '>=3.0.0',
     },
   },
   defaults: {},

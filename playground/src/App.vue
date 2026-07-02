@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { version } from "@bankai-vue/core";
+import { version } from '@bankai-vue/core';
+import { ref } from 'vue';
 
 const count = ref(0);
 </script>

@@ -1,4 +1,4 @@
-import { useId } from "vue";
+import { useId } from 'vue';
 
 /**
  * Returns a hydration-stable, prefixed id built on Vue's native `useId`
@@ -8,6 +8,6 @@ import { useId } from "vue";
  * Stub composable — exists only to exercise the build/typecheck pipeline against
  * a real `vue` import. Not part of the eventual public API.
  */
-export function usePrefixedId(prefix = "bankai"): string {
+export function usePrefixedId(prefix = 'bankai'): string {
   return `${prefix}-${useId()}`;
 }
