@@ -9,5 +9,15 @@
       ["parent", "sibling", "index"]
     ],
     "newlinesBetween": false
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.json5"],
+      "options": {
+        "quoteProps": "preserve",
+        "singleQuote": false,
+        "trailingComma": "none"
+      }
+    }
+  ]
 }

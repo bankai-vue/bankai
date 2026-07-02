@@ -1,0 +1,95 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:best-practices",
+    "schedule:earlyMondays",
+    "group:allNonMajor",
+    ":prHourlyLimitNone",
+    // @types/node is pinned to match engines.node (see pnpm-workspace.yaml).
+    "helpers:disableTypesNodeMajor"
+  ],
+  "timezone": "Europe/Berlin",
+  "labels": ["c: dependencies"],
+  "reviewersFromCodeOwners": true,
+  "rangeStrategy": "bump",
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "packageRules": [
+    // --- by dependency type ---
+    {
+      "groupName": "devDependencies",
+      "matchDepTypes": ["devDependencies"],
+      "rangeStrategy": "bump",
+      "minimumReleaseAge": null
+    },
+    {
+      "groupName": "dependencies",
+      "matchDepTypes": ["dependencies"],
+      "rangeStrategy": "replace"
+    },
+    {
+      "groupName": "peerDependencies",
+      "matchDepTypes": ["peerDependencies"],
+      "rangeStrategy": "widen"
+    },
+    {
+      "groupName": "engines",
+      "matchDepTypes": ["engines"],
+      "rangeStrategy": "replace",
+      "minimumReleaseAge": null
+    },
+
+    // --- oxc toolchain (exact-pinned in the catalog; mirrored in pnpm `minimumReleaseAgeExclude`) ---
+    {
+      "groupName": "oxlint",
+      "matchPackageNames": ["oxlint", "oxlint-tsgolint"],
+      "minimumReleaseAge": null
+    },
+    {
+      "groupName": "oxfmt",
+      "matchPackageNames": ["oxfmt"],
+      "minimumReleaseAge": null
+    },
+
+    // --- TypeScript hybrid: stable TS6 compiler + tsgo (TS7 preview) (SPEC.md §4.8) ---
+    {
+      "groupName": "typescript",
+      "matchPackageNames": ["typescript", "@typescript/native-preview"],
+      "minimumReleaseAge": null
+    },
+
+    // --- test toolchain ---
+    {
+      "groupName": "vitest",
+      "matchPackageNames": ["vitest", "@vitest/**"],
+      "minimumReleaseAge": null
+    },
+    {
+      "groupName": "playwright",
+      "matchPackageNames": ["playwright", "@playwright/test"]
+    },
+
+    // --- Vue: dogfooded against the 3.6 beta, so allow prerelease bumps (SPEC.md §4.11) ---
+    {
+      "groupName": "vue",
+      "matchPackageNames": ["vue", "unplugin-vue", "@vitejs/plugin-vue"],
+      "ignoreUnstable": false,
+      "minimumReleaseAge": null
+    },
+    {
+      "groupName": "vue language tools",
+      "matchPackageNames": ["vue-tsc", "@vue/language-core"]
+    },
+
+    // --- Nuxt module toolchain ---
+    {
+      "groupName": "nuxt",
+      "matchPackageNames": ["nuxt", "@nuxt/**"]
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "labels": ["c: security"],
+    "assignees": ["@Shinigami92"]
+  }
+}
