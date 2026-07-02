@@ -13,11 +13,15 @@ peerDependencyRules:
 
 # Approved native build scripts (pnpm only runs postinstall for these).
 # Kept to a deliberately short, audited list (SPEC.md §4.13).
-#  - esbuild: platform binary for Vite/Vitest
 #  - @parcel/watcher: native file watcher pulled in by the Nuxt toolchain
+# NOTE: esbuild's postinstall is intentionally NOT allowed. Two esbuild majors
+# coexist (vite 7 via Nuxt + vite 8), and esbuild's install-time binary
+# validation cross-checks the wrong version and fails (seen in CI). esbuild
+# loads its binary from the `@esbuild/*` optional deps at runtime, so the build
+# script isn't needed.
 allowBuilds:
   '@parcel/watcher': true
-  esbuild: true
+  esbuild: false
 
 # Single source of version truth for the workspace (pnpm catalog).
 # Packages reference these via "catalog:" instead of hardcoding versions.
