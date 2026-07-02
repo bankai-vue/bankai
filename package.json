@@ -16,7 +16,7 @@
     "dev": "pnpm --filter playground run dev",
     "typecheck": "pnpm run typecheck:ts && pnpm run typecheck:vue",
     "typecheck:ts": "tsgo --noEmit -p tsconfig.json",
-    "typecheck:vue": "pnpm -r --filter playground run typecheck",
+    "typecheck:vue": "pnpm --filter @bankai-vue/core --filter playground run typecheck",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
