@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="./assets/logo.svg" alt="bankai-vue" width="120" height="120" />
+
 # bankai-vue
 
 **The agnostic, accessibility-first Vue 3 component framework.**

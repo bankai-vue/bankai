@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="15.5 16 168 168" role="img" aria-labelledby="bankai-vue-favicon-title">
+  <title id="bankai-vue-favicon-title">bankai-vue</title>
+  <!-- Letter B: dark inner fill (#35495E) with Vue-green outer layer (#41B883) -->
+  <path
+    d="M50 30 H112 A35 35 0 0 1 112 100 H114 A35 35 0 0 1 114 170 H50 Z
+       M78 50 H104 A18 18 0 0 1 104 86 H78 Z
+       M78 114 H108 A18 18 0 0 1 108 150 H78 Z"
+    fill="#35495E"
+    fill-rule="evenodd"
+    stroke="#41B883"
+    stroke-width="16"
+    stroke-linejoin="round"
+    paint-order="stroke"
+  />
+</svg>
