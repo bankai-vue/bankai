@@ -4,6 +4,7 @@
   "singleQuote": true,
   "sortImports": {
     "groups": [
+      "type",
       ["builtin", "external", "internal"],
       { "newlinesBetween": false },
       ["parent", "sibling", "index"]
