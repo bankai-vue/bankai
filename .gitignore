@@ -26,3 +26,7 @@ pnpm-debug.log*
 .DS_Store
 .idea/
 *.local
+
+# local scratch
+local/
+tmp/

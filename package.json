@@ -12,6 +12,7 @@
   },
   "type": "module",
   "scripts": {
+    "clean": "git clean -fdx --exclude .claude --exclude local",
     "build": "pnpm -r --filter \"./packages/*\" run build",
     "dev": "pnpm --filter playground run dev",
     "typecheck": "pnpm run typecheck:ts && pnpm run typecheck:vue && pnpm run typecheck:scripts",
@@ -28,7 +29,8 @@
     "format:check": "oxfmt --check",
     "changeset": "changeset",
     "version": "changeset version",
-    "release": "pnpm run build && changeset publish"
+    "release": "pnpm run build && changeset publish",
+    "preflight": "pnpm install && run-s format:check lint typecheck build test"
   },
   "devDependencies": {
     "@changesets/cli": "catalog:",
@@ -37,6 +39,7 @@
     "@typescript/native-preview": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "@vitest/browser-playwright": "catalog:",
+    "npm-run-all2": "catalog:",
     "oxfmt": "catalog:",
     "oxlint": "catalog:",
     "oxlint-tsgolint": "catalog:",

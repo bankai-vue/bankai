@@ -37,6 +37,8 @@
 
     // --- import ---
     "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
+    // Allow side-effect imports of CSS and theme packages (e.g. `import '@bankai-vue/theme-bankai'`).
+    "import/no-unassigned-import": ["error", { "allow": ["**/*.css", "@bankai-vue/theme-*"] }],
 
     // --- typescript ---
     "typescript/explicit-function-return-type": "error",

@@ -3,6 +3,8 @@
   "editor.defaultFormatter": "oxc.oxc-vscode",
   "editor.formatOnSave": true,
 
+  "cSpell.words": ["bankai", "currentcolor", "Quadflieg"],
+
   "js/ts.tsdk.path": "node_modules/typescript/lib",
 
   "files.associations": {
