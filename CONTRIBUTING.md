@@ -64,6 +64,32 @@ your change touches e2e or `@visual` behavior.
 
 ---
 
+## MCP servers (optional — for AI-assisted development)
+
+The repo ships an [`.mcp.json`](./.mcp.json) that MCP-aware clients (e.g. Claude
+Code) auto-discover. It exposes three [Playwright MCP](https://github.com/microsoft/playwright-mcp)
+servers — `playwright-chromium`, `playwright-firefox`, and `playwright-webkit` —
+so an AI agent can drive a **real** browser on each engine against the running
+playground, matching our real-browser testing philosophy.
+
+This is entirely optional and not part of any gate. If you use it:
+
+```bash
+# 1. Start the playground (defaults to http://localhost:5173)
+pnpm dev
+
+# 2. One-time: install the browser binaries the MCP servers use.
+#    These are separate from the test browser installed in Setup.
+pnpx @playwright/mcp@latest install-browser chrome-for-testing
+pnpx @playwright/mcp@latest install-browser firefox
+pnpx @playwright/mcp@latest install-browser webkit
+```
+
+The servers write snapshot/console artifacts into `.playwright-mcp/`, which is
+git-ignored.
+
+---
+
 ## Repository layout
 
 > [!NOTE]
