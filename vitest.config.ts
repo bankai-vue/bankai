@@ -15,6 +15,14 @@ export default defineConfig({
   plugins: [vue()],
   test: {
     include: ['packages/*/test/**/*.{test,spec}.ts'],
+    // Type-level tests (`*.test-d.ts`) run via `vitest --typecheck.only`
+    // (see the `test:types` script). vue-tsc is the checker because the type
+    // surface flows through `.vue` SFCs, which plain tsc can't parse.
+    typecheck: {
+      checker: 'vue-tsc',
+      tsconfig: './packages/core/tsconfig.test.json',
+      include: ['packages/*/test/**/*.test-d.ts'],
+    },
     browser: {
       enabled: true,
       headless: true,

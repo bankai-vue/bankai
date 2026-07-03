@@ -1,0 +1,105 @@
+<script lang="ts">
+import type { VNode } from 'vue';
+
+// Ships no CSS (SPEC.md §7):
+// consumers style it through the exposed parts (`data-part`, the `bankai-button` class) and the reflected state (`data-variant`, `data-size`, native `:disabled`).
+
+/**
+ * Visual variant of a {@link BankaiButton}, reflected on the root as `data-variant`.
+ */
+export type BankaiButtonVariant = 'solid' | 'outline' | 'ghost';
+
+/**
+ * Size scale of a {@link BankaiButton}, reflected on the root as `data-size`.
+ */
+export type BankaiButtonSize = 'sm' | 'md' | 'lg';
+
+/**
+ * Native `type` of a {@link BankaiButton}.
+ * Aliases the DOM's own `"submit" | "reset" | "button"` union so it stays in sync with the platform.
+ */
+export type BankaiButtonType = HTMLButtonElement['type'];
+
+/**
+ * Native `disabled` of a {@link BankaiButton}.
+ * Aliases the DOM's own `boolean` so it stays in sync with the platform.
+ */
+export type BankaiButtonDisabled = HTMLButtonElement['disabled'];
+
+/**
+ * Slots of a {@link BankaiButton}.
+ */
+export interface BankaiButtonSlots {
+  /**
+   * Button content — label and/or icons.
+   */
+  default?: () => VNode[];
+}
+
+/**
+ * Props for {@link BankaiButton}.
+ */
+export interface BankaiButtonProps {
+  /**
+   * Visual variant. Reflected on the root as `data-variant` for styling.
+   *
+   * @default 'solid'
+   */
+  variant?: BankaiButtonVariant;
+  /**
+   * Size scale. Reflected on the root as `data-size` for styling.
+   *
+   * @default 'md'
+   */
+  size?: BankaiButtonSize;
+  /**
+   * Native button `type`. Defaults to `'button'` rather than the HTML default `'submit'`,
+   * so the button never submits a surrounding form by accident.
+   *
+   * @default 'button'
+   */
+  type?: BankaiButtonType;
+  /**
+   * Disable the button via the native `disabled` attribute.
+   *
+   * @default false
+   */
+  disabled?: BankaiButtonDisabled;
+}
+</script>
+
+<script setup lang="ts">
+import { useBankaiId } from '../../composables/useBankaiId';
+
+const {
+  variant = 'solid',
+  size = 'md',
+  type = 'button',
+  disabled = false,
+} = defineProps<BankaiButtonProps>();
+
+/**
+ * A native `<button>` with typed `variant`, `size`, `type`, and `disabled` props.
+ * Reflects its state on the root as `data-*` and exposes a `bankai-button` class plus `data-part` hooks for styling; ships no CSS of its own.
+ * Auto-generates a stable `id` unless the consumer supplies one.
+ */
+defineOptions({ name: 'BankaiButton', inheritAttrs: true });
+
+const id = useBankaiId('bankai-button');
+
+defineSlots<BankaiButtonSlots>();
+</script>
+
+<template>
+  <button
+    :id="id"
+    class="bankai-button"
+    :type="type"
+    :disabled="disabled"
+    data-part="root"
+    :data-variant="variant"
+    :data-size="size"
+  >
+    <slot />
+  </button>
+</template>

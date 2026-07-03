@@ -167,6 +167,9 @@ importers:
       '@bankai-vue/core':
         specifier: workspace:*
         version: link:../packages/core
+      '@bankai-vue/theme-bankai':
+        specifier: workspace:*
+        version: link:../packages/theme-bankai
       vue:
         specifier: 'catalog:'
         version: 3.6.0-beta.17(typescript@6.0.3)

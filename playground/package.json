@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@bankai-vue/core": "workspace:*",
+    "@bankai-vue/theme-bankai": "workspace:*",
     "vue": "catalog:"
   },
   "devDependencies": {
