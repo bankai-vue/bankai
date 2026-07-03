@@ -7,10 +7,21 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  reporter: 'list',
+  // `list` for readable CI logs; `html` for an inspectable report (embeds the
+  // expected/actual/diff images on visual mismatches). `open: 'never'` so CI
+  // doesn't try to launch a browser.
+  reporter: [['list'], ['html', { open: 'never' }]],
   use: {
     baseURL: 'http://localhost:5173',
     trace: 'on-first-retry',
+  },
+  // Stable visual regression: freeze animations and allow a tiny tolerance for
+  // sub-pixel anti-aliasing. Baselines are per-OS (see the visual specs).
+  expect: {
+    toHaveScreenshot: {
+      animations: 'disabled',
+      maxDiffPixelRatio: 0.01,
+    },
   },
   projects: [
     {
