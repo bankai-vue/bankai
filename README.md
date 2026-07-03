@@ -58,7 +58,7 @@ bankai-vue deliberately does **not**: support the Options API · ship other-fram
 - **Bankai (`1.0`, targeted 2027)** — the ultimate form: full basics + DataTable + Tree, WCAG 2.2 AA with per-component conformance docs, plain-Vue + Nuxt SSR/SSG/client-only, system-aware dark mode, near-zero-dep core.
 - **Later:** i18n / RTL · a theming token system · Vapor builds once interop matures.
 
-See [`SPEC.md`](./SPEC.md) for the full, decided specification and rationale.
+See [`ROADMAP.md`](./ROADMAP.md) for the tactical component build order, and [`SPEC.md`](./SPEC.md) for the full, decided specification and rationale.
 
 ## Contributing
 

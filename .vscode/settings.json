@@ -3,7 +3,29 @@
   "editor.defaultFormatter": "oxc.oxc-vscode",
   "editor.formatOnSave": true,
 
-  "cSpell.words": ["bankai", "currentcolor", "Quadflieg"],
+  "cSpell.words": [
+    "bankai",
+    "Cascader",
+    "currentcolor",
+    "dogfooded",
+    "dogfooding",
+    "flexbox",
+    "Naive",
+    "Nuxt",
+    "Popconfirm",
+    "PrimeVue",
+    "prioritised",
+    "Quadflieg",
+    "Quasar",
+    "Reka",
+    "selectedcontent",
+    "Shikai",
+    "Sparkline",
+    "specialised",
+    "VDOM",
+    "Vuetify",
+    "WCAG"
+  ],
 
   "js/ts.tsdk.path": "node_modules/typescript/lib",
 
