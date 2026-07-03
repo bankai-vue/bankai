@@ -26,9 +26,17 @@
       "types": "./dist/version.d.ts",
       "import": "./dist/version.js"
     },
+    "./config": {
+      "types": "./dist/config.d.ts",
+      "import": "./dist/config.js"
+    },
     "./composables/usePrefixedId": {
       "types": "./dist/composables/usePrefixedId.d.ts",
       "import": "./dist/composables/usePrefixedId.js"
+    },
+    "./composables/useBankaiId": {
+      "types": "./dist/composables/useBankaiId.d.ts",
+      "import": "./dist/composables/useBankaiId.js"
     },
     "./package.json": "./package.json"
   },

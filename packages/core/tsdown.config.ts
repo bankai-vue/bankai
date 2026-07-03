@@ -6,7 +6,13 @@ import Vue from 'unplugin-vue/rolldown';
 // they import. `vue` is a peerDependency, so tsdown keeps it external
 // automatically — never bundled into core (SPEC.md §4.13).
 export default defineConfig({
-  entry: ['src/index.ts', 'src/version.ts', 'src/composables/usePrefixedId.ts'],
+  entry: [
+    'src/index.ts',
+    'src/version.ts',
+    'src/config.ts',
+    'src/composables/usePrefixedId.ts',
+    'src/composables/useBankaiId.ts',
+  ],
   format: ['es'],
   // `.vue` SFCs: unplugin-vue compiles the runtime; `dts: { vue: true }` runs
   // vue-tsc to emit accurate component/prop declarations (SPEC.md §4.8).
