@@ -26,6 +26,8 @@ version numbers so it doesn't go stale.
     releases no longer bundle Corepack, so you may need to install it first
     (`npm install -g corepack`).
 - **Git**.
+- **GitHub CLI (`gh`)** — optional; only needed to regenerate visual-regression
+  baselines (see [Visual regression](#visual-regression)).
 
 This repo is a **pnpm workspaces monorepo**; do not use npm or yarn.
 
@@ -94,6 +96,7 @@ Run these from the repo root.
 | `pnpm test` | Runs unit/component tests in a real browser. |
 | `pnpm test:watch` | The same, in watch mode. |
 | `pnpm test:e2e` | Runs the end-to-end tests. |
+| `pnpm test:update-visual-snapshots <pr>` | Regenerates a PR's visual baselines across all OSes (see below). |
 | `pnpm lint` / `pnpm lint:fix` | Lints (and auto-fixes). |
 | `pnpm format` / `pnpm format:check` | Formats (and checks) code. |
 | `pnpm changeset` | Records a release intent (see Changesets below). |
@@ -123,6 +126,44 @@ Exact pinned versions live in the pnpm catalog in
   API, top-layer, focus handling) is exercised faithfully.
 - Add tests next to the package under `packages/<pkg>/test/*.{test,spec}.ts`.
 - End-to-end flows live in `e2e/` and run against the playground.
+
+### Visual regression
+
+Some e2e tests assert appearance with Playwright's `toHaveScreenshot`. They're
+tagged `@visual`, and their baseline PNGs are committed under
+`e2e/**/<spec>.ts-snapshots/`.
+
+Baselines are **per-OS and per-engine** — one image per `{chromium, firefox,
+webkit}` × `{linux, darwin, win32}` combination — because each platform renders
+fonts, anti-aliasing, and device-pixel-ratio differently.
+
+> [!IMPORTANT]
+> **Never commit baselines generated only on your own machine.** The full
+> cross-platform set is produced in CI by the **Update Visual Snapshots**
+> workflow; a single-OS set fails e2e on every other platform.
+
+When a change alters how a `@visual` component looks (new component, styling or
+theme tweak), regenerate the whole set for your PR:
+
+```bash
+pnpm test:update-visual-snapshots <pr-number>
+```
+
+The script needs the authenticated **GitHub CLI (`gh`)** and a Node version with
+native TypeScript execution (Node ≥ 23.6; the repo develops on Node 26). It
+triggers the workflow on the PR's branch, waits for the cross-OS run, and
+downloads every baseline into `e2e/` — then you review and commit the result (it
+never touches git). Maintainers can alternatively comment **`/update-snapshots`**
+on the PR.
+
+To eyeball a change fast you can regenerate **only your platform's** baselines
+with `pnpm test:e2e --update-snapshots --grep @visual` — but always regenerate
+the full set via the script before committing.
+
+**Adding a visual test:** add a deterministic fixture under
+`playground/src/fixtures/` (no time/random/animation), add a `*.visual.spec.ts`
+tagged `@visual` that screenshots the **fixture element** (not the whole page) so
+the baseline crops tightly, then generate baselines with the script above.
 
 ### Real assistive-technology testing is mandatory (`SPEC.md` §3)
 
