@@ -60,6 +60,9 @@ catalog:
   # Release (SPEC.md §4.14).
   '@changesets/cli': 2.31.0
 
+  # Monorepo script runner — `run-s` for the `preflight` chain.
+  npm-run-all2: 9.0.2
+
   # Nuxt module toolchain.
   nuxt: 4.4.8
   '@nuxt/kit': 4.4.8

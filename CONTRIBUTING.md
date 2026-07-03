@@ -51,11 +51,16 @@ That's it — the same steps work identically on Windows, macOS, and Linux. Line
 endings are normalized to LF via `.gitattributes`, so no CRLF churn across
 platforms.
 
-To sanity-check your setup, run the full gate locally (see below):
+To sanity-check your setup, run the one-shot gate locally:
 
 ```bash
-pnpm typecheck && pnpm build && pnpm test && pnpm test:e2e && pnpm lint && pnpm format:check
+pnpm preflight
 ```
+
+`preflight` reinstalls dependencies and then runs `format:check`, `lint`,
+`typecheck`, `build`, and `test` in sequence — the same gate CI enforces. It does
+**not** run the end-to-end tests; run those separately with `pnpm test:e2e` when
+your change touches e2e or `@visual` behavior.
 
 ---
 
@@ -99,6 +104,8 @@ Run these from the repo root.
 | `pnpm test:update-visual-snapshots <pr>` | Regenerates a PR's visual baselines across all OSes (see below). |
 | `pnpm lint` / `pnpm lint:fix` | Lints (and auto-fixes). |
 | `pnpm format` / `pnpm format:check` | Formats (and checks) code. |
+| `pnpm preflight` | Reinstalls deps, then runs the full merge gate (`format:check` → `lint` → `typecheck` → `build` → `test`). Excludes e2e. |
+| `pnpm clean` | Removes all git-ignored files (`git clean -fdx`), keeping `.claude/` and `local/`. |
 | `pnpm changeset` | Records a release intent (see Changesets below). |
 
 ### Why two type-checkers?
@@ -247,8 +254,8 @@ Maintainers run `pnpm version` (applies bumps + changelogs) and `pnpm release`
 
 1. Branch off `main`.
 2. Make your change in small, reviewable commits.
-3. Ensure the full gate passes locally:
-   `pnpm typecheck && pnpm build && pnpm test && pnpm test:e2e && pnpm lint && pnpm format:check`.
+3. Ensure the full gate passes locally: run `pnpm preflight`, and `pnpm test:e2e`
+   if your change touches e2e or `@visual` behavior.
 4. Add a changeset if a published package changed.
 5. For interactive components, include your **real screen-reader test results**.
 6. Open the PR against `bankai-vue/bankai` with a clear description of the change
