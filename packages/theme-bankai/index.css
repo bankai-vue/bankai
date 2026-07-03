@@ -1,0 +1,8 @@
+/*
+ * The signature bankai-vue theme — entry manifest.
+ *
+ * Import it once: `import '@bankai-vue/theme-bankai';`.
+ * Each component's styles live in their own file under `components/`; add a new `@import` per component.
+ */
+
+@import './tokens.css';
