@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "playwright-chromium": {
+      "command": "pnpx",
+      "args": ["@playwright/mcp@latest", "--browser=chromium"]
+    },
+    "playwright-firefox": {
+      "command": "pnpx",
+      "args": ["@playwright/mcp@latest", "--browser=firefox"]
+    },
+    "playwright-webkit": {
+      "command": "pnpx",
+      "args": ["@playwright/mcp@latest", "--browser=webkit"]
+    }
+  }
+}
