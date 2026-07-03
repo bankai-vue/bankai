@@ -1,0 +1,33 @@
+{
+  "name": "@bankai-vue/theme-bankai",
+  "version": "0.0.0",
+  "description": "The signature bankai-vue theme — opinionated styled defaults for @bankai-vue/core, delivered as framework-agnostic CSS.",
+  "homepage": "https://github.com/bankai-vue/bankai/tree/main/packages/theme-bankai",
+  "license": "MIT",
+  "author": "Christopher Quadflieg <chrissi92@hotmail.de> (https://github.com/Shinigami92)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bankai-vue/bankai.git",
+    "directory": "packages/theme-bankai"
+  },
+  "files": [
+    "index.css",
+    "index.d.ts",
+    "tokens.css",
+    "components"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.css"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
