@@ -126,7 +126,9 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           name: playwright-report-${{ runner.os }}
-          path: playwright-report/
+          path: |
+            playwright-report/
+            test-results/
           retention-days: 30
 
   lint:
