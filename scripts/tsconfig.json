@@ -1,0 +1,9 @@
+{
+  // Node tooling scripts run by `node` (native type stripping). Unlike the
+  // library packages, these need Node globals + `node:` module types.
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node"]
+  },
+  "include": ["**/*.ts"]
+}

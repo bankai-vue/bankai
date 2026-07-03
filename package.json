@@ -14,12 +14,14 @@
   "scripts": {
     "build": "pnpm -r --filter \"./packages/*\" run build",
     "dev": "pnpm --filter playground run dev",
-    "typecheck": "pnpm run typecheck:ts && pnpm run typecheck:vue",
+    "typecheck": "pnpm run typecheck:ts && pnpm run typecheck:vue && pnpm run typecheck:scripts",
     "typecheck:ts": "tsgo --noEmit -p tsconfig.json",
     "typecheck:vue": "pnpm --filter @bankai-vue/core --filter playground run typecheck",
+    "typecheck:scripts": "tsgo --noEmit -p scripts/tsconfig.json",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
+    "test:update-visual-snapshots": "node scripts/update-visual-snapshots.ts",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "format": "oxfmt",
@@ -31,6 +33,7 @@
   "devDependencies": {
     "@changesets/cli": "catalog:",
     "@playwright/test": "catalog:",
+    "@types/node": "catalog:",
     "@typescript/native-preview": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "@vitest/browser-playwright": "catalog:",
