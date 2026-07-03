@@ -1,6 +1,6 @@
+import type { VNode } from 'vue';
 import { expect, test } from 'vitest';
 import { createApp, defineComponent, h } from 'vue';
-import type { VNode } from 'vue';
 import { version } from '../src/version';
 
 test('exposes a version string', () => {
