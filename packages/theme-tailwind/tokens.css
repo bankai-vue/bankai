@@ -1,0 +1,80 @@
+/*
+ * Token bridge: bankai-vue semantic tokens → Tailwind's scale (INVESTIGATION).
+ *
+ * `@bankai-vue/core`'s numeric spacing APIs (e.g. an upcoming layout utility's `:gap="4"`) resolve to the
+ * `--bankai-space-<n>` custom properties; the *house* theme (`theme-bankai`) freezes
+ * those on a 2px-base rem grid. This theme instead points them at Tailwind's own
+ * spacing so the consumer's scale wins.
+ *
+ * Tailwind v4 exposes a single `--spacing` multiplier (default `0.25rem`); its spacing
+ * utilities are `calc(var(--spacing) * n)`. We mirror that here.
+ *
+ * ── Mapping: index-preserving (decided) ──────────────────────────────────────────────
+ * bankai's house scale is 2px-base (step n = n × 0.125rem) while Tailwind's is 4px-base
+ * (step n = n × 0.25rem). We map `--bankai-space-n: calc(var(--spacing) * n)`, so bankai
+ * step n == Tailwind `space-n` (e.g. `--bankai-space-4` == `p-4` == 1rem).
+ *
+ * This is intentional over the value-preserving alternative (`calc(var(--spacing) * (n / 2))`,
+ * which keeps the house theme's exact size): the whole point of a Tailwind theme is to speak
+ * Tailwind's spacing language, so every step must land on Tailwind's grid. Value-preserving
+ * would push odd steps off-grid (e.g. n=9 → 1.125rem, no named Tailwind step). The trade-off —
+ * a component renders ~2× larger here than under theme-bankai — is accepted by design.
+ * ──────────────────────────────────────────────────────────────────────────────────────
+ */
+
+:where(:root) {
+  /*
+   * Theme components (e.g. `components/button.css`) drive dark mode with Tailwind's `dark:` variant
+   * (system `prefers-color-scheme`); `color-scheme` themes native surfaces (form controls, scrollbars,
+   * ::backdrop) to match, with no JS — parity with the house theme (SPEC.md §4.18).
+   */
+  color-scheme: light dark;
+
+  /*
+   * Default to Tailwind's sans stack (`@apply font-sans` → the consumer's `--font-sans`), so
+   * components inheriting `font: inherit` render sans-serif — parity with the house theme, and a
+   * sensible default when the consumer omits Tailwind's Preflight (which is what normally sets it).
+   */
+  @apply font-sans;
+
+  /* Base unit → Tailwind's `--spacing` (fallback matches Tailwind's default).
+   * The enumerated steps below all derive from this, so the `--spacing` bridge and its
+   * fallback live in exactly one place. */
+  --bankai-space-unit: var(--spacing, 0.25rem);
+
+  /* Enumerated steps mirror the house theme's 0–32 range, each `n × --bankai-space-unit`.
+   * Index-preserving: bankai step n == Tailwind `space-n` (see header). */
+  --bankai-space-0: 0;
+  --bankai-space-1: calc(var(--bankai-space-unit) * 1);
+  --bankai-space-2: calc(var(--bankai-space-unit) * 2);
+  --bankai-space-3: calc(var(--bankai-space-unit) * 3);
+  --bankai-space-4: calc(var(--bankai-space-unit) * 4);
+  --bankai-space-5: calc(var(--bankai-space-unit) * 5);
+  --bankai-space-6: calc(var(--bankai-space-unit) * 6);
+  --bankai-space-7: calc(var(--bankai-space-unit) * 7);
+  --bankai-space-8: calc(var(--bankai-space-unit) * 8);
+  --bankai-space-9: calc(var(--bankai-space-unit) * 9);
+  --bankai-space-10: calc(var(--bankai-space-unit) * 10);
+  --bankai-space-11: calc(var(--bankai-space-unit) * 11);
+  --bankai-space-12: calc(var(--bankai-space-unit) * 12);
+  --bankai-space-13: calc(var(--bankai-space-unit) * 13);
+  --bankai-space-14: calc(var(--bankai-space-unit) * 14);
+  --bankai-space-15: calc(var(--bankai-space-unit) * 15);
+  --bankai-space-16: calc(var(--bankai-space-unit) * 16);
+  --bankai-space-17: calc(var(--bankai-space-unit) * 17);
+  --bankai-space-18: calc(var(--bankai-space-unit) * 18);
+  --bankai-space-19: calc(var(--bankai-space-unit) * 19);
+  --bankai-space-20: calc(var(--bankai-space-unit) * 20);
+  --bankai-space-21: calc(var(--bankai-space-unit) * 21);
+  --bankai-space-22: calc(var(--bankai-space-unit) * 22);
+  --bankai-space-23: calc(var(--bankai-space-unit) * 23);
+  --bankai-space-24: calc(var(--bankai-space-unit) * 24);
+  --bankai-space-25: calc(var(--bankai-space-unit) * 25);
+  --bankai-space-26: calc(var(--bankai-space-unit) * 26);
+  --bankai-space-27: calc(var(--bankai-space-unit) * 27);
+  --bankai-space-28: calc(var(--bankai-space-unit) * 28);
+  --bankai-space-29: calc(var(--bankai-space-unit) * 29);
+  --bankai-space-30: calc(var(--bankai-space-unit) * 30);
+  --bankai-space-31: calc(var(--bankai-space-unit) * 31);
+  --bankai-space-32: calc(var(--bankai-space-unit) * 32);
+}

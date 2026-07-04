@@ -1,0 +1,26 @@
+/*
+ * @bankai-vue/theme-tailwind — entry manifest (INVESTIGATION / first shaping).
+ *
+ * Unlike the house `@bankai-vue/theme-bankai`, this theme does not own its own absolute token
+ * values — it leans on Tailwind: the spacing bridge (`tokens.css`) remaps `@bankai-vue/core`'s
+ * semantic scale onto Tailwind's `--spacing`, and components (`components/button.css`) are styled
+ * with `@apply`, so the consumer's Tailwind design language drives them (SPEC.md §4.6, §5.4).
+ *
+ * Because components use `@apply`, this is Tailwind *source*, not static CSS: `@import` it from a
+ * Tailwind-processed stylesheet so `@apply` resolves against the consumer's config —
+ *
+ *   @import "tailwindcss";
+ *   @import "@bankai-vue/theme-tailwind";
+ *
+ * NOTE: there is intentionally no JS entry and no `types` export condition (unlike the plain-CSS
+ * house theme `@bankai-vue/theme-bankai`). A JS `import '@bankai-vue/theme-tailwind'` would hand the
+ * bundler the raw, unresolved `@apply` rules and break, so it is left to fail type-check (ts7016).
+ * Do NOT add a `types` condition or a `default`-export shim to package.json to "match" theme-bankai.
+ *
+ * Status: the spacing bridge (`tokens.css`) plus the first component (`components/button.css`) are
+ * being shaped. Per-component styles live in their own file under `components/`; add a new `@import`
+ * per component, exactly like the house `theme-bankai`.
+ */
+
+@import './tokens.css';
+@import './components/button.css';
