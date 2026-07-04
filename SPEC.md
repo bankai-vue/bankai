@@ -210,7 +210,7 @@ Presentation + typed slots are bankai-vue's; the engine is a swappable adapter b
 - `@bankai-vue/table-tanstack` — opt-in TanStack adapter
 - (docs app — fully Nuxt + bankai-vue)
 
-Themes are **separate, swappable CSS packages**; `core` stays unstyled. Design tokens (e.g. the `--bankai-space-*` spacing scale) live in the theme and are **theme-owned**, so a component's numeric spacing API (e.g. an upcoming layout utility's `:gap="4"`) is a _semantic scale step_ whose absolute value the theme decides. Beyond the house `theme-bankai`, first-party **per-framework themes** are planned (e.g. `@bankai-vue/theme-tailwind`) that remap those tokens onto the consumer's framework scale (Tailwind's own `--spacing`), so the consumer's design language drives the components (§4.6).
+Themes are **separate, swappable CSS packages**; `core` stays unstyled. Design tokens (e.g. the `--bankai-space-*` spacing scale) live in the theme and are **theme-owned**, so a component's numeric spacing API (`BankaiFlex :gap="4"`) is a _semantic scale step_ whose absolute value the theme decides. Beyond the house `theme-bankai`, first-party **per-framework themes** are planned (e.g. `@bankai-vue/theme-tailwind`) that remap those tokens onto the consumer's framework scale (Tailwind's own `--spacing`), so the consumer's design language drives the components (§4.6).
 
 ### 5.5 Dependency posture
 
@@ -231,7 +231,7 @@ Themes are **separate, swappable CSS packages**; `core` stays unstyled. Design t
 - **Shikai (`0.x`)** — initial released form. Driven by what the Nuxt docs shell needs first (layout, nav, theme toggle, code block, tabs), then outward to the full basics and the DataTable/Tree spike.
 - **Bankai (`1.0`, 2027)** — stable public API, full basics + DataTable + Tree, WCAG 2.2 AA with per-component conformance docs, plain-Vue + Nuxt SSR/SSG/client-only, dark mode, near-zero-dep core.
 - **Post-`0.1.0` (within `0.x`):** **i18n / RTL** — important, iterated after the initial release rather than blocking `0.1.0`.
-- **Discover-as-you-go (deferred by design):** the **theming token system** — to be designed once real components exist, not in the abstract. _First slice landed:_ a rem-based, theme-owned **spacing scale** (`--bankai-space-*`), landing ahead of the layout utilities that will consume it.
+- **Discover-as-you-go (deferred by design):** the **theming token system** — to be designed once real components exist, not in the abstract. _First slice landed:_ a rem-based, theme-owned **spacing scale** (`--bankai-space-*`) introduced with the layout utilities.
 - **When interop matures:** **Vapor builds**.
 
 ---

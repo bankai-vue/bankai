@@ -21,16 +21,14 @@
    * (responsive + accessible across phone/tablet/desktop; SPEC.md §4.16), never frozen in px.
    * Linear 2px-base steps (n × 0.125rem = n × 2px @ 16px root): a fine grid that supports dense
    * UIs (every 2px increment is a whole step, so no fractional tokens are needed). Retune any step
-   * here to reshape the scale globally. Upcoming layout utilities will resolve numeric spacing
-   * steps to these, but the tokens are usable on their own for any spacing today. This is the
-   * *house* scale — a Tailwind-oriented consumer uses `@bankai-vue/theme-tailwind`, which maps
-   * `--bankai-space-*` onto Tailwind's own spacing.
+   * here to reshape the scale globally; layout utilities (e.g. `BankaiFlex :gap="4"`) resolve
+   * numeric steps to these. This is the *house* scale — a Tailwind-oriented consumer uses
+   * `@bankai-vue/theme-tailwind`, which maps `--bankai-space-*` onto Tailwind's own spacing.
    * The first slice of the discover-as-you-go token system (ROADMAP "Cross-cutting").
    *
-   * `--bankai-space-unit` is the base step, meant to be multiplied for spacing steps that fall
-   * outside the enumerated tokens below (e.g. a step of `40` → `calc(var(--bankai-space-unit) *
-   * 40)`); a theme overriding it (e.g. `theme-tailwind` → `var(--spacing)`) retargets that
-   * fallback to its own grid.
+   * `--bankai-space-unit` is the base step. Layout utilities multiply it for spacing steps that fall
+   * outside the enumerated tokens below (e.g. `BankaiFlex :gap="40"`); a theme overriding it (e.g.
+   * `theme-tailwind` → `var(--spacing)`) retargets that fallback to its own grid.
    */
   --bankai-space-unit: 0.125rem;
   --bankai-space-0: 0;
