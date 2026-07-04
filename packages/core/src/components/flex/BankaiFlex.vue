@@ -1,4 +1,5 @@
 <script lang="ts">
+import type { VoidElementTagName } from '../../internal/dom';
 import type { CSSProperties, VNode } from 'vue';
 
 // Styled via `@bankai-vue/theme-bankai` (`components/flex.css`), NOT inline styles.
@@ -8,26 +9,6 @@ import type { CSSProperties, VNode } from 'vue';
 // `display:flex` could not be overridden without `!important`. `gap` is a continuous value,
 // so it rides a `--bankai-flex-gap` custom property that the same `:where()` rule reads.
 // Trade-off: the layout needs the theme CSS (or an equivalent targeting `.bankai-flex`) loaded.
-
-/**
- * HTML void elements — they can't contain children, so they're excluded from `as`:
- * a {@link BankaiFlex} always renders its default slot as flex children.
- */
-type VoidElementTagName =
-  | 'area'
-  | 'base'
-  | 'br'
-  | 'col'
-  | 'embed'
-  | 'hr'
-  | 'img'
-  | 'input'
-  | 'link'
-  | 'meta'
-  | 'param'
-  | 'source'
-  | 'track'
-  | 'wbr';
 
 /**
  * Element the {@link BankaiFlex} root renders as (`as` prop).

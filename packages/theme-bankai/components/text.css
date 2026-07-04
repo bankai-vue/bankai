@@ -1,0 +1,122 @@
+/*
+ * BankaiText styling.
+ *
+ * Targets the `bankai-text` class and the props reflected as `data-*` (`data-size`, `data-weight`,
+ * `data-tone`, `data-truncate`). Every selector is wrapped in `:where()` (zero specificity) so a
+ * consumer's utility classes — Tailwind `text-lg` / `font-bold` / `truncate`, Bootstrap, UnoCSS —
+ * override any rule below with a single plain class, no `!important` needed (SPEC.md §4.4, §4.6).
+ *
+ * `data-size` resolves to the shared `--bankai-text-size-*` scale (tokens.css) and pairs each step
+ * with its line height. `data-weight` maps the named weights to their numeric `font-weight` values.
+ * Tone colors are neutral foreground tones (`default` → `muted` → `subtle`), themed via `light-dark()`.
+ *
+ * Verbatim (non-named) `size`/`weight`/`tone` values ride the `--bankai-text-size`/`-weight`/`-tone`
+ * custom properties instead of `data-*`; the base rule below applies them. The base rule first resets
+ * each to `initial` (the guaranteed-invalid value), so an unset property is invalid-at-computed-value
+ * and the declaration falls back to normal inheritance — the `data-*` rules (later in source, equal
+ * specificity) win when a named value is used. The reset is essential: custom properties inherit, so
+ * without it a verbatim value on an ancestor would keep inheriting past a named-value descendant and
+ * re-apply on deeper text via this base rule. A verbatim value set inline on the element itself still
+ * wins over the `:where()` reset (inline beats a zero-specificity rule). The two paths never both fire.
+ */
+
+:where(:root) {
+  --bankai-text-color: light-dark(#0f172a, #f8fafc);
+  --bankai-text-color-muted: light-dark(#475569, #cbd5e1);
+  --bankai-text-color-subtle: light-dark(#94a3b8, #64748b);
+}
+
+:where(.bankai-text) {
+  --bankai-text-size: initial;
+  --bankai-text-weight: initial;
+  --bankai-text-tone: initial;
+  font-size: var(--bankai-text-size);
+  font-weight: var(--bankai-text-weight);
+  color: var(--bankai-text-tone);
+}
+
+:where(.bankai-text[data-size='xs']) {
+  font-size: var(--bankai-text-size-xs);
+  line-height: 1rem;
+}
+
+:where(.bankai-text[data-size='sm']) {
+  font-size: var(--bankai-text-size-sm);
+  line-height: 1.25rem;
+}
+
+:where(.bankai-text[data-size='md']) {
+  font-size: var(--bankai-text-size-md);
+  line-height: 1.5rem;
+}
+
+:where(.bankai-text[data-size='lg']) {
+  font-size: var(--bankai-text-size-lg);
+  line-height: 1.75rem;
+}
+
+:where(.bankai-text[data-size='xl']) {
+  font-size: var(--bankai-text-size-xl);
+  line-height: 1.75rem;
+}
+
+:where(.bankai-text[data-size='2xl']) {
+  font-size: var(--bankai-text-size-2xl);
+  line-height: 2rem;
+}
+
+:where(.bankai-text[data-weight='thin']) {
+  font-weight: 100;
+}
+
+:where(.bankai-text[data-weight='extralight']) {
+  font-weight: 200;
+}
+
+:where(.bankai-text[data-weight='light']) {
+  font-weight: 300;
+}
+
+:where(.bankai-text[data-weight='normal']) {
+  font-weight: 400;
+}
+
+:where(.bankai-text[data-weight='medium']) {
+  font-weight: 500;
+}
+
+:where(.bankai-text[data-weight='semibold']) {
+  font-weight: 600;
+}
+
+:where(.bankai-text[data-weight='bold']) {
+  font-weight: 700;
+}
+
+:where(.bankai-text[data-weight='extrabold']) {
+  font-weight: 800;
+}
+
+:where(.bankai-text[data-weight='black']) {
+  font-weight: 900;
+}
+
+:where(.bankai-text[data-tone='default']) {
+  color: var(--bankai-text-color);
+}
+
+:where(.bankai-text[data-tone='muted']) {
+  color: var(--bankai-text-color-muted);
+}
+
+:where(.bankai-text[data-tone='subtle']) {
+  color: var(--bankai-text-color-subtle);
+}
+
+/* Single-line truncation needs a block box to clip against, so the element is made block-level here. */
+:where(.bankai-text[data-truncate]) {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -179,7 +179,7 @@ Navigation content — dropped into the region slots:
 
 Typography — anchors the `@bankai-vue/theme-bankai` type scale; the home for inline text semantics:
 
-- [ ] `BankaiText` _(universal; a.k.a. Typography)_ — polymorphic (`as`) text primitive: tone/size/weight/truncate + inline variants (code, kbd, mark, strong, em, del)
+- [x] `BankaiText` _(universal; a.k.a. Typography)_ — polymorphic (`as`) text primitive: `size` (`xs`–`2xl` type scale)/`weight` (`thin`–`black`)/`tone`/`truncate`; each styling prop is a named set plus a verbatim escape hatch (any CSS length / a `number` for the variable-font `wght` axis / any CSS color / any tag string), wired via `data-*` for named values and `--bankai-text-*` custom properties for verbatim ones. Inline semantics (code, kbd, mark, strong, em, del) reached via `as`. Ships neutral tones only (`default`/`muted`/`subtle`); semantic status tones (`success`/`warning`/`danger`/`info`) deferred to the color-tokening follow-up (see Cross-cutting), though arbitrary colors already work via the `tone` escape hatch
 - [ ] `BankaiHeading` — native `<h1>`–`<h6>` via `level` prop
 - [ ] `BankaiParagraph` — native `<p>`
 - [ ] `BankaiCode` — inline code, native `<code>` (distinct from block `BankaiCodeBlock`)
@@ -286,7 +286,8 @@ These pull in heavy dependencies or serve narrow use cases, so they violate `cor
 ## Cross-cutting (deferred by design, SPEC §7)
 
 - **i18n / RTL** — important; iterated **post-`0.1.0`, within `0.x`**, not a `0.1.0` blocker.
-- **Theming token system** — grows **discover-as-you-go** on top of the §4.18 dark-mode mechanism, as real components land. Not designed in the abstract. _First slice landed:_ the rem-based, theme-owned `--bankai-space-*` spacing scale, introduced with the layout utilities (`BankaiFlex`).
+- **Theming token system** — grows **discover-as-you-go** on top of the §4.18 dark-mode mechanism, as real components land. Not designed in the abstract. _Slices landed:_ the rem-based, theme-owned `--bankai-space-*` spacing scale (introduced with `BankaiFlex`); the `--bankai-text-size-*` type scale + neutral text-tone colors (introduced with `BankaiText`).
+  - _Follow-up — color tokening:_ a dedicated change to design the semantic color palette (`success`/`warning`/`danger`/`info` …), which then backs `BankaiText`'s status tones and the first color-carrying presentational components (Alert/Badge/Tag). Kept out of the `BankaiText` slice to hold its scope, and so the palette is shaped by a component that actually needs semantic color.
 - **Vapor builds** — added when interop matures (§4.11); VDOM builds ship first.
 
 ## Open structural question (revisit before `1.0` / Bankai)

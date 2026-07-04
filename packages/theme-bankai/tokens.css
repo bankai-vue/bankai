@@ -65,5 +65,21 @@
   --bankai-space-31: 3.875rem;
   --bankai-space-32: 4rem;
 
+  /*
+   * Type scale — the house font sizes, rem-based so text scales with the user's root font size and
+   * zoom (responsive + accessible; SPEC.md §4.16), never frozen in px. A t-shirt scale (`xs`…`2xl`)
+   * whose values match the conventional web type steps, so `@bankai-vue/theme-tailwind` bridges each
+   * one 1:1 onto Tailwind's `text-*` sizes. Layout/text utilities (e.g. `BankaiText size="sm"`) resolve
+   * their step to these; retune a step here to reshape the scale globally. Line height is paired per
+   * step in `components/text.css` (not a token) so the scale stays a single knob per size.
+   * A discover-as-you-go token slice, introduced with `BankaiText` (ROADMAP "Cross-cutting").
+   */
+  --bankai-text-size-xs: 0.75rem;
+  --bankai-text-size-sm: 0.875rem;
+  --bankai-text-size-md: 1rem;
+  --bankai-text-size-lg: 1.125rem;
+  --bankai-text-size-xl: 1.25rem;
+  --bankai-text-size-2xl: 1.5rem;
+
   font-family: var(--bankai-font-sans);
 }

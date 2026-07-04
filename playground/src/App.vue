@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BankaiButton, BankaiFlex, version } from '@bankai-vue/core';
+import { BankaiButton, BankaiFlex, BankaiText, version } from '@bankai-vue/core';
 import { ref } from 'vue';
 import ThemeSwitcher from './components/ThemeSwitcher.vue';
 
@@ -7,6 +7,20 @@ const count = ref(0);
 
 const variants = ['solid', 'outline', 'ghost'] as const;
 const sizes = ['sm', 'md', 'lg'] as const;
+
+const textSizes = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'] as const;
+const weights = [
+  'thin',
+  'extralight',
+  'light',
+  'normal',
+  'medium',
+  'semibold',
+  'bold',
+  'extrabold',
+  'black',
+] as const;
+const tones = ['default', 'muted', 'subtle'] as const;
 </script>
 
 <template>
@@ -48,6 +62,43 @@ const sizes = ['sm', 'md', 'lg'] as const;
         <BankaiButton>one</BankaiButton>
         <BankaiButton variant="outline">two</BankaiButton>
         <BankaiButton variant="ghost">three</BankaiButton>
+      </BankaiFlex>
+    </section>
+
+    <section>
+      <h2>BankaiText</h2>
+
+      <h3>Type scale</h3>
+      <BankaiFlex direction="column" align="start" :gap="2">
+        <BankaiText v-for="size in textSizes" :key="size" :size="size">
+          {{ size }} — the quick brown fox
+        </BankaiText>
+      </BankaiFlex>
+
+      <h3>Weights</h3>
+      <BankaiFlex :gap="4" wrap="wrap" align="baseline">
+        <BankaiText v-for="weight in weights" :key="weight" :weight="weight">
+          {{ weight }}
+        </BankaiText>
+      </BankaiFlex>
+
+      <h3>Tones</h3>
+      <BankaiFlex :gap="4" align="center">
+        <BankaiText v-for="tone in tones" :key="tone" :tone="tone">{{ tone }}</BankaiText>
+      </BankaiFlex>
+
+      <h3>Inline semantics via `as`</h3>
+      <BankaiText>
+        plain with <BankaiText as="strong" weight="bold">strong</BankaiText>,
+        <BankaiText as="em">em</BankaiText>, <BankaiText as="mark">mark</BankaiText>,
+        <BankaiText as="code">code()</BankaiText>, and <BankaiText as="kbd">Ctrl</BankaiText>
+      </BankaiText>
+
+      <h3>Escape hatches (verbatim CSS)</h3>
+      <BankaiFlex :gap="4" align="baseline" wrap="wrap">
+        <BankaiText size="1.75rem">custom size</BankaiText>
+        <BankaiText :weight="350">weight 350</BankaiText>
+        <BankaiText tone="rgb(220, 38, 38)">custom color</BankaiText>
       </BankaiFlex>
     </section>
   </main>
