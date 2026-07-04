@@ -286,7 +286,7 @@ These pull in heavy dependencies or serve narrow use cases, so they violate `cor
 ## Cross-cutting (deferred by design, SPEC §7)
 
 - **i18n / RTL** — important; iterated **post-`0.1.0`, within `0.x`**, not a `0.1.0` blocker.
-- **Theming token system** — grows **discover-as-you-go** on top of the §4.18 dark-mode mechanism, as real components land. Not designed in the abstract.
+- **Theming token system** — grows **discover-as-you-go** on top of the §4.18 dark-mode mechanism, as real components land. Not designed in the abstract. _First slice landed:_ the rem-based, theme-owned `--bankai-space-*` spacing scale, landing ahead of the layout utilities that will consume it.
 - **Vapor builds** — added when interop matures (§4.11); VDOM builds ship first.
 
 ## Open structural question (revisit before `1.0` / Bankai)
