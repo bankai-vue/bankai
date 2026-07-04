@@ -47,6 +47,8 @@ The pieces that remain each cover only part of the gap — Reka UI is headless (
 | `@bankai-vue/nuxt`           | First-party Nuxt module            |
 | `@bankai-vue/table-tanstack` | Opt-in TanStack data-table adapter |
 
+Themes are separate, swappable CSS packages, so `core` stays unstyled and framework-agnostic. Per-framework themes (e.g. `@bankai-vue/theme-tailwind`, mapping onto Tailwind's own scale) are planned.
+
 _(Names reserved; not yet published.)_
 
 ## Non-goals

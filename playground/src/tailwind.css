@@ -1,0 +1,18 @@
+/*
+ * Compiled entry for @bankai-vue/theme-tailwind (the "Tailwind" option in the theme switcher).
+ *
+ * This file is Tailwind source: `@import "@bankai-vue/theme-tailwind"` pulls in the theme's `@apply`
+ * rules, which the `@tailwindcss/vite` plugin compiles against Tailwind's config. Because the theme's
+ * `@apply` utilities reference Tailwind's `--spacing` / `--color-*` / `--radius-*` / `--text-*`, those
+ * variables are marked "used" and emitted to `:root` — no manual keep-alive needed. ThemeSwitcher.vue
+ * imports the COMPILED output of this file (`?inline`) and injects it on demand.
+ *
+ * Preflight is deliberately omitted: it resets `button` with an element selector (specificity 0-0-1)
+ * that would beat the theme's zero-specificity `:where()` rules (0-0-0). Loading only `theme` +
+ * `utilities` gives us Tailwind's variables and utilities without that clash (see the theme's README).
+ */
+@layer theme, base, components, utilities;
+
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+@import '@bankai-vue/theme-tailwind';

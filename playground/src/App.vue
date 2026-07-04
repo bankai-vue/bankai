@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { BankaiButton, version } from '@bankai-vue/core';
 import { ref } from 'vue';
+import ThemeSwitcher from './components/ThemeSwitcher.vue';
 
 const count = ref(0);
 
@@ -12,6 +13,8 @@ const sizes = ['sm', 'md', 'lg'] as const;
   <main>
     <h1 data-testid="title">bankai-vue playground</h1>
     <p data-testid="core-version">core v{{ version }}</p>
+
+    <ThemeSwitcher />
 
     <section>
       <h2>BankaiButton</h2>
@@ -39,7 +42,7 @@ const sizes = ['sm', 'md', 'lg'] as const;
   </main>
 </template>
 
-<!-- Component styling comes from @bankai-vue/theme-bankai (imported in main.ts); only playground layout lives here. -->
+<!-- Component styling comes from the selected theme (ThemeSwitcher); only playground layout lives here. -->
 <style>
 .row {
   display: flex;

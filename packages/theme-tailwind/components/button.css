@@ -1,0 +1,58 @@
+/*
+ * BankaiButton styling — Tailwind theme.
+ *
+ * Styled with Tailwind's `@apply` (https://tailwindcss.com/docs/functions-and-directives#apply-directive),
+ * so the button adopts the CONSUMER's Tailwind design language: the utility names below resolve against
+ * whatever spacing / colors / radius / type scale their Tailwind config defines (SPEC.md §4.6, §5.4).
+ *
+ * Because it uses `@apply`, this file is Tailwind *source* — it must be compiled by the consumer's
+ * Tailwind build (`@import "@bankai-vue/theme-tailwind"` from a Tailwind-processed stylesheet), not
+ * shipped as static CSS. Every rule stays wrapped in zero-specificity `:where()`, so a single plain
+ * consumer selector — a hand-written rule or a Tailwind utility — overrides it with no `!important`.
+ *
+ * Dark mode uses Tailwind's `dark:` variant (system `prefers-color-scheme` by default), mirroring the
+ * house theme's system-driven light/dark. `border-solid` and the focus outline style are applied
+ * explicitly so the button still renders a border/outline when the consumer omits Tailwind's Preflight
+ * (Preflight is what normally sets the default border/outline style).
+ */
+
+:where(.bankai-button) {
+  @apply inline-flex cursor-pointer items-center gap-2 rounded-md border border-solid border-transparent bg-slate-800 text-slate-50;
+  @apply dark:bg-slate-200 dark:text-slate-900;
+
+  font: inherit;
+}
+
+:where(.bankai-button[data-size='sm']) {
+  @apply px-2 py-1 text-sm;
+}
+
+:where(.bankai-button[data-size='md']) {
+  @apply px-3 py-1.5;
+}
+
+:where(.bankai-button[data-size='lg']) {
+  @apply px-4 py-2 text-lg;
+}
+
+/*
+ * `outline` and `ghost` are the "quiet" variants: transparent background and inherited text color,
+ * so they adopt the ambient text color of whatever surface they sit on (light/dark, colored panels).
+ * That means the solid background/text above only drive the `solid` variant by design — override those
+ * utilities for solid, and the surrounding `color` for outline/ghost.
+ */
+:where(.bankai-button[data-variant='outline']) {
+  @apply border-current bg-transparent text-inherit;
+}
+
+:where(.bankai-button[data-variant='ghost']) {
+  @apply border-transparent bg-transparent text-inherit;
+}
+
+:where(.bankai-button:focus-visible) {
+  @apply outline-2 outline-offset-2 outline-blue-600 dark:outline-blue-400;
+}
+
+:where(.bankai-button:disabled) {
+  @apply cursor-not-allowed opacity-50;
+}

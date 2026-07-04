@@ -1,0 +1,34 @@
+{
+  "name": "@bankai-vue/theme-tailwind",
+  "version": "0.0.0",
+  "description": "Per-framework bankai-vue theme that remaps @bankai-vue/core's design tokens onto Tailwind's own scale, so the consumer's Tailwind design language drives the components.",
+  "homepage": "https://github.com/bankai-vue/bankai/tree/main/packages/theme-tailwind",
+  "license": "MIT",
+  "author": "Christopher Quadflieg <chrissi92@hotmail.de> (https://github.com/Shinigami92)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bankai-vue/bankai.git",
+    "directory": "packages/theme-tailwind"
+  },
+  "files": [
+    "index.css",
+    "tokens.css",
+    "components"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "default": "./index.css"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "tailwindcss": "^4.0.0"
+  }
+}

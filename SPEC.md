@@ -210,6 +210,8 @@ Presentation + typed slots are bankai-vue's; the engine is a swappable adapter b
 - `@bankai-vue/table-tanstack` — opt-in TanStack adapter
 - (docs app — fully Nuxt + bankai-vue)
 
+Themes are **separate, swappable CSS packages**; `core` stays unstyled. Design tokens (e.g. the `--bankai-space-*` spacing scale) live in the theme and are **theme-owned**, so a component's numeric spacing API (e.g. an upcoming layout utility's `:gap="4"`) is a _semantic scale step_ whose absolute value the theme decides. Beyond the house `theme-bankai`, first-party **per-framework themes** are planned (e.g. `@bankai-vue/theme-tailwind`) that remap those tokens onto the consumer's framework scale (Tailwind's own `--spacing`), so the consumer's design language drives the components (§4.6).
+
 ### 5.5 Dependency posture
 
 `core` near-zero deps via the §4.13 ladder. Sanctioned narrow/peer deps: `@floating-ui/vue` (positioning). Optional/peer only: VueUse.

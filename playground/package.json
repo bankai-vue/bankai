@@ -13,9 +13,12 @@
   "dependencies": {
     "@bankai-vue/core": "workspace:*",
     "@bankai-vue/theme-bankai": "workspace:*",
+    "@bankai-vue/theme-tailwind": "workspace:*",
+    "tailwindcss": "catalog:",
     "vue": "catalog:"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "catalog:",
     "@types/node": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "vite": "catalog:",
