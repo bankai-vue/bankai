@@ -99,7 +99,8 @@ git-ignored.
 
 ```
 packages/
-  core/            @bankai-vue/core           — the components
+  core/            @bankai-vue/core           — the components (ships zero CSS)
+  theme-bankai/    @bankai-vue/theme-bankai   — the signature theme: agnostic CSS + design tokens
   nuxt/            @bankai-vue/nuxt           — first-party Nuxt module
   table-tanstack/  @bankai-vue/table-tanstack — opt-in TanStack DataTable adapter
 playground/        private Vite + Vue 3 SPA — manual testing & the DataTable spike host
@@ -222,6 +223,13 @@ These are hard constraints from the spec — please don't work around them:
   not JS portals/Teleport (`SPEC.md` §4.9).
 - **CSS-framework agnostic** — never bake in or hard-couple Tailwind / Bootstrap /
   UnoCSS (`SPEC.md` §4.6).
+- **Overridable by construction** — a component exposes a stable root class + a
+  `data-*` state anatomy; its styling lives in a theme package
+  (`@bankai-vue/theme-<name>/components/<name>.css`) wrapped in zero-specificity
+  `:where()` so a consumer's plain CSS or utility class overrides it without
+  `!important`. **Never apply styling via inline `style`** (inline beats every
+  selector) — inline is only for passing a *value* a rule reads (e.g. a
+  `--bankai-*` custom property). `core` ships no CSS (`SPEC.md` §4.4, §4.6).
 - **First-class TypeScript** — generic components and typed slot scopes; authored
   on strict TypeScript defaults (`SPEC.md` §4.8).
 - **Near-zero deps** — justify any new dependency against the §4.13 ladder; MIT
