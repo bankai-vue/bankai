@@ -18,6 +18,16 @@ export type {
   BankaiFlexSlots,
   BankaiFlexWrap,
 } from './components/flex/BankaiFlex.vue';
+export { default as BankaiText } from './components/text/BankaiText.vue';
+export type {
+  BankaiTextAs,
+  BankaiTextElement,
+  BankaiTextProps,
+  BankaiTextSize,
+  BankaiTextSlots,
+  BankaiTextTone,
+  BankaiTextWeight,
+} from './components/text/BankaiText.vue';
 export { useBankaiId } from './composables/useBankaiId';
 export { usePrefixedId } from './composables/usePrefixedId';
 export { createBankai, useBankaiConfig } from './config';

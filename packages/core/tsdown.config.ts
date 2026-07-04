@@ -14,6 +14,7 @@ export default defineConfig({
     'src/composables/useBankaiId.ts',
     'src/components/button/BankaiButton.vue',
     'src/components/flex/BankaiFlex.vue',
+    'src/components/text/BankaiText.vue',
   ],
   format: ['es'],
   // `.vue` SFCs: unplugin-vue compiles the runtime; `dts: { vue: true }` runs

@@ -9,8 +9,10 @@
     "currentcolor",
     "dogfooded",
     "dogfooding",
+    "extralight",
     "flexbox",
     "Naive",
+    "nowrap",
     "Nuxt",
     "Popconfirm",
     "PrimeVue",
@@ -24,7 +26,8 @@
     "specialised",
     "VDOM",
     "Vuetify",
-    "WCAG"
+    "WCAG",
+    "wght"
   ],
 
   "js/ts.tsdk.path": "node_modules/typescript/lib",

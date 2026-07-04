@@ -1,0 +1,109 @@
+/*
+ * BankaiText styling — Tailwind theme.
+ *
+ * Mirrors the house theme's `components/text.css`, but styled with Tailwind's `@apply`
+ * (https://tailwindcss.com/docs/functions-and-directives#apply-directive) so type sizes, weights, and
+ * colors speak the CONSUMER's Tailwind design language: `text-lg`, `font-semibold`, `text-slate-600`, …
+ * resolve against their Tailwind build (SPEC.md §4.6, §5.4). Because it uses `@apply`, this file is
+ * Tailwind *source* — it must be compiled by the consumer's Tailwind build, not shipped as static CSS.
+ *
+ * Targets the `bankai-text` class and the props reflected as `data-*` (`data-size`, `data-weight`,
+ * `data-tone`, `data-truncate`). Every rule stays wrapped in zero-specificity `:where()`, so a consumer's
+ * utility classes override any rule below with a single plain class, no `!important` needed.
+ *
+ * Named sizes need no token bridge (unlike spacing): they come straight from Tailwind's `text-*`
+ * (`md` → `text-base`). Verbatim (non-named) `size`/`weight`/`tone` values ride the
+ * `--bankai-text-size`/`-weight`/`-tone` custom properties, which the base rule below applies as plain
+ * CSS — there's no Tailwind utility that reads an arbitrary custom property (same as `gap` in flex.css).
+ * The base rule first resets each to `initial` (the guaranteed-invalid value) so an unset property is
+ * invalid-at-computed-value and falls back to normal inheritance; without the reset a verbatim value on
+ * an ancestor would keep inheriting (custom properties inherit) past a named-value descendant and
+ * re-apply on deeper text. A verbatim value set inline on the element itself still wins over the
+ * `:where()` reset. Dark mode uses Tailwind's `dark:` variant (system `prefers-color-scheme`).
+ */
+
+:where(.bankai-text) {
+  --bankai-text-size: initial;
+  --bankai-text-weight: initial;
+  --bankai-text-tone: initial;
+  font-size: var(--bankai-text-size);
+  font-weight: var(--bankai-text-weight);
+  color: var(--bankai-text-tone);
+}
+
+:where(.bankai-text[data-size='xs']) {
+  @apply text-xs;
+}
+
+:where(.bankai-text[data-size='sm']) {
+  @apply text-sm;
+}
+
+:where(.bankai-text[data-size='md']) {
+  @apply text-base;
+}
+
+:where(.bankai-text[data-size='lg']) {
+  @apply text-lg;
+}
+
+:where(.bankai-text[data-size='xl']) {
+  @apply text-xl;
+}
+
+:where(.bankai-text[data-size='2xl']) {
+  @apply text-2xl;
+}
+
+:where(.bankai-text[data-weight='thin']) {
+  @apply font-thin;
+}
+
+:where(.bankai-text[data-weight='extralight']) {
+  @apply font-extralight;
+}
+
+:where(.bankai-text[data-weight='light']) {
+  @apply font-light;
+}
+
+:where(.bankai-text[data-weight='normal']) {
+  @apply font-normal;
+}
+
+:where(.bankai-text[data-weight='medium']) {
+  @apply font-medium;
+}
+
+:where(.bankai-text[data-weight='semibold']) {
+  @apply font-semibold;
+}
+
+:where(.bankai-text[data-weight='bold']) {
+  @apply font-bold;
+}
+
+:where(.bankai-text[data-weight='extrabold']) {
+  @apply font-extrabold;
+}
+
+:where(.bankai-text[data-weight='black']) {
+  @apply font-black;
+}
+
+:where(.bankai-text[data-tone='default']) {
+  @apply text-slate-900 dark:text-slate-50;
+}
+
+:where(.bankai-text[data-tone='muted']) {
+  @apply text-slate-600 dark:text-slate-300;
+}
+
+:where(.bankai-text[data-tone='subtle']) {
+  @apply text-slate-400 dark:text-slate-500;
+}
+
+/* Tailwind's `truncate` sets overflow/ellipsis/nowrap but not display; add `block` so a `<span>` clips. */
+:where(.bankai-text[data-truncate]) {
+  @apply block truncate;
+}
