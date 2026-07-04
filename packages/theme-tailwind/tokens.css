@@ -24,9 +24,11 @@
 
 :where(:root) {
   /*
-   * Theme components (e.g. `components/button.css`) drive dark mode with Tailwind's `dark:` variant
-   * (system `prefers-color-scheme`); `color-scheme` themes native surfaces (form controls, scrollbars,
-   * ::backdrop) to match, with no JS — parity with the house theme (SPEC.md §4.18).
+   * `color-scheme` is the dark-mode engine: the color tokens below are `light-dark()` pairs that resolve
+   * off it (no JS), and it themes native surfaces (form controls, scrollbars, ::backdrop) to match —
+   * parity with the house theme (SPEC.md §4.18). Any remaining Tailwind `dark:` usage (e.g. `BankaiText`'s
+   * tone colors, pending their move onto the color tokens) also keys off system `prefers-color-scheme`, so
+   * the two mechanisms stay in lockstep.
    */
   color-scheme: light dark;
 
@@ -36,6 +38,58 @@
    * sensible default when the consumer omits Tailwind's Preflight (which is what normally sets it).
    */
   @apply font-sans;
+
+  /*
+   * Semantic color tokens — the same foundation ROLES the house theme exposes, but this theme is
+   * independent by design: it mimics the stock Tailwind look — the palette a default Tailwind project reaches for — so
+   * components feel native in a Tailwind project (SPEC.md §4.6). That means Tailwind's `gray` for the
+   * neutral family and `indigo` for the primary action + focus accent — not the house theme's slate/blue.
+   * Each token points at the consumer's Tailwind `--color-*` (so their palette wins) as a `light-dark()`
+   * pair keyed off `color-scheme` (set above) — no reliance on Tailwind's class-based `dark:`. The `var()`
+   * fallback is that Tailwind color's exact OKLCH value (from Tailwind v4's `theme.css`), so it still
+   * renders correctly if a consumer trims a shade. Retune the mapping to reshape a role.
+   */
+  /* Dark foreground is pure white (`text-white`) — the stock Tailwind choice for headings on a dark surface — not gray-50. */
+  --bankai-color-fg: light-dark(
+    var(--color-gray-900, oklch(21% 0.034 264.665)),
+    var(--color-white, oklch(100% 0 0))
+  );
+  --bankai-color-fg-muted: light-dark(
+    var(--color-gray-500, oklch(55.1% 0.027 264.364)),
+    var(--color-gray-400, oklch(70.7% 0.022 261.325))
+  );
+  --bankai-color-fg-subtle: light-dark(
+    var(--color-gray-400, oklch(70.7% 0.022 261.325)),
+    var(--color-gray-500, oklch(55.1% 0.027 264.364))
+  );
+  --bankai-color-bg: light-dark(
+    var(--color-white, oklch(100% 0 0)),
+    var(--color-gray-900, oklch(21% 0.034 264.665))
+  );
+  --bankai-color-surface: light-dark(
+    var(--color-gray-50, oklch(98.5% 0.002 247.839)),
+    var(--color-gray-800, oklch(27.8% 0.033 256.848))
+  );
+  --bankai-color-border: light-dark(
+    var(--color-gray-200, oklch(92.8% 0.006 264.531)),
+    var(--color-gray-700, oklch(37.3% 0.034 259.733))
+  );
+  /* Primary + accent are Tailwind's `indigo` — the conventional Tailwind action color, with white text
+   * in both schemes. Following the stock Tailwind convention: the resting fill is `indigo-600` in light and
+   * the lighter `indigo-500` in dark (it lightens for the dark gray surface; hover then steps one lighter
+   * again — `indigo-500`/`indigo-400` — which a future button hover rule can adopt). */
+  --bankai-color-primary: light-dark(
+    var(--color-indigo-600, oklch(51.1% 0.262 276.966)),
+    var(--color-indigo-500, oklch(58.5% 0.233 277.117))
+  );
+  --bankai-color-primary-fg: var(--color-white, oklch(100% 0 0));
+  --bankai-color-accent: light-dark(
+    var(--color-indigo-600, oklch(51.1% 0.262 276.966)),
+    var(--color-indigo-500, oklch(58.5% 0.233 277.117))
+  );
+
+  /* Focus ring defaults to the interactive accent; override this token alone to retune focus only. */
+  --bankai-focus-ring: var(--bankai-color-accent);
 
   /* Base unit → Tailwind's `--spacing` (fallback matches Tailwind's default).
    * The enumerated steps below all derive from this, so the `--spacing` bridge and its

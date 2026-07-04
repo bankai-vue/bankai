@@ -32,15 +32,28 @@ const WEIGHT: Record<string, string> = {
   black: '900',
 };
 
-// `tone` keyword → resolved `color` (theme-bankai neutral tones, light scheme = the `light-dark()` first value).
-const TONE: Record<string, string> = {
-  default: 'rgb(15, 23, 42)',
-  muted: 'rgb(71, 85, 105)',
-  subtle: 'rgb(148, 163, 184)',
+// `tone` keyword → resolved `color`, as OKLCH `[L, C, H]` (theme-bankai neutral tones alias the
+// `--bankai-color-fg*` family, light scheme = the `light-dark()` first value). The theme is authored in
+// OKLCH, so `getComputedStyle` now returns `oklch(...)`; assert component-wise with tolerance because
+// WebKit emits extra hue precision (e.g. `265.755005`) that an exact string match would reject.
+// Each is the aliased `--bankai-color-fg*` token (slate-900 / slate-600 / slate-400).
+const TONE: Record<string, [l: number, c: number, h: number]> = {
+  default: [0.208, 0.042, 265.755],
+  muted: [0.446, 0.043, 257.281],
+  subtle: [0.704, 0.04, 256.788],
 };
 
 const computed = (page: Page, testId: string, prop: string): Promise<string> =>
   page.getByTestId(testId).evaluate((el, p) => getComputedStyle(el).getPropertyValue(p), prop);
+
+const parseOklch = (color: string): [number, number, number] => {
+  const m = color.match(/oklch\(\s*([\d.]+)%?\s+([\d.]+)\s+([\d.]+)/u);
+  if (!m) {
+    throw new Error(`expected an oklch() color, got: ${color}`);
+  }
+
+  return [Number(m[1]), Number(m[2]), Number(m[3])];
+};
 
 test.describe('data-* → CSS mapping (theme text.css)', () => {
   test.beforeEach(async ({ page }) => {
@@ -61,9 +74,12 @@ test.describe('data-* → CSS mapping (theme text.css)', () => {
     });
   }
 
-  for (const [value, expected] of Object.entries(TONE)) {
-    test(`tone="${value}" → color: ${expected}`, async ({ page }) => {
-      expect(await computed(page, `map-tone-${value}`, 'color')).toBe(expected);
+  for (const [value, [l, c, h]] of Object.entries(TONE)) {
+    test(`tone="${value}" → color: oklch(${l} ${c} ${h})`, async ({ page }) => {
+      const [al, ac, ah] = parseOklch(await computed(page, `map-tone-${value}`, 'color'));
+      expect(al).toBeCloseTo(l, 3);
+      expect(ac).toBeCloseTo(c, 3);
+      expect(ah).toBeCloseTo(h, 3);
     });
   }
 

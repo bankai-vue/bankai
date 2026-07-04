@@ -51,20 +51,30 @@ mapping (which would keep the house theme's exact sizes) because a Tailwind them
 should speak Tailwind's spacing language — every step lands on Tailwind's grid. The
 accepted trade-off: a component renders ~2× larger here than under `theme-bankai`.
 
-## Token scope (spacing only, for now)
+## Token scope (spacing + color, so far)
 
-Today the only token bridged is **spacing** (`tokens.css`). That is the deliberate
-first slice, not the finished token contract — the other `--bankai-*` tokens the
-house theme exposes (**color**, **radius**, **focus ring**, **font**) are **not**
-mirrored here yet and land in follow-up PRs.
+`tokens.css` bridges two token families onto Tailwind's scale, in order of landing:
 
-Until then, components style those aspects directly with Tailwind utilities via
-`@apply` (e.g. `button.css` uses `rounded-md`, `bg-slate-*`, `outline-blue-*`), so
-they follow Tailwind's defaults instead of a `--bankai-*` override surface. This is
-intentional given the "default Tailwind look-and-feel" goal above: a consumer
-retunes them through their Tailwind config, not through bankai tokens. Expect the
-override surface to differ from `theme-bankai` by design — the two themes are not
-meant to be token-for-token interchangeable.
+- **Spacing** — `--bankai-space-*` → Tailwind's `--spacing` (see above).
+- **Color** — the foundation semantic roles (`--bankai-color-fg`, `-bg`, `-surface`,
+  `-border`, `-primary`/`-primary-fg`, `-accent`) plus `--bankai-focus-ring`, each
+  pointing at the consumer's Tailwind `--color-*`. This theme mimics the **stock
+  Tailwind look** (the palette a default Tailwind project reaches for): the neutral
+  family is Tailwind's `gray`, and the primary action + focus accent are `indigo`
+  (e.g. `--bankai-color-primary → light-dark(var(--color-indigo-600), var(--color-indigo-500))`,
+  with white text — `indigo-600` in light, the lighter `indigo-500` in dark, per the
+  stock Tailwind convention). Values are authored in OKLCH; the `var()` fallback is the shade's
+  exact Tailwind value so it renders even if a consumer trims it. Dark mode rides these
+  tokens' `light-dark()` values off `color-scheme` — not Tailwind's class-based `dark:`.
+
+Not yet bridged and landing in follow-up PRs: **radius** and **font** (components
+still `@apply rounded-md` / `font-sans` directly), and the **semantic status**
+palette (`success`/`warning`/`danger`/`info`). `BankaiText`'s tone colors also still
+`@apply` Tailwind color utilities directly and move onto the color tokens next.
+
+The two themes share the same **roles**, not the same **palette** — `theme-bankai` is
+the house identity (its own slate/blue-based look), this one is deliberately stock
+Tailwind (gray + indigo). They are not meant to be token-for-token interchangeable.
 
 ## Open questions
 
