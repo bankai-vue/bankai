@@ -16,5 +16,56 @@
   --bankai-radius: 0.375rem;
   --bankai-focus-ring: light-dark(#2563eb, #60a5fa);
 
+  /*
+   * Spacing scale — rem-based so gaps/margins scale with the user's root font size and zoom
+   * (responsive + accessible across phone/tablet/desktop; SPEC.md §4.16), never frozen in px.
+   * Linear 2px-base steps (n × 0.125rem = n × 2px @ 16px root): a fine grid that supports dense
+   * UIs (every 2px increment is a whole step, so no fractional tokens are needed). Retune any step
+   * here to reshape the scale globally. Upcoming layout utilities will resolve numeric spacing
+   * steps to these, but the tokens are usable on their own for any spacing today. This is the
+   * *house* scale — a Tailwind-oriented consumer uses `@bankai-vue/theme-tailwind`, which maps
+   * `--bankai-space-*` onto Tailwind's own spacing.
+   * The first slice of the discover-as-you-go token system (ROADMAP "Cross-cutting").
+   *
+   * `--bankai-space-unit` is the base step, meant to be multiplied for spacing steps that fall
+   * outside the enumerated tokens below (e.g. a step of `40` → `calc(var(--bankai-space-unit) *
+   * 40)`); a theme overriding it (e.g. `theme-tailwind` → `var(--spacing)`) retargets that
+   * fallback to its own grid.
+   */
+  --bankai-space-unit: 0.125rem;
+  --bankai-space-0: 0;
+  --bankai-space-1: 0.125rem;
+  --bankai-space-2: 0.25rem;
+  --bankai-space-3: 0.375rem;
+  --bankai-space-4: 0.5rem;
+  --bankai-space-5: 0.625rem;
+  --bankai-space-6: 0.75rem;
+  --bankai-space-7: 0.875rem;
+  --bankai-space-8: 1rem;
+  --bankai-space-9: 1.125rem;
+  --bankai-space-10: 1.25rem;
+  --bankai-space-11: 1.375rem;
+  --bankai-space-12: 1.5rem;
+  --bankai-space-13: 1.625rem;
+  --bankai-space-14: 1.75rem;
+  --bankai-space-15: 1.875rem;
+  --bankai-space-16: 2rem;
+  --bankai-space-17: 2.125rem;
+  --bankai-space-18: 2.25rem;
+  --bankai-space-19: 2.375rem;
+  --bankai-space-20: 2.5rem;
+  --bankai-space-21: 2.625rem;
+  --bankai-space-22: 2.75rem;
+  --bankai-space-23: 2.875rem;
+  --bankai-space-24: 3rem;
+  --bankai-space-25: 3.125rem;
+  --bankai-space-26: 3.25rem;
+  --bankai-space-27: 3.375rem;
+  --bankai-space-28: 3.5rem;
+  --bankai-space-29: 3.625rem;
+  --bankai-space-30: 3.75rem;
+  --bankai-space-31: 3.875rem;
+  --bankai-space-32: 4rem;
+
   font-family: var(--bankai-font-sans);
 }
