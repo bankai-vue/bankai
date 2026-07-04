@@ -6,6 +6,7 @@ import type {
   BankaiButtonType,
   BankaiButtonVariant,
 } from '../src/index';
+import type { LiteralUnion } from '../src/internal/types';
 import type { VNode } from 'vue';
 import { describe, expectTypeOf, test } from 'vitest';
 
@@ -14,14 +15,27 @@ import { describe, expectTypeOf, test } from 'vitest';
 // test rather than a silent breaking change for consumers.
 
 describe('BankaiButtonVariant', () => {
-  test('is the closed set of visual variants', () => {
-    expectTypeOf<BankaiButtonVariant>().toEqualTypeOf<'solid' | 'outline' | 'ghost'>();
+  test('suggests the shipped variants but accepts any string (custom data-variant rules)', () => {
+    expectTypeOf<BankaiButtonVariant>().toEqualTypeOf<
+      LiteralUnion<'solid' | 'outline' | 'ghost', string>
+    >();
+    // Shipped variants are first-class members.
+    expectTypeOf<'solid'>().toExtend<BankaiButtonVariant>();
+    expectTypeOf<'ghost'>().toExtend<BankaiButtonVariant>();
+    // The escape hatch accepts any string (a consumer-defined `[data-variant='brand']`).
+    expectTypeOf<'brand'>().toExtend<BankaiButtonVariant>();
+    expectTypeOf<string>().toExtend<BankaiButtonVariant>();
   });
 });
 
 describe('BankaiButtonSize', () => {
-  test('is the closed set of sizes', () => {
-    expectTypeOf<BankaiButtonSize>().toEqualTypeOf<'sm' | 'md' | 'lg'>();
+  test('suggests the shipped sizes but accepts any string (custom data-size rules)', () => {
+    expectTypeOf<BankaiButtonSize>().toEqualTypeOf<LiteralUnion<'sm' | 'md' | 'lg', string>>();
+    // Shipped steps are first-class members.
+    expectTypeOf<'md'>().toExtend<BankaiButtonSize>();
+    // The escape hatch accepts any string (a consumer-defined `[data-size='xl']`).
+    expectTypeOf<'xl'>().toExtend<BankaiButtonSize>();
+    expectTypeOf<string>().toExtend<BankaiButtonSize>();
   });
 });
 

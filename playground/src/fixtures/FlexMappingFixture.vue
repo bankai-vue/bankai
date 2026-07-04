@@ -76,5 +76,9 @@ const wraps = ['nowrap', 'wrap', 'wrap-reverse'] as const satisfies ReadonlyArra
     <BankaiFlex :gap="40" data-testid="map-gap-fallback"><span>x</span></BankaiFlex>
     <!-- static attribute: `gap="2"` arrives as the string "2"; must resolve to step 2 (0.5rem), not drop -->
     <BankaiFlex gap="2" data-testid="map-gap-static"><span>x</span></BankaiFlex>
+    <!-- named t-shirt step → --bankai-space-md (theme-bankai aliases it to step 6 = 0.75rem) -->
+    <BankaiFlex gap="md" data-testid="map-gap-named"><span>x</span></BankaiFlex>
+    <!-- `as` is a LiteralUnion: a tag outside the suggested HTML set (here a custom element) still renders -->
+    <BankaiFlex as="my-widget" data-testid="map-as-custom"><span>x</span></BankaiFlex>
   </div>
 </template>

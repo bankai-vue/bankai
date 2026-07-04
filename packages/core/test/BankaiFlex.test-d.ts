@@ -8,6 +8,8 @@ import type {
   BankaiFlexSlots,
   BankaiFlexWrap,
 } from '../src/index';
+import type { VoidElementTagName } from '../src/internal/dom';
+import type { LiteralUnion } from '../src/internal/types';
 import type { VNode } from 'vue';
 import { describe, expectTypeOf, test } from 'vitest';
 
@@ -16,15 +18,20 @@ import { describe, expectTypeOf, test } from 'vitest';
 // test rather than a silent breaking change for consumers.
 
 describe('BankaiFlexAs', () => {
-  test('is any non-void HTML tag name', () => {
+  test('suggests non-void HTML tag names but accepts any tag string (custom elements)', () => {
+    expectTypeOf<BankaiFlexAs>().toEqualTypeOf<
+      LiteralUnion<Exclude<keyof HTMLElementTagNameMap, VoidElementTagName>, string>
+    >();
+    // Non-void tags are first-class members...
     expectTypeOf<'div'>().toExtend<BankaiFlexAs>();
     expectTypeOf<'section'>().toExtend<BankaiFlexAs>();
-    // It's a subset of all tag names...
-    expectTypeOf<BankaiFlexAs>().toExtend<keyof HTMLElementTagNameMap>();
-    // ...but void elements are excluded, since a flex container holds children.
-    expectTypeOf<'input'>().not.toExtend<BankaiFlexAs>();
-    expectTypeOf<'br'>().not.toExtend<BankaiFlexAs>();
-    expectTypeOf<'img'>().not.toExtend<BankaiFlexAs>();
+    // ...void elements are excluded from the *suggestions* (a flex container holds children),
+    // but the string escape hatch still accepts any tag — including a custom element.
+    expectTypeOf<'input'>().not.toExtend<
+      Exclude<keyof HTMLElementTagNameMap, VoidElementTagName>
+    >();
+    expectTypeOf<'my-widget'>().toExtend<BankaiFlexAs>();
+    expectTypeOf<string>().toExtend<BankaiFlexAs>();
   });
 });
 
@@ -59,8 +66,17 @@ describe('BankaiFlexWrap', () => {
 });
 
 describe('BankaiFlexGap', () => {
-  test('accepts a number (spacing-scale step) or a string (verbatim CSS length)', () => {
-    expectTypeOf<BankaiFlexGap>().toEqualTypeOf<number | string>();
+  test('suggests the t-shirt scale and accepts any number or CSS length string', () => {
+    // `number` is a numeric spacing-scale step; a named `xs`–`2xl` step is a named token;
+    // any other string is a verbatim CSS length/keyword. Nothing beyond `string | number`.
+    expectTypeOf<BankaiFlexGap>().toEqualTypeOf<
+      LiteralUnion<'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl', string> | number
+    >();
+    expectTypeOf<'md'>().toExtend<BankaiFlexGap>();
+    expectTypeOf<number>().toExtend<BankaiFlexGap>();
+    expectTypeOf<'1rem'>().toExtend<BankaiFlexGap>();
+    expectTypeOf<string>().toExtend<BankaiFlexGap>();
+    expectTypeOf<BankaiFlexGap>().toExtend<string | number>();
   });
 });
 

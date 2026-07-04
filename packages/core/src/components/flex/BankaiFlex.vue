@@ -1,5 +1,6 @@
 <script lang="ts">
 import type { VoidElementTagName } from '../../internal/dom';
+import type { LiteralUnion } from '../../internal/types';
 import type { CSSProperties, VNode } from 'vue';
 
 // Styled via `@bankai-vue/theme-bankai` (`components/flex.css`), NOT inline styles.
@@ -12,10 +13,14 @@ import type { CSSProperties, VNode } from 'vue';
 
 /**
  * Element the {@link BankaiFlex} root renders as (`as` prop).
- * Any non-void HTML tag name — `BankaiFlex` is polymorphic and defaults to `'div'`.
- * Void elements (`input`, `br`, `img`, …) are excluded since they can't hold children.
+ * Suggests any non-void HTML tag name — `BankaiFlex` is polymorphic and defaults to `'div'`;
+ * void elements (`input`, `br`, `img`, …) are excluded from the suggestions since they can't hold children.
+ * Any other tag string (e.g. a custom element) is still accepted.
  */
-export type BankaiFlexAs = Exclude<keyof HTMLElementTagNameMap, VoidElementTagName>;
+export type BankaiFlexAs = LiteralUnion<
+  Exclude<keyof HTMLElementTagNameMap, VoidElementTagName>,
+  string
+>;
 
 /**
  * `flex-direction` of a {@link BankaiFlex}. Values are the native CSS keywords.
@@ -43,17 +48,20 @@ export type BankaiFlexWrap = 'nowrap' | 'wrap' | 'wrap-reverse';
 /**
  * Spacing between {@link BankaiFlex} children — maps to `gap`.
  *
- * A `number` (or a bare-numeric `string` like `'4'` from a static `gap="4"`) is a **spacing-scale step**:
+ * A `number` (or a bare-numeric `string` like `'4'` from a static `gap="4"`) is a **numeric spacing-scale step**:
  * it resolves to the rem-based `--bankai-space-<n>` token from the active theme, so spacing scales with
  * the user's root font size (responsive/accessible), never a frozen pixel value. The step's absolute
  * size is theme-owned (`theme-bankai` uses a 2px-base grid; `theme-tailwind` maps to Tailwind's scale).
  * Steps outside a theme's scale fall back to `n × var(--bankai-space-unit)` — the theme's own base unit —
  * so any step still yields rem spacing consistent with the active theme.
  *
+ * A named `xs`–`2xl` t-shirt step resolves to the theme's `--bankai-space-<name>` token (`gap="md"`),
+ * the named counterpart to the numeric scale — theme-owned, so `md` sizes to the active theme's grid.
+ *
  * Any other `string` is a verbatim CSS length — `'1rem'`, `'var(--bankai-space-2)'`,
- * `'clamp(0.5rem, 2vw, 1.5rem)'` for fluid gaps, etc.
+ * `'clamp(0.5rem, 2vw, 1.5rem)'` for fluid gaps — or a CSS keyword like `'normal'`.
  */
-export type BankaiFlexGap = number | string;
+export type BankaiFlexGap = LiteralUnion<'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl', string> | number;
 
 /**
  * Slots of a {@link BankaiFlex}.
@@ -89,8 +97,9 @@ export interface BankaiFlexProps {
   justify?: BankaiFlexJustify;
   /**
    * Spacing between children (`gap`). A number (or a bare-numeric string like `'4'`) is a rem-based
-   * spacing-scale step (`--bankai-space-<n>`); any other string is a verbatim CSS length
-   * (`'1rem'`, `'clamp(…)'`, `'var(--x)'`). Omitted when unset.
+   * numeric spacing-scale step (`--bankai-space-<n>`); a named `xs`–`2xl` step resolves to the
+   * theme's `--bankai-space-<name>` token; any other string is a verbatim CSS length
+   * (`'1rem'`, `'clamp(…)'`, `'var(--x)'`) or keyword (`'normal'`). Omitted when unset.
    */
   gap?: BankaiFlexGap;
   /**
@@ -104,6 +113,10 @@ export interface BankaiFlexProps {
    */
   inline?: boolean;
 }
+
+// The named `gap` steps that resolve to a `--bankai-space-<name>` token (the theme owns their sizes);
+// any other string falls through to the numeric-step / verbatim paths. Module scope, so allocated once.
+const NAMED_GAPS = new Set<string>(['xs', 'sm', 'md', 'lg', 'xl', '2xl']);
 </script>
 
 <script setup lang="ts">
@@ -130,14 +143,20 @@ const {
 defineOptions({ name: 'BankaiFlex', inheritAttrs: true });
 
 // Resolve a `gap` prop to the CSS value carried by `--bankai-flex-gap` (the theme's `:where()`
-// rule reads it). A number — or a bare-numeric string, since a static `gap="4"` arrives as `'4'` —
-// is a spacing-scale STEP: it resolves to the rem-based `--bankai-space-<n>` token, with a
-// `calc(n × var(--bankai-space-unit))` fallback for out-of-scale/no-theme steps. The base unit is
-// theme-owned (`--bankai-space-unit`), so the fallback tracks the *active* theme's grid — core bakes
-// no base; the literal `0.125rem` is only the last-resort default when no theme is loaded at all.
-// (A hardcoded base here would silently use `theme-bankai`'s 2px grid under `theme-tailwind`.)
-// Any other string is a verbatim CSS length (`'1rem'`, `'var(--x)'`, `'clamp(…)'`).
+// rule reads it). A named `xs`–`2xl` step resolves to the theme's `--bankai-space-<name>` token —
+// theme-owned, so `md` sizes to the active theme's grid (no core-baked size). A number — or a
+// bare-numeric string, since a static `gap="4"` arrives as `'4'` — is a numeric spacing-scale STEP:
+// it resolves to the rem-based `--bankai-space-<n>` token, with a `calc(n × var(--bankai-space-unit))`
+// fallback for out-of-scale/no-theme steps. The base unit is theme-owned (`--bankai-space-unit`), so
+// the fallback tracks the *active* theme's grid; the literal `0.125rem` is only the last-resort default
+// when no theme is loaded at all. (A hardcoded base here would silently use `theme-bankai`'s 2px grid
+// under `theme-tailwind`.) Any other string — a verbatim CSS length (`'1rem'`, `'var(--x)'`, `'clamp(…)'`)
+// or keyword (`'normal'`) — passes through unchanged; only the fixed named set above is treated as a token.
 function resolveGap(value: BankaiFlexGap): string {
+  if (typeof value === 'string' && NAMED_GAPS.has(value)) {
+    return `var(--bankai-space-${value})`;
+  }
+
   if (typeof value === 'string' && !/^\d+(?:\.\d+)?$/u.test(value)) {
     return value;
   }

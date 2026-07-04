@@ -1,6 +1,7 @@
 import type { Component } from 'vue';
 import { createApp } from 'vue';
 import App from './App.vue';
+import ButtonEscapeHatchFixture from './fixtures/ButtonEscapeHatchFixture.vue';
 import ButtonFixture from './fixtures/ButtonFixture.vue';
 import FlexFixture from './fixtures/FlexFixture.vue';
 import FlexMappingFixture from './fixtures/FlexMappingFixture.vue';
@@ -11,6 +12,7 @@ import TextMappingFixture from './fixtures/TextMappingFixture.vue';
 // tests; everything else gets the normal demo app.
 const fixtures: Record<string, Component> = {
   button: ButtonFixture,
+  'button-escape-hatch': ButtonEscapeHatchFixture,
   flex: FlexFixture,
   'flex-mapping': FlexMappingFixture,
   text: TextFixture,

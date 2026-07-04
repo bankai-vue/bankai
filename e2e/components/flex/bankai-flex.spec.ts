@@ -102,4 +102,17 @@ test.describe('shorthand → CSS mapping (theme flex.css)', () => {
   test('gap="2" (static string) → scale step 2 (4px)', async ({ page }) => {
     expect(await computed(page, 'map-gap-static', 'gap')).toBe('4px');
   });
+  // A named t-shirt step resolves to the theme's `--bankai-space-md` alias (step 6 = 0.75rem = 12px).
+  test('gap="md" (named step) → --bankai-space-md (12px)', async ({ page }) => {
+    expect(await computed(page, 'map-gap-named', 'gap')).toBe('12px');
+  });
+});
+
+// `as` is a LiteralUnion: a tag outside the suggested non-void HTML set (a custom element) must
+// still render as the polymorphic root — the escape hatch can't silently fall back to `div`.
+test('as="my-widget" (custom element) renders as that tag', async ({ page }) => {
+  await page.goto('/?fixture=flex-mapping');
+
+  const tag = await page.getByTestId('map-as-custom').evaluate((el) => el.tagName.toLowerCase());
+  expect(tag).toBe('my-widget');
 });

@@ -77,4 +77,14 @@
   --bankai-space-30: calc(var(--bankai-space-unit) * 30);
   --bankai-space-31: calc(var(--bankai-space-unit) * 31);
   --bankai-space-32: calc(var(--bankai-space-unit) * 32);
+
+  /* Named t-shirt spacing steps — mirror the house theme's aliases (parity), pointing at the same
+   * numeric steps so a named `gap` (e.g. `BankaiFlex gap="md"`) means the same grid position under
+   * either theme, sized to *this* theme's Tailwind grid (index-preserving, like the numeric steps). */
+  --bankai-space-xs: var(--bankai-space-2);
+  --bankai-space-sm: var(--bankai-space-4);
+  --bankai-space-md: var(--bankai-space-6);
+  --bankai-space-lg: var(--bankai-space-8);
+  --bankai-space-xl: var(--bankai-space-12);
+  --bankai-space-2xl: var(--bankai-space-16);
 }

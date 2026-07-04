@@ -118,7 +118,12 @@ test('exposes gap via the --bankai-flex-gap custom property with scale-step coer
   );
   // Fractional steps have no valid token name, so they use the base-unit fallback directly.
   expect(gapVar({ gap: 1.5 })).toBe('calc(1.5 * var(--bankai-space-unit, 0.125rem))');
-  // Any other string passes through verbatim.
+  // A named t-shirt step resolves to the theme's named space token (theme-owned size).
+  expect(gapVar({ gap: 'md' })).toBe('var(--bankai-space-md)');
+  expect(gapVar({ gap: '2xl' })).toBe('var(--bankai-space-2xl)');
+  // Any other string passes through verbatim — including a CSS keyword like `normal`, which is
+  // NOT a named token (only the fixed xs–2xl set is), so it must not become `var(--bankai-space-normal)`.
+  expect(gapVar({ gap: 'normal' })).toBe('normal');
   expect(gapVar({ gap: '1rem' })).toBe('1rem');
   expect(gapVar({ gap: 'var(--bankai-space-2)' })).toBe('var(--bankai-space-2)');
   expect(gapVar({ gap: 'clamp(0.5rem, 2vw, 1.5rem)' })).toBe('clamp(0.5rem, 2vw, 1.5rem)');

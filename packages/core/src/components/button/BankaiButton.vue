@@ -1,18 +1,24 @@
 <script lang="ts">
+import type { LiteralUnion } from '../../internal/types';
 import type { VNode } from 'vue';
 
 // Ships no CSS (SPEC.md §7):
 // consumers style it through the exposed parts (`data-part`, the `bankai-button` class) and the reflected state (`data-variant`, `data-size`, native `:disabled`).
+// `variant`/`size` are an open named set: the shipped members reflect verbatim as `data-variant`/`data-size` (the theme styles them), and any other string is carried through the same way — a consumer extends the anatomy with their own `:where(.bankai-button[data-variant='brand'])` rule (SPEC.md §4.4). Unlike BankaiText's continuous props, a variant/size is a whole bundle of declarations, so there is no single-custom-property escape hatch — the escape hatch *is* the reflected `data-*` extension point.
 
 /**
  * Visual variant of a {@link BankaiButton}, reflected on the root as `data-variant`.
+ * Suggests the shipped variants (`solid`/`outline`/`ghost`) but accepts any string: a consumer
+ * adds a custom variant by defining its own `[data-variant='…']` rule against the anatomy.
  */
-export type BankaiButtonVariant = 'solid' | 'outline' | 'ghost';
+export type BankaiButtonVariant = LiteralUnion<'solid' | 'outline' | 'ghost', string>;
 
 /**
  * Size scale of a {@link BankaiButton}, reflected on the root as `data-size`.
+ * Suggests the shipped steps (`sm`/`md`/`lg`) but accepts any string: a consumer adds a custom
+ * size by defining its own `[data-size='…']` rule against the anatomy.
  */
-export type BankaiButtonSize = 'sm' | 'md' | 'lg';
+export type BankaiButtonSize = LiteralUnion<'sm' | 'md' | 'lg', string>;
 
 /**
  * Native `type` of a {@link BankaiButton}.
@@ -41,13 +47,16 @@ export interface BankaiButtonSlots {
  */
 export interface BankaiButtonProps {
   /**
-   * Visual variant. Reflected on the root as `data-variant` for styling.
+   * Visual variant. Reflected verbatim on the root as `data-variant` for styling. Suggests the
+   * shipped variants ({@link BankaiButtonVariant}); any other string works if a matching
+   * `[data-variant='…']` rule exists.
    *
    * @default 'solid'
    */
   variant?: BankaiButtonVariant;
   /**
-   * Size scale. Reflected on the root as `data-size` for styling.
+   * Size scale. Reflected verbatim on the root as `data-size` for styling. Suggests the shipped
+   * steps ({@link BankaiButtonSize}); any other string works if a matching `[data-size='…']` rule exists.
    *
    * @default 'md'
    */
