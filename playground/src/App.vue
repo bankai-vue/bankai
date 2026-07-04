@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BankaiButton, version } from '@bankai-vue/core';
+import { BankaiButton, BankaiFlex, version } from '@bankai-vue/core';
 import { ref } from 'vue';
 import ThemeSwitcher from './components/ThemeSwitcher.vue';
 
@@ -38,6 +38,17 @@ const sizes = ['sm', 'md', 'lg'] as const;
       <div class="row">
         <BankaiButton disabled>disabled</BankaiButton>
       </div>
+    </section>
+
+    <section>
+      <h2>BankaiFlex</h2>
+
+      <p>Prop-driven layout via data-* + theme CSS (utility classes can override):</p>
+      <BankaiFlex data-testid="flex-row" :gap="4" align="center">
+        <BankaiButton>one</BankaiButton>
+        <BankaiButton variant="outline">two</BankaiButton>
+        <BankaiButton variant="ghost">three</BankaiButton>
+      </BankaiFlex>
     </section>
   </main>
 </template>

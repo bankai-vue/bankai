@@ -7,6 +7,17 @@ export type {
   BankaiButtonType,
   BankaiButtonVariant,
 } from './components/button/BankaiButton.vue';
+export { default as BankaiFlex } from './components/flex/BankaiFlex.vue';
+export type {
+  BankaiFlexAlign,
+  BankaiFlexAs,
+  BankaiFlexDirection,
+  BankaiFlexGap,
+  BankaiFlexJustify,
+  BankaiFlexProps,
+  BankaiFlexSlots,
+  BankaiFlexWrap,
+} from './components/flex/BankaiFlex.vue';
 export { useBankaiId } from './composables/useBankaiId';
 export { usePrefixedId } from './composables/usePrefixedId';
 export { createBankai, useBankaiConfig } from './config';

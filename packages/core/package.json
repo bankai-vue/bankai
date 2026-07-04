@@ -42,6 +42,10 @@
       "types": "./dist/components/button/BankaiButton.d.ts",
       "import": "./dist/components/button/BankaiButton.js"
     },
+    "./components/flex/BankaiFlex": {
+      "types": "./dist/components/flex/BankaiFlex.d.ts",
+      "import": "./dist/components/flex/BankaiFlex.js"
+    },
     "./package.json": "./package.json"
   },
   "publishConfig": {

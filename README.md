@@ -40,12 +40,12 @@ The pieces that remain each cover only part of the gap — Reka UI is headless (
 
 ## Planned package family
 
-| Package                      | Purpose                            |
-| ---------------------------- | ---------------------------------- |
-| `@bankai-vue/core`           | The components (unstyled — ships zero CSS)         |
-| `@bankai-vue/theme-bankai`   | The signature theme: agnostic CSS + design tokens  |
-| `@bankai-vue/nuxt`           | First-party Nuxt module            |
-| `@bankai-vue/table-tanstack` | Opt-in TanStack data-table adapter |
+| Package                      | Purpose                                          |
+| ---------------------------- | ------------------------------------------------ |
+| `@bankai-vue/core`           | The components (unstyled — ships zero CSS)        |
+| `@bankai-vue/theme-bankai`   | The signature theme: agnostic CSS + design tokens |
+| `@bankai-vue/nuxt`           | First-party Nuxt module                          |
+| `@bankai-vue/table-tanstack` | Opt-in TanStack data-table adapter               |
 
 Themes are separate, swappable CSS packages, so `core` stays unstyled and framework-agnostic. Per-framework themes (e.g. `@bankai-vue/theme-tailwind`, mapping onto Tailwind's own scale) are planned.
 

@@ -159,7 +159,7 @@ Composition — the consumer fills slots with content; `BankaiLayout` emits the 
 
 Layout utilities — prop-driven layout: props are reflected as `data-*` on the root (`gap` as a `--bankai-*-gap` custom property) and turned into layout by zero-specificity `:where()` rules in `@bankai-vue/theme-bankai`, so a consumer's utility classes (Tailwind/Bootstrap/UnoCSS) override by plain specificity — no `!important` (§4.4/§4.6). Polymorphic `as` (default `<div>`); needs the theme CSS (or equivalent targeting the root class) loaded. The composable replacement for Vuetify `VRow`/`VCol`:
 
-- [ ] `BankaiFlex` — flexbox helper; `direction`/`align`/`justify`/`gap`/`wrap`/`inline` props → `data-*` (+ `--bankai-*-gap`) styled by theme `:where()` (`display:flex`)
+- [x] `BankaiFlex` — flexbox helper; `direction`/`align`/`justify`/`gap`/`wrap`/`inline` props → `data-*` (+ `--bankai-flex-gap`) styled by theme `:where()` (`display:flex`)
 - [ ] `BankaiGrid` — CSS-grid helper; `columns`/`rows`/`gap`/`areas` props → `data-*` (+ `--bankai-*-gap`) styled by theme `:where()` (`display:grid`, 2D layouts)
 - [ ] `BankaiStack` — vertical preset over `BankaiFlex` (`direction=column`); ergonomic sugar
 - [ ] `BankaiGroup` — **uncertain** — a horizontal preset would just be `BankaiFlex`'s default (`direction=row`), so it may be redundant; decide when Flex lands
@@ -286,7 +286,7 @@ These pull in heavy dependencies or serve narrow use cases, so they violate `cor
 ## Cross-cutting (deferred by design, SPEC §7)
 
 - **i18n / RTL** — important; iterated **post-`0.1.0`, within `0.x`**, not a `0.1.0` blocker.
-- **Theming token system** — grows **discover-as-you-go** on top of the §4.18 dark-mode mechanism, as real components land. Not designed in the abstract. _First slice landed:_ the rem-based, theme-owned `--bankai-space-*` spacing scale, landing ahead of the layout utilities that will consume it.
+- **Theming token system** — grows **discover-as-you-go** on top of the §4.18 dark-mode mechanism, as real components land. Not designed in the abstract. _First slice landed:_ the rem-based, theme-owned `--bankai-space-*` spacing scale, introduced with the layout utilities (`BankaiFlex`).
 - **Vapor builds** — added when interop matures (§4.11); VDOM builds ship first.
 
 ## Open structural question (revisit before `1.0` / Bankai)
