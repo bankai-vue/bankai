@@ -42,6 +42,28 @@ pnpm add @bankai-vue/core @bankai-vue/theme-tailwind
 @import "@bankai-vue/theme-tailwind";
 ```
 
+## Page surface
+
+Importing the theme also paints the page: `base.css` applies the
+`--bankai-color-bg` / `--bankai-color-fg` tokens (bridged onto your Tailwind
+`--color-*` palette) to `html`, so the document gets the stock-Tailwind
+application-UI surface — a themed page rather than an unpainted `<html>`. It targets
+`html` so the background fills the whole viewport canvas (including the overscroll
+area), and lives in `@layer base`, so a plain `bg-*` / `text-*` utility still
+overrides it the Tailwind way.
+
+For an **embedded / micro-frontend** setup where the theme should not repaint the
+host page, compose only the pieces you need — leaving `base.css` out:
+
+```css
+@import "tailwindcss";
+@import "@bankai-vue/theme-tailwind/tokens.css";
+@import "@bankai-vue/theme-tailwind/components/index.css"; /* all components; no base.css → `html` untouched */
+```
+
+For finer granularity, import individual `components/<name>.css` files instead of
+the barrel. (A future `BankaiApp` wrapper will scope the surface for this case.)
+
 ## Spacing mapping
 
 `tokens.css` maps **index-preserving**: `--bankai-space-n` == Tailwind `space-n`

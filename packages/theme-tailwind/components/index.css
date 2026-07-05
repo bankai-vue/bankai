@@ -1,0 +1,24 @@
+/*
+ * Component styles barrel — Tailwind theme.
+ *
+ * `@import`s every Bankai component's CSS. Because the component files use `@apply`, this barrel is
+ * Tailwind *source* too — it must be compiled by the consumer's Tailwind build, same as the rest of
+ * this package (see `index.css`).
+ *
+ * The theme's root `index.css` pulls this in (after `tokens.css` + `base.css`), and this is the single
+ * place to register a component: add one `@import './<name>.css';` line here when a component lands.
+ *
+ * It's also the ergonomic entry for an embedded / micro-frontend consumer who wants ALL component
+ * styles but NOT the global page-surface paint (see `base.css`): import this barrel alongside
+ * `tokens.css` instead of listing each component file —
+ *
+ *   @import "tailwindcss";
+ *   @import "@bankai-vue/theme-tailwind/tokens.css";
+ *   @import "@bankai-vue/theme-tailwind/components/index.css";
+ *
+ * For finer granularity, import individual `components/<name>.css` files instead of this barrel.
+ */
+
+@import './button.css';
+@import './flex.css';
+@import './text.css';

@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { expectBaselineSurface } from '../../helpers/color';
 
 // Visual regression for BankaiFlex. The component ships no CSS — the fixture's
 // boxes make the prop-driven layout (gap, direction, alignment, distribution,
@@ -7,7 +8,7 @@ import { expect, test } from '@playwright/test';
 // generated in CI via the "Update Visual Snapshots" workflow, not locally.
 
 for (const colorScheme of ['light', 'dark'] as const) {
-  test(`BankaiFlex — ${colorScheme}`, { tag: '@visual' }, async ({ page }) => {
+  test(`BankaiFlex — ${colorScheme}`, { tag: '@visual' }, async ({ page }, testInfo) => {
     await page.emulateMedia({ colorScheme });
     await page.goto('/?fixture=flex');
 
@@ -18,6 +19,12 @@ for (const colorScheme of ['light', 'dark'] as const) {
     // Guard: confirm the fixture actually rendered before snapshotting.
     await expect(fixture).toBeVisible();
 
-    await expect(fixture).toHaveScreenshot(`bankai-flex-${colorScheme}.png`);
+    const snapshot = `bankai-flex-${colorScheme}.png`;
+    await expect(fixture).toHaveScreenshot(snapshot);
+
+    // Universal committed-baseline check (shared by every visual spec): the page surface
+    // behind the fixture is fresh — catches a stale baseline whose bg drifted under threshold.
+    await test.step('committed baseline surface is fresh', () =>
+      expectBaselineSurface(page, testInfo.snapshotPath(snapshot), fixture, colorScheme));
   });
 }

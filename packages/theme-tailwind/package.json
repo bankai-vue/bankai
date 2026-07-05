@@ -13,6 +13,7 @@
   "files": [
     "index.css",
     "tokens.css",
+    "base.css",
     "components"
   ],
   "type": "module",
@@ -23,6 +24,9 @@
     ".": {
       "default": "./index.css"
     },
+    "./tokens.css": "./tokens.css",
+    "./base.css": "./base.css",
+    "./components/*": "./components/*",
     "./package.json": "./package.json"
   },
   "publishConfig": {
