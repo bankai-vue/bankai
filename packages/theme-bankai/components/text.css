@@ -8,7 +8,8 @@
  *
  * `data-size` resolves to the shared `--bankai-text-size-*` scale (tokens.css) and pairs each step
  * with its line height. `data-weight` maps the named weights to their numeric `font-weight` values.
- * Tone colors are neutral foreground tones (`default` → `muted` → `subtle`), themed via `light-dark()`.
+ * Tone colors are neutral foreground tones (`default` → `muted` → `subtle`) that alias the foundation
+ * `--bankai-color-fg*` family (tokens.css), so all theme text color resolves from one `light-dark()` source.
  *
  * Verbatim (non-named) `size`/`weight`/`tone` values ride the `--bankai-text-size`/`-weight`/`-tone`
  * custom properties instead of `data-*`; the base rule below applies them. The base rule first resets
@@ -21,9 +22,12 @@
  */
 
 :where(:root) {
-  --bankai-text-color: light-dark(#0f172a, #f8fafc);
-  --bankai-text-color-muted: light-dark(#475569, #cbd5e1);
-  --bankai-text-color-subtle: light-dark(#94a3b8, #64748b);
+  /* The neutral tones alias the foundation foreground family (tokens.css) so text color has one source
+   * of truth; retune `--bankai-color-fg*` to move text tone together with the rest of the theme, or
+   * override these three to shift `BankaiText` alone. */
+  --bankai-text-color: var(--bankai-color-fg);
+  --bankai-text-color-muted: var(--bankai-color-fg-muted);
+  --bankai-text-color-subtle: var(--bankai-color-fg-subtle);
 }
 
 :where(.bankai-text) {

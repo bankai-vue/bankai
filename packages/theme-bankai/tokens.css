@@ -13,8 +13,68 @@
     ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
     'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
 
+  /*
+   * Semantic color tokens — the foundation palette. Every value is a `light-dark()` pair so the theme
+   * follows the system `color-scheme` (set above) with no JS and no flash (SPEC.md §4.18); retune a token
+   * to reshape that role globally. Components reference these roles rather than raw colors, e.g.
+   * `--bankai-button-bg: var(--bankai-color-primary)` and `BankaiText`'s tones alias the `fg` family.
+   *
+   * Authored in OKLCH — perceptually uniform, so lightness/chroma tweaks stay predictable and the wide
+   * gamut is available. These are the *house* values (currently drawn from Tailwind's slate/blue steps,
+   * annotated per token — a convenient starting point, not a contract); `@bankai-vue/theme-tailwind` is an
+   * independent theme with its own look (Tailwind's gray + indigo), free to diverge. OKLCH is baseline in
+   * all current browsers.
+   *
+   * Roles (not a raw ramp — semantic-only by design, ROADMAP "Cross-cutting"):
+   *   fg / fg-muted / fg-subtle  — foreground text, descending emphasis
+   *   bg / surface               — page background vs. a raised surface (cards, panels, dialogs)
+   *   border                     — hairline borders and dividers
+   *   primary / primary-fg       — the primary action fill and the text that sits on it
+   *   accent                     — interactive accent; the default source of `--bankai-focus-ring`
+   *
+   * The `-fg` suffix means "foreground that sits on that role" (`primary-fg`); the bare `fg`/`fg-muted`/
+   * `fg-subtle` are the page's own foreground family. Semantic *status* colors (success/warning/danger/
+   * info) are a deliberate follow-up slice, shaped by the first component that needs them (Alert/Badge).
+   */
+  --bankai-color-fg: light-dark(
+    oklch(20.8% 0.042 265.755),
+    oklch(98.4% 0.003 247.858)
+  ); /* slate-900 / slate-50 */
+  --bankai-color-fg-muted: light-dark(
+    oklch(44.6% 0.043 257.281),
+    oklch(86.9% 0.022 252.894)
+  ); /* slate-600 / slate-300 */
+  --bankai-color-fg-subtle: light-dark(
+    oklch(70.4% 0.04 256.788),
+    oklch(55.4% 0.046 257.417)
+  ); /* slate-400 / slate-500 */
+  /* Page background is intentionally neutral (no blue tint), unlike the slate foreground/surface roles:
+   * chroma 0 (`oklch(L 0 0)`) makes the hueless-ness explicit. Dark matches Tailwind `neutral-900`. */
+  --bankai-color-bg: light-dark(oklch(100% 0 0), oklch(20.5% 0 0)); /* white / neutral-900 */
+  --bankai-color-surface: light-dark(
+    oklch(98.4% 0.003 247.858),
+    oklch(27.9% 0.041 260.031)
+  ); /* slate-50 / slate-800 */
+  --bankai-color-border: light-dark(
+    oklch(92.9% 0.013 255.508),
+    oklch(37.2% 0.044 257.287)
+  ); /* slate-200 / slate-700 */
+  --bankai-color-primary: light-dark(
+    oklch(27.9% 0.041 260.031),
+    oklch(92.9% 0.013 255.508)
+  ); /* slate-800 / slate-200 */
+  --bankai-color-primary-fg: light-dark(
+    oklch(98.4% 0.003 247.858),
+    oklch(20.8% 0.042 265.755)
+  ); /* slate-50 / slate-900 */
+  --bankai-color-accent: light-dark(
+    oklch(54.6% 0.245 262.881),
+    oklch(70.7% 0.165 254.624)
+  ); /* blue-600 / blue-400 */
+
   --bankai-radius: 0.375rem;
-  --bankai-focus-ring: light-dark(#2563eb, #60a5fa);
+  /* Focus ring defaults to the interactive accent; override this token alone to retune focus only. */
+  --bankai-focus-ring: var(--bankai-color-accent);
 
   /*
    * Spacing scale — rem-based so gaps/margins scale with the user's root font size and zoom

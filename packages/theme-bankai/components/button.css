@@ -7,8 +7,10 @@
  */
 
 :where(:root) {
-  --bankai-button-fg: light-dark(#f8fafc, #0f172a);
-  --bankai-button-bg: light-dark(#1e293b, #e2e8f0);
+  /* The solid variant is the primary action: it draws from the foundation `primary` role (tokens.css).
+   * Retune `--bankai-button-*` for a button-only tweak, or `--bankai-color-primary*` to move every primary surface. */
+  --bankai-button-fg: var(--bankai-color-primary-fg);
+  --bankai-button-bg: var(--bankai-color-primary);
   --bankai-button-border: transparent;
 }
 

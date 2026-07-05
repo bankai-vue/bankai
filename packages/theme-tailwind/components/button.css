@@ -10,16 +10,26 @@
  * shipped as static CSS. Every rule stays wrapped in zero-specificity `:where()`, so a single plain
  * consumer selector — a hand-written rule or a Tailwind utility — overrides it with no `!important`.
  *
- * Dark mode uses Tailwind's `dark:` variant (system `prefers-color-scheme` by default), mirroring the
- * house theme's system-driven light/dark. `border-solid` and the focus outline style are applied
- * explicitly so the button still renders a border/outline when the consumer omits Tailwind's Preflight
- * (Preflight is what normally sets the default border/outline style).
+ * Color and the focus ring come from the foundation `--bankai-color-*` / `--bankai-*` tokens (tokens.css),
+ * which bridge onto Tailwind's `--color-*` scale — so they still speak the consumer's Tailwind palette,
+ * now through a `--bankai-*` override surface at parity with the house theme. Their `light-dark()` values
+ * drive dark mode off `color-scheme` (no reliance on Tailwind's `dark:` here). `border-solid` and the
+ * outline width/style stay applied via `@apply` so the button still renders a border/outline when the
+ * consumer omits Tailwind's Preflight (Preflight is what normally sets the default border/outline style).
  */
 
-:where(.bankai-button) {
-  @apply inline-flex cursor-pointer items-center gap-2 rounded-md border border-solid border-transparent bg-slate-800 text-slate-50;
-  @apply dark:bg-slate-200 dark:text-slate-900;
+:where(:root) {
+  --bankai-button-fg: var(--bankai-color-primary-fg);
+  --bankai-button-bg: var(--bankai-color-primary);
+  --bankai-button-border: transparent;
+}
 
+:where(.bankai-button) {
+  @apply inline-flex cursor-pointer items-center gap-2 rounded-md border border-solid;
+
+  border-color: var(--bankai-button-border);
+  background: var(--bankai-button-bg);
+  color: var(--bankai-button-fg);
   font: inherit;
 }
 
@@ -50,7 +60,9 @@
 }
 
 :where(.bankai-button:focus-visible) {
-  @apply outline-2 outline-offset-2 outline-blue-600 dark:outline-blue-400;
+  @apply outline-2 outline-offset-2;
+
+  outline-color: var(--bankai-focus-ring);
 }
 
 :where(.bankai-button:disabled) {
