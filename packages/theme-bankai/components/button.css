@@ -2,42 +2,102 @@
  * BankaiButton styling.
  *
  * Targets the `bankai-button` class and reflected state (`data-variant`, `data-size`, native `:disabled`).
- * Every selector is wrapped in `:where()` so a consumer can override any rule with a single plain selector,
- * or retune the `--bankai-button-*` tokens below.
+ * Every selector is wrapped in `:where()` so a consumer can override any rule with a single plain selector.
+ *
+ * Every adjustable property routes through a `--bankai-button-*` component token declared in the
+ * `:where(:root)` block below, each defaulting to a shared scale value (`--bankai-space-*`,
+ * `--bankai-radius`, `--bankai-text-size-*`, `--bankai-focus-ring` from tokens.css) or a plain literal.
+ * So a consumer restyles the button by overriding one custom property — e.g. `--bankai-button-gap: 0` or
+ * `--bankai-button-radius: 9999px` — without writing a selector, and a shared-scale retune still flows
+ * through the defaults.
  */
 
 :where(:root) {
-  /* The solid variant is the primary action: it draws from the foundation `primary` role (tokens.css).
+  /* Solid colors — the primary action draws from the foundation `primary` role (tokens.css).
    * Retune `--bankai-button-*` for a button-only tweak, or `--bankai-color-primary*` to move every primary surface. */
   --bankai-button-fg: var(--bankai-color-primary-fg);
   --bankai-button-bg: var(--bankai-color-primary);
-  --bankai-button-border: transparent;
+
+  /* Interaction states for the solid fill — darkened via `color-mix` toward black in both schemes: a dark
+   * button (light mode) deepens toward black, a light button (dark mode) deepens to a mid gray — the
+   * conventional press feedback, clearly visible either way. (Mixing toward the palette `fg` was too subtle:
+   * `primary` and `fg` are adjacent slate steps.) Retune these two tokens to tune the solid feedback alone. */
+  --bankai-button-bg-hover: color-mix(in oklch, var(--bankai-button-bg), black 12%);
+  --bankai-button-bg-active: color-mix(in oklch, var(--bankai-button-bg), black 20%);
+
+  /* Interaction tint for the quiet (outline/ghost) variants. Relative to `currentcolor`, so the tint sits
+   * on whatever surface the button inherits its text color from (light/dark, colored panels). */
+  --bankai-button-bg-hover-quiet: color-mix(in oklch, currentcolor 8%, transparent);
+  --bankai-button-bg-active-quiet: color-mix(in oklch, currentcolor 14%, transparent);
+
+  /* Border — width/style/color as separate knobs. Color defaults transparent (the solid variant has no
+   * visible border; the outline variant sets `border-color: currentcolor` itself). */
+  --bankai-button-border-width: 1px;
+  --bankai-button-border-style: solid;
+  --bankai-button-border-color: transparent;
+  --bankai-button-radius: var(--bankai-radius);
+
+  /* Layout / typography / motion. `gap` and the paddings resolve to the shared spacing scale; `font`
+   * inherits by default so the button adopts the surrounding text unless a consumer pins it. */
+  --bankai-button-display: inline-flex;
+  --bankai-button-align: center;
+  --bankai-button-gap: var(--bankai-space-4);
+  --bankai-button-font: inherit;
+  --bankai-button-cursor: pointer;
+  /* Color-only transition, so it is unaffected by reduced-motion (no movement). Set to `none` to disable. */
+  --bankai-button-transition:
+    background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+
+  /* Focus ring — width/offset knobs; color defaults to the shared focus ring. */
+  --bankai-button-focus-ring: var(--bankai-focus-ring);
+  --bankai-button-focus-outline-width: 2px;
+  --bankai-button-focus-outline-offset: 2px;
+
+  /* Disabled state. */
+  --bankai-button-disabled-opacity: 0.5;
+  --bankai-button-disabled-cursor: not-allowed;
+
+  /* Per-size metrics — vertical/horizontal padding and font size for each `data-size`, resolving to the
+   * shared spacing and type scales by default. Override one token to resize a single dimension of a
+   * single size (e.g. `--bankai-button-md-padding-x`) without touching a selector. */
+  --bankai-button-sm-padding-y: var(--bankai-space-1);
+  --bankai-button-sm-padding-x: var(--bankai-space-4);
+  --bankai-button-sm-font-size: var(--bankai-text-size-sm);
+  --bankai-button-md-padding-y: var(--bankai-space-3);
+  --bankai-button-md-padding-x: var(--bankai-space-6);
+  --bankai-button-md-font-size: var(--bankai-text-size-md);
+  --bankai-button-lg-padding-y: var(--bankai-space-4);
+  --bankai-button-lg-padding-x: var(--bankai-space-8);
+  --bankai-button-lg-font-size: var(--bankai-text-size-lg);
 }
 
 :where(.bankai-button) {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  border: 1px solid var(--bankai-button-border);
-  border-radius: var(--bankai-radius);
+  display: var(--bankai-button-display);
+  align-items: var(--bankai-button-align);
+  gap: var(--bankai-button-gap);
+  border: var(--bankai-button-border-width) var(--bankai-button-border-style)
+    var(--bankai-button-border-color);
+  border-radius: var(--bankai-button-radius);
   background: var(--bankai-button-bg);
   color: var(--bankai-button-fg);
-  font: inherit;
-  cursor: pointer;
+  font: var(--bankai-button-font);
+  cursor: var(--bankai-button-cursor);
+  transition: var(--bankai-button-transition);
 }
 
 :where(.bankai-button[data-size='sm']) {
-  padding: 0.125rem 0.5rem;
-  font-size: 0.875rem;
+  padding: var(--bankai-button-sm-padding-y) var(--bankai-button-sm-padding-x);
+  font-size: var(--bankai-button-sm-font-size);
 }
 
 :where(.bankai-button[data-size='md']) {
-  padding: 0.375rem 0.75rem;
+  padding: var(--bankai-button-md-padding-y) var(--bankai-button-md-padding-x);
+  font-size: var(--bankai-button-md-font-size);
 }
 
 :where(.bankai-button[data-size='lg']) {
-  padding: 0.5rem 1rem;
-  font-size: 1.125rem;
+  padding: var(--bankai-button-lg-padding-y) var(--bankai-button-lg-padding-x);
+  font-size: var(--bankai-button-lg-font-size);
 }
 
 /*
@@ -58,12 +118,35 @@
   color: inherit;
 }
 
+/*
+ * Hover / active feedback, guarded by `:not(:disabled)` so a disabled button stays inert (it keeps the
+ * flat disabled state below). The solid fill shifts via its own tokens; the quiet variants gain a
+ * `currentcolor` tint over their transparent background.
+ */
+:where(.bankai-button[data-variant='solid']:not(:disabled):hover) {
+  background: var(--bankai-button-bg-hover);
+}
+
+:where(.bankai-button[data-variant='solid']:not(:disabled):active) {
+  background: var(--bankai-button-bg-active);
+}
+
+:where(.bankai-button[data-variant='outline']:not(:disabled):hover),
+:where(.bankai-button[data-variant='ghost']:not(:disabled):hover) {
+  background: var(--bankai-button-bg-hover-quiet);
+}
+
+:where(.bankai-button[data-variant='outline']:not(:disabled):active),
+:where(.bankai-button[data-variant='ghost']:not(:disabled):active) {
+  background: var(--bankai-button-bg-active-quiet);
+}
+
 :where(.bankai-button:focus-visible) {
-  outline: 2px solid var(--bankai-focus-ring);
-  outline-offset: 2px;
+  outline: var(--bankai-button-focus-outline-width) solid var(--bankai-button-focus-ring);
+  outline-offset: var(--bankai-button-focus-outline-offset);
 }
 
 :where(.bankai-button:disabled) {
-  cursor: not-allowed;
-  opacity: 0.5;
+  cursor: var(--bankai-button-disabled-cursor);
+  opacity: var(--bankai-button-disabled-opacity);
 }
