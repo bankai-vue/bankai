@@ -7,7 +7,8 @@
  * override any rule below with a single plain class, no `!important` needed (SPEC.md §4.4, §4.6).
  *
  * `data-size` resolves to the shared `--bankai-text-size-*` scale (tokens.css) and pairs each step
- * with its line height. `data-weight` maps the named weights to their numeric `font-weight` values.
+ * with its line height via a `--bankai-text-line-height-*` component token (declared in the `:where(:root)`
+ * block below). `data-weight` maps the named weights to their numeric `font-weight` values.
  * Tone colors are neutral foreground tones (`default` → `muted` → `subtle`) that alias the foundation
  * `--bankai-color-fg*` family (tokens.css), so all theme text color resolves from one `light-dark()` source.
  *
@@ -28,6 +29,17 @@
   --bankai-text-color: var(--bankai-color-fg);
   --bankai-text-color-muted: var(--bankai-color-fg-muted);
   --bankai-text-color-subtle: var(--bankai-color-fg-subtle);
+
+  /* Line height paired per `data-size` step. Kept as component tokens here (not in the shared type scale)
+   * so `--bankai-text-size-*` stays a single knob per size, while a consumer can still retune a step's
+   * leading by overriding one custom property — e.g. `--bankai-text-line-height-lg` — without writing a
+   * selector. Defaults are plain literals (there is no shared line-height scale). */
+  --bankai-text-line-height-xs: 1rem;
+  --bankai-text-line-height-sm: 1.25rem;
+  --bankai-text-line-height-md: 1.5rem;
+  --bankai-text-line-height-lg: 1.75rem;
+  --bankai-text-line-height-xl: 1.75rem;
+  --bankai-text-line-height-2xl: 2rem;
 }
 
 :where(.bankai-text) {
@@ -41,32 +53,32 @@
 
 :where(.bankai-text[data-size='xs']) {
   font-size: var(--bankai-text-size-xs);
-  line-height: 1rem;
+  line-height: var(--bankai-text-line-height-xs);
 }
 
 :where(.bankai-text[data-size='sm']) {
   font-size: var(--bankai-text-size-sm);
-  line-height: 1.25rem;
+  line-height: var(--bankai-text-line-height-sm);
 }
 
 :where(.bankai-text[data-size='md']) {
   font-size: var(--bankai-text-size-md);
-  line-height: 1.5rem;
+  line-height: var(--bankai-text-line-height-md);
 }
 
 :where(.bankai-text[data-size='lg']) {
   font-size: var(--bankai-text-size-lg);
-  line-height: 1.75rem;
+  line-height: var(--bankai-text-line-height-lg);
 }
 
 :where(.bankai-text[data-size='xl']) {
   font-size: var(--bankai-text-size-xl);
-  line-height: 1.75rem;
+  line-height: var(--bankai-text-line-height-xl);
 }
 
 :where(.bankai-text[data-size='2xl']) {
   font-size: var(--bankai-text-size-2xl);
-  line-height: 2rem;
+  line-height: var(--bankai-text-line-height-2xl);
 }
 
 :where(.bankai-text[data-weight='thin']) {

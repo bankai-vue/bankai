@@ -131,7 +131,8 @@
    * whose values match the conventional web type steps, so `@bankai-vue/theme-tailwind` bridges each
    * one 1:1 onto Tailwind's `text-*` sizes. Layout/text utilities (e.g. `BankaiText size="sm"`) resolve
    * their step to these; retune a step here to reshape the scale globally. Line height is paired per
-   * step in `components/text.css` (not a token) so the scale stays a single knob per size.
+   * step in `components/text.css` via a `--bankai-text-line-height-*` component token (kept out of this
+   * shared scale so a size stays a single knob here, retunable per step there).
    * A discover-as-you-go token slice, introduced with `BankaiText` (ROADMAP "Cross-cutting").
    */
   --bankai-text-size-xs: 0.75rem;
