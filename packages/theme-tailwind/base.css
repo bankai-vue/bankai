@@ -17,11 +17,15 @@
  * Severable like the house theme: `@import`ed by default from `index.css`, but an embedded / micro-
  * frontend consumer can compose `tokens.css` + `components/*` without it (and scope the surface with
  * `BankaiApp` later), so pulling in the theme never repaints a host page's `html`.
+ *
+ * Uses the `background-color` longhand (not the `background` shorthand) on purpose: `html` is a shared,
+ * consumer-owned element, so this sets only the color and leaves any `background-image` / gradient a host
+ * page (or a future `BankaiApp`) layers on `html` intact — the shorthand would reset those longhands.
  */
 
 @layer base {
   :where(html) {
-    background: var(--bankai-color-bg);
+    background-color: var(--bankai-color-bg);
     color: var(--bankai-color-fg);
   }
 }

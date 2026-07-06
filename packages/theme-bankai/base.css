@@ -14,9 +14,13 @@
  * `components/*` WITHOUT this page paint (and later scope the surface with `BankaiApp`), so pulling in
  * the theme never repaints a host page's `html`. The rule is zero-specificity (`:where()`) regardless,
  * so any single plain consumer selector overrides it.
+ *
+ * Uses the `background-color` longhand (not the `background` shorthand) on purpose: `html` is a shared,
+ * consumer-owned element, so this sets only the color and leaves any `background-image` / gradient a host
+ * page (or a future `BankaiApp`) layers on `html` intact — the shorthand would reset those longhands.
  */
 
 :where(html) {
-  background: var(--bankai-color-bg);
+  background-color: var(--bankai-color-bg);
   color: var(--bankai-color-fg);
 }
