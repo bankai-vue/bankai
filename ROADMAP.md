@@ -33,11 +33,11 @@ Every component ships with all of:
 
 Behavior/composable layers (§4.17) built from scratch, native-first. Not user-facing on their own.
 
-| Id     | Foundation                                                                                                                                            | Unlocks                                         |
-| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
-| **F1** | **Overlay core** — native `<dialog>` + Popover API wrappers, focus trap/return, light-dismiss, `@floating-ui/vue` positioning composable (§4.9, §5.2) | Dialog, Popover, Tooltip, Menu, Select dropdown |
-| **F2** | **Form-field core** — label↔id association (extends `useBankaiId`), field wrapper (label + help + error), form/validation context                     | every input control                             |
-| **F3** | **Collection / keyboard core** — roving tabindex, typeahead, list-navigation composable (§4.17)                                                       | Tabs, Menu, RadioGroup, Listbox, Tree           |
+| Id     | Foundation                                                                                                                                            | Unlocks                                                                                    |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| **F1** | **Overlay core** — native `<dialog>` + Popover API wrappers, focus trap/return, light-dismiss, `@floating-ui/vue` positioning composable (§4.9, §5.2) | `BankaiApp` (overlay/portal + toast root), Dialog, Popover, Tooltip, Menu, Select dropdown |
+| **F2** | **Form-field core** — label↔id association (extends `useBankaiId`), field wrapper (label + help + error), form/validation context                     | every input control                                                                        |
+| **F3** | **Collection / keyboard core** — roving tabindex, typeahead, list-navigation composable (§4.17)                                                       | Tabs, Menu, RadioGroup, Listbox, Tree                                                      |
 
 ---
 
@@ -226,6 +226,7 @@ Date/time family — designed together, slots late in the phase (heaviest inputs
 
 ### Phase 3 — Overlays & disclosure
 
+- [ ] `BankaiApp` — optional app-level wrapper (à la Nuxt UI `UApp` / Vuetify `v-app`): a single overlay/portal mount target + toast host + app-side config context, and an **embedded-mode surface** (carries `--bankai-color-bg`/`color`/`color-scheme` on its own box, so a bankai island in a foreign page is self-contained without the global page-surface paint). Lands with F1, when the overlay/portal root it provides first has consumers
 - [ ] `BankaiDialog` — native `<dialog>`; `modal` prop (`showModal()` + `::backdrop` + focus trap) & `dismissable` prop (Esc / click-outside)
 - [ ] `BankaiModal` — sugar for `BankaiDialog :modal :dismissable="false"` (must be explicitly closed); preset, same as Stack/Group over Flex
 - [ ] `BankaiDrawer` _(universal)_ — edge-anchored panel (PrimeVue/Nuxt call it Drawer; ex-Sidebar)
@@ -286,7 +287,7 @@ These pull in heavy dependencies or serve narrow use cases, so they violate `cor
 ## Cross-cutting (deferred by design, SPEC §7)
 
 - **i18n / RTL** — important; iterated **post-`0.1.0`, within `0.x`**, not a `0.1.0` blocker.
-- **Theming token system** — grows **discover-as-you-go** on top of the §4.18 dark-mode mechanism, as real components land. Not designed in the abstract. _Slices landed:_ the rem-based, theme-owned `--bankai-space-*` spacing scale (introduced with `BankaiFlex`); the `--bankai-text-size-*` type scale + neutral text-tone colors (introduced with `BankaiText`); the foundation semantic **color tokens** — `--bankai-color-*` (fg/fg-muted/fg-subtle, bg/surface/border, primary/primary-fg, accent), OKLCH + `light-dark()`-themed — which now back `BankaiButton` and `BankaiText`'s neutral tones. `theme-tailwind` exposes the same **roles** with an independent **palette** (stock Tailwind: `gray` neutrals + `indigo` primary/accent), pointed at the consumer's Tailwind `--color-*`.
+- **Theming token system** — grows **discover-as-you-go** on top of the §4.18 dark-mode mechanism, as real components land. Not designed in the abstract. _Slices landed:_ the rem-based, theme-owned `--bankai-space-*` spacing scale (introduced with `BankaiFlex`); the `--bankai-text-size-*` type scale + neutral text-tone colors (introduced with `BankaiText`); the foundation semantic **color tokens** — `--bankai-color-*` (fg/fg-muted/fg-subtle, bg/surface/border, primary/primary-fg, accent), OKLCH + `light-dark()`-themed — which now back `BankaiButton` and `BankaiText`'s neutral tones. `theme-tailwind` exposes the same **roles** with an independent **palette** (stock Tailwind: `gray` neutrals + `indigo` primary/accent), pointed at the consumer's Tailwind `--color-*`. Layered on top: the **page surface** — both themes paint `--bankai-color-bg`/`-fg` onto `html` via a severable `base.css` (imported by default for zero-config, but omittable so embedding never repaints a host page's `html`; `theme-tailwind` mirrors it in `@layer base`).
   - _Follow-up — semantic status colors:_ the `success`/`warning`/`danger`/`info` palette, layered on the foundation color tokens above, which then backs `BankaiText`'s status tones and the first color-carrying presentational components (Alert/Badge/Tag). Deferred from the foundation slice so the status palette is shaped by a component that actually needs semantic color.
 - **Vapor builds** — added when interop matures (§4.11); VDOM builds ship first.
 

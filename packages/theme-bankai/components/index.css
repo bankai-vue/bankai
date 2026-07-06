@@ -1,0 +1,19 @@
+/*
+ * Component styles barrel — `@import`s every Bankai component's CSS.
+ *
+ * The theme's root `index.css` pulls this in (after `tokens.css` + `base.css`), and this is the single
+ * place to register a component: add one `@import './<name>.css';` line here when a component lands.
+ *
+ * It's also the ergonomic entry for an embedded / micro-frontend consumer who wants ALL component
+ * styles but NOT the global page-surface paint (see `base.css`): import this barrel alongside
+ * `tokens.css` instead of listing each component file —
+ *
+ *   @import '@bankai-vue/theme-bankai/tokens.css';
+ *   @import '@bankai-vue/theme-bankai/components/index.css';
+ *
+ * For finer granularity, import individual `components/<name>.css` files instead of this barrel.
+ */
+
+@import './button.css';
+@import './flex.css';
+@import './text.css';

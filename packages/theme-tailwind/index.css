@@ -18,11 +18,10 @@
  * Do NOT add a `types` condition or a `default`-export shim to package.json to "match" theme-bankai.
  *
  * Status: the spacing bridge (`tokens.css`) plus the first component (`components/button.css`) are
- * being shaped. Per-component styles live in their own file under `components/`; add a new `@import`
- * per component, exactly like the house `theme-bankai`.
+ * being shaped. Per-component styles live in their own file under `components/` and are registered in
+ * `components/index.css` (the barrel), exactly like the house `theme-bankai`.
  */
 
 @import './tokens.css';
-@import './components/button.css';
-@import './components/flex.css';
-@import './components/text.css';
+@import './base.css';
+@import './components/index.css';

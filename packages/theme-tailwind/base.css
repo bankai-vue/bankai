@@ -1,0 +1,31 @@
+/*
+ * Page surface — Tailwind theme.
+ *
+ * Mirrors the house theme's `base.css`: paints the document background + default text color from the
+ * foundation `--bankai-color-*` tokens (tokens.css), which in this theme bridge onto the consumer's
+ * Tailwind `--color-*` palette. A painted page out of the box matches the look of a stock Tailwind
+ * application UI — which assumes a themed page surface — rather than leaving `<html>` unpainted for the
+ * consumer to style.
+ *
+ * Applied to `html` for the same reason as the house theme: the root background paints the whole viewport
+ * canvas (incl. the overscroll area) height-independently, and sits with the `color-scheme` on `:root`.
+ * Tailwind's Preflight does NOT set a page background/color, so there is no conflict with it — but the
+ * rule lives in `@layer base` so a consumer's plain `bg-*` / `text-*` utility (which sits in the
+ * `utilities` layer, and would otherwise lose to this unlayered rule) still overrides it the Tailwind
+ * way, with no `!important`. (The package-wide cascade-layer strategy is still being finalized.)
+ *
+ * Severable like the house theme: `@import`ed by default from `index.css`, but an embedded / micro-
+ * frontend consumer can compose `tokens.css` + `components/*` without it (and scope the surface with
+ * `BankaiApp` later), so pulling in the theme never repaints a host page's `html`.
+ *
+ * Uses the `background-color` longhand (not the `background` shorthand) on purpose: `html` is a shared,
+ * consumer-owned element, so this sets only the color and leaves any `background-image` / gradient a host
+ * page (or a future `BankaiApp`) layers on `html` intact — the shorthand would reset those longhands.
+ */
+
+@layer base {
+  :where(html) {
+    background-color: var(--bankai-color-bg);
+    color: var(--bankai-color-fg);
+  }
+}

@@ -1,0 +1,6 @@
+---
+'@bankai-vue/theme-bankai': minor
+'@bankai-vue/theme-tailwind': minor
+---
+
+Paint the page surface. Both themes now apply the foundation `--bankai-color-bg` / `--bankai-color-fg` tokens to `html`, so a bankai page adopts the themed light/dark background and text color with no setup — previously both tokens were defined but never applied, leaving the page on the browser's default canvas. Applied to `html` (not `body`) so the background covers the whole viewport canvas including the overscroll area, height-independently, alongside the `color-scheme` on `:root` (SPEC.md §4.18). The paint lives in its own `base.css`, `@import`ed by default (zero-config) but severable: an embedded / micro-frontend consumer can import `tokens.css` + `components/index.css` (a new per-theme barrel of all component styles) without it, so pulling in a theme never repaints a host page's `html`; every rule stays zero-specificity (`:where()`) so any plain consumer rule or Tailwind utility overrides it. The subpaths (`./tokens.css`, `./base.css`, `./components/*`) are now exported so this composition resolves. `theme-tailwind` mirrors the house paint (in `@layer base`, so consumer `bg-*` / `text-*` utilities still win) to match a stock Tailwind application-UI look, which assumes a themed page surface.
