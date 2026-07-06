@@ -88,11 +88,13 @@ accepted trade-off: a component renders ~2× larger here than under `theme-banka
   stock Tailwind convention). Values are authored in OKLCH; the `var()` fallback is the shade's
   exact Tailwind value so it renders even if a consumer trims it. Dark mode rides these
   tokens' `light-dark()` values off `color-scheme` — not Tailwind's class-based `dark:`.
+  `BankaiText`'s tone colors consume this family through a `--bankai-text-color*` surface
+  (`default`/`muted`/`subtle` alias `--bankai-color-fg`/`-fg-muted`/`-fg-subtle`), so they
+  flip on `color-scheme` too and follow a consumer retuning the fg palette.
 
 Not yet bridged and landing in follow-up PRs: **radius** and **font** (components
 still `@apply rounded-md` / `font-sans` directly), and the **semantic status**
-palette (`success`/`warning`/`danger`/`info`). `BankaiText`'s tone colors also still
-`@apply` Tailwind color utilities directly and move onto the color tokens next.
+palette (`success`/`warning`/`danger`/`info`).
 
 The two themes share the same **roles**, not the same **palette** — `theme-bankai` is
 the house identity (its own slate/blue-based look), this one is deliberately stock

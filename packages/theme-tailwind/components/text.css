@@ -3,7 +3,7 @@
  *
  * Mirrors the house theme's `components/text.css`, but styled with Tailwind's `@apply`
  * (https://tailwindcss.com/docs/functions-and-directives#apply-directive) so type sizes, weights, and
- * colors speak the CONSUMER's Tailwind design language: `text-lg`, `font-semibold`, `text-slate-600`, …
+ * colors speak the CONSUMER's Tailwind design language: `text-lg`, `font-semibold`, `text-gray-600`, …
  * resolve against their Tailwind build (SPEC.md §4.6, §5.4). Because it uses `@apply`, this file is
  * Tailwind *source* — it must be compiled by the consumer's Tailwind build, not shipped as static CSS.
  *
@@ -19,8 +19,25 @@
  * invalid-at-computed-value and falls back to normal inheritance; without the reset a verbatim value on
  * an ancestor would keep inheriting (custom properties inherit) past a named-value descendant and
  * re-apply on deeper text. A verbatim value set inline on the element itself still wins over the
- * `:where()` reset. Dark mode uses Tailwind's `dark:` variant (system `prefers-color-scheme`).
+ * `:where()` reset. Tone colors drive dark mode off `color-scheme` via `light-dark()` (matching the house
+ * theme and `components/button.css`), NOT Tailwind's `dark:` — `dark:` keys off the OS `prefers-color-scheme`
+ * media query, which ignores a page that flips `color-scheme` on its own (e.g. an in-app light/dark toggle),
+ * leaving the tone text on the wrong branch while the surface flips. All three tones alias the foundation
+ * `--bankai-color-fg*` family (tokens.css), whose `light-dark()` pairs read Tailwind's `--color-*` palette
+ * with the shade's exact OKLCH as a fallback (as in tokens.css / button.css). All flip on `color-scheme`.
  */
+
+:where(:root) {
+  /* Neutral tones as one token per level, overridable without a selector — parity with the house theme's
+   * `--bankai-text-color*` surface. All three alias the foundation `--bankai-color-fg*` family (tokens.css),
+   * so text tone has a single source of truth and follows a consumer retuning the fg palette. The fg family
+   * is itself tuned to the gray steps Tailwind's own content sections read on — including a `fg-muted`
+   * (gray-600 / gray-300) pitched a touch stronger for body-copy legibility. Each underlying `light-dark()`
+   * flips on `color-scheme`. */
+  --bankai-text-color: var(--bankai-color-fg);
+  --bankai-text-color-muted: var(--bankai-color-fg-muted);
+  --bankai-text-color-subtle: var(--bankai-color-fg-subtle);
+}
 
 :where(.bankai-text) {
   --bankai-text-size: initial;
@@ -91,16 +108,24 @@
   @apply font-black;
 }
 
+/*
+ * Neutral tones on Tailwind's `gray` ramp (Tailwind's own marketing/content sections read on gray, not
+ * slate — the button already pins to Tailwind's indigo, so the neutrals track Tailwind here too). Three
+ * emphasis steps: `default` is heading-strength (near-max contrast — `white` in dark, per those sections
+ * reserving pure white for headings/emphasis), `muted` is body copy, `subtle` is de-emphasized meta.
+ * Each consumes its `--bankai-text-color*` token (declared above), aliased from the fg family, whose
+ * `light-dark()` flips on `color-scheme`.
+ */
 :where(.bankai-text[data-tone='default']) {
-  @apply text-slate-900 dark:text-slate-50;
+  color: var(--bankai-text-color);
 }
 
 :where(.bankai-text[data-tone='muted']) {
-  @apply text-slate-600 dark:text-slate-300;
+  color: var(--bankai-text-color-muted);
 }
 
 :where(.bankai-text[data-tone='subtle']) {
-  @apply text-slate-400 dark:text-slate-500;
+  color: var(--bankai-text-color-subtle);
 }
 
 /* Tailwind's `truncate` sets overflow/ellipsis/nowrap but not display; add `block` so a `<span>` clips. */

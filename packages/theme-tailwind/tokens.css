@@ -26,9 +26,9 @@
   /*
    * `color-scheme` is the dark-mode engine: the color tokens below are `light-dark()` pairs that resolve
    * off it (no JS), and it themes native surfaces (form controls, scrollbars, ::backdrop) to match —
-   * parity with the house theme (SPEC.md §4.18). Any remaining Tailwind `dark:` usage (e.g. `BankaiText`'s
-   * tone colors, pending their move onto the color tokens) also keys off system `prefers-color-scheme`, so
-   * the two mechanisms stay in lockstep.
+   * parity with the house theme (SPEC.md §4.18). Every component drives dark mode the same way — off
+   * `color-scheme` via `light-dark()`, not Tailwind's class-based `dark:` variant — so the whole theme
+   * stays in lockstep (BankaiText's tone colors moved onto the `light-dark()` token surface too).
    */
   color-scheme: light dark;
 
@@ -54,9 +54,12 @@
     var(--color-gray-900, oklch(21% 0.034 264.665)),
     var(--color-white, oklch(100% 0 0))
   );
+  /* Muted foreground sits on `gray-600 / gray-300` — a touch stronger than the more common `gray-500`,
+   * matching the body-copy tone Tailwind's own content sections read on (it's what `BankaiText`'s `muted`
+   * tone aliases). Stays between `fg` (gray-900) and `fg-subtle` (gray-400) in both schemes. */
   --bankai-color-fg-muted: light-dark(
-    var(--color-gray-500, oklch(55.1% 0.027 264.364)),
-    var(--color-gray-400, oklch(70.7% 0.022 261.325))
+    var(--color-gray-600, oklch(44.6% 0.03 256.802)),
+    var(--color-gray-300, oklch(87.2% 0.01 258.338))
   );
   --bankai-color-fg-subtle: light-dark(
     var(--color-gray-400, oklch(70.7% 0.022 261.325)),
