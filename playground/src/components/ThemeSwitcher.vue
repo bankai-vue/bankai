@@ -46,7 +46,6 @@ onScopeDispose(() => styleEl.remove());
   display: inline-flex;
   gap: 1rem;
   align-items: center;
-  margin-block: 1rem;
 }
 
 .theme-switcher label {
