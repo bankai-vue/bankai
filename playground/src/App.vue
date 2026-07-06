@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { BankaiButton, BankaiFlex, BankaiText, version } from '@bankai-vue/core';
 import { ref } from 'vue';
+import ColorSchemeSwitcher from './components/ColorSchemeSwitcher.vue';
 import ThemeSwitcher from './components/ThemeSwitcher.vue';
 
 const count = ref(0);
@@ -24,11 +25,14 @@ const tones = ['default', 'muted', 'subtle'] as const;
 </script>
 
 <template>
+  <div class="controls">
+    <ThemeSwitcher />
+    <ColorSchemeSwitcher />
+  </div>
+
   <main>
     <h1 data-testid="title">bankai-vue playground</h1>
     <p data-testid="core-version">core v{{ version }}</p>
-
-    <ThemeSwitcher />
 
     <section>
       <h2>BankaiButton</h2>
@@ -106,6 +110,17 @@ const tones = ['default', 'muted', 'subtle'] as const;
 
 <!-- Component styling comes from the selected theme (ThemeSwitcher); only playground layout lives here. -->
 <style>
+.controls {
+  position: fixed;
+  z-index: 1;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
 .row {
   display: flex;
   gap: 0.5rem;
