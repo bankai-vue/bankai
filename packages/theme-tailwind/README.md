@@ -1,8 +1,8 @@
 # @bankai-vue/theme-tailwind
 
 > **Status: investigation / first shaping.** The token bridge plus the first
-> component (`BankaiButton`) are being shaped. Not published; API and token
-> mapping are unstable.
+> components (`BankaiButton`, `BankaiFlex`, `BankaiText`) have landed and are
+> still being shaped. Not published; API and token mapping are unstable.
 
 A **per-framework** theme for [`@bankai-vue/core`](../core). Where the house
 theme [`@bankai-vue/theme-bankai`](../theme-bankai) owns its own absolute design
@@ -23,7 +23,7 @@ config, or override with plain utilities, and the components follow. No separate
 `--bankai-*` override surface to learn.
 
 `@bankai-vue/core` ships no styles; a component's numeric spacing API (e.g.
-an upcoming layout utility's `:gap="4"`) is a _semantic scale step_ that resolves to a
+`BankaiFlex`'s `:gap="4"`) is a _semantic scale step_ that resolves to a
 `--bankai-space-*` custom property. This package points those properties at
 Tailwind's `--spacing`, instead of freezing them on the house 2px grid.
 
@@ -102,8 +102,8 @@ Tailwind (gray + indigo). They are not meant to be token-for-token interchangeab
 
 ## Open questions
 
-- **Component styling.** `components/button.css` is the first component, styled with `@apply`;
-  further components follow the same per-file pattern.
+- **Component styling.** `components/{button,flex,text}.css` are styled with `@apply`, one file
+  per component; further components follow the same per-file pattern.
 - **Preflight interaction.** `@apply`'d rules stay zero-specificity (`:where()`), so Tailwind's
   Preflight button reset (an element selector, higher specificity) would beat them. `button.css`
   applies `border-solid` / an explicit outline style so it renders without Preflight; decide the
