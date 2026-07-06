@@ -1,3 +1,4 @@
+import type { Locator } from '@playwright/test';
 import { expect, test } from '@playwright/test';
 import {
   baselinePixel,
@@ -6,6 +7,7 @@ import {
   expectCloseRgb,
   PAGE_SURFACE,
   pixelAt,
+  resolveColorRgb,
   tokenRgb,
 } from '../../helpers/color';
 
@@ -112,5 +114,57 @@ for (const colorScheme of ['light', 'dark'] as const) {
     expect(await pixelAt(page, solid, 0.1, 0.5)).toBe(SOLID[colorScheme].bg);
     const disabled = page.getByRole('button', { name: 'disabled' });
     expectCloseRgb(await pixelAt(page, disabled, 0.1, 0.5), DISABLED_FILL[colorScheme]);
+  });
+}
+
+// Poll `background-color` until it settles to `expected` — retries across the 150ms color
+// transition (the pointer set by `hover()` / `mouse.down()` stays put across the poll).
+const expectFill = (loc: Locator, expected: string, message: string): Promise<void> =>
+  expect.poll(() => computedRgb(loc, 'background-color'), { message }).toBe(expected);
+
+// Interaction states (`:hover` / `:active`) — the deterministic complement to the static
+// snapshot above (screenshotting hover/active would triple the per-OS baseline matrix and
+// race the 150ms color transition). Each expected fill is the theme's own `color-mix(...)`
+// token resolved through the same canvas path as the assertion, so it stays cross-engine
+// exact and survives a retune.
+for (const colorScheme of ['light', 'dark'] as const) {
+  test(`BankaiButton interaction states — ${colorScheme}`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme });
+    await page.goto('/?fixture=button');
+    const fixture = page.getByTestId('button-fixture');
+    await expect(fixture.getByRole('button').first()).toBeVisible();
+
+    const html = page.locator('html');
+    const solid = page.getByRole('button', { name: 'solid md' });
+    const outline = page.getByRole('button', { name: 'outline md' });
+    const disabled = page.getByRole('button', { name: 'disabled' });
+
+    // solid: fill darkens toward black — 12% on hover, 20% on active (a deeper pressed feel).
+    // quiet: a `currentcolor` tint over the transparent fill, resolved in the button's own color
+    // context (not a fixed rgb), since the tint tracks the inherited foreground.
+    const solidBg = 'var(--bankai-button-bg)';
+    const solidHover = await resolveColorRgb(html, `color-mix(in oklch, ${solidBg}, black 12%)`);
+    const solidActive = await resolveColorRgb(html, `color-mix(in oklch, ${solidBg}, black 20%)`);
+    const quietTint = 'color-mix(in oklch, currentcolor 8%, transparent)';
+    const quietHover = await resolveColorRgb(outline, quietTint);
+
+    // Sanity: the interaction fills actually differ from the resting fill and from each other,
+    // so a token that silently collapsed to the base color can't pass the checks below.
+    expect(new Set([SOLID[colorScheme].bg, solidHover, solidActive]).size).toBe(3);
+
+    await solid.hover();
+    await expectFill(solid, solidHover, 'solid :hover fill');
+    await page.mouse.down();
+    await expectFill(solid, solidActive, 'solid :active fill');
+    await page.mouse.up();
+
+    // quiet variants (outline shown; ghost shares the same tokens): transparent at rest, tinted on hover.
+    expect(await computedRgb(outline, 'background-color')).toBe('0,0,0,0');
+    await outline.hover();
+    await expectFill(outline, quietHover, 'outline :hover tint');
+
+    // Guard: a disabled button is inert — `:not(:disabled)` keeps the resting solid fill on hover.
+    await disabled.hover({ force: true });
+    expect(await computedRgb(disabled, 'background-color')).toBe(SOLID[colorScheme].bg);
   });
 }

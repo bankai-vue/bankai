@@ -21,28 +21,54 @@
 :where(:root) {
   --bankai-button-fg: var(--bankai-color-primary-fg);
   --bankai-button-bg: var(--bankai-color-primary);
-  --bankai-button-border: transparent;
+  --bankai-button-border-color: transparent;
+
+  /* Interaction states — a conventional indigo primary button (indigo fill, white semibold label).
+   * Hover steps one lighter along the indigo ramp (indigo-600 → indigo-500 in light,
+   * indigo-500 → indigo-400 in dark); active steps one darker for a pressed feel (indigo-600 → indigo-700 /
+   * indigo-500 → indigo-600). Pinned to the indigo ramp (this theme's primary color) rather than derived, so
+   * it matches the stock look — retune these alongside `--bankai-color-primary` if you change the primary hue.
+   * `light-dark()` keys off `color-scheme` (no Tailwind `dark:`). Quiet (outline/ghost) variants tint from
+   * `currentcolor`. Each `var()` falls back to the color's exact OKLCH (Tailwind v4 theme.css), as in tokens.css. */
+  --bankai-button-bg-hover: light-dark(
+    var(--color-indigo-500, oklch(58.5% 0.233 277.117)),
+    var(--color-indigo-400, oklch(67.3% 0.182 276.935))
+  );
+  --bankai-button-bg-active: light-dark(
+    var(--color-indigo-700, oklch(45.7% 0.24 277.023)),
+    var(--color-indigo-600, oklch(51.1% 0.262 276.966))
+  );
+  --bankai-button-bg-hover-quiet: color-mix(in oklch, currentcolor 8%, transparent);
+  --bankai-button-bg-active-quiet: color-mix(in oklch, currentcolor 14%, transparent);
 }
 
+/*
+ * The primary look is `font-semibold`, `text-sm`, white label on the indigo fill (a conventional indigo
+ * primary button). `text-sm` and `font-semibold` sit on the base so every size shares them (the sizes differ
+ * only in padding + radius); `font-family: inherit` (not the `font` shorthand) lets
+ * the button adopt the consumer's font without a shorthand resetting the weight/size just set.
+ */
 :where(.bankai-button) {
-  @apply inline-flex cursor-pointer items-center gap-2 rounded-md border border-solid;
+  @apply inline-flex cursor-pointer items-center gap-2 rounded-md border border-solid text-sm font-semibold transition-colors;
 
-  border-color: var(--bankai-button-border);
+  border-color: var(--bankai-button-border-color);
   background: var(--bankai-button-bg);
   color: var(--bankai-button-fg);
-  font: inherit;
+  font-family: inherit;
 }
 
+/* Sizes differ only in padding + corner radius (all share the base `text-sm`); `sm` is the tighter
+ * `rounded-sm`, `md`/`lg` keep the base `rounded-md`. (`xs`/`xl` are a possible later addition.) */
 :where(.bankai-button[data-size='sm']) {
-  @apply px-2 py-1 text-sm;
+  @apply rounded-sm px-2 py-1;
 }
 
 :where(.bankai-button[data-size='md']) {
-  @apply px-3 py-1.5;
+  @apply px-2.5 py-1.5;
 }
 
 :where(.bankai-button[data-size='lg']) {
-  @apply px-4 py-2 text-lg;
+  @apply px-3 py-2;
 }
 
 /*
@@ -57,6 +83,28 @@
 
 :where(.bankai-button[data-variant='ghost']) {
   @apply border-transparent bg-transparent text-inherit;
+}
+
+/*
+ * Hover / active feedback, guarded by `:not(:disabled)` so a disabled button stays inert. Mirrors the
+ * house theme: solid shifts its fill token, the quiet variants gain a `currentcolor` tint.
+ */
+:where(.bankai-button[data-variant='solid']:not(:disabled):hover) {
+  background: var(--bankai-button-bg-hover);
+}
+
+:where(.bankai-button[data-variant='solid']:not(:disabled):active) {
+  background: var(--bankai-button-bg-active);
+}
+
+:where(.bankai-button[data-variant='outline']:not(:disabled):hover),
+:where(.bankai-button[data-variant='ghost']:not(:disabled):hover) {
+  background: var(--bankai-button-bg-hover-quiet);
+}
+
+:where(.bankai-button[data-variant='outline']:not(:disabled):active),
+:where(.bankai-button[data-variant='ghost']:not(:disabled):active) {
+  background: var(--bankai-button-bg-active-quiet);
 }
 
 :where(.bankai-button:focus-visible) {

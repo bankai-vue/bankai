@@ -20,6 +20,28 @@ export const computedRgb = (loc: Locator, prop: string): Promise<string> =>
     return Array.from(ctx.getImageData(0, 0, 1, 1).data).join(',');
   }, prop);
 
+/** Canonical sRGB of an arbitrary CSS color expression resolved in `host`'s context, so
+ *  `currentcolor` and `var(--…)` resolve exactly as they would on that element. Mirrors
+ *  `tokenRgb` but for any expression — use it to compute the *expected* value of an
+ *  interaction token (e.g. the `color-mix(...)` hover/active fill) through the same canvas
+ *  path as `computedRgb`, so both sides are cross-engine byte-identical and the assertion
+ *  survives a token retune (both move together). */
+export const resolveColorRgb = (host: Locator, colorExpr: string): Promise<string> =>
+  host.evaluate((el, expr) => {
+    const probe = document.createElement('div');
+    probe.style.backgroundColor = expr;
+    el.append(probe);
+    const value = getComputedStyle(probe).backgroundColor;
+    probe.remove();
+    const canvas = document.createElement('canvas');
+    canvas.width = 1;
+    canvas.height = 1;
+    const ctx = canvas.getContext('2d')!;
+    ctx.fillStyle = value;
+    ctx.fillRect(0, 0, 1, 1);
+    return Array.from(ctx.getImageData(0, 0, 1, 1).data).join(',');
+  }, colorExpr);
+
 /** Canonical sRGB of `var(--bankai-color-<role>)` resolved in the element's context.
  *  Use it to assert a component's color is *wired to* the intended token — the check
  *  then survives an intentional token retune (both sides move together). */
