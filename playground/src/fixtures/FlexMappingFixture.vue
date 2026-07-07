@@ -9,7 +9,7 @@ import { BankaiFlex } from '@bankai-vue/core';
 
 // Non-visual fixture: one BankaiFlex per prop value, each with a data-testid, so the
 // e2e mapping test can read the *computed* CSS and lock the shorthand → CSS-value mapping
-// that now lives in the theme's flex.css (data-align="start" → align-items: flex-start, …)
+// that now lives in the theme's flex.css (data-bankai-align="start" → align-items: flex-start, …)
 // rather than in type-checked TS. Every enum value is exercised.
 const aligns = [
   'start',

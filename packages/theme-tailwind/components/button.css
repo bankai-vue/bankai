@@ -59,15 +59,15 @@
 
 /* Sizes differ only in padding + corner radius (all share the base `text-sm`); `sm` is the tighter
  * `rounded-sm`, `md`/`lg` keep the base `rounded-md`. (`xs`/`xl` are a possible later addition.) */
-:where(.bankai-button[data-size='sm']) {
+:where(.bankai-button[data-bankai-size='sm']) {
   @apply rounded-sm px-2 py-1;
 }
 
-:where(.bankai-button[data-size='md']) {
+:where(.bankai-button[data-bankai-size='md']) {
   @apply px-2.5 py-1.5;
 }
 
-:where(.bankai-button[data-size='lg']) {
+:where(.bankai-button[data-bankai-size='lg']) {
   @apply px-3 py-2;
 }
 
@@ -77,11 +77,11 @@
  * That means the solid background/text above only drive the `solid` variant by design — override those
  * utilities for solid, and the surrounding `color` for outline/ghost.
  */
-:where(.bankai-button[data-variant='outline']) {
+:where(.bankai-button[data-bankai-variant='outline']) {
   @apply border-current bg-transparent text-inherit;
 }
 
-:where(.bankai-button[data-variant='ghost']) {
+:where(.bankai-button[data-bankai-variant='ghost']) {
   @apply border-transparent bg-transparent text-inherit;
 }
 
@@ -89,21 +89,21 @@
  * Hover / active feedback, guarded by `:not(:disabled)` so a disabled button stays inert. Mirrors the
  * house theme: solid shifts its fill token, the quiet variants gain a `currentcolor` tint.
  */
-:where(.bankai-button[data-variant='solid']:not(:disabled):hover) {
+:where(.bankai-button[data-bankai-variant='solid']:not(:disabled):hover) {
   background: var(--bankai-button-bg-hover);
 }
 
-:where(.bankai-button[data-variant='solid']:not(:disabled):active) {
+:where(.bankai-button[data-bankai-variant='solid']:not(:disabled):active) {
   background: var(--bankai-button-bg-active);
 }
 
-:where(.bankai-button[data-variant='outline']:not(:disabled):hover),
-:where(.bankai-button[data-variant='ghost']:not(:disabled):hover) {
+:where(.bankai-button[data-bankai-variant='outline']:not(:disabled):hover),
+:where(.bankai-button[data-bankai-variant='ghost']:not(:disabled):hover) {
   background: var(--bankai-button-bg-hover-quiet);
 }
 
-:where(.bankai-button[data-variant='outline']:not(:disabled):active),
-:where(.bankai-button[data-variant='ghost']:not(:disabled):active) {
+:where(.bankai-button[data-bankai-variant='outline']:not(:disabled):active),
+:where(.bankai-button[data-bankai-variant='ghost']:not(:disabled):active) {
   background: var(--bankai-button-bg-active-quiet);
 }
 

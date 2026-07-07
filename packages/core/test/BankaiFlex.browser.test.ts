@@ -72,8 +72,8 @@ test('renders as the polymorphic `as` element', () => {
 test('reflects inline as a presence flag', () => {
   const { root, teardown } = mountFlex({ inline: true });
 
-  // Empty-string value so the CSS can match `[data-inline]` regardless of value.
-  expect(root.dataset.inline).toBe('');
+  // Empty-string value so the CSS can match `[data-bankai-inline]` regardless of value.
+  expect(root.dataset.bankaiInline).toBe('');
 
   teardown();
 });
@@ -87,10 +87,10 @@ test('reflects direction/align/justify/wrap verbatim as data-*', () => {
   });
 
   // The short prop keywords are reflected as-is; the theme CSS maps them to CSS values.
-  expect(root.dataset.direction).toBe('column');
-  expect(root.dataset.align).toBe('start');
-  expect(root.dataset.justify).toBe('between');
-  expect(root.dataset.wrap).toBe('wrap');
+  expect(root.dataset.bankaiDirection).toBe('column');
+  expect(root.dataset.bankaiAlign).toBe('start');
+  expect(root.dataset.bankaiJustify).toBe('between');
+  expect(root.dataset.bankaiWrap).toBe('wrap');
 
   teardown();
 });

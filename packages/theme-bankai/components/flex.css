@@ -1,8 +1,8 @@
 /*
  * BankaiFlex layout.
  *
- * Targets the `bankai-flex` class and the props reflected as `data-*` (`data-direction`,
- * `data-align`, `data-justify`, `data-wrap`, `data-inline`) plus the `--bankai-flex-gap`
+ * Targets the `bankai-flex` class and the props reflected as `data-*` (`data-bankai-direction`,
+ * `data-bankai-align`, `data-bankai-justify`, `data-bankai-wrap`, `data-bankai-inline`) plus the `--bankai-flex-gap`
  * custom property. Every selector is wrapped in `:where()` (zero specificity) so a consumer's
  * utility classes — Tailwind `inline-flex` / `flex-col` / `items-center`, Bootstrap, UnoCSS —
  * override any rule below with a single plain class, no `!important` needed (SPEC.md §4.4, §4.6).
@@ -17,78 +17,78 @@
   gap: var(--bankai-flex-gap, normal);
 }
 
-:where(.bankai-flex[data-inline]) {
+:where(.bankai-flex[data-bankai-inline]) {
   display: inline-flex;
 }
 
-:where(.bankai-flex[data-direction='row']) {
+:where(.bankai-flex[data-bankai-direction='row']) {
   flex-direction: row;
 }
 
-:where(.bankai-flex[data-direction='row-reverse']) {
+:where(.bankai-flex[data-bankai-direction='row-reverse']) {
   flex-direction: row-reverse;
 }
 
-:where(.bankai-flex[data-direction='column']) {
+:where(.bankai-flex[data-bankai-direction='column']) {
   flex-direction: column;
 }
 
-:where(.bankai-flex[data-direction='column-reverse']) {
+:where(.bankai-flex[data-bankai-direction='column-reverse']) {
   flex-direction: column-reverse;
 }
 
-:where(.bankai-flex[data-align='start']) {
+:where(.bankai-flex[data-bankai-align='start']) {
   align-items: flex-start;
 }
 
-:where(.bankai-flex[data-align='end']) {
+:where(.bankai-flex[data-bankai-align='end']) {
   align-items: flex-end;
 }
 
-:where(.bankai-flex[data-align='center']) {
+:where(.bankai-flex[data-bankai-align='center']) {
   align-items: center;
 }
 
-:where(.bankai-flex[data-align='baseline']) {
+:where(.bankai-flex[data-bankai-align='baseline']) {
   align-items: baseline;
 }
 
-:where(.bankai-flex[data-align='stretch']) {
+:where(.bankai-flex[data-bankai-align='stretch']) {
   align-items: stretch;
 }
 
-:where(.bankai-flex[data-justify='start']) {
+:where(.bankai-flex[data-bankai-justify='start']) {
   justify-content: flex-start;
 }
 
-:where(.bankai-flex[data-justify='end']) {
+:where(.bankai-flex[data-bankai-justify='end']) {
   justify-content: flex-end;
 }
 
-:where(.bankai-flex[data-justify='center']) {
+:where(.bankai-flex[data-bankai-justify='center']) {
   justify-content: center;
 }
 
-:where(.bankai-flex[data-justify='between']) {
+:where(.bankai-flex[data-bankai-justify='between']) {
   justify-content: space-between;
 }
 
-:where(.bankai-flex[data-justify='around']) {
+:where(.bankai-flex[data-bankai-justify='around']) {
   justify-content: space-around;
 }
 
-:where(.bankai-flex[data-justify='evenly']) {
+:where(.bankai-flex[data-bankai-justify='evenly']) {
   justify-content: space-evenly;
 }
 
-:where(.bankai-flex[data-wrap='nowrap']) {
+:where(.bankai-flex[data-bankai-wrap='nowrap']) {
   flex-wrap: nowrap;
 }
 
-:where(.bankai-flex[data-wrap='wrap']) {
+:where(.bankai-flex[data-bankai-wrap='wrap']) {
   flex-wrap: wrap;
 }
 
-:where(.bankai-flex[data-wrap='wrap-reverse']) {
+:where(.bankai-flex[data-bankai-wrap='wrap-reverse']) {
   flex-wrap: wrap-reverse;
 }

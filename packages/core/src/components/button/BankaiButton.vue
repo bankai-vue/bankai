@@ -2,15 +2,15 @@
 import type { VNode } from 'vue';
 
 // Ships no CSS (SPEC.md §7):
-// consumers style it through the exposed parts (`data-part`, the `bankai-button` class) and the reflected state (`data-variant`, `data-size`, native `:disabled`).
+// consumers style it through the exposed parts (`data-part`, the `bankai-button` class) and the reflected state (`data-bankai-variant`, `data-bankai-size`, native `:disabled`).
 
 /**
- * Visual variant of a {@link BankaiButton}, reflected on the root as `data-variant`.
+ * Visual variant of a {@link BankaiButton}, reflected on the root as `data-bankai-variant`.
  */
 export type BankaiButtonVariant = 'solid' | 'outline' | 'ghost';
 
 /**
- * Size scale of a {@link BankaiButton}, reflected on the root as `data-size`.
+ * Size scale of a {@link BankaiButton}, reflected on the root as `data-bankai-size`.
  */
 export type BankaiButtonSize = 'sm' | 'md' | 'lg';
 
@@ -41,13 +41,13 @@ export interface BankaiButtonSlots {
  */
 export interface BankaiButtonProps {
   /**
-   * Visual variant. Reflected on the root as `data-variant` for styling.
+   * Visual variant. Reflected on the root as `data-bankai-variant` for styling.
    *
    * @default 'solid'
    */
   variant?: BankaiButtonVariant;
   /**
-   * Size scale. Reflected on the root as `data-size` for styling.
+   * Size scale. Reflected on the root as `data-bankai-size` for styling.
    *
    * @default 'md'
    */
@@ -97,8 +97,8 @@ defineSlots<BankaiButtonSlots>();
     :type="type"
     :disabled="disabled"
     data-part="root"
-    :data-variant="variant"
-    :data-size="size"
+    :data-bankai-variant="variant"
+    :data-bankai-size="size"
   >
     <slot />
   </button>

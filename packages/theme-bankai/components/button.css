@@ -1,7 +1,7 @@
 /*
  * BankaiButton styling.
  *
- * Targets the `bankai-button` class and reflected state (`data-variant`, `data-size`, native `:disabled`).
+ * Targets the `bankai-button` class and reflected state (`data-bankai-variant`, `data-bankai-size`, native `:disabled`).
  * Every selector is wrapped in `:where()` so a consumer can override any rule with a single plain selector.
  *
  * Every adjustable property routes through a `--bankai-button-*` component token declared in the
@@ -57,7 +57,7 @@
   --bankai-button-disabled-opacity: 0.5;
   --bankai-button-disabled-cursor: not-allowed;
 
-  /* Per-size metrics — vertical/horizontal padding and font size for each `data-size`, resolving to the
+  /* Per-size metrics — vertical/horizontal padding and font size for each `data-bankai-size`, resolving to the
    * shared spacing and type scales by default. Override one token to resize a single dimension of a
    * single size (e.g. `--bankai-button-md-padding-x`) without touching a selector. */
   --bankai-button-sm-padding-y: var(--bankai-space-1);
@@ -85,17 +85,17 @@
   transition: var(--bankai-button-transition);
 }
 
-:where(.bankai-button[data-size='sm']) {
+:where(.bankai-button[data-bankai-size='sm']) {
   padding: var(--bankai-button-sm-padding-y) var(--bankai-button-sm-padding-x);
   font-size: var(--bankai-button-sm-font-size);
 }
 
-:where(.bankai-button[data-size='md']) {
+:where(.bankai-button[data-bankai-size='md']) {
   padding: var(--bankai-button-md-padding-y) var(--bankai-button-md-padding-x);
   font-size: var(--bankai-button-md-font-size);
 }
 
-:where(.bankai-button[data-size='lg']) {
+:where(.bankai-button[data-bankai-size='lg']) {
   padding: var(--bankai-button-lg-padding-y) var(--bankai-button-lg-padding-x);
   font-size: var(--bankai-button-lg-font-size);
 }
@@ -106,13 +106,13 @@
  * That means `--bankai-button-fg` / `--bankai-button-bg` only drive the `solid` variant by design — retune those two tokens for solid,
  * and the surrounding `color` for outline/ghost.
  */
-:where(.bankai-button[data-variant='outline']) {
+:where(.bankai-button[data-bankai-variant='outline']) {
   border-color: currentcolor;
   background: transparent;
   color: inherit;
 }
 
-:where(.bankai-button[data-variant='ghost']) {
+:where(.bankai-button[data-bankai-variant='ghost']) {
   border-color: transparent;
   background: transparent;
   color: inherit;
@@ -123,21 +123,21 @@
  * flat disabled state below). The solid fill shifts via its own tokens; the quiet variants gain a
  * `currentcolor` tint over their transparent background.
  */
-:where(.bankai-button[data-variant='solid']:not(:disabled):hover) {
+:where(.bankai-button[data-bankai-variant='solid']:not(:disabled):hover) {
   background: var(--bankai-button-bg-hover);
 }
 
-:where(.bankai-button[data-variant='solid']:not(:disabled):active) {
+:where(.bankai-button[data-bankai-variant='solid']:not(:disabled):active) {
   background: var(--bankai-button-bg-active);
 }
 
-:where(.bankai-button[data-variant='outline']:not(:disabled):hover),
-:where(.bankai-button[data-variant='ghost']:not(:disabled):hover) {
+:where(.bankai-button[data-bankai-variant='outline']:not(:disabled):hover),
+:where(.bankai-button[data-bankai-variant='ghost']:not(:disabled):hover) {
   background: var(--bankai-button-bg-hover-quiet);
 }
 
-:where(.bankai-button[data-variant='outline']:not(:disabled):active),
-:where(.bankai-button[data-variant='ghost']:not(:disabled):active) {
+:where(.bankai-button[data-bankai-variant='outline']:not(:disabled):active),
+:where(.bankai-button[data-bankai-variant='ghost']:not(:disabled):active) {
   background: var(--bankai-button-bg-active-quiet);
 }
 

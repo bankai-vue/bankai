@@ -9,7 +9,7 @@ components, plus the config plugin and id composables they build on.
 
 `@bankai-vue/core` ships **zero CSS**. It renders semantic, accessible markup with
 stable component parts (a `bankai-<name>` class, `data-part`, and state reflected
-as `data-*` / native attributes); a separate, opt-in **theme** package paints it.
+as `data-bankai-*` / native attributes); a separate, opt-in **theme** package paints it.
 Pair it with the signature [`@bankai-vue/theme-bankai`](../theme-bankai) or a
 per-framework theme like [`@bankai-vue/theme-tailwind`](../theme-tailwind).
 

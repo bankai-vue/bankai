@@ -224,7 +224,7 @@ These are hard constraints from the spec — please don't work around them:
 - **CSS-framework agnostic** — never bake in or hard-couple Tailwind / Bootstrap /
   UnoCSS (`SPEC.md` §4.6).
 - **Overridable by construction** — a component exposes a stable root class + a
-  `data-*` state anatomy; its styling lives in a theme package
+  `data-bankai-*` state anatomy; its styling lives in a theme package
   (`@bankai-vue/theme-<name>/components/<name>.css`) wrapped in zero-specificity
   `:where()` so a consumer's plain CSS or utility class overrides it without
   `!important`. **Never apply styling via inline `style`** (inline beats every

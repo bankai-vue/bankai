@@ -3,7 +3,7 @@ import type { LiteralUnion } from '../../internal/types';
 import type { CSSProperties, VNode } from 'vue';
 
 // Ships no CSS (SPEC.md §7):
-// consumers style it through the exposed parts (`data-part`, the `bankai-text` class) and the reflected state (`data-size`, `data-weight`, `data-tone`, `data-truncate`).
+// consumers style it through the exposed parts (`data-part`, the `bankai-text` class) and the reflected state (`data-bankai-size`, `data-bankai-weight`, `data-bankai-tone`, `data-bankai-truncate`).
 // Inline text semantics (`<strong>`, `<em>`, `<mark>`, `<code>`, `<kbd>`, `<del>`, …) are reached through the polymorphic `as` prop, so the native element carries the meaning (SPEC.md §4.9); BankaiText only styles it.
 // Each styling prop is a named set plus an escape hatch: a named member reflects as `data-*` (the theme maps it to a value), while any other value is carried verbatim on a `--bankai-text-*` custom property that the theme's zero-specificity base rule applies — so the value still lands at a specificity a consumer's utility class can override (SPEC.md §4.4, §4.6).
 
@@ -49,14 +49,14 @@ export type BankaiTextAs = LiteralUnion<BankaiTextElement, string>;
 
 /**
  * Type size of a {@link BankaiText}.
- * A named `xs`–`2xl` t-shirt step reflects as `data-size` and resolves to the theme's `--bankai-text-size-*` tokens;
+ * A named `xs`–`2xl` t-shirt step reflects as `data-bankai-size` and resolves to the theme's `--bankai-text-size-*` tokens;
  * any other string is a verbatim CSS `font-size` (`'1.5rem'`, `'clamp(1rem, 2vw, 2rem)'`, `'var(--x)'`).
  */
 export type BankaiTextSize = LiteralUnion<'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl', string>;
 
 /**
  * Font weight of a {@link BankaiText}.
- * A named step (`thin` = 100 … `black` = 900) reflects as `data-weight` and the theme maps it to a numeric `font-weight`;
+ * A named step (`thin` = 100 … `black` = 900) reflects as `data-bankai-weight` and the theme maps it to a numeric `font-weight`;
  * a `number` is a verbatim `font-weight` (e.g. `350`), which a variable font renders along its `wght` axis.
  */
 export type BankaiTextWeight =
@@ -72,7 +72,7 @@ export type BankaiTextWeight =
 
 /**
  * Text tone of a {@link BankaiText}.
- * A named neutral tone in descending prominence (`default` → `muted` → `subtle`) reflects as `data-tone` and resolves to a theme color (themed via `light-dark()`);
+ * A named neutral tone in descending prominence (`default` → `muted` → `subtle`) reflects as `data-bankai-tone` and resolves to a theme color (themed via `light-dark()`);
  * any other string is a verbatim CSS `color` (`'#ff8800'`, `'oklch(70% 0.15 40)'`, `'var(--brand)'`).
  */
 export type BankaiTextTone = LiteralUnion<'default' | 'muted' | 'subtle', string>;
@@ -99,24 +99,24 @@ export interface BankaiTextProps {
    */
   as?: BankaiTextAs;
   /**
-   * Type size. A named `xs`–`2xl` step (`--bankai-text-size-*`) reflects as `data-size`; any other string is a verbatim CSS `font-size`.
+   * Type size. A named `xs`–`2xl` step (`--bankai-text-size-*`) reflects as `data-bankai-size`; any other string is a verbatim CSS `font-size`.
    * Omitted when unset (inherits the ambient font size).
    */
   size?: BankaiTextSize;
   /**
-   * Font weight. A named step ({@link BankaiTextWeight}) reflects as `data-weight`; a `number` or any other
+   * Font weight. A named step ({@link BankaiTextWeight}) reflects as `data-bankai-weight`; a `number` or any other
    * string (`'var(--wght)'`, `'calc(…)'`, `'lighter'`) is a verbatim `font-weight` — a variable font renders
    * a numeric value along its `wght` axis.
    * Omitted when unset (inherits the ambient weight).
    */
   weight?: LiteralUnion<BankaiTextWeight, string> | number;
   /**
-   * Text tone. A named neutral tone reflects as `data-tone`; any other string is a verbatim CSS `color`.
+   * Text tone. A named neutral tone reflects as `data-bankai-tone`; any other string is a verbatim CSS `color`.
    * Omitted when unset (inherits the ambient color).
    */
   tone?: BankaiTextTone;
   /**
-   * Truncate overflowing text to a single line with an ellipsis. Reflected on the root as `data-truncate`.
+   * Truncate overflowing text to a single line with an ellipsis. Reflected on the root as `data-bankai-truncate`.
    * The theme rule makes the element block-level, so it truncates against the available width.
    *
    * @default false
@@ -160,7 +160,7 @@ defineOptions({ name: 'BankaiText', inheritAttrs: true });
 // escape hatch below, so `data-*` is omitted for it (Vue drops `undefined` bindings, keeping the DOM clean).
 const dataSize = computed(() => (size !== undefined && NAMED_SIZES.has(size) ? size : undefined));
 const dataTone = computed(() => (tone !== undefined && NAMED_TONES.has(tone) ? tone : undefined));
-// `weight` can be a number, so guard the Set lookup on a string first; a named string → `data-weight`,
+// `weight` can be a number, so guard the Set lookup on a string first; a named string → `data-bankai-weight`,
 // a number or any other string → the escape hatch below.
 const weightIsNamed = computed(() => typeof weight === 'string' && NAMED_WEIGHTS.has(weight));
 const dataWeight = computed(() => (weightIsNamed.value ? (weight as string) : undefined));
@@ -174,7 +174,7 @@ const rootStyle = computed<CSSProperties>(() => ({
   '--bankai-text-tone': tone !== undefined && !NAMED_TONES.has(tone) ? tone : undefined,
 }));
 
-// `data-truncate` is a presence flag (empty string when on, absent when off) so the CSS can match `[data-truncate]`.
+// `data-bankai-truncate` is a presence flag (empty string when on, absent when off) so the CSS can match `[data-bankai-truncate]`.
 const dataTruncate = computed<'' | undefined>(() => (truncate ? '' : undefined));
 
 defineSlots<BankaiTextSlots>();
@@ -185,10 +185,10 @@ defineSlots<BankaiTextSlots>();
     :is="as"
     class="bankai-text"
     data-part="root"
-    :data-size="dataSize"
-    :data-weight="dataWeight"
-    :data-tone="dataTone"
-    :data-truncate="dataTruncate"
+    :data-bankai-size="dataSize"
+    :data-bankai-weight="dataWeight"
+    :data-bankai-tone="dataTone"
+    :data-bankai-truncate="dataTruncate"
     :style="rootStyle"
   >
     <slot />

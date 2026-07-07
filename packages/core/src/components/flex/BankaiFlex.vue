@@ -154,8 +154,8 @@ const rootStyle = computed<CSSProperties>(() => {
   return { '--bankai-flex-gap': gapCss };
 });
 
-// `data-inline` is a presence flag (empty string when on, absent when off) so the CSS can
-// match `[data-inline]`. The enumerated props reflect their value verbatim, or are omitted
+// `data-bankai-inline` is a presence flag (empty string when on, absent when off) so the CSS can
+// match `[data-bankai-inline]`. The enumerated props reflect their value verbatim, or are omitted
 // when unset (Vue drops `undefined`/`null` attribute bindings), keeping the DOM clean.
 const dataInline = computed<'' | undefined>(() => (inline ? '' : undefined));
 
@@ -167,11 +167,11 @@ defineSlots<BankaiFlexSlots>();
     :is="as"
     class="bankai-flex"
     data-part="root"
-    :data-direction="direction"
-    :data-align="align"
-    :data-justify="justify"
-    :data-wrap="wrap"
-    :data-inline="dataInline"
+    :data-bankai-direction="direction"
+    :data-bankai-align="align"
+    :data-bankai-justify="justify"
+    :data-bankai-wrap="wrap"
+    :data-bankai-inline="dataInline"
     :style="rootStyle"
   >
     <slot />

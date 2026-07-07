@@ -5,7 +5,7 @@ The signature **bankai-vue** theme — opinionated styled defaults for
 
 `@bankai-vue/core` ships no styles; a theme is an opt-in layer that targets the
 components' parts (the `bankai-button` class, `data-part`) and reflected state
-(`data-variant`, `data-size`, native `:disabled`). System-aware light/dark is
+(`data-bankai-variant`, `data-bankai-size`, native `:disabled`). System-aware light/dark is
 built in via `color-scheme` + `light-dark()` — no JavaScript, no flash.
 
 ## Usage
