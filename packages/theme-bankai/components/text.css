@@ -1,14 +1,14 @@
 /*
  * BankaiText styling.
  *
- * Targets the `bankai-text` class and the props reflected as `data-*` (`data-size`, `data-weight`,
- * `data-tone`, `data-truncate`). Every selector is wrapped in `:where()` (zero specificity) so a
+ * Targets the `bankai-text` class and the props reflected as `data-*` (`data-bankai-size`, `data-bankai-weight`,
+ * `data-bankai-tone`, `data-bankai-truncate`). Every selector is wrapped in `:where()` (zero specificity) so a
  * consumer's utility classes — Tailwind `text-lg` / `font-bold` / `truncate`, Bootstrap, UnoCSS —
  * override any rule below with a single plain class, no `!important` needed (SPEC.md §4.4, §4.6).
  *
- * `data-size` resolves to the shared `--bankai-text-size-*` scale (tokens.css) and pairs each step
+ * `data-bankai-size` resolves to the shared `--bankai-text-size-*` scale (tokens.css) and pairs each step
  * with its line height via a `--bankai-text-line-height-*` component token (declared in the `:where(:root)`
- * block below). `data-weight` maps the named weights to their numeric `font-weight` values.
+ * block below). `data-bankai-weight` maps the named weights to their numeric `font-weight` values.
  * Tone colors are neutral foreground tones (`default` → `muted` → `subtle`) that alias the foundation
  * `--bankai-color-fg*` family (tokens.css), so all theme text color resolves from one `light-dark()` source.
  *
@@ -30,7 +30,7 @@
   --bankai-text-color-muted: var(--bankai-color-fg-muted);
   --bankai-text-color-subtle: var(--bankai-color-fg-subtle);
 
-  /* Line height paired per `data-size` step. Kept as component tokens here (not in the shared type scale)
+  /* Line height paired per `data-bankai-size` step. Kept as component tokens here (not in the shared type scale)
    * so `--bankai-text-size-*` stays a single knob per size, while a consumer can still retune a step's
    * leading by overriding one custom property — e.g. `--bankai-text-line-height-lg` — without writing a
    * selector. Defaults are plain literals (there is no shared line-height scale). */
@@ -51,86 +51,86 @@
   color: var(--bankai-text-tone);
 }
 
-:where(.bankai-text[data-size='xs']) {
+:where(.bankai-text[data-bankai-size='xs']) {
   font-size: var(--bankai-text-size-xs);
   line-height: var(--bankai-text-line-height-xs);
 }
 
-:where(.bankai-text[data-size='sm']) {
+:where(.bankai-text[data-bankai-size='sm']) {
   font-size: var(--bankai-text-size-sm);
   line-height: var(--bankai-text-line-height-sm);
 }
 
-:where(.bankai-text[data-size='md']) {
+:where(.bankai-text[data-bankai-size='md']) {
   font-size: var(--bankai-text-size-md);
   line-height: var(--bankai-text-line-height-md);
 }
 
-:where(.bankai-text[data-size='lg']) {
+:where(.bankai-text[data-bankai-size='lg']) {
   font-size: var(--bankai-text-size-lg);
   line-height: var(--bankai-text-line-height-lg);
 }
 
-:where(.bankai-text[data-size='xl']) {
+:where(.bankai-text[data-bankai-size='xl']) {
   font-size: var(--bankai-text-size-xl);
   line-height: var(--bankai-text-line-height-xl);
 }
 
-:where(.bankai-text[data-size='2xl']) {
+:where(.bankai-text[data-bankai-size='2xl']) {
   font-size: var(--bankai-text-size-2xl);
   line-height: var(--bankai-text-line-height-2xl);
 }
 
-:where(.bankai-text[data-weight='thin']) {
+:where(.bankai-text[data-bankai-weight='thin']) {
   font-weight: 100;
 }
 
-:where(.bankai-text[data-weight='extralight']) {
+:where(.bankai-text[data-bankai-weight='extralight']) {
   font-weight: 200;
 }
 
-:where(.bankai-text[data-weight='light']) {
+:where(.bankai-text[data-bankai-weight='light']) {
   font-weight: 300;
 }
 
-:where(.bankai-text[data-weight='normal']) {
+:where(.bankai-text[data-bankai-weight='normal']) {
   font-weight: 400;
 }
 
-:where(.bankai-text[data-weight='medium']) {
+:where(.bankai-text[data-bankai-weight='medium']) {
   font-weight: 500;
 }
 
-:where(.bankai-text[data-weight='semibold']) {
+:where(.bankai-text[data-bankai-weight='semibold']) {
   font-weight: 600;
 }
 
-:where(.bankai-text[data-weight='bold']) {
+:where(.bankai-text[data-bankai-weight='bold']) {
   font-weight: 700;
 }
 
-:where(.bankai-text[data-weight='extrabold']) {
+:where(.bankai-text[data-bankai-weight='extrabold']) {
   font-weight: 800;
 }
 
-:where(.bankai-text[data-weight='black']) {
+:where(.bankai-text[data-bankai-weight='black']) {
   font-weight: 900;
 }
 
-:where(.bankai-text[data-tone='default']) {
+:where(.bankai-text[data-bankai-tone='default']) {
   color: var(--bankai-text-color);
 }
 
-:where(.bankai-text[data-tone='muted']) {
+:where(.bankai-text[data-bankai-tone='muted']) {
   color: var(--bankai-text-color-muted);
 }
 
-:where(.bankai-text[data-tone='subtle']) {
+:where(.bankai-text[data-bankai-tone='subtle']) {
   color: var(--bankai-text-color-subtle);
 }
 
 /* Single-line truncation needs a block box to clip against, so the element is made block-level here. */
-:where(.bankai-text[data-truncate]) {
+:where(.bankai-text[data-bankai-truncate]) {
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;

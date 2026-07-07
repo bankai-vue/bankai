@@ -78,7 +78,8 @@ Components are imported from the published package, **not** scaffolded into the 
 
 Users can fully override and restyle components with their own CSS — **by construction, not by convention**.
 
-- _Approach:_ components expose a stable root class plus a `data-*` **state anatomy** (reflected props/state) instead of baking styling into inline `style` declarations, and the theme packages apply every rule through **zero-specificity `:where()`** selectors. A plain consumer selector (specificity ≥ `0-1-0`) — hand-written CSS or a utility class (Tailwind/Bootstrap/UnoCSS) — therefore overrides the theme with **no `!important`**. Inline `style` (which no selector can beat) is used only to pass a _value_ a rule consumes (e.g. a CSS custom property such as `--bankai-*-gap`), never to apply the styling itself. `BankaiButton` is the shipped example: `.bankai-button` + `data-variant`/`data-size`, styled entirely through `:where()` in `@bankai-vue/theme-bankai`. This is what makes §4.6 real.
+- _Approach:_ components expose a stable root class plus a `data-bankai-*` **state anatomy** (reflected props/state) instead of baking styling into inline `style` declarations, and the theme packages apply every rule through **zero-specificity `:where()`** selectors. A plain consumer selector (specificity ≥ `0-1-0`) — hand-written CSS or a utility class (Tailwind/Bootstrap/UnoCSS) — therefore overrides the theme with **no `!important`**. Inline `style` (which no selector can beat) is used only to pass a _value_ a rule consumes (e.g. a CSS custom property such as `--bankai-*-gap`), never to apply the styling itself. `BankaiButton` is the shipped example: `.bankai-button` + `data-bankai-variant`/`data-bankai-size`, styled entirely through `:where()` in `@bankai-vue/theme-bankai`. This is what makes §4.6 real.
+- _Namespacing (required):_ every reflected-state `data-*` attribute a component emits **must** be prefixed `data-bankai-*` (e.g. `data-bankai-variant`, `data-bankai-size`, `data-bankai-truncate`). This scopes the anatomy to bankai so it never collides with a `data-*` attribute the consumer already puts on the element (analytics, test ids, other libraries). The **sole exception is `data-part`**, the cross-library anatomy-part hook (its value is already component-scoped, e.g. `data-part="root"`), which stays unprefixed by convention. Consumer- or platform-owned attributes are never prefixed: bankai must not touch a `data-testid`, `data-bs-theme`, etc. that a consumer passes through. Theme CSS selectors target the prefixed attributes to match (`:where(.bankai-button[data-bankai-variant='solid'])`).
 
 ### 4.5 Tree-shakeable
 
@@ -204,7 +205,7 @@ Presentation + typed slots are bankai-vue's; the engine is a swappable adapter b
 
 ### 5.4 Package family (initial)
 
-- `@bankai-vue/core` — components; ships **zero CSS** (markup, behavior, typed API, `data-*` anatomy)
+- `@bankai-vue/core` — components; ships **zero CSS** (markup, behavior, typed API, `data-bankai-*` anatomy)
 - `@bankai-vue/theme-bankai` — the signature theme: agnostic CSS that styles `core`'s anatomy via `:where()` (the house look)
 - `@bankai-vue/nuxt` — Nuxt module
 - `@bankai-vue/table-tanstack` — opt-in TanStack adapter

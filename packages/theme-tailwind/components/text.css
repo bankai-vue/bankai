@@ -7,8 +7,8 @@
  * resolve against their Tailwind build (SPEC.md §4.6, §5.4). Because it uses `@apply`, this file is
  * Tailwind *source* — it must be compiled by the consumer's Tailwind build, not shipped as static CSS.
  *
- * Targets the `bankai-text` class and the props reflected as `data-*` (`data-size`, `data-weight`,
- * `data-tone`, `data-truncate`). Every rule stays wrapped in zero-specificity `:where()`, so a consumer's
+ * Targets the `bankai-text` class and the props reflected as `data-*` (`data-bankai-size`, `data-bankai-weight`,
+ * `data-bankai-tone`, `data-bankai-truncate`). Every rule stays wrapped in zero-specificity `:where()`, so a consumer's
  * utility classes override any rule below with a single plain class, no `!important` needed.
  *
  * Named sizes need no token bridge (unlike spacing): they come straight from Tailwind's `text-*`
@@ -48,63 +48,63 @@
   color: var(--bankai-text-tone);
 }
 
-:where(.bankai-text[data-size='xs']) {
+:where(.bankai-text[data-bankai-size='xs']) {
   @apply text-xs;
 }
 
-:where(.bankai-text[data-size='sm']) {
+:where(.bankai-text[data-bankai-size='sm']) {
   @apply text-sm;
 }
 
-:where(.bankai-text[data-size='md']) {
+:where(.bankai-text[data-bankai-size='md']) {
   @apply text-base;
 }
 
-:where(.bankai-text[data-size='lg']) {
+:where(.bankai-text[data-bankai-size='lg']) {
   @apply text-lg;
 }
 
-:where(.bankai-text[data-size='xl']) {
+:where(.bankai-text[data-bankai-size='xl']) {
   @apply text-xl;
 }
 
-:where(.bankai-text[data-size='2xl']) {
+:where(.bankai-text[data-bankai-size='2xl']) {
   @apply text-2xl;
 }
 
-:where(.bankai-text[data-weight='thin']) {
+:where(.bankai-text[data-bankai-weight='thin']) {
   @apply font-thin;
 }
 
-:where(.bankai-text[data-weight='extralight']) {
+:where(.bankai-text[data-bankai-weight='extralight']) {
   @apply font-extralight;
 }
 
-:where(.bankai-text[data-weight='light']) {
+:where(.bankai-text[data-bankai-weight='light']) {
   @apply font-light;
 }
 
-:where(.bankai-text[data-weight='normal']) {
+:where(.bankai-text[data-bankai-weight='normal']) {
   @apply font-normal;
 }
 
-:where(.bankai-text[data-weight='medium']) {
+:where(.bankai-text[data-bankai-weight='medium']) {
   @apply font-medium;
 }
 
-:where(.bankai-text[data-weight='semibold']) {
+:where(.bankai-text[data-bankai-weight='semibold']) {
   @apply font-semibold;
 }
 
-:where(.bankai-text[data-weight='bold']) {
+:where(.bankai-text[data-bankai-weight='bold']) {
   @apply font-bold;
 }
 
-:where(.bankai-text[data-weight='extrabold']) {
+:where(.bankai-text[data-bankai-weight='extrabold']) {
   @apply font-extrabold;
 }
 
-:where(.bankai-text[data-weight='black']) {
+:where(.bankai-text[data-bankai-weight='black']) {
   @apply font-black;
 }
 
@@ -116,19 +116,19 @@
  * Each consumes its `--bankai-text-color*` token (declared above), aliased from the fg family, whose
  * `light-dark()` flips on `color-scheme`.
  */
-:where(.bankai-text[data-tone='default']) {
+:where(.bankai-text[data-bankai-tone='default']) {
   color: var(--bankai-text-color);
 }
 
-:where(.bankai-text[data-tone='muted']) {
+:where(.bankai-text[data-bankai-tone='muted']) {
   color: var(--bankai-text-color-muted);
 }
 
-:where(.bankai-text[data-tone='subtle']) {
+:where(.bankai-text[data-bankai-tone='subtle']) {
   color: var(--bankai-text-color-subtle);
 }
 
 /* Tailwind's `truncate` sets overflow/ellipsis/nowrap but not display; add `block` so a `<span>` clips. */
-:where(.bankai-text[data-truncate]) {
+:where(.bankai-text[data-bankai-truncate]) {
   @apply block truncate;
 }

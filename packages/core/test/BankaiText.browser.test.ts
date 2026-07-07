@@ -71,8 +71,8 @@ test('renders as the polymorphic `as` element for native inline semantics', () =
 test('reflects truncate as a presence flag', () => {
   const { root, teardown } = mountText({ truncate: true });
 
-  // Empty-string value so the CSS can match `[data-truncate]` regardless of value.
-  expect(root.dataset.truncate).toBe('');
+  // Empty-string value so the CSS can match `[data-bankai-truncate]` regardless of value.
+  expect(root.dataset.bankaiTruncate).toBe('');
 
   teardown();
 });
@@ -81,9 +81,9 @@ test('reflects named size/weight/tone verbatim as data-* (no inline style)', () 
   const { root, teardown } = mountText({ size: 'lg', weight: 'semibold', tone: 'muted' });
 
   // Named values reflect as-is; the theme CSS maps them to type styles.
-  expect(root.dataset.size).toBe('lg');
-  expect(root.dataset.weight).toBe('semibold');
-  expect(root.dataset.tone).toBe('muted');
+  expect(root.dataset.bankaiSize).toBe('lg');
+  expect(root.dataset.bankaiWeight).toBe('semibold');
+  expect(root.dataset.bankaiTone).toBe('muted');
   // Named values take the data-* path, not the custom-property escape hatch.
   expect(root.getAttribute('style')).toBe(null);
 
@@ -114,7 +114,7 @@ test('routes weight by name, not by type — a non-named string takes the escape
 
   // A named string still takes the data-* path (no inline style).
   const named = mountText({ weight: 'bold' });
-  expect(named.root.dataset.weight).toBe('bold');
+  expect(named.root.dataset.bankaiWeight).toBe('bold');
   expect(named.root.getAttribute('style')).toBe(null);
   named.teardown();
 });
@@ -152,7 +152,7 @@ test('merges consumer class/style/attributes onto the root', () => {
   expect(root.dataset.testid).toBe('text');
   expect(root.style.padding).toBe('4px');
   // The component's own reflected state is untouched by the merge.
-  expect(root.dataset.size).toBe('sm');
+  expect(root.dataset.bankaiSize).toBe('sm');
 
   teardown();
 });
