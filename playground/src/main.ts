@@ -4,6 +4,8 @@ import App from './App.vue';
 import ButtonFixture from './fixtures/ButtonFixture.vue';
 import FlexFixture from './fixtures/FlexFixture.vue';
 import FlexMappingFixture from './fixtures/FlexMappingFixture.vue';
+import GridFixture from './fixtures/GridFixture.vue';
+import GridMappingFixture from './fixtures/GridMappingFixture.vue';
 import TextFixture from './fixtures/TextFixture.vue';
 import TextMappingFixture from './fixtures/TextMappingFixture.vue';
 
@@ -13,6 +15,8 @@ const fixtures: Record<string, Component> = {
   button: ButtonFixture,
   flex: FlexFixture,
   'flex-mapping': FlexMappingFixture,
+  grid: GridFixture,
+  'grid-mapping': GridMappingFixture,
   text: TextFixture,
   'text-mapping': TextMappingFixture,
 };

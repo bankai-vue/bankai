@@ -160,7 +160,7 @@ Composition — the consumer fills slots with content; `BankaiLayout` emits the 
 Layout utilities — prop-driven layout: props are reflected as `data-bankai-*` on the root (`gap` as a `--bankai-*-gap` custom property) and turned into layout by zero-specificity `:where()` rules in `@bankai-vue/theme-bankai`, so a consumer's utility classes (Tailwind/Bootstrap/UnoCSS) override by plain specificity — no `!important` (§4.4/§4.6). Polymorphic `as` (default `<div>`); needs the theme CSS (or equivalent targeting the root class) loaded. The composable replacement for Vuetify `VRow`/`VCol`:
 
 - [x] `BankaiFlex` — flexbox helper; `direction`/`align`/`justify`/`gap`/`wrap`/`inline` props → `data-bankai-*` (+ `--bankai-flex-gap`) styled by theme `:where()` (`display:flex`)
-- [ ] `BankaiGrid` — CSS-grid helper; `columns`/`rows`/`gap`/`areas` props → `data-bankai-*` (+ `--bankai-*-gap`) styled by theme `:where()` (`display:grid`, 2D layouts)
+- [x] `BankaiGrid` — CSS-grid helper; `columns`/`rows`/`areas`/`gap`/`flow`/`align`/`justify`/`inline` props → `data-bankai-*` (enumerated) + `--bankai-grid-*` (continuous track values) styled by theme `:where()` (`display:grid`, 2D layouts)
 - [ ] `BankaiStack` — vertical preset over `BankaiFlex` (`direction=column`); ergonomic sugar
 - [ ] `BankaiGroup` — **uncertain** — a horizontal preset would just be `BankaiFlex`'s default (`direction=row`), so it may be redundant; decide when Flex lands
 - [ ] `BankaiVisuallyHidden` — sr-only utility (`<span>` clip); visible to assistive tech only. On-mission for the a11y-first DoD
