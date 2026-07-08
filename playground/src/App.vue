@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BankaiButton, BankaiFlex, BankaiText, version } from '@bankai-vue/core';
+import { BankaiButton, BankaiFlex, BankaiGrid, BankaiText, version } from '@bankai-vue/core';
 import { ref } from 'vue';
 import ColorSchemeSwitcher from './components/ColorSchemeSwitcher.vue';
 import ThemeSwitcher from './components/ThemeSwitcher.vue';
@@ -67,6 +67,26 @@ const tones = ['default', 'muted', 'subtle'] as const;
         <BankaiButton variant="outline">two</BankaiButton>
         <BankaiButton variant="ghost">three</BankaiButton>
       </BankaiFlex>
+    </section>
+
+    <section>
+      <h2>BankaiGrid</h2>
+
+      <p>2D prop-driven layout via data-* + <code>--bankai-grid-*</code> + theme CSS:</p>
+
+      <h3>Equal columns (track count) + gap</h3>
+      <BankaiGrid data-testid="grid-cols" :columns="3" :gap="4">
+        <BankaiButton>one</BankaiButton>
+        <BankaiButton variant="outline">two</BankaiButton>
+        <BankaiButton variant="ghost">three</BankaiButton>
+      </BankaiGrid>
+
+      <h3>Template areas</h3>
+      <BankaiGrid :areas="['header header', 'sidebar main']" columns="6rem 1fr" :gap="2">
+        <BankaiButton style="grid-area: header">header</BankaiButton>
+        <BankaiButton variant="outline" style="grid-area: sidebar">side</BankaiButton>
+        <BankaiButton variant="ghost" style="grid-area: main">main</BankaiButton>
+      </BankaiGrid>
     </section>
 
     <section>

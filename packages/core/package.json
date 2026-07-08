@@ -46,6 +46,10 @@
       "types": "./dist/components/flex/BankaiFlex.d.ts",
       "import": "./dist/components/flex/BankaiFlex.js"
     },
+    "./components/grid/BankaiGrid": {
+      "types": "./dist/components/grid/BankaiGrid.d.ts",
+      "import": "./dist/components/grid/BankaiGrid.js"
+    },
     "./components/text/BankaiText": {
       "types": "./dist/components/text/BankaiText.d.ts",
       "import": "./dist/components/text/BankaiText.js"

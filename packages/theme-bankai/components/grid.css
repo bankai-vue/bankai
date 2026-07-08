@@ -1,0 +1,82 @@
+/*
+ * BankaiGrid layout.
+ *
+ * Targets the `bankai-grid` class and the props reflected as `data-*` (`data-bankai-flow`,
+ * `data-bankai-align`, `data-bankai-justify`, `data-bankai-inline`) plus the `--bankai-grid-*`
+ * custom properties that carry the continuous track values (`--bankai-grid-columns`/`-rows`/`-areas`/`-gap`).
+ * Every selector is wrapped in `:where()` (zero specificity) so a consumer's utility classes —
+ * Tailwind `grid-cols-3` / `items-center` / `gap-4`, Bootstrap, UnoCSS — override any rule below
+ * with a single plain class, no `!important` needed (SPEC.md §4.4, §4.6).
+ *
+ * The short `align`/`justify` keywords map to native box-alignment values here (they're already the
+ * grid-idiomatic keywords, so the mapping is 1:1), so the component keeps an ergonomic prop API.
+ */
+
+:where(.bankai-grid) {
+  display: grid;
+  /* Each custom property is unset unless its prop is passed → the fallback keyword applies. */
+  grid-template-columns: var(--bankai-grid-columns, none);
+  grid-template-rows: var(--bankai-grid-rows, none);
+  grid-template-areas: var(--bankai-grid-areas, none);
+  gap: var(--bankai-grid-gap, normal);
+}
+
+:where(.bankai-grid[data-bankai-inline]) {
+  display: inline-grid;
+}
+
+:where(.bankai-grid[data-bankai-flow='row']) {
+  grid-auto-flow: row;
+}
+
+:where(.bankai-grid[data-bankai-flow='column']) {
+  grid-auto-flow: column;
+}
+
+:where(.bankai-grid[data-bankai-flow='dense']) {
+  grid-auto-flow: dense;
+}
+
+:where(.bankai-grid[data-bankai-flow='row-dense']) {
+  grid-auto-flow: row dense;
+}
+
+:where(.bankai-grid[data-bankai-flow='column-dense']) {
+  grid-auto-flow: column dense;
+}
+
+:where(.bankai-grid[data-bankai-align='start']) {
+  align-items: start;
+}
+
+:where(.bankai-grid[data-bankai-align='end']) {
+  align-items: end;
+}
+
+:where(.bankai-grid[data-bankai-align='center']) {
+  align-items: center;
+}
+
+:where(.bankai-grid[data-bankai-align='baseline']) {
+  align-items: baseline;
+}
+
+:where(.bankai-grid[data-bankai-align='stretch']) {
+  align-items: stretch;
+}
+
+:where(.bankai-grid[data-bankai-justify='start']) {
+  justify-items: start;
+}
+
+:where(.bankai-grid[data-bankai-justify='end']) {
+  justify-items: end;
+}
+
+:where(.bankai-grid[data-bankai-justify='center']) {
+  justify-items: center;
+}
+
+:where(.bankai-grid[data-bankai-justify='stretch']) {
+  justify-items: stretch;
+}

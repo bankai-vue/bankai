@@ -18,6 +18,19 @@ export type {
   BankaiFlexSlots,
   BankaiFlexWrap,
 } from './components/flex/BankaiFlex.vue';
+export { default as BankaiGrid } from './components/grid/BankaiGrid.vue';
+export type {
+  BankaiGridAlign,
+  BankaiGridAreas,
+  BankaiGridAs,
+  BankaiGridColumns,
+  BankaiGridFlow,
+  BankaiGridGap,
+  BankaiGridJustify,
+  BankaiGridProps,
+  BankaiGridRows,
+  BankaiGridSlots,
+} from './components/grid/BankaiGrid.vue';
 export { default as BankaiText } from './components/text/BankaiText.vue';
 export type {
   BankaiTextAs,
