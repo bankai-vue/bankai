@@ -1,0 +1,14 @@
+diff --git a/dist/tsc-DBLgyoBn.mjs b/dist/tsc-DBLgyoBn.mjs
+index 4c6a228de0d5b2b60cb1bbdd8349b272d625a9b4..700e082fafd25d82c8d99e9da89b45a892536070 100644
+--- a/dist/tsc-DBLgyoBn.mjs
++++ b/dist/tsc-DBLgyoBn.mjs
+@@ -357,7 +357,8 @@ function createTsProgramFromParsedConfig({ parsedConfig, fsSystem, baseDir, id,
+ 		...defaultCompilerOptions,
+ 		...parsedConfig.options,
+ 		$configRaw: parsedConfig.raw,
+-		$rootDir: baseDir
++		$rootDir: baseDir,
++		...(vue || tsMacro ? { allowNonTsExtensions: true } : void 0)
+ 	};
+ 	const rootNames = [...new Set([id, ...entries || parsedConfig.fileNames].map((f) => fsSystem.resolvePath(f)))];
+ 	const host = ts.createCompilerHost(compilerOptions, true);

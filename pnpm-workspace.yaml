@@ -89,3 +89,11 @@ minimumReleaseAgeExclude:
   - vue-tsc
   - '@vue/language-core'
   - vite
+
+# Backport of sxzz/rolldown-plugin-dts#272: adds `allowNonTsExtensions` so `.vue`
+# entries load into the dts program deterministically (fixes the intermittent
+# "Unable to load file …/*.vue from the program" build failure, upstream #188).
+# Remove this patch once a released rolldown-plugin-dts (pulled via tsdown)
+# includes the fix.
+patchedDependencies:
+  rolldown-plugin-dts@0.26.0: patches/rolldown-plugin-dts@0.26.0.patch
