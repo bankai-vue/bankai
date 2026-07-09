@@ -108,6 +108,7 @@ export interface BankaiFlexProps {
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { resolveGap } from '../../internal/spacing';
 
 const {
   as = 'div',
@@ -129,25 +130,9 @@ const {
  */
 defineOptions({ name: 'BankaiFlex', inheritAttrs: true });
 
-// Resolve a `gap` prop to the CSS value carried by `--bankai-flex-gap` (the theme's `:where()`
-// rule reads it). A number — or a bare-numeric string, since a static `gap="4"` arrives as `'4'` —
-// is a spacing-scale STEP: it resolves to the rem-based `--bankai-space-<n>` token, with a
-// `calc(n × var(--bankai-space-unit))` fallback for out-of-scale/no-theme steps. The base unit is
-// theme-owned (`--bankai-space-unit`), so the fallback tracks the *active* theme's grid — core bakes
-// no base; the literal `0.125rem` is only the last-resort default when no theme is loaded at all.
-// (A hardcoded base here would silently use `theme-bankai`'s 2px grid under `theme-tailwind`.)
-// Any other string is a verbatim CSS length (`'1rem'`, `'var(--x)'`, `'clamp(…)'`).
-function resolveGap(value: BankaiFlexGap): string {
-  if (typeof value === 'string' && !/^\d+(?:\.\d+)?$/u.test(value)) {
-    return value;
-  }
-
-  const step = Number(value);
-  const fallback = `calc(${step} * var(--bankai-space-unit, 0.125rem))`;
-  // Only whole steps have a `--bankai-space-<n>` token (fractional names aren't valid identifiers).
-  return Number.isInteger(step) ? `var(--bankai-space-${step}, ${fallback})` : fallback;
-}
-
+// `gap` resolves to the CSS value carried by `--bankai-flex-gap` (the theme's `:where()` rule reads
+// it): a spacing-scale step → the rem-based `--bankai-space-<n>` token, any other string verbatim.
+// The coercion lives in `internal/spacing` since `BankaiGrid` shares it (SPEC.md §4.11).
 // Unset → omitted (Vue drops an `undefined` style value), so the theme's `normal` fallback applies.
 const rootStyle = computed<CSSProperties>(() => {
   const gapCss = gap === undefined ? undefined : resolveGap(gap);

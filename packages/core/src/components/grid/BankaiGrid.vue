@@ -145,10 +145,32 @@ export interface BankaiGridProps {
    */
   inline?: boolean;
 }
+
+// Resolve a `columns`/`rows` prop to a `grid-template-*` value. A number — or a bare-numeric string,
+// since a static `columns="3"` arrives as `'3'` — is a count of equal tracks, expanded to
+// `repeat(<n>, minmax(0, 1fr))`; the `minmax(0, 1fr)` (not a bare `1fr`) lets tracks shrink below
+// content min-size, avoiding grid blowout. Any other string is a verbatim template value.
+// Grid-only (no other component reuses it), so it lives at module scope — allocated once, not per
+// instance — rather than in `internal/` (SPEC.md §4.11 share-or-hoist rule).
+function resolveTracks(value: BankaiGridColumns): string {
+  if (typeof value === 'string' && !/^\d+$/u.test(value)) {
+    return value;
+  }
+
+  return `repeat(${Number(value)}, minmax(0, 1fr))`;
+}
+
+// Resolve an `areas` prop to a `grid-template-areas` value. An array is the ergonomic form: each
+// entry is one row, auto-wrapped in quotes (`['a b', 'c d']` → `"a b" "c d"`). A string is verbatim,
+// so it must already carry its own quotes. Grid-only → module scope (see `resolveTracks`).
+function resolveAreas(value: BankaiGridAreas): string {
+  return Array.isArray(value) ? value.map((row) => `"${row}"`).join(' ') : value;
+}
 </script>
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { resolveGap } from '../../internal/spacing';
 
 const {
   as = 'div',
@@ -173,43 +195,8 @@ const {
  */
 defineOptions({ name: 'BankaiGrid', inheritAttrs: true });
 
-// Resolve a `gap` prop to the CSS value carried by `--bankai-grid-gap` (the theme's `:where()` rule
-// reads it). A number — or a bare-numeric string, since a static `gap="4"` arrives as `'4'` — is a
-// spacing-scale STEP: it resolves to the rem-based `--bankai-space-<n>` token, with a
-// `calc(n × var(--bankai-space-unit))` fallback for out-of-scale/no-theme steps. The base unit is
-// theme-owned (`--bankai-space-unit`), so the fallback tracks the *active* theme's grid — core bakes
-// no base; the literal `0.125rem` is only the last-resort default when no theme is loaded at all.
-// Any other string is a verbatim CSS length (`'1rem'`, `'1rem 2rem'`, `'var(--x)'`, `'clamp(…)'`).
-function resolveGap(value: BankaiGridGap): string {
-  if (typeof value === 'string' && !/^\d+(?:\.\d+)?$/u.test(value)) {
-    return value;
-  }
-
-  const step = Number(value);
-  const fallback = `calc(${step} * var(--bankai-space-unit, 0.125rem))`;
-  // Only whole steps have a `--bankai-space-<n>` token (fractional names aren't valid identifiers).
-  return Number.isInteger(step) ? `var(--bankai-space-${step}, ${fallback})` : fallback;
-}
-
-// Resolve a `columns`/`rows` prop to a `grid-template-*` value. A number — or a bare-numeric string,
-// since a static `columns="3"` arrives as `'3'` — is a count of equal tracks, expanded to
-// `repeat(<n>, minmax(0, 1fr))`; the `minmax(0, 1fr)` (not a bare `1fr`) lets tracks shrink below
-// content min-size, avoiding grid blowout. Any other string is a verbatim template value.
-function resolveTracks(value: BankaiGridColumns): string {
-  if (typeof value === 'string' && !/^\d+$/u.test(value)) {
-    return value;
-  }
-
-  return `repeat(${Number(value)}, minmax(0, 1fr))`;
-}
-
-// Resolve an `areas` prop to a `grid-template-areas` value. An array is the ergonomic form: each
-// entry is one row, auto-wrapped in quotes (`['a b', 'c d']` → `"a b" "c d"`). A string is verbatim,
-// so it must already carry its own quotes.
-function resolveAreas(value: BankaiGridAreas): string {
-  return Array.isArray(value) ? value.map((row) => `"${row}"`).join(' ') : value;
-}
-
+// `gap` resolves via `internal/spacing` (shared with `BankaiFlex`, SPEC.md §4.11); `columns`/`rows`
+// and `areas` use the Grid-only module-scope resolvers above.
 // Unset props are omitted (Vue drops an `undefined` style value), so the theme's `:where()` fallback
 // (`none`/`normal`) applies and the DOM stays clean.
 const rootStyle = computed<CSSProperties>(() => ({
