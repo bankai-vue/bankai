@@ -43,9 +43,11 @@ const shipping = [
         </BankaiText>
 
         <BankaiFlex align="center" justify="center" gap="6" wrap="wrap">
-          <a class="cta cta--primary" :href="repoUrl">Star on GitHub</a>
-          <a class="cta" :href="roadmapUrl">Roadmap</a>
-          <a class="cta" :href="specUrl">Spec</a>
+          <a class="cta cta--primary" :href="repoUrl" target="_blank" rel="noopener noreferrer">
+            Star on GitHub
+          </a>
+          <a class="cta" :href="roadmapUrl" target="_blank" rel="noopener noreferrer">Roadmap</a>
+          <a class="cta" :href="specUrl" target="_blank" rel="noopener noreferrer">Spec</a>
         </BankaiFlex>
 
         <BankaiText as="p" size="sm" tone="subtle">
