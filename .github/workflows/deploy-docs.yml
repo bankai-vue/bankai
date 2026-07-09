@@ -1,0 +1,80 @@
+name: Deploy Docs
+
+on:
+  push:
+    branches:
+      - main
+    # Redeploy when the site, any published package (a new component changes the
+    # demo), or the toolchain/lockfile changes. Also manually via the Actions tab.
+    paths:
+      - 'docs/**'
+      - 'packages/**'
+      - 'pnpm-workspace.yaml'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/deploy-docs.yml'
+  workflow_dispatch:
+
+# Least privilege + the tokens GitHub Pages deployment requires.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One in-flight deployment at a time; don't cancel a running deploy (let it finish).
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    name: 'Build docs (SSG)'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+
+      - name: Set node version to 26
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: 26.5.0
+          cache: 'pnpm'
+
+      - name: Install deps
+        run: pnpm install
+
+      # Docs consume the workspace packages from dist/ (core + themes + the nuxt
+      # module), so build them before generating the site.
+      - name: Build packages
+        run: pnpm run build
+
+      - name: Generate static site
+        # NUXT_APP_BASE_URL sets app.baseURL for the project page at /bankai/.
+        env:
+          NUXT_APP_BASE_URL: /bankai/
+        run: pnpm --filter @bankai-vue/docs run generate
+
+      # GitHub Pages skips paths that start with `_` (Jekyll); Nuxt emits `_nuxt/`.
+      - name: Disable Jekyll processing
+        run: touch docs/.output/public/.nojekyll
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
+        with:
+          path: docs/.output/public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    name: 'Deploy to GitHub Pages'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5

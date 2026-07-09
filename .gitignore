@@ -6,6 +6,8 @@ dist/
 .output/
 .nuxt/
 .data/
+# Nuxt `generate` symlinks docs/dist -> docs/.output/public (a symlink, so the `dist/` rule above misses it)
+docs/dist
 
 # typescript
 *.tsbuildinfo

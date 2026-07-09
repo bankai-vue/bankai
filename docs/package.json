@@ -2,5 +2,25 @@
   "name": "@bankai-vue/docs",
   "version": "0.0.0",
   "private": true,
-  "description": "Reserved: the future documentation site, built on Nuxt + bankai-vue (SPEC.md §4.15). Not yet scaffolded."
+  "description": "The bankai-vue documentation site — built on Nuxt + bankai-vue itself (SPEC.md §4.15).",
+  "type": "module",
+  "scripts": {
+    "dev": "nuxi dev",
+    "build": "nuxi build",
+    "generate": "nuxi generate",
+    "preview": "nuxi preview",
+    "postinstall": "nuxi prepare",
+    "typecheck": "nuxi typecheck"
+  },
+  "dependencies": {
+    "@bankai-vue/core": "workspace:*",
+    "@bankai-vue/nuxt": "workspace:*",
+    "@bankai-vue/theme-bankai": "workspace:*",
+    "nuxt": "catalog:",
+    "vue": "catalog:"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "vue-tsc": "catalog:"
+  }
 }

@@ -15,6 +15,8 @@
     "clean": "git clean -fdx --exclude .claude --exclude local",
     "build": "pnpm -r --filter \"./packages/*\" run build",
     "dev": "pnpm --filter playground run dev",
+    "docs:dev": "pnpm --filter @bankai-vue/docs run dev",
+    "docs:generate": "pnpm --filter @bankai-vue/docs run generate",
     "typecheck": "pnpm run typecheck:ts && pnpm run typecheck:vue && pnpm run typecheck:scripts",
     "typecheck:ts": "tsgo --noEmit -p tsconfig.json",
     "typecheck:vue": "pnpm --filter @bankai-vue/core --filter playground run typecheck",
