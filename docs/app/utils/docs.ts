@@ -11,7 +11,7 @@ export interface NavItem {
 }
 
 /**
- * The components that currently ship and have a docs page. Add an entry when a component's page lands
+ * The components built so far that have a docs page. Add an entry when a component's page lands
  * — this is part of the per-component landing checklist. The sidebar and the landing "Shipping today"
  * grid both read from here, so there is a single source of truth for what exists.
  */

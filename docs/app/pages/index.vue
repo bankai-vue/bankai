@@ -71,7 +71,7 @@ const specUrl = `${repoUrl}/blob/main/SPEC.md`;
     </section>
 
     <section class="shipping">
-      <BankaiText as="h2" size="xl" weight="bold">Shipping today</BankaiText>
+      <BankaiText as="h2" size="xl" weight="bold">Built so far</BankaiText>
       <BankaiGrid columns="2" gap="8" class="shipping-grid">
         <NuxtLink v-for="item in componentNav" :key="item.to" :to="item.to" class="card">
           <BankaiText as="h3" size="md" weight="semibold">Bankai{{ item.name }}</BankaiText>

@@ -10,8 +10,7 @@ useHead({ title: 'Components · bankai-vue' });
   <article class="doc">
     <BankaiText as="h1" size="2xl" weight="black">Components</BankaiText>
     <BankaiText as="p" size="lg" tone="muted">
-      The components shipping today. More land as the roadmap progresses — this list grows with
-      them.
+      The components built so far. More land as the roadmap progresses — this list grows with them.
     </BankaiText>
 
     <BankaiGrid columns="2" gap="8" class="component-grid">
