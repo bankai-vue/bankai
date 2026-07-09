@@ -42,12 +42,43 @@ const shipping = [
           · first-class TypeScript · MIT, forever.
         </BankaiText>
 
+        <!--
+          Interim: reuse BankaiButton's `bankai-button` class + `data-bankai-*` state so the theme
+          styles these links (incl. the hover/active feedback tokens) exactly like a button — until
+          BankaiButton-as-link / BankaiLink lands (ROADMAP Phase 1). `:not(:disabled)` in the theme's
+          hover/active rules matches anchors, so the interaction colors apply.
+        -->
         <BankaiFlex align="center" justify="center" gap="6" wrap="wrap">
-          <a class="cta cta--primary" :href="repoUrl" target="_blank" rel="noopener noreferrer">
+          <a
+            class="bankai-button cta"
+            data-bankai-variant="solid"
+            data-bankai-size="md"
+            :href="repoUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Star on GitHub
           </a>
-          <a class="cta" :href="roadmapUrl" target="_blank" rel="noopener noreferrer">Roadmap</a>
-          <a class="cta" :href="specUrl" target="_blank" rel="noopener noreferrer">Spec</a>
+          <a
+            class="bankai-button cta"
+            data-bankai-variant="outline"
+            data-bankai-size="md"
+            :href="roadmapUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Roadmap
+          </a>
+          <a
+            class="bankai-button cta"
+            data-bankai-variant="outline"
+            data-bankai-size="md"
+            :href="specUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Spec
+          </a>
         </BankaiFlex>
 
         <BankaiText as="p" size="sm" tone="subtle">
@@ -113,18 +144,9 @@ const shipping = [
   max-width: 44rem;
 }
 
+/* Only the link-specific reset; visuals (incl. hover/active) come from the `bankai-button` class. */
 .cta {
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
   text-decoration: none;
-  border: 1px solid var(--bankai-color-border, currentColor);
-  color: inherit;
-}
-
-.cta--primary {
-  background: var(--bankai-color-primary, #4f46e5);
-  color: var(--bankai-color-primary-fg, #fff);
-  border-color: transparent;
 }
 
 .shipping-grid {
