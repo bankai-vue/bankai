@@ -15,12 +15,15 @@ const shipping = [
   { name: 'BankaiFlex', blurb: 'Flexbox helper driven by data-* + :where().' },
   { name: 'BankaiGrid', blurb: 'CSS-grid helper for 2D layouts.' },
 ];
+
+// gap/columns are spacing-scale steps: `--bankai-space-<n>` = n × 0.125rem.
+// (Distinct from BankaiText's `size` t-shirt scale — do not pass 'md'/'lg' here.)
 </script>
 
 <template>
   <!-- Raw <header> landmark for now → replaced by <BankaiHeader>/<BankaiNavbar> once they land (ROADMAP Phase 1). -->
   <header class="site-header">
-    <BankaiFlex align="center" justify="space-between" gap="md">
+    <BankaiFlex align="center" justify="between" gap="4" wrap="wrap">
       <BankaiText as="span" size="lg" weight="bold">bankai-vue</BankaiText>
       <BankaiText as="span" size="sm" tone="muted">Shikai · pre-0.1.0</BankaiText>
     </BankaiFlex>
@@ -30,16 +33,16 @@ const shipping = [
   <main class="site-main">
     <!-- Width is hand-capped here → replaced by <BankaiContainer> once it lands. -->
     <section class="hero">
-      <BankaiFlex direction="column" align="center" gap="lg">
+      <BankaiFlex direction="column" align="center" gap="12">
         <BankaiText as="h1" size="2xl" weight="black">
           The agnostic, accessibility-first Vue 3 component framework
         </BankaiText>
-        <BankaiText as="p" size="lg" tone="muted">
+        <BankaiText as="p" size="lg" tone="muted" class="hero-lede">
           Guiding defaults you can fully restyle · bring your own CSS framework · native modern HTML
           · first-class TypeScript · MIT, forever.
         </BankaiText>
 
-        <BankaiFlex align="center" justify="center" gap="md" wrap="wrap">
+        <BankaiFlex align="center" justify="center" gap="6" wrap="wrap">
           <a class="cta cta--primary" :href="repoUrl">Star on GitHub</a>
           <a class="cta" :href="roadmapUrl">Roadmap</a>
           <a class="cta" :href="specUrl">Spec</a>
@@ -53,18 +56,21 @@ const shipping = [
 
     <section class="shipping">
       <BankaiText as="h2" size="xl" weight="bold">Shipping today</BankaiText>
-      <BankaiGrid columns="2" gap="md" class="shipping-grid">
+      <BankaiGrid columns="2" gap="8" class="shipping-grid">
         <article v-for="item in shipping" :key="item.name" class="card">
           <BankaiText as="h3" size="md" weight="semibold">{{ item.name }}</BankaiText>
           <BankaiText as="p" size="sm" tone="muted">{{ item.blurb }}</BankaiText>
         </article>
       </BankaiGrid>
 
-      <BankaiFlex align="center" gap="sm" wrap="wrap" class="button-demo">
-        <BankaiButton variant="solid">Solid</BankaiButton>
-        <BankaiButton variant="outline">Outline</BankaiButton>
-        <BankaiButton variant="ghost">Ghost</BankaiButton>
-      </BankaiFlex>
+      <div class="button-demo">
+        <BankaiText as="p" size="sm" tone="subtle">BankaiButton variants</BankaiText>
+        <BankaiFlex align="center" gap="4" wrap="wrap">
+          <BankaiButton variant="solid">Solid</BankaiButton>
+          <BankaiButton variant="outline">Outline</BankaiButton>
+          <BankaiButton variant="ghost">Ghost</BankaiButton>
+        </BankaiFlex>
+      </div>
     </section>
   </main>
 
@@ -91,14 +97,18 @@ const shipping = [
 .site-main {
   max-width: 64rem;
   margin-inline: auto;
-  padding: 3rem 1.5rem;
+  padding: 4rem 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 4rem;
+  gap: 5rem;
 }
 
 .hero {
   text-align: center;
+}
+
+.hero-lede {
+  max-width: 44rem;
 }
 
 .cta {
@@ -123,5 +133,11 @@ const shipping = [
   padding: 1rem;
   border: 1px solid var(--bankai-color-border, currentColor);
   border-radius: 0.75rem;
+}
+
+.button-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 </style>
