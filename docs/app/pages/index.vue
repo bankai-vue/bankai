@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BankaiButton, BankaiFlex, BankaiGrid, BankaiText } from '@bankai-vue/core';
+import { BankaiFlex, BankaiGrid, BankaiText } from '@bankai-vue/core';
 import { componentNav } from '../utils/docs';
 
 // Header/main/footer landmarks now come from the `default` layout (→ future <BankaiLayout>); this
@@ -78,15 +78,6 @@ const specUrl = `${repoUrl}/blob/main/SPEC.md`;
           <BankaiText as="p" size="sm" tone="muted">{{ item.tagline }}</BankaiText>
         </NuxtLink>
       </BankaiGrid>
-
-      <div class="button-demo">
-        <BankaiText as="p" size="sm" tone="subtle">BankaiButton variants</BankaiText>
-        <BankaiFlex align="center" gap="4" wrap="wrap">
-          <BankaiButton variant="solid">Solid</BankaiButton>
-          <BankaiButton variant="outline">Outline</BankaiButton>
-          <BankaiButton variant="ghost">Ghost</BankaiButton>
-        </BankaiFlex>
-      </div>
     </section>
   </div>
 </template>
@@ -131,11 +122,5 @@ const specUrl = `${repoUrl}/blob/main/SPEC.md`;
 
 .card:hover {
   background: color-mix(in oklch, currentcolor 6%, transparent);
-}
-
-.button-demo {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
 }
 </style>
