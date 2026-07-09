@@ -1,37 +1,20 @@
 <script setup lang="ts">
 import { BankaiButton, BankaiFlex, BankaiGrid, BankaiText } from '@bankai-vue/core';
+import { componentNav } from '../utils/docs';
 
-// Explicit imports for now: the @bankai-vue/nuxt module is registered (dogfooding
-// its load) but does not auto-register components yet — that lands in a later step.
-
+// Header/main/footer landmarks now come from the `default` layout (→ future <BankaiLayout>); this
+// page only fills the content slot. The "Shipping today" grid reads from the shared componentNav,
+// so cards link straight to each component's docs page.
 const repoUrl = 'https://github.com/bankai-vue/bankai';
 const roadmapUrl = `${repoUrl}/blob/main/ROADMAP.md`;
 const specUrl = `${repoUrl}/blob/main/SPEC.md`;
-
-// The primitives that already ship from @bankai-vue/core (Phase 0 + early Phase 1).
-const shipping = [
-  { name: 'BankaiButton', blurb: 'Native <button> with variant/size/type.' },
-  { name: 'BankaiText', blurb: 'Polymorphic text primitive + inline semantics.' },
-  { name: 'BankaiFlex', blurb: 'Flexbox helper driven by data-* + :where().' },
-  { name: 'BankaiGrid', blurb: 'CSS-grid helper for 2D layouts.' },
-];
 
 // gap/columns are spacing-scale steps: `--bankai-space-<n>` = n × 0.125rem.
 // (Distinct from BankaiText's `size` t-shirt scale — do not pass 'md'/'lg' here.)
 </script>
 
 <template>
-  <!-- Raw <header> landmark for now → replaced by <BankaiHeader>/<BankaiNavbar> once they land (ROADMAP Phase 1). -->
-  <header class="site-header">
-    <BankaiFlex align="center" justify="between" gap="4" wrap="wrap">
-      <BankaiText as="span" size="lg" weight="bold">bankai-vue</BankaiText>
-      <ColorSchemeToggle />
-    </BankaiFlex>
-  </header>
-
-  <!-- Raw <main> landmark for now → emitted by <BankaiLayout>'s default slot once it lands. -->
-  <main class="site-main">
-    <!-- Width is hand-capped here → replaced by <BankaiContainer> once it lands. -->
+  <div class="landing">
     <section class="hero">
       <BankaiFlex direction="column" align="center" gap="12">
         <BankaiText as="h1" size="2xl" weight="black">
@@ -90,10 +73,10 @@ const shipping = [
     <section class="shipping">
       <BankaiText as="h2" size="xl" weight="bold">Shipping today</BankaiText>
       <BankaiGrid columns="2" gap="8" class="shipping-grid">
-        <article v-for="item in shipping" :key="item.name" class="card">
-          <BankaiText as="h3" size="md" weight="semibold">{{ item.name }}</BankaiText>
-          <BankaiText as="p" size="sm" tone="muted">{{ item.blurb }}</BankaiText>
-        </article>
+        <NuxtLink v-for="item in componentNav" :key="item.to" :to="item.to" class="card">
+          <BankaiText as="h3" size="md" weight="semibold">Bankai{{ item.name }}</BankaiText>
+          <BankaiText as="p" size="sm" tone="muted">{{ item.tagline }}</BankaiText>
+        </NuxtLink>
       </BankaiGrid>
 
       <div class="button-demo">
@@ -105,32 +88,16 @@ const shipping = [
         </BankaiFlex>
       </div>
     </section>
-  </main>
-
-  <!-- Raw <footer> landmark for now → replaced by <BankaiFooter> once it lands. -->
-  <footer class="site-footer">
-    <BankaiText as="span" size="sm" tone="subtle">
-      MIT © bankai-vue · This site is built with bankai-vue.
-    </BankaiText>
-  </footer>
+  </div>
 </template>
 
 <style scoped>
 /*
- * Temporary page-local layout. Deliberately minimal and marked for removal:
- * spacing/width/region styling migrates onto BankaiLayout / BankaiContainer as
- * those components land (ROADMAP Phase 1). Component *look* comes from the
- * @bankai-vue/theme-bankai CSS, not from here.
+ * Temporary page-local layout. Component *look* comes from @bankai-vue/theme-bankai, not from here;
+ * width/region styling lives in the layout and migrates onto BankaiLayout/BankaiContainer as those
+ * components land (ROADMAP Phase 1).
  */
-.site-header,
-.site-footer {
-  padding: 1rem 1.5rem;
-}
-
-.site-main {
-  max-width: 64rem;
-  margin-inline: auto;
-  padding: 4rem 1.5rem;
+.landing {
   display: flex;
   flex-direction: column;
   gap: 5rem;
@@ -154,9 +121,16 @@ const shipping = [
 }
 
 .card {
+  display: block;
   padding: 1rem;
   border: 1px solid var(--bankai-color-border, currentColor);
   border-radius: 0.75rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.card:hover {
+  background: color-mix(in oklch, currentcolor 6%, transparent);
 }
 
 .button-demo {

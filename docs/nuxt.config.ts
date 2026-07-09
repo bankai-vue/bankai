@@ -36,9 +36,8 @@ export default defineNuxtConfig({
           content: 'The agnostic, accessibility-first Vue 3 component framework.',
         },
       ],
-      // Relative href resolves against the deployed base (e.g. /bankai/) so it
-      // works both locally and under the project-page path.
-      link: [{ rel: 'icon', type: 'image/svg+xml', href: 'favicon.svg' }],
+      // (favicon <link> is set in app.vue via useHead so its href can be prefixed with the
+      // runtime baseURL — a base-absolute path that resolves on nested routes too.)
       // No-flash dark mode (SPEC §4.18): apply a stored manual color-scheme override
       // BEFORE first paint. Runs synchronously in <head>; absent a stored choice, the
       // theme's `:root { color-scheme: light dark }` keeps following the OS. Interim to
