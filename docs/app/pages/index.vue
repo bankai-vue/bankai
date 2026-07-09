@@ -110,7 +110,7 @@ const shipping = [
   <!-- Raw <footer> landmark for now → replaced by <BankaiFooter> once it lands. -->
   <footer class="site-footer">
     <BankaiText as="span" size="sm" tone="subtle">
-      MIT © bankai-vue · This site is built with bankai-vue (dogfooding, SPEC §4.15).
+      MIT © bankai-vue · This site is built with bankai-vue.
     </BankaiText>
   </footer>
 </template>
