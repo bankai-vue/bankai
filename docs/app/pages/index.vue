@@ -25,7 +25,7 @@ const shipping = [
   <header class="site-header">
     <BankaiFlex align="center" justify="between" gap="4" wrap="wrap">
       <BankaiText as="span" size="lg" weight="bold">bankai-vue</BankaiText>
-      <BankaiText as="span" size="sm" tone="muted">Shikai · pre-0.1.0</BankaiText>
+      <ColorSchemeToggle />
     </BankaiFlex>
   </header>
 

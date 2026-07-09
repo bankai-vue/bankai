@@ -39,6 +39,19 @@ export default defineNuxtConfig({
       // Relative href resolves against the deployed base (e.g. /bankai/) so it
       // works both locally and under the project-page path.
       link: [{ rel: 'icon', type: 'image/svg+xml', href: 'favicon.svg' }],
+      // No-flash dark mode (SPEC §4.18): apply a stored manual color-scheme override
+      // BEFORE first paint. Runs synchronously in <head>; absent a stored choice, the
+      // theme's `:root { color-scheme: light dark }` keeps following the OS. Interim to
+      // the ColorSchemeToggle / future BankaiThemeToggle; on SSG this inline script is
+      // the sanctioned fallback (no per-request server to read a cookie).
+      script: [
+        {
+          key: 'bankai-color-scheme-init',
+          tagPosition: 'head',
+          innerHTML:
+            "try{var v=localStorage.getItem('bankai-docs-color-scheme');if(v)document.documentElement.style.colorScheme=v}catch(e){}",
+        },
+      ],
     },
   },
 });
