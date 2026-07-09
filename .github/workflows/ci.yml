@@ -41,20 +41,8 @@ jobs:
       - name: Install deps
         run: pnpm install
 
-      # `rolldown-plugin-dts` intermittently fails to emit `.d.ts` for `.vue`
-      # entries with "Unable to load file …/*.vue from the program" — a
-      # nondeterministic bug in Vue language tools (upstream:
-      # https://github.com/sxzz/rolldown-plugin-dts/issues/188). A genuinely
-      # broken build fails all attempts; only the transient flake is retried,
-      # and each retry logs a warning so it stays visible.
       - name: Build
-        shell: bash
-        run: |
-          for attempt in 1 2 3; do
-            pnpm run build && exit 0
-            echo "::warning::Build attempt ${attempt} failed (likely the flaky rolldown-plugin-dts Vue dts issue, sxzz/rolldown-plugin-dts#188); retrying…"
-          done
-          exit 1
+        run: pnpm run build
 
       # Unit/component tests run in a real browser (Vitest Playwright provider).
       - name: Resolve Playwright version
