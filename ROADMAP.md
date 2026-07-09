@@ -47,26 +47,27 @@ Behavior/composable layers (§4.17) built from scratch, native-first. Not user-f
 
 Per-component native anchors (annotated inline in the checklist below):
 
-| Component(s)                                                                                 | Native anchor                                                                                                                                                                                                                            |
-| -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `BankaiDialog` · `Modal` · `Popover` · `Tooltip` · `Menu`                                    | `<dialog>` + Popover API (top-layer, light-dismiss) — foundation F1 (Modal = Dialog preset)                                                                                                                                              |
-| `BankaiDisclosure` · `BankaiAccordion`                                                       | `<details>` / `<summary>` (Accordion = `<details name>` for native exclusive-open)                                                                                                                                                       |
-| `BankaiSelect`                                                                               | customizable `<select>` (`appearance: base-select` + `::picker(select)` + `<selectedcontent>`) — _progressive enhancement; styled-native fallback today_                                                                                 |
-| `BankaiCombobox`                                                                             | `<input list>` + `<datalist>` baseline; custom listbox for rich options                                                                                                                                                                  |
-| `BankaiSlider` / `InputNumber` / `ColorPicker` / `DatePicker` / `TimePicker`                 | `<input type=range/number/color/date/time>`                                                                                                                                                                                              |
-| `BankaiInput` · `Textarea` · `Checkbox` · `Radio` · `Switch`                                 | `<input>` (text/checkbox/radio) · `<textarea>` — Switch = checkbox + `role="switch"`                                                                                                                                                     |
-| `BankaiForm` · `BankaiFieldset` · `BankaiRadioGroup`                                         | `<form>` / `<fieldset>` / `<legend>`                                                                                                                                                                                                     |
-| `BankaiProgress` · `BankaiMeter`                                                             | `<progress>` (task) · `<meter>` (scalar-in-range) — distinct elements                                                                                                                                                                    |
-| `BankaiSeparator`                                                                            | `<hr>`                                                                                                                                                                                                                                   |
-| `BankaiDescriptions`                                                                         | `<dl>` / `<dt>` / `<dd>`                                                                                                                                                                                                                 |
-| `BankaiImage` · `BankaiVideo` · `BankaiAudio`                                                | `<picture>` / `<video>` / `<audio>`                                                                                                                                                                                                      |
-| `BankaiSearch`                                                                               | `<search>` landmark                                                                                                                                                                                                                      |
-| `BankaiLayout` · `Header` · `Aside` · `Main` · `Footer` · `Navbar` · `Sidebar` · `Container` | `<header>` / `<nav>` / `<aside>` / `<main>` / `<footer>` landmarks (regions vs. content: Navbar→Header, Sidebar→Aside)                                                                                                                   |
-| `BankaiFlex` · `Grid` · `Stack` · `Group`                                                    | `<div>` (polymorphic via `as`) — props reflected as `data-bankai-*` (+ a `--bankai-*-gap` custom prop) consumed by zero-specificity `:where()` theme CSS, so consumer utility classes override (§4.4/§4.6); Stack/Group are Flex presets |
-| `BankaiHeading` · `Paragraph` · `Code` · `Kbd` · `Text`                                      | `<h1>`–`<h6>` / `<p>` / `<code>` / `<kbd>` / `<span>` + inline text semantics (`<mark>`, `<abbr>`, `<time>`, `<s>`…)                                                                                                                     |
-| `BankaiSimpleTable` · `BankaiDataTable`                                                      | `<table>` (+ `<thead>`/`<tbody>`/`<tr>`/`<td>`/`<th>`/`<caption>`)                                                                                                                                                                       |
-| `BankaiButton` · `ButtonGroup` · `Link` · `Icon`                                             | `<button>` · `role="group"` · `<a>` · `<svg>` (BYO icon, `currentColor`)                                                                                                                                                                 |
-| `BankaiVisuallyHidden`                                                                       | `<span>` (visually-hidden / sr-only clip)                                                                                                                                                                                                |
+| Component(s)                                                                   | Native anchor                                                                                                                                                                                                                            |
+| ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `BankaiDialog` · `Modal` · `Popover` · `Tooltip` · `Menu`                      | `<dialog>` + Popover API (top-layer, light-dismiss) — foundation F1 (Modal = Dialog preset)                                                                                                                                              |
+| `BankaiDisclosure` · `BankaiAccordion`                                         | `<details>` / `<summary>` (Accordion = `<details name>` for native exclusive-open)                                                                                                                                                       |
+| `BankaiSelect`                                                                 | customizable `<select>` (`appearance: base-select` + `::picker(select)` + `<selectedcontent>`) — _progressive enhancement; styled-native fallback today_                                                                                 |
+| `BankaiCombobox`                                                               | `<input list>` + `<datalist>` baseline; custom listbox for rich options                                                                                                                                                                  |
+| `BankaiSlider` / `InputNumber` / `ColorPicker` / `DatePicker` / `TimePicker`   | `<input type=range/number/color/date/time>`                                                                                                                                                                                              |
+| `BankaiInput` · `Textarea` · `Checkbox` · `Radio` · `Switch`                   | `<input>` (text/checkbox/radio) · `<textarea>` — Switch = checkbox + `role="switch"`                                                                                                                                                     |
+| `BankaiForm` · `BankaiFieldset` · `BankaiRadioGroup`                           | `<form>` / `<fieldset>` / `<legend>`                                                                                                                                                                                                     |
+| `BankaiProgress` · `BankaiMeter`                                               | `<progress>` (task) · `<meter>` (scalar-in-range) — distinct elements                                                                                                                                                                    |
+| `BankaiSeparator`                                                              | `<hr>`                                                                                                                                                                                                                                   |
+| `BankaiDescriptions`                                                           | `<dl>` / `<dt>` / `<dd>`                                                                                                                                                                                                                 |
+| `BankaiImage` · `BankaiVideo` · `BankaiAudio`                                  | `<picture>` / `<video>` / `<audio>`                                                                                                                                                                                                      |
+| `BankaiSearch`                                                                 | `<search>` landmark                                                                                                                                                                                                                      |
+| `BankaiLayout` · `Header` · `Aside` · `Main` · `Footer` · `Navbar` · `Sidebar` | `<header>` / `<nav>` / `<aside>` / `<main>` / `<footer>` landmarks (regions vs. content: Navbar→Header, Sidebar→Aside)                                                                                                                   |
+| `BankaiPage` · `BankaiContainer`                                               | `<div>` structural wrappers — Page = per-route host, Container = width utility; **neither is a landmark** (§5.6)                                                                                                                         |
+| `BankaiFlex` · `Grid` · `Stack` · `Group`                                      | `<div>` (polymorphic via `as`) — props reflected as `data-bankai-*` (+ a `--bankai-*-gap` custom prop) consumed by zero-specificity `:where()` theme CSS, so consumer utility classes override (§4.4/§4.6); Stack/Group are Flex presets |
+| `BankaiHeading` · `Paragraph` · `Code` · `Kbd` · `Text`                        | `<h1>`–`<h6>` / `<p>` / `<code>` / `<kbd>` / `<span>` + inline text semantics (`<mark>`, `<abbr>`, `<time>`, `<s>`…)                                                                                                                     |
+| `BankaiSimpleTable` · `BankaiDataTable`                                        | `<table>` (+ `<thead>`/`<tbody>`/`<tr>`/`<td>`/`<th>`/`<caption>`)                                                                                                                                                                       |
+| `BankaiButton` · `ButtonGroup` · `Link` · `Icon`                               | `<button>` · `role="group"` · `<a>` · `<svg>` (BYO icon, `currentColor`)                                                                                                                                                                 |
+| `BankaiVisuallyHidden`                                                         | `<span>` (visually-hidden / sr-only clip)                                                                                                                                                                                                |
 
 ---
 
@@ -129,33 +130,40 @@ Not set in stone — these names and APIs are **provisional** and get developed 
 
 ### Phase 1 — Docs-shell dogfooding
 
-Layout regions — `BankaiLayout` wraps each slot in the matching landmark region below (the regions also work standalone):
+Layout regions — `BankaiLayout` wraps each slot in the matching landmark region below (the regions also work standalone). Together with `BankaiApp` (Phase 3) they form a **four-layer app structure**, each layer with a non-overlapping job (full roles + nesting rules in SPEC §5.6):
 
-- [ ] `BankaiLayout` — CSS-grid app shell; wraps `#header`/`#sidebar`/`#footer`/default slots in the regions below. Consumer controls the grid via CSS, no `view`-string DSL. ≈ Element Plus `el-container` / Quasar `QLayout`, not `QPage`
+**App** (infra singleton) › **Layout** (shell + landmarks) › **Page** (per-route host) › **Container** (width utility).
+
+- [ ] `BankaiLayout` — CSS-grid app shell; wraps `#header`/`#sidebar`/`#footer`/default slots in the regions below. Consumer controls the grid via CSS, no `view`-string DSL. Persists across routes. ≈ Element Plus `el-container` / Quasar `QLayout`, not `QPage`
 - [ ] `BankaiHeader` — `<header>` region (holds `BankaiNavbar`)
 - [ ] `BankaiAside` — `<aside>` region (holds `BankaiSidebar`)
-- [ ] `BankaiMain` — `<main>` region
+- [ ] `BankaiMain` — `<main>` region — emitted by `BankaiLayout`'s default slot, so nothing nested inside should render its own `<main>` (landmark uniqueness)
 - [ ] `BankaiFooter` — `<footer>` region
-- [ ] `BankaiContainer` — max-width / padding / centering wrapper inside `<main>`; the `QPage` / `QPageContainer` role
+- [ ] `BankaiPage` — per-route content host inside `<main>`; ≈ Quasar `QPage`. Owns per-route concerns (min-height fill so short pages still push the footer down, scroll region, route-transition host) + the "every route starts with `<BankaiPage>`" DX convention. **Not** a landmark, and deliberately does **no** implicit child-rewriting (no auto heading-levels — see §5.6). Can land thin (a min-height wrapper) and grow once there's routing to dogfood
+- [ ] `BankaiContainer` — width utility: centered max-width by default, full-width/`fluid` via prop (the "bars left/right on huge desktop viewports" toggle); reusable anywhere (Card, section, hero), not once-per-route. ≈ Quasar `QPageContainer` / Bootstrap `container`/`-fluid`
 
-Composition — the consumer fills slots with content; `BankaiLayout` emits the landmarks:
+Composition — the consumer fills slots with content; `BankaiLayout` emits the landmarks, `BankaiPage` hosts the route, `BankaiContainer` sets the content width:
 
 ```vue
 <BankaiLayout>
   <template #header><BankaiNavbar /></template>
   <template #sidebar><BankaiSidebar /></template>
   <template #footer>…</template>
-  <BankaiContainer>… page content …</BankaiContainer>
+  <BankaiPage>
+    <BankaiContainer>… page content …</BankaiContainer>
+  </BankaiPage>
 </BankaiLayout>
 
 <!-- renders → -->
 <div class="bankai-layout"><!-- display: grid -->
   <header data-part="header">…</header>
   <aside  data-part="sidebar">…</aside>
-  <main   data-part="main">…</main>
+  <main   data-part="main">…page › container › content…</main>
   <footer data-part="footer">…</footer>
 </div>
 ```
+
+Full-bleed-hero-plus-centered-body falls out naturally — two Containers at different widths inside one Page (`<BankaiContainer fluid>` hero, then a default `<BankaiContainer>` for the article).
 
 Layout utilities — prop-driven layout: props are reflected as `data-bankai-*` on the root (`gap` as a `--bankai-*-gap` custom property) and turned into layout by zero-specificity `:where()` rules in `@bankai-vue/theme-bankai`, so a consumer's utility classes (Tailwind/Bootstrap/UnoCSS) override by plain specificity — no `!important` (§4.4/§4.6). Polymorphic `as` (default `<div>`); needs the theme CSS (or equivalent targeting the root class) loaded. The composable replacement for Vuetify `VRow`/`VCol`:
 
@@ -226,7 +234,7 @@ Date/time family — designed together, slots late in the phase (heaviest inputs
 
 ### Phase 3 — Overlays & disclosure
 
-- [ ] `BankaiApp` — optional app-level wrapper (à la Nuxt UI `UApp` / Vuetify `v-app`): a single overlay/portal mount target + toast host + app-side config context, and an **embedded-mode surface** (carries `--bankai-color-bg`/`color`/`color-scheme` on its own box, so a bankai island in a foreign page is self-contained without the global page-surface paint). Lands with F1, when the overlay/portal root it provides first has consumers
+- [ ] `BankaiApp` — optional app-level wrapper (à la Nuxt UI `UApp` / Vuetify `v-app`): a single overlay/portal mount target + toast host + app-side config context, and an **embedded-mode surface** (carries `--bankai-color-bg`/`color`/`color-scheme` on its own box, so a bankai island in a foreign page is self-contained without the global page-surface paint). Lands with F1, when the overlay/portal root it provides first has consumers. **Singleton at the root** — its services are `provide/inject`, so **side-by-side is fine** (embedded micro-frontends, split-screen) but **nesting App-in-App is discouraged** (an inner App silently shadows the outer's overlay/toast host). See SPEC §5.6
 - [ ] `BankaiDialog` — native `<dialog>`; `modal` prop (`showModal()` + `::backdrop` + focus trap) & `dismissable` prop (Esc / click-outside)
 - [ ] `BankaiModal` — sugar for `BankaiDialog :modal :dismissable="false"` (must be explicitly closed); preset, same as Stack/Group over Flex
 - [ ] `BankaiDrawer` _(universal)_ — edge-anchored panel (PrimeVue/Nuxt call it Drawer; ex-Sidebar)

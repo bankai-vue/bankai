@@ -218,6 +218,26 @@ Themes are **separate, swappable CSS packages**; `core` stays unstyled. Design t
 
 `core` near-zero deps via the §4.13 ladder. Sanctioned narrow/peer deps: `@floating-ui/vue` (positioning). Optional/peer only: VueUse.
 
+### 5.6 App structure — `App` / `Layout` / `Page` / `Container`
+
+Four components structure an application, each with **one non-overlapping job**. Roughly nested outermost→innermost:
+
+| Component         | Job                                                        | Analog                    | Landmark?             |
+| ----------------- | ---------------------------------------------------------- | ------------------------- | --------------------- |
+| `BankaiApp`       | Infra: overlay/portal root, toast host, config/theme surface | Nuxt UI `UApp` / `v-app`  | no                    |
+| `BankaiLayout`    | App shell: CSS-grid + native landmarks; persists across routes | Quasar `QLayout`          | emits region landmarks |
+| `BankaiPage`      | Per-route content host: min-height, scroll, transition, DX | Quasar `QPage`            | no                    |
+| `BankaiContainer` | Width utility: centered max-width ↔ `fluid`; reusable anywhere | `QPageContainer` / Bootstrap `container`/`-fluid` | no |
+
+Making `Container` own the width toggle (centered vs. edge-to-edge on large viewports) is what keeps `Page` and `Container` from overlapping: `Container` answers _how wide_, `Page` answers _per-route lifecycle_. `Layout`'s default slot is the sole emitter of `<main>` — `Page`/`Container` never render their own.
+
+**Nesting rules (different constraint per layer):**
+
+- **`App` — singleton at the root.** Services are `provide/inject`, so an inner `App` would silently shadow the outer's overlay/toast host. **Side-by-side is legitimate** (embedded micro-frontends, split-screen); **ancestor/descendant nesting is not.**
+- **`Layout` — don't nest.** Different reason: **landmark uniqueness.** Nested `Layout` emits `<main>` inside `<main>`, an accessibility defect (`<main>` must be unique per document).
+
+**No implicit child-rewriting ("no black magic").** Consistent with §4.16 (correct structure is the point) and predictability over cleverness: `BankaiPage` (and the family generally) must **not** silently alter what its descendants render. Concretely, an auto heading-level context — where `BankaiHeading` would infer `<h1>`–`<h6>` from ancestors — was **rejected**: it is non-local (a heading's tag can't be read in isolation), fails silently into wrong outlines, and complicates SSR/review. Heading levels stay **explicit** via `:level`.
+
 ---
 
 ## 6. Tooling & horizon
