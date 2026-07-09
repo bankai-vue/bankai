@@ -11,7 +11,10 @@ permissions:
   contents: read # to fetch code (actions/checkout)
 
 concurrency:
-  group: ci-${{ github.ref }}
+  # PRs group by PR number so a new push cancels the previous run.
+  # Everything else (push to main, merge_group) gets a unique group via
+  # run_id, so main-branch pipelines are never canceled by a following commit.
+  group: ci-${{ github.event.pull_request.number || github.run_id }}
   cancel-in-progress: true
 
 jobs:
