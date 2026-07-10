@@ -140,7 +140,7 @@ Layout regions — `BankaiLayout` wraps each slot in the matching landmark regio
 - [ ] `BankaiMain` — `<main>` region — emitted by `BankaiLayout`'s default slot, so nothing nested inside should render its own `<main>` (landmark uniqueness)
 - [ ] `BankaiFooter` — `<footer>` region — standalone version; `BankaiLayout` emits `<footer>` inline for its `#footer` slot
 - [ ] `BankaiPage` — per-route content host inside `<main>`; ≈ Quasar `QPage`. Owns per-route concerns (min-height fill so short pages still push the footer down, scroll region, route-transition host) + the "every route starts with `<BankaiPage>`" DX convention. **Not** a landmark, and deliberately does **no** implicit child-rewriting (no auto heading-levels — see §5.6). Can land thin (a min-height wrapper) and grow once there's routing to dogfood
-- [ ] `BankaiContainer` — width utility: centered max-width by default, full-width/`fluid` via prop (the "bars left/right on huge desktop viewports" toggle); reusable anywhere (Card, section, hero), not once-per-route. ≈ Quasar `QPageContainer` / Bootstrap `container`/`-fluid`. **Next component PR.** Unblocks the **docs-shell migration** (a follow-up PR): moving `docs/app/layouts/{default,docs}.vue` onto `BankaiLayout` + `BankaiContainer` — the current shell has full-bleed header/footer bars + a body centered at 72rem, which wants a Container inside the regions rather than baking a max-width into the Layout grid. That migration must also strip the `<header>`/`<footer>` landmark wrappers from `SiteHeader`/`SiteFooter` (else they nest inside Layout's region landmarks) and move both layouts together (they share those components).
+- [x] `BankaiContainer` — width utility: polymorphic `as` (default `<div>`) + `fluid` boolean. Centered at `--bankai-container-max-width` (with a `--bankai-container-gutter` inline padding) by default; `fluid` reflects `data-bankai-fluid` and drops the cap for full-width (the "bars left/right on huge viewports" toggle). The width is intrinsic, not viewport-driven — it collapses to edge-to-edge on its own in a narrow/embedded parent, no media queries (SPEC §4.19). Reusable anywhere (Card, section, hero), not once-per-route. ≈ Quasar `QPageContainer` / Bootstrap `container`/`-fluid`. Still unblocks the **docs-shell migration** (a follow-up PR): moving `docs/app/layouts/{default,docs}.vue` onto `BankaiLayout` + `BankaiContainer` — the current shell has full-bleed header/footer bars + a body centered at 72rem, which wants a Container inside the regions rather than baking a max-width into the Layout grid. That migration must also strip the `<header>`/`<footer>` landmark wrappers from `SiteHeader`/`SiteFooter` (else they nest inside Layout's region landmarks) and move both layouts together (they share those components).
 
 Composition — the consumer fills slots with content; `BankaiLayout` emits the landmarks, `BankaiPage` hosts the route, `BankaiContainer` sets the content width:
 
@@ -164,6 +164,16 @@ Composition — the consumer fills slots with content; `BankaiLayout` emits the 
 ```
 
 Full-bleed-hero-plus-centered-body falls out naturally — two Containers at different widths inside one Page (`<BankaiContainer fluid>` hero, then a default `<BankaiContainer>` for the article).
+
+**`BankaiContainer` — potential ideas (not committed; add the API when dogfooding needs it):**
+
+- **`size` prop** — a named max-width scale (e.g. `sm`/`md`/`lg`/`xl`, plus a verbatim escape hatch for any CSS length, per the escape-hatch pattern) mapping onto a `--bankai-container-max-width-*` token family in both themes (theme-tailwind onto Tailwind's `--container-*` scale). It answers _which_ cap; today there is one (`--bankai-container-max-width`), retunable via CSS. **Ship it as the mutually-exclusive branch of a discriminated union with `fluid`**, so `size` (a cap) and `fluid` (no cap) can't both be set — a type error at the call site via vue-tsc, since they fight over the same axis:
+  ```ts
+  type BankaiContainerProps = { as?: BankaiContainerAs } & (
+    { fluid?: boolean; size?: never } | { size?: BankaiContainerSize; fluid?: never }
+  );
+  ```
+  This addition is **non-breaking**: it keeps `fluid` and only rejects `<BankaiContainer fluid size="…">`, which was never expressible before. `size` still needs no responsiveness of its own — each cap degrades to edge-to-edge intrinsically below its width (§4.19). Verify Vue's `defineProps` resolves the intersection-of-a-union and that Reactive Props Destructure with a `= false` default behaves, via `.test-d.ts`, when it lands.
 
 **`BankaiLayout` — potential ideas (not committed; add the API when dogfooding needs it):**
 

@@ -7,6 +7,12 @@ export type {
   BankaiButtonType,
   BankaiButtonVariant,
 } from './components/button/BankaiButton.vue';
+export { default as BankaiContainer } from './components/container/BankaiContainer.vue';
+export type {
+  BankaiContainerAs,
+  BankaiContainerProps,
+  BankaiContainerSlots,
+} from './components/container/BankaiContainer.vue';
 export { default as BankaiFlex } from './components/flex/BankaiFlex.vue';
 export type {
   BankaiFlexAlign,

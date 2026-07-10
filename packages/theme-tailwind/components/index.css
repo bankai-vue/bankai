@@ -20,6 +20,7 @@
  */
 
 @import './button.css';
+@import './container.css';
 @import './flex.css';
 @import './grid.css';
 @import './layout.css';

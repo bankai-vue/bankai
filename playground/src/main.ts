@@ -1,27 +1,25 @@
 import type { Component } from 'vue';
 import { createApp } from 'vue';
 import App from './App.vue';
-import ButtonFixture from './fixtures/ButtonFixture.vue';
-import FlexFixture from './fixtures/FlexFixture.vue';
-import FlexMappingFixture from './fixtures/FlexMappingFixture.vue';
-import GridFixture from './fixtures/GridFixture.vue';
-import GridMappingFixture from './fixtures/GridMappingFixture.vue';
-import LayoutFixture from './fixtures/LayoutFixture.vue';
-import TextFixture from './fixtures/TextFixture.vue';
-import TextMappingFixture from './fixtures/TextMappingFixture.vue';
 
-// `?fixture=<name>` mounts an isolated, deterministic fixture used by e2e/visual
-// tests; everything else gets the normal demo app.
-const fixtures: Record<string, Component> = {
-  button: ButtonFixture,
-  flex: FlexFixture,
-  'flex-mapping': FlexMappingFixture,
-  grid: GridFixture,
-  'grid-mapping': GridMappingFixture,
-  layout: LayoutFixture,
-  text: TextFixture,
-  'text-mapping': TextMappingFixture,
-};
+// `?fixture=<name>` mounts an isolated, deterministic fixture used by e2e/visual tests; everything
+// else gets the normal demo app. Fixtures auto-register: every `fixtures/*Fixture.vue` is picked up
+// by Vite's eager glob and keyed by its filename (camelCase → kebab, `Fixture.vue` dropped), so
+// `ButtonFixture.vue` → `button` and `FlexMappingFixture.vue` → `flex-mapping`. Adding a fixture file
+// is all it takes — no import/registration line to touch (and no growing dependency list here).
+const modules = import.meta.glob<{ default: Component }>('./fixtures/*Fixture.vue', {
+  eager: true,
+});
+
+const fixtures: Record<string, Component> = {};
+for (const [path, module] of Object.entries(modules)) {
+  const key = path
+    .slice('./fixtures/'.length)
+    .replace(/Fixture\.vue$/u, '')
+    .replaceAll(/([a-z0-9])([A-Z])/gu, '$1-$2')
+    .toLowerCase();
+  fixtures[key] = module.default;
+}
 
 const name = new URLSearchParams(window.location.search).get('fixture');
 const fixture = name === null ? undefined : fixtures[name];
