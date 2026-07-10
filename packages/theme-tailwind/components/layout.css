@@ -1,24 +1,33 @@
 /*
  * BankaiLayout — the app-shell grid, Tailwind theme.
  *
- * Mirrors the house theme's `components/layout.css`, but the one Tailwind-expressible declaration
+ * Mirrors the house theme's `components/layout.css`. The one Tailwind-expressible declaration
  * (`display: grid`) uses `@apply` so it speaks the CONSUMER's Tailwind build (SPEC.md §4.6, §5.4);
  * because it uses `@apply`, this file is Tailwind *source* — it must be compiled by the consumer's
- * Tailwind build, not shipped as static CSS. The grid template (`grid-template-areas`/`-columns`/
- * `-rows`), `min-block-size`, and the per-region `grid-area` assignments have no Tailwind utility, so
- * they stay plain CSS. Every rule stays wrapped in zero-specificity `:where()`, so a consumer's own
- * CSS/utility classes targeting `.bankai-layout` override the default track sizing (SPEC.md §4.4, §4.6).
+ * Tailwind build, not shipped as static CSS. The grid template and `min-block-size` have no Tailwind
+ * utility, so they ride `--bankai-layout-*` custom properties (declared in `:where(:root)` below at
+ * parity with the house theme — structural values, identical in both themes), so a consumer retunes
+ * one axis by overriding a single property. The per-region `grid-area` assignments stay literal. Every
+ * rule stays wrapped in zero-specificity `:where()`, so a consumer's own CSS/utility classes targeting
+ * `.bankai-layout` override the default track sizing without `!important` (SPEC.md §4.4, §4.6).
  */
+
+:where(:root) {
+  /* A short page still pushes the footer to the bottom of the viewport. */
+  --bankai-layout-min-block-size: 100dvh;
+  /* Default shell grid: an `auto`-sized sidebar left of a `1fr` main, with header/footer spanning the
+   * full width. An absent region leaves its area empty and its `auto` track collapses to zero. */
+  --bankai-layout-columns: auto 1fr;
+  --bankai-layout-rows: auto 1fr auto;
+  --bankai-layout-areas: 'header  header' 'sidebar main' 'footer  footer';
+}
 
 :where(.bankai-layout) {
   @apply grid;
-  min-block-size: 100dvh;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: auto 1fr auto;
-  grid-template-areas:
-    'header  header'
-    'sidebar main'
-    'footer  footer';
+  min-block-size: var(--bankai-layout-min-block-size);
+  grid-template-columns: var(--bankai-layout-columns);
+  grid-template-rows: var(--bankai-layout-rows);
+  grid-template-areas: var(--bankai-layout-areas);
 }
 
 :where(.bankai-layout > [data-part='header']) {

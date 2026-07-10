@@ -12,17 +12,30 @@
  * provided, an absent region leaves its named area empty and the surrounding `auto` track collapses
  * to zero — so a header-less or sidebar-less app needs no track override. `min-block-size: 100dvh`
  * makes a short page still push the footer to the bottom of the viewport.
+ *
+ * The grid template + min block size ride `--bankai-layout-*` custom properties declared in
+ * `:where(:root)` below, so a consumer retunes one axis — e.g. `--bankai-layout-columns` — by
+ * overriding a single property, without redeclaring the whole grid. (The per-region `grid-area`
+ * assignments stay literal: they pin each `data-part` to the named area the template references.)
  */
+
+:where(:root) {
+  /* A short page still pushes the footer to the bottom of the viewport. */
+  --bankai-layout-min-block-size: 100dvh;
+  /* Default shell grid: an `auto`-sized sidebar left of a `1fr` main, with header/footer spanning the
+   * full width. An absent region leaves its area empty and its `auto` track collapses to zero, so a
+   * header-less or sidebar-less app needs no override. */
+  --bankai-layout-columns: auto 1fr;
+  --bankai-layout-rows: auto 1fr auto;
+  --bankai-layout-areas: 'header  header' 'sidebar main' 'footer  footer';
+}
 
 :where(.bankai-layout) {
   display: grid;
-  min-block-size: 100dvh;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: auto 1fr auto;
-  grid-template-areas:
-    'header  header'
-    'sidebar main'
-    'footer  footer';
+  min-block-size: var(--bankai-layout-min-block-size);
+  grid-template-columns: var(--bankai-layout-columns);
+  grid-template-rows: var(--bankai-layout-rows);
+  grid-template-areas: var(--bankai-layout-areas);
 }
 
 :where(.bankai-layout > [data-part='header']) {
