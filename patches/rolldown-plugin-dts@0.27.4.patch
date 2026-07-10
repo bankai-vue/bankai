@@ -1,0 +1,14 @@
+diff --git a/dist/tsc-CgJ-ct_1.mjs b/dist/tsc-CgJ-ct_1.mjs
+index 13d5d396a9927dbec0f69f5dafd6e1732a33e0eb..0000000000000000000000000000000000000000 100644
+--- a/dist/tsc-CgJ-ct_1.mjs
++++ b/dist/tsc-CgJ-ct_1.mjs
+@@ -364,7 +364,8 @@ function createTsProgramFromParsedConfig({ parsedConfig, fsSystem, baseDir, id, e
+ 	const compilerOptions = {
+ 		...defaultCompilerOptions,
+ 		...parsedConfig.options,
+ 		$configRaw: parsedConfig.raw,
+-		$rootDir: baseDir
++		$rootDir: baseDir,
++		...(vue || tsMacro ? { allowNonTsExtensions: true } : void 0)
+ 	};
+ 	const rootNames = [...new Set([id, ...entries || parsedConfig.fileNames].map((f) => fsSystem.resolvePath(f)))];
