@@ -165,6 +165,11 @@ Composition — the consumer fills slots with content; `BankaiLayout` emits the 
 
 Full-bleed-hero-plus-centered-body falls out naturally — two Containers at different widths inside one Page (`<BankaiContainer fluid>` hero, then a default `<BankaiContainer>` for the article).
 
+**`BankaiLayout` — potential ideas (not committed; add the API when dogfooding needs it):**
+
+- **`aside-span` preset prop** — the default shell spans the header across the top; the other canonical dashboard archetype is a **full-height sidebar** with header/main/footer stacked in the content column. Reachable today by overriding `grid-template-areas` on `.bankai-layout`, but a named enum reflected as `data-bankai-aside-span` (e.g. `full`) would give it ergonomically, styled by a `:where()` rule that swaps in `grid-template-areas: 'sidebar header' 'sidebar main' 'sidebar footer'`. This is an enumerated `data-*` prop, **not** the rejected `view`-string DSL (§5.6), and keeps the raw-CSS override as the escape hatch.
+- **Second aside (end rail)** — today there is one `#sidebar` slot → one `<aside>`. A right/end rail should **not** be a second Layout slot: multiple `complementary` landmarks each need an `aria-label`, which belongs to the standalone `BankaiAside` component (labelled, grid-positioned by the consumer), not baked into Layout. If it ever becomes a Layout slot, name it **logically** (`#aside-start`/`#aside-end`), never left/right — the grid is writing-mode-aware and flips under RTL.
+
 Layout utilities — prop-driven layout: props are reflected as `data-bankai-*` on the root (`gap` as a `--bankai-*-gap` custom property) and turned into layout by zero-specificity `:where()` rules in `@bankai-vue/theme-bankai`, so a consumer's utility classes (Tailwind/Bootstrap/UnoCSS) override by plain specificity — no `!important` (§4.4/§4.6). Polymorphic `as` (default `<div>`); needs the theme CSS (or equivalent targeting the root class) loaded. The composable replacement for Vuetify `VRow`/`VCol`:
 
 - [x] `BankaiFlex` — flexbox helper; `direction`/`align`/`justify`/`gap`/`wrap`/`inline` props → `data-bankai-*` (+ `--bankai-flex-gap`) styled by theme `:where()` (`display:flex`)

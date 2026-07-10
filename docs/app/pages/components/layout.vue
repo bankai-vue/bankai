@@ -46,6 +46,28 @@ const usage = `<BankaiLayout>
   </BankaiPage>
   <template #footer>© bankai-vue</template>
 </BankaiLayout>`;
+
+// The grid tracks are controlled with plain CSS against `.bankai-layout`. Because every theme rule is
+// zero-specificity `:where()`, a single plain declaration (or utility class) overrides it — no
+// `!important`. Regions are pinned by NAME (`grid-area: sidebar`), so restructuring is just a new
+// `grid-template-areas` on the root; DOM/source order stays header → sidebar → main → footer.
+const overrideCss = `/* full-height sidebar, header/main/footer stacked in the content column */
+.bankai-layout {
+  grid-template-columns: 16rem 1fr;
+  grid-template-areas:
+    'sidebar header'
+    'sidebar main'
+    'sidebar footer';
+}
+
+/* swap sidebar and main to the opposite side */
+.bankai-layout {
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    'header  header'
+    'main    sidebar'
+    'footer  footer';
+}`;
 </script>
 
 <template>
@@ -79,6 +101,39 @@ const usage = `<BankaiLayout>
     <section class="doc-section">
       <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
       <pre class="code"><code>{{ usage }}</code></pre>
+    </section>
+
+    <section class="doc-section">
+      <BankaiText as="h2" size="xl" weight="bold">Customizing the grid</BankaiText>
+      <BankaiText size="sm" tone="muted">
+        <code>BankaiLayout</code> takes no layout props — you own the grid tracks with plain CSS.
+        Every theme rule is zero-specificity (<code>:where()</code>), so a single declaration or
+        utility class overrides it without <code>!important</code>. Regions are pinned by name
+        (<code>grid-area: header</code>, …), so restructuring is just a new
+        <code>grid-template-areas</code> on <code>.bankai-layout</code> — the DOM/source order stays
+        <code>header → sidebar → main → footer</code>, only the visual placement moves.
+      </BankaiText>
+      <pre class="code"><code>{{ overrideCss }}</code></pre>
+
+      <BankaiText as="h3" size="lg" weight="semibold">RTL</BankaiText>
+      <BankaiText size="sm" tone="muted">
+        Right-to-left works with no extra code. The default uses logical values (<code
+          >grid-template-columns: auto 1fr</code
+        >, <code>min-block-size</code>) and named areas rather than physical left/right, and CSS
+        Grid lays columns along the inline axis — so under <code>dir="rtl"</code> the sidebar moves
+        to the inline-start (right) edge automatically.
+      </BankaiText>
+
+      <BankaiText as="h3" size="lg" weight="semibold">Tailwind &amp; utility classes</BankaiText>
+      <BankaiText size="sm" tone="muted">
+        Utilities win by ordinary specificity: <code>col-span-*</code>/<code>row-span-*</code> on
+        children and <code>grid-cols-*</code>/<code>grid-rows-*</code> on the root all override the
+        theme. One caveat — the theme also sets <code>grid-template-areas</code>, which governs
+        where the named regions land and implies its own column count. Overriding only
+        <code>grid-template-columns</code> (e.g. <code>grid-cols-3</code>) while the areas remain
+        leaves a stray empty track and the regions still pinned to their areas; to go fully
+        line-based, also clear the template with <code>grid-template-areas: none</code>.
+      </BankaiText>
     </section>
 
     <section class="doc-section">
