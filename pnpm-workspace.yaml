@@ -36,7 +36,7 @@ catalog:
   #    API that vue-tsc + editors still need.
   #  - @typescript/native-preview provides `tsgo` (TS 7.0, Go) for fast .ts checks.
   typescript: 6.0.3
-  '@typescript/native-preview': 7.0.0-dev.20260702.3
+  '@typescript/native-preview': 7.0.0-dev.20260707.2
   '@types/node': 26.1.1 # dev-only types; 26.x is safely above the >=24.11 node floor
   vue-tsc: 3.3.6
 
