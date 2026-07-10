@@ -1,11 +1,13 @@
 <script setup lang="ts">
-// Interim site header → to be replaced by <BankaiNavbar> inside <BankaiLayout>'s #header slot
-// once they land (ROADMAP Phase 1). Uses <NuxtLink> so the /bankai/ base path + SPA nav apply.
+// Interim site header, rendered inside <BankaiLayout>'s #header slot → to be replaced by
+// <BankaiNavbar> once it lands (ROADMAP Phase 1). Uses <NuxtLink> so the /bankai/ base path + SPA
+// nav apply. BankaiLayout wraps this in the <header> banner landmark, so the root here is a plain
+// <div> — a nested <header> would create a duplicate banner landmark.
 import { BankaiFlex, BankaiText } from '@bankai-vue/core';
 </script>
 
 <template>
-  <header class="site-header">
+  <div class="site-header">
     <BankaiFlex align="center" justify="between" gap="4" wrap="wrap">
       <NuxtLink to="/" class="brand">
         <BankaiText as="span" size="lg" weight="bold">bankai-vue</BankaiText>
@@ -25,7 +27,7 @@ import { BankaiFlex, BankaiText } from '@bankai-vue/core';
         </ClientOnly>
       </BankaiFlex>
     </BankaiFlex>
-  </header>
+  </div>
 </template>
 
 <style scoped>

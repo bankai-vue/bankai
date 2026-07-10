@@ -1,16 +1,23 @@
 <script setup lang="ts">
-// Docs shell: header + component sidebar + content. Interim → the sidebar becomes <BankaiSidebar>
-// in <BankaiLayout>'s #sidebar slot once they land (ROADMAP Phase 1). This layout owns the sole
-// <main>. NuxtLink marks the active route with aria-current="page" for free.
-import { BankaiText } from '@bankai-vue/core';
+// Docs shell: <BankaiLayout> emits the header / sidebar / main / footer landmark regions, so this
+// layout no longer hand-rolls <aside>/<main>. SiteHeader/SiteFooter slot into #header/#footer; the
+// component nav slots into #sidebar (BankaiLayout wraps it in the <aside> complementary landmark);
+// page content fills the sole <main>. The theme's `.bankai-layout` grid is a full-bleed shell, so the
+// overrides below only retune the sidebar track / gutters (SPEC.md §4.4, §4.6). Interim → the sidebar
+// nav becomes <BankaiSidebar> once it lands (ROADMAP Phase 1). NuxtLink marks the active route with
+// aria-current for free.
+import { BankaiLayout, BankaiText } from '@bankai-vue/core';
 import { componentNav } from '../utils/docs';
 </script>
 
 <template>
-  <SiteHeader />
-  <div class="docs-shell">
-    <aside class="docs-sidebar" aria-label="Components">
-      <nav>
+  <BankaiLayout class="docs-layout">
+    <template #header>
+      <SiteHeader />
+    </template>
+
+    <template #sidebar>
+      <nav class="docs-sidebar" aria-label="Components">
         <BankaiText as="p" size="sm" weight="semibold" tone="muted" class="docs-sidebar-title">
           Components
         </BankaiText>
@@ -20,28 +27,31 @@ import { componentNav } from '../utils/docs';
           </li>
         </ul>
       </nav>
-    </aside>
-    <main class="docs-main">
+    </template>
+
+    <div class="docs-main">
       <slot />
-    </main>
-  </div>
-  <SiteFooter />
+    </div>
+
+    <template #footer>
+      <SiteFooter />
+    </template>
+  </BankaiLayout>
 </template>
 
 <style scoped>
-.docs-shell {
-  max-width: 72rem;
-  margin-inline: auto;
-  padding: 2rem 1.5rem;
-  display: grid;
+/* Retune the shell grid: a fixed sidebar track + a column gutter. row-gap stays 0 so the full-bleed
+   header/footer sit flush against their borders. `.docs-layout` is the BankaiLayout root, which
+   inherits this component's scope, so a plain class override wins over the theme's `:where()` rule. */
+.docs-layout {
   grid-template-columns: 12rem 1fr;
-  gap: 2.5rem;
-  align-items: start;
+  column-gap: 2.5rem;
 }
 
 .docs-sidebar {
   position: sticky;
   top: 2rem;
+  padding: 2rem 0 2rem 1.5rem;
 }
 
 .docs-sidebar-title {
@@ -74,15 +84,30 @@ import { componentNav } from '../utils/docs';
   font-weight: 600;
 }
 
-/* Stack the sidebar above content on narrow viewports. */
+.docs-main {
+  padding: 2rem 1.5rem 2rem 0;
+  min-inline-size: 0;
+}
+
+/* Stack the sidebar above content on narrow viewports: collapse the shell to a single column and
+   restack the grid areas, and drop the sidebar's sticky positioning. */
 @media (max-width: 48rem) {
-  .docs-shell {
+  .docs-layout {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    grid-template-areas:
+      'header'
+      'sidebar'
+      'main'
+      'footer';
   }
 
   .docs-sidebar {
     position: static;
+    padding: 1.5rem 1.5rem 0;
+  }
+
+  .docs-main {
+    padding: 1.5rem;
   }
 }
 </style>
