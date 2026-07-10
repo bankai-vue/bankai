@@ -4,14 +4,18 @@ import { BankaiCode, BankaiText } from '@bankai-vue/core';
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiCode · bankai-vue' });
 
-// The two theme knobs, documented so a consumer knows what to override (both are `:where(:root)` custom
-// properties / tokens, so a single plain declaration retunes them — no selector, no `!important`).
+// The theme tokens, documented so a consumer knows what to override (each is a `:where(:root)` custom
+// property, so a single plain declaration overrides one — no selector, no `!important`).
 interface TokenRow {
   token: string;
   purpose: string;
 }
 
 const tokens: TokenRow[] = [
+  {
+    token: '--bankai-code-font-family',
+    purpose: 'The chip font family (house default: --bankai-font-mono).',
+  },
   {
     token: '--bankai-code-bg',
     purpose: 'The inline chip background (house default: the surface role).',
@@ -34,7 +38,8 @@ const tokens: TokenRow[] = [
   },
   {
     token: '--bankai-font-mono',
-    purpose: 'The monospace font stack, shared with the future BankaiCodeBlock.',
+    purpose:
+      'The shared monospace stack --bankai-code-font-family defaults to (also feeds BankaiCodeBlock).',
   },
 ];
 </script>

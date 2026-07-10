@@ -13,6 +13,9 @@
  */
 
 :where(:root) {
+  /* Font family — the shared house monospace stack by default (also feeds the future BankaiCodeBlock);
+   * override this to restyle the code font alone without moving `--bankai-font-mono`. */
+  --bankai-code-font-family: var(--bankai-font-mono);
   /* Inline-code chip background — a raised surface against the page. */
   --bankai-code-bg: var(--bankai-color-surface);
   /* Corner radius — the house radius by default. */
@@ -24,7 +27,7 @@
 }
 
 :where(.bankai-code) {
-  font-family: var(--bankai-font-mono);
+  font-family: var(--bankai-code-font-family);
   font-size: var(--bankai-code-font-size);
   padding-block: var(--bankai-code-padding-block);
   padding-inline: var(--bankai-code-padding-inline);
