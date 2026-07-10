@@ -134,13 +134,13 @@ Layout regions — `BankaiLayout` wraps each slot in the matching landmark regio
 
 **App** (infra singleton) › **Layout** (shell + landmarks) › **Page** (per-route host) › **Container** (width utility).
 
-- [ ] `BankaiLayout` — CSS-grid app shell; wraps `#header`/`#sidebar`/`#footer`/default slots in the regions below. Consumer controls the grid via CSS, no `view`-string DSL. Persists across routes. ≈ Element Plus `el-container` / Quasar `QLayout`, not `QPage`
-- [ ] `BankaiHeader` — `<header>` region (holds `BankaiNavbar`)
-- [ ] `BankaiAside` — `<aside>` region (holds `BankaiSidebar`)
+- [x] `BankaiLayout` — CSS-grid app shell; wraps `#header`/`#sidebar`/`#footer`/default slots in the region landmarks below (emitted inline; no props — consumer controls the grid via CSS, no `view`-string DSL). Persists across routes. ≈ Element Plus `el-container` / Quasar `QLayout`, not `QPage`
+- [ ] `BankaiHeader` — `<header>` region (holds `BankaiNavbar`) — standalone version; `BankaiLayout` emits `<header>` inline for its `#header` slot
+- [ ] `BankaiAside` — `<aside>` region (holds `BankaiSidebar`) — standalone version; `BankaiLayout` emits `<aside>` inline for its `#sidebar` slot
 - [ ] `BankaiMain` — `<main>` region — emitted by `BankaiLayout`'s default slot, so nothing nested inside should render its own `<main>` (landmark uniqueness)
-- [ ] `BankaiFooter` — `<footer>` region
+- [ ] `BankaiFooter` — `<footer>` region — standalone version; `BankaiLayout` emits `<footer>` inline for its `#footer` slot
 - [ ] `BankaiPage` — per-route content host inside `<main>`; ≈ Quasar `QPage`. Owns per-route concerns (min-height fill so short pages still push the footer down, scroll region, route-transition host) + the "every route starts with `<BankaiPage>`" DX convention. **Not** a landmark, and deliberately does **no** implicit child-rewriting (no auto heading-levels — see §5.6). Can land thin (a min-height wrapper) and grow once there's routing to dogfood
-- [ ] `BankaiContainer` — width utility: centered max-width by default, full-width/`fluid` via prop (the "bars left/right on huge desktop viewports" toggle); reusable anywhere (Card, section, hero), not once-per-route. ≈ Quasar `QPageContainer` / Bootstrap `container`/`-fluid`
+- [ ] `BankaiContainer` — width utility: centered max-width by default, full-width/`fluid` via prop (the "bars left/right on huge desktop viewports" toggle); reusable anywhere (Card, section, hero), not once-per-route. ≈ Quasar `QPageContainer` / Bootstrap `container`/`-fluid`. **Next component PR.** Unblocks the **docs-shell migration** (a follow-up PR): moving `docs/app/layouts/{default,docs}.vue` onto `BankaiLayout` + `BankaiContainer` — the current shell has full-bleed header/footer bars + a body centered at 72rem, which wants a Container inside the regions rather than baking a max-width into the Layout grid. That migration must also strip the `<header>`/`<footer>` landmark wrappers from `SiteHeader`/`SiteFooter` (else they nest inside Layout's region landmarks) and move both layouts together (they share those components).
 
 Composition — the consumer fills slots with content; `BankaiLayout` emits the landmarks, `BankaiPage` hosts the route, `BankaiContainer` sets the content width:
 
@@ -164,6 +164,12 @@ Composition — the consumer fills slots with content; `BankaiLayout` emits the 
 ```
 
 Full-bleed-hero-plus-centered-body falls out naturally — two Containers at different widths inside one Page (`<BankaiContainer fluid>` hero, then a default `<BankaiContainer>` for the article).
+
+**`BankaiLayout` — potential ideas (not committed; add the API when dogfooding needs it):**
+
+- **`aside-span` preset prop** — the default shell spans the header across the top; the other canonical dashboard archetype is a **full-height sidebar** with header/main/footer stacked in the content column. Reachable today by overriding `grid-template-areas` on `.bankai-layout`, but a named enum reflected as `data-bankai-aside-span` (e.g. `full`) would give it ergonomically, styled by a `:where()` rule that swaps in `grid-template-areas: 'sidebar header' 'sidebar main' 'sidebar footer'`. This is an enumerated `data-*` prop, **not** the rejected `view`-string DSL (§5.6), and keeps the raw-CSS override as the escape hatch.
+- **Second aside (end rail)** — today there is one `#sidebar` slot → one `<aside>`. A right/end rail should **not** be a second Layout slot: multiple `complementary` landmarks each need an `aria-label`, which belongs to the standalone `BankaiAside` component (labelled, grid-positioned by the consumer), not baked into Layout. If it ever becomes a Layout slot, name it **logically** (`#aside-start`/`#aside-end`), never left/right — the grid is writing-mode-aware and flips under RTL.
+- **`scroll` mode prop** — vertically there are two archetypes: **page scroll** (the default — whole page scrolls, footer bottom-pinned on short pages via `min-block-size: 100dvh` + the `1fr` main row) and **app-shell** (fixed header + footer, only `main` scrolls — a viewport-height grid with `overflow` on the main region, no `position: fixed` needed). Reachable today via CSS overrides (documented on the component's docs page), but the real axis is a single enumerated prop, e.g. `scroll="page" | "app"` reflected as `data-bankai-scroll`, **not** per-region `sticky-header`/`fixed-footer` booleans. Note: aside + main **already** stretch between header and footer by default (`1fr` middle row + grid's default `stretch`); hugging content is an `align-self: start` override, not a prop.
 
 Layout utilities — prop-driven layout: props are reflected as `data-bankai-*` on the root (`gap` as a `--bankai-*-gap` custom property) and turned into layout by zero-specificity `:where()` rules in `@bankai-vue/theme-bankai`, so a consumer's utility classes (Tailwind/Bootstrap/UnoCSS) override by plain specificity — no `!important` (§4.4/§4.6). Polymorphic `as` (default `<div>`); needs the theme CSS (or equivalent targeting the root class) loaded. The composable replacement for Vuetify `VRow`/`VCol`:
 

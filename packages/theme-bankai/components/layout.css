@@ -1,0 +1,42 @@
+/*
+ * BankaiLayout — the app-shell grid.
+ *
+ * Targets the `bankai-layout` class (the grid root) and its direct region children by `data-part`
+ * (`header`/`sidebar`/`main`/`footer`). Every selector is wrapped in `:where()` (zero specificity)
+ * so a consumer's own CSS or utility classes targeting `.bankai-layout` override the default track
+ * sizing with a single plain class — no `!important` (SPEC.md §4.4, §4.6). There is no `view`-string
+ * DSL: the consumer redefines the grid by setting `grid-template-*` on `.bankai-layout` directly.
+ *
+ * Default shell: header spans the top, footer the bottom, sidebar sits left of the main content, and
+ * `main` fills the remaining space. Because the region elements are emitted only when their slot is
+ * provided, an absent region leaves its named area empty and the surrounding `auto` track collapses
+ * to zero — so a header-less or sidebar-less app needs no track override. `min-block-size: 100dvh`
+ * makes a short page still push the footer to the bottom of the viewport.
+ */
+
+:where(.bankai-layout) {
+  display: grid;
+  min-block-size: 100dvh;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    'header  header'
+    'sidebar main'
+    'footer  footer';
+}
+
+:where(.bankai-layout > [data-part='header']) {
+  grid-area: header;
+}
+
+:where(.bankai-layout > [data-part='sidebar']) {
+  grid-area: sidebar;
+}
+
+:where(.bankai-layout > [data-part='main']) {
+  grid-area: main;
+}
+
+:where(.bankai-layout > [data-part='footer']) {
+  grid-area: footer;
+}

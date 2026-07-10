@@ -24,6 +24,11 @@ export const componentNav: NavItem[] = [
   },
   { name: 'Flex', to: '/components/flex', tagline: 'Flexbox layout helper.' },
   { name: 'Grid', to: '/components/grid', tagline: 'CSS-grid layout helper.' },
+  {
+    name: 'Layout',
+    to: '/components/layout',
+    tagline: 'App shell emitting native landmark regions.',
+  },
 ];
 
 /** One row of a component's props table (hand-authored today; to be generated from source later). */

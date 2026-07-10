@@ -6,6 +6,7 @@ import FlexFixture from './fixtures/FlexFixture.vue';
 import FlexMappingFixture from './fixtures/FlexMappingFixture.vue';
 import GridFixture from './fixtures/GridFixture.vue';
 import GridMappingFixture from './fixtures/GridMappingFixture.vue';
+import LayoutFixture from './fixtures/LayoutFixture.vue';
 import TextFixture from './fixtures/TextFixture.vue';
 import TextMappingFixture from './fixtures/TextMappingFixture.vue';
 
@@ -17,6 +18,7 @@ const fixtures: Record<string, Component> = {
   'flex-mapping': FlexMappingFixture,
   grid: GridFixture,
   'grid-mapping': GridMappingFixture,
+  layout: LayoutFixture,
   text: TextFixture,
   'text-mapping': TextMappingFixture,
 };

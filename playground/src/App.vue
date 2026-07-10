@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { BankaiButton, BankaiFlex, BankaiGrid, BankaiText, version } from '@bankai-vue/core';
+import {
+  BankaiButton,
+  BankaiFlex,
+  BankaiGrid,
+  BankaiLayout,
+  BankaiText,
+  version,
+} from '@bankai-vue/core';
 import { ref } from 'vue';
 import ColorSchemeSwitcher from './components/ColorSchemeSwitcher.vue';
 import ThemeSwitcher from './components/ThemeSwitcher.vue';
@@ -90,6 +97,20 @@ const tones = ['default', 'muted', 'subtle'] as const;
     </section>
 
     <section>
+      <h2>BankaiLayout</h2>
+
+      <p>App shell emitting native landmark regions (header/aside/main/footer) on a CSS grid:</p>
+
+      <!-- Bounded here (the theme defaults to min-block-size: 100dvh) so the demo stays inline. -->
+      <BankaiLayout data-testid="layout" class="layout-demo">
+        <template #header><div class="region">header</div></template>
+        <template #sidebar><div class="region">sidebar</div></template>
+        <div class="region">main</div>
+        <template #footer><div class="region">footer</div></template>
+      </BankaiLayout>
+    </section>
+
+    <section>
       <h2>BankaiText</h2>
 
       <h3>Type scale</h3>
@@ -146,5 +167,21 @@ const tones = ['default', 'muted', 'subtle'] as const;
   gap: 0.5rem;
   align-items: center;
   margin-block: 0.5rem 1rem;
+}
+
+/* Bound the BankaiLayout demo (the theme defaults to min-block-size: 100dvh). */
+.layout-demo {
+  block-size: 12rem;
+  min-block-size: 0;
+  border: 1px solid color-mix(in oklch, currentcolor 20%, transparent);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.layout-demo .region {
+  display: grid;
+  place-items: center;
+  padding: 0.5rem;
+  background: color-mix(in oklch, currentcolor 8%, transparent);
 }
 </style>
