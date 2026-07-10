@@ -68,6 +68,27 @@ const overrideCss = `/* full-height sidebar, header/main/footer stacked in the c
     'main    sidebar'
     'footer  footer';
 }`;
+
+// Vertical/scroll recipes. The default is page-scroll (whole page scrolls, footer bottom-pinned on
+// short pages). The app-shell variant pins the grid to the viewport and makes `main` the scroll
+// container — fixed header/footer with no `position: fixed`. `min-block-size: 0` on the main item is
+// the key: grid items floor at min-content, which would otherwise defeat the overflow scroll.
+const scrollCss = `/* app-shell: fixed header + footer, only main scrolls */
+.bankai-layout {
+  block-size: 100dvh;
+  min-block-size: 0;
+}
+.bankai-layout > [data-part='main'] {
+  overflow: auto;
+  min-block-size: 0;
+}
+
+/* or, in the page-scroll default, just pin the header on scroll */
+.bankai-layout > [data-part='header'] {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+}`;
 </script>
 
 <template>
@@ -123,6 +144,19 @@ const overrideCss = `/* full-height sidebar, header/main/footer stacked in the c
         Grid lays columns along the inline axis — so under <code>dir="rtl"</code> the sidebar moves
         to the inline-start (right) edge automatically.
       </BankaiText>
+
+      <BankaiText as="h3" size="lg" weight="semibold">Vertical &amp; scroll behavior</BankaiText>
+      <BankaiText size="sm" tone="muted">
+        By default <code>sidebar</code> and <code>main</code> stretch to fill the space between
+        header and footer (the middle row is <code>1fr</code>), and the whole page scrolls — the
+        footer scrolls in after the content, but stays pinned to the bottom of the viewport on short
+        pages (<code>min-block-size: 100dvh</code>). For an app-shell feel — fixed header and footer
+        with only <code>main</code> scrolling — pin the grid to the viewport and make
+        <code>main</code> the scroll container (no <code>position: fixed</code> needed); a sticky
+        header is a one-liner. To let the sidebar hug its content instead of stretching, use
+        <code>align-self: start</code>.
+      </BankaiText>
+      <pre class="code"><code>{{ scrollCss }}</code></pre>
 
       <BankaiText as="h3" size="lg" weight="semibold">Tailwind &amp; utility classes</BankaiText>
       <BankaiText size="sm" tone="muted">
