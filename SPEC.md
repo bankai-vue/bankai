@@ -185,6 +185,15 @@ The accessibility/behavior layer (keyboard nav, focus management, ARIA, controll
 - **Mechanism stays CSS-framework-agnostic** — drive off `color-scheme` + a neutral `data-*` hook, documented to sync with Tailwind (`.dark`), Bootstrap (`data-bs-theme`), or UnoCSS. Do **not** hard-couple to one convention.
 - _Note:_ the **token system** layered on top is intentionally **discover-as-you-go** (§7) — only the _mechanism_ is locked here.
 
+### 4.19 Responsive to available space, not the viewport
+
+Components adapt to **the space they are given**, never to the browser viewport. This is the logical extension of the embedded / side-by-side commitment in §5.6: a bankai island may sit in one pane of a split screen or a foreign page where the window is wide but the component's box is a fraction of it — so a viewport media query would read "desktop" and pick a layout that overflows the pane. Measuring available space is correct there; measuring the viewport is not.
+
+- **Prefer intrinsic sizing.** `max-width` / `min()` / `max()` / `clamp()`, `%`, `fr`, `auto-fit` + `minmax()`. These resolve against the containing block, so a box caps when there is room and collapses to fit when there isn't — with no queries. (`BankaiContainer` is the reference case: a centered `max-inline-size` degrades to edge-to-edge on its own in a narrow parent.)
+- **Use container queries (`@container`) when an element must change _shape_** based on its own width — not `@media`.
+- **No viewport media queries or viewport-breakpoint props in shipped components.** If responsive _props_ are ever added (a per-breakpoint value syntax), they must be **container-query-based**, keyed to the box, not the screen.
+- _Scope:_ this governs shipped **components/themes**. A consuming application (or this repo's own docs _site_) may use `@media` for its page chrome; that is not a shipped component.
+
 ---
 
 ## 5. Architecture summary

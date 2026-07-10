@@ -1,0 +1,41 @@
+/*
+ * BankaiContainer — the width utility, Tailwind theme.
+ *
+ * Mirrors the house theme's `components/container.css`, but the Tailwind-expressible declarations use
+ * `@apply` so the width speaks the CONSUMER's Tailwind build (SPEC.md §4.6, §5.4): `w-full` (fill the
+ * parent), `mx-auto` (center within it), and `max-w-none` (drop the cap when `fluid`). Because it uses
+ * `@apply`, this file is Tailwind *source* — it must be compiled by the consumer's Tailwind build, not
+ * shipped as static CSS. The cap itself and the inline gutter ride `--bankai-container-*` custom
+ * properties (declared in `:where(:root)` below at parity with the house theme), which no Tailwind
+ * utility can read, so those two declarations stay plain CSS. Every rule stays wrapped in zero-specificity
+ * `:where()`, so a consumer's own CSS/utility classes targeting `.bankai-container` override the default
+ * width with no `!important` (SPEC.md §4.4, §4.6).
+ *
+ * The width is intrinsic, not viewport-driven (SPEC.md §4.19): `max-inline-size` resolves against the
+ * containing block, so the box caps when there is room and collapses to edge-to-edge on its own below the
+ * cap — correct in embedded / side-by-side panes where the viewport is wide but the box is a fraction of
+ * it (SPEC.md §5.6), unlike a viewport media query.
+ */
+
+:where(:root) {
+  /* Centered content width → Tailwind's container scale (`--container-7xl` == 80rem), so the house width
+   * speaks the consumer's Tailwind tokens; the fallback is Tailwind v4's stock value. A future `size`
+   * prop (ROADMAP) would map named steps onto the rest of the `--container-*` scale. */
+  --bankai-container-max-width: var(--container-7xl, 80rem);
+  /* Inline gutter → the shared spacing scale (bridged onto Tailwind's `--spacing` in tokens.css), so it
+   * lands on the consumer's grid — `--bankai-space-8` == Tailwind `p-8` here (see tokens.css mapping). */
+  --bankai-container-gutter: var(--bankai-space-8, 2rem);
+}
+
+:where(.bankai-container) {
+  /* `box-border` so the gutter sits INSIDE the width (the box caps at `max-inline-size` / fills
+   * `w-full` rather than the gutter overflowing the parent). Set on the component itself, not via a
+   * global reset, so it stays self-contained for embedded consumers. */
+  @apply mx-auto w-full box-border;
+  max-inline-size: var(--bankai-container-max-width);
+  padding-inline: var(--bankai-container-gutter);
+}
+
+:where(.bankai-container[data-bankai-fluid]) {
+  @apply max-w-none;
+}

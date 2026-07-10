@@ -1,0 +1,45 @@
+/*
+ * BankaiContainer — the width utility.
+ *
+ * Targets the `bankai-container` class and the `fluid` toggle reflected as `data-bankai-fluid`. Every
+ * selector is wrapped in `:where()` (zero specificity) so a consumer's own CSS or utility classes —
+ * Tailwind `max-w-*` / `mx-0` / `px-0`, Bootstrap, UnoCSS — override any rule below with a single plain
+ * class, no `!important` needed (SPEC.md §4.4, §4.6).
+ *
+ * The width is intrinsic, not viewport-driven (SPEC.md §4.19): `max-inline-size` resolves against the
+ * containing block, and `margin-inline: auto` centers within it. So the box caps at
+ * `--bankai-container-max-width` when there is room (bars on the sides) and collapses to edge-to-edge on
+ * its own when the parent is narrower — with no media queries. That is correct in embedded / side-by-side
+ * panes, where the viewport is wide but the container's box is a fraction of it (SPEC.md §5.6); a viewport
+ * media query would wrongly pick the wide layout there. `fluid` drops the cap entirely (full-bleed),
+ * keeping only the inline gutter so content still never kisses the edge.
+ *
+ * Both knobs are `--bankai-container-*` custom properties declared in `:where(:root)` below, so a
+ * consumer retunes the width or gutter by overriding one property — no selector needed.
+ */
+
+:where(:root) {
+  /* Centered content width. A single cap that degrades to edge-to-edge below it (see above). Roughly a
+   * comfortable reading/app column; retune for a wider or narrower house width. A future `size` prop
+   * (ROADMAP) would add a `--bankai-container-max-width-*` scale; today it is one value. */
+  --bankai-container-max-width: 80rem;
+  /* Inline gutter (left/right padding) so content breathes against the edge when the box is edge-to-edge
+   * (narrow parent, or `fluid`). Resolves to the shared spacing scale. */
+  --bankai-container-gutter: var(--bankai-space-8, 1rem);
+}
+
+:where(.bankai-container) {
+  /* `border-box` so the gutter sits INSIDE the width: the box (content + gutter) is what caps at
+   * `max-inline-size` / fills `100%`, rather than the gutter overflowing the parent. Set on the
+   * component itself (not a global reset) so it stays self-contained for embedded consumers who have
+   * no reset of their own. Without it, edge-to-edge / fluid would overflow by the gutter. */
+  box-sizing: border-box;
+  inline-size: 100%;
+  max-inline-size: var(--bankai-container-max-width);
+  margin-inline: auto;
+  padding-inline: var(--bankai-container-gutter);
+}
+
+:where(.bankai-container[data-bankai-fluid]) {
+  max-inline-size: none;
+}

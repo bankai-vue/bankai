@@ -29,6 +29,11 @@ export const componentNav: NavItem[] = [
     to: '/components/layout',
     tagline: 'App shell emitting native landmark regions.',
   },
+  {
+    name: 'Container',
+    to: '/components/container',
+    tagline: 'Centered max-width width utility (↔ fluid).',
+  },
 ];
 
 /** One row of a component's props table (hand-authored today; to be generated from source later). */

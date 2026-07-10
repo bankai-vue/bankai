@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {
   BankaiButton,
+  BankaiContainer,
   BankaiFlex,
   BankaiGrid,
   BankaiLayout,
@@ -111,6 +112,23 @@ const tones = ['default', 'muted', 'subtle'] as const;
     </section>
 
     <section>
+      <h2>BankaiContainer</h2>
+
+      <p>
+        Width utility — centered max-width by default, edge-to-edge with <code>fluid</code>. The
+        max-width is shrunk here (via <code>--bankai-container-max-width</code>) so the centered
+        bars are visible inline:
+      </p>
+
+      <div class="container-demo">
+        <BankaiContainer data-testid="container" class="container-box"
+          >centered (default)</BankaiContainer
+        >
+        <BankaiContainer fluid class="container-box">fluid (full width)</BankaiContainer>
+      </div>
+    </section>
+
+    <section>
       <h2>BankaiText</h2>
 
       <h3>Type scale</h3>
@@ -182,6 +200,24 @@ const tones = ['default', 'muted', 'subtle'] as const;
   display: grid;
   place-items: center;
   padding: 0.5rem;
+  background: color-mix(in oklch, currentcolor 8%, transparent);
+}
+
+/* Bound the BankaiContainer demo and shrink the max-width so the centered container's side bars are
+   visible; the dashed outline marks the available width the containers lay out within. */
+.container-demo {
+  --bankai-container-max-width: 20rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-block: 0.5rem;
+  outline: 1px dashed color-mix(in oklch, currentcolor 30%, transparent);
+}
+
+.container-box {
+  padding-block: 0.5rem;
+  text-align: center;
+  border-radius: 0.375rem;
   background: color-mix(in oklch, currentcolor 8%, transparent);
 }
 </style>
