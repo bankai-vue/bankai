@@ -96,4 +96,4 @@ minimumReleaseAgeExclude:
 # Remove this patch once a released rolldown-plugin-dts (pulled via tsdown)
 # includes the fix.
 patchedDependencies:
-  rolldown-plugin-dts@0.26.0: patches/rolldown-plugin-dts@0.26.0.patch
+  rolldown-plugin-dts@0.27.4: patches/rolldown-plugin-dts@0.27.4.patch
