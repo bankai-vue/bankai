@@ -31,6 +31,8 @@ export type {
   BankaiGridRows,
   BankaiGridSlots,
 } from './components/grid/BankaiGrid.vue';
+export { default as BankaiLayout } from './components/layout/BankaiLayout.vue';
+export type { BankaiLayoutSlots } from './components/layout/BankaiLayout.vue';
 export { default as BankaiText } from './components/text/BankaiText.vue';
 export type {
   BankaiTextAs,

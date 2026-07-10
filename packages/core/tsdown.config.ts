@@ -15,6 +15,7 @@ export default defineConfig({
     'src/components/button/BankaiButton.vue',
     'src/components/flex/BankaiFlex.vue',
     'src/components/grid/BankaiGrid.vue',
+    'src/components/layout/BankaiLayout.vue',
     'src/components/text/BankaiText.vue',
   ],
   format: ['es'],

@@ -134,11 +134,11 @@ Layout regions — `BankaiLayout` wraps each slot in the matching landmark regio
 
 **App** (infra singleton) › **Layout** (shell + landmarks) › **Page** (per-route host) › **Container** (width utility).
 
-- [ ] `BankaiLayout` — CSS-grid app shell; wraps `#header`/`#sidebar`/`#footer`/default slots in the regions below. Consumer controls the grid via CSS, no `view`-string DSL. Persists across routes. ≈ Element Plus `el-container` / Quasar `QLayout`, not `QPage`
-- [ ] `BankaiHeader` — `<header>` region (holds `BankaiNavbar`)
-- [ ] `BankaiAside` — `<aside>` region (holds `BankaiSidebar`)
+- [x] `BankaiLayout` — CSS-grid app shell; wraps `#header`/`#sidebar`/`#footer`/default slots in the region landmarks below (emitted inline; no props — consumer controls the grid via CSS, no `view`-string DSL). Persists across routes. ≈ Element Plus `el-container` / Quasar `QLayout`, not `QPage`
+- [ ] `BankaiHeader` — `<header>` region (holds `BankaiNavbar`) — standalone version; `BankaiLayout` emits `<header>` inline for its `#header` slot
+- [ ] `BankaiAside` — `<aside>` region (holds `BankaiSidebar`) — standalone version; `BankaiLayout` emits `<aside>` inline for its `#sidebar` slot
 - [ ] `BankaiMain` — `<main>` region — emitted by `BankaiLayout`'s default slot, so nothing nested inside should render its own `<main>` (landmark uniqueness)
-- [ ] `BankaiFooter` — `<footer>` region
+- [ ] `BankaiFooter` — `<footer>` region — standalone version; `BankaiLayout` emits `<footer>` inline for its `#footer` slot
 - [ ] `BankaiPage` — per-route content host inside `<main>`; ≈ Quasar `QPage`. Owns per-route concerns (min-height fill so short pages still push the footer down, scroll region, route-transition host) + the "every route starts with `<BankaiPage>`" DX convention. **Not** a landmark, and deliberately does **no** implicit child-rewriting (no auto heading-levels — see §5.6). Can land thin (a min-height wrapper) and grow once there's routing to dogfood
 - [ ] `BankaiContainer` — width utility: centered max-width by default, full-width/`fluid` via prop (the "bars left/right on huge desktop viewports" toggle); reusable anywhere (Card, section, hero), not once-per-route. ≈ Quasar `QPageContainer` / Bootstrap `container`/`-fluid`
 

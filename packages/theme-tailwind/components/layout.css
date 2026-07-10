@@ -1,0 +1,38 @@
+/*
+ * BankaiLayout — the app-shell grid, Tailwind theme.
+ *
+ * Mirrors the house theme's `components/layout.css`, but the one Tailwind-expressible declaration
+ * (`display: grid`) uses `@apply` so it speaks the CONSUMER's Tailwind build (SPEC.md §4.6, §5.4);
+ * because it uses `@apply`, this file is Tailwind *source* — it must be compiled by the consumer's
+ * Tailwind build, not shipped as static CSS. The grid template (`grid-template-areas`/`-columns`/
+ * `-rows`), `min-block-size`, and the per-region `grid-area` assignments have no Tailwind utility, so
+ * they stay plain CSS. Every rule stays wrapped in zero-specificity `:where()`, so a consumer's own
+ * CSS/utility classes targeting `.bankai-layout` override the default track sizing (SPEC.md §4.4, §4.6).
+ */
+
+:where(.bankai-layout) {
+  @apply grid;
+  min-block-size: 100dvh;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    'header  header'
+    'sidebar main'
+    'footer  footer';
+}
+
+:where(.bankai-layout > [data-part='header']) {
+  grid-area: header;
+}
+
+:where(.bankai-layout > [data-part='sidebar']) {
+  grid-area: sidebar;
+}
+
+:where(.bankai-layout > [data-part='main']) {
+  grid-area: main;
+}
+
+:where(.bankai-layout > [data-part='footer']) {
+  grid-area: footer;
+}
