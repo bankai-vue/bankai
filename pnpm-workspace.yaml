@@ -37,13 +37,13 @@ catalog:
   #  - @typescript/native-preview provides `tsgo` (TS 7.0, Go) for fast .ts checks.
   typescript: 6.0.3
   '@typescript/native-preview': 7.0.0-dev.20260702.3
-  '@types/node': 22.20.0 # 22.x line matches the engines.node >=22.12 floor
+  '@types/node': 22.20.1 # 22.x line matches the engines.node >=22.12 floor
   vue-tsc: 3.3.6
 
   # Build / bundling (rolldown-based; fits the oxc/voidzero stack).
-  tsdown: 0.22.3
+  tsdown: 0.22.4
   unplugin-vue: 7.2.0
-  vite: 8.1.3
+  vite: 8.1.4
   '@vitejs/plugin-vue': 6.0.7
 
   # Tailwind CSS — dev-only in this workspace: the playground uses it to exercise
