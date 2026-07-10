@@ -25,7 +25,12 @@
     "**/node_modules/**",
     "**/coverage/**",
     "**/test-results/**",
-    "**/playwright-report/**"
+    "**/playwright-report/**",
+    // The docs Nuxt app is linted by its own Nuxt toolchain, not this shared run: its
+    // tsconfig extends the generated `.nuxt/tsconfig.json`, which only exists after
+    // `nuxi prepare` (a build step the lean lint job doesn't run), so type-aware oxlint
+    // would fail with "Invalid tsconfig" in CI. See memory bankai-docs-site-scaffold.
+    "docs/**"
   ],
   "rules": {
     // --- eslint core (curly/sort-imports/no-use-before-define are `style`/`restriction` → off by default) ---
