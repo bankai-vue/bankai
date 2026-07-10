@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {
   BankaiButton,
+  BankaiCode,
   BankaiContainer,
   BankaiFlex,
   BankaiGrid,
@@ -126,6 +127,18 @@ const tones = ['default', 'muted', 'subtle'] as const;
         >
         <BankaiContainer fluid class="container-box">fluid (full width)</BankaiContainer>
       </div>
+    </section>
+
+    <section>
+      <h2>BankaiCode</h2>
+
+      <p>
+        Inline code primitive — a native <BankaiCode>&lt;code&gt;</BankaiCode> with a monospace font
+        and a subtle chip background. It scales with its surrounding text, so
+        <BankaiCode>pnpm add @bankai-vue/core</BankaiCode> reads the same in a
+        <BankaiText as="span" size="sm">smaller line (<BankaiCode>sm</BankaiCode>)</BankaiText> as
+        in this one.
+      </p>
     </section>
 
     <section>

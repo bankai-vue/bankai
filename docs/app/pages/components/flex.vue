@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { PropRow } from '../../utils/docs';
-import { BankaiFlex, BankaiText } from '@bankai-vue/core';
+import { BankaiCode, BankaiFlex, BankaiText } from '@bankai-vue/core';
 
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiFlex · bankai-vue' });
@@ -51,10 +51,10 @@ const props: PropRow[] = [
   <article class="doc">
     <BankaiText as="h1" size="2xl" weight="black">BankaiFlex</BankaiText>
     <BankaiText as="p" size="lg" tone="muted">
-      A polymorphic flexbox container. Props reflect as <code>data-bankai-*</code> and
-      <code>gap</code> rides a custom property, styled by zero-specificity
-      <code>:where()</code> theme rules — so a consumer's utility classes override without
-      <code>!important</code>.
+      A polymorphic flexbox container. Props reflect as <BankaiCode>data-bankai-*</BankaiCode> and
+      <BankaiCode>gap</BankaiCode> rides a custom property, styled by zero-specificity
+      <BankaiCode>:where()</BankaiCode> theme rules — so a consumer's utility classes override
+      without <BankaiCode>!important</BankaiCode>.
     </BankaiText>
 
     <section class="doc-section">

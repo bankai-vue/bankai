@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { PropRow } from '../../utils/docs';
-import { BankaiButton, BankaiFlex, BankaiText } from '@bankai-vue/core';
+import { BankaiButton, BankaiCode, BankaiFlex, BankaiText } from '@bankai-vue/core';
 
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiButton · bankai-vue' });
@@ -38,9 +38,9 @@ const props: PropRow[] = [
   <article class="doc">
     <BankaiText as="h1" size="2xl" weight="black">BankaiButton</BankaiText>
     <BankaiText as="p" size="lg" tone="muted">
-      A native <code>&lt;button&gt;</code> with typed variant, size, type, and disabled props. Ships
-      no CSS of its own — the theme styles the <code>bankai-button</code> class and
-      <code>data-bankai-*</code> state.
+      A native <BankaiCode>&lt;button&gt;</BankaiCode> with typed variant, size, type, and disabled
+      props. Ships no CSS of its own — the theme styles the
+      <BankaiCode>bankai-button</BankaiCode> class and <BankaiCode>data-bankai-*</BankaiCode> state.
     </BankaiText>
 
     <section class="doc-section">
@@ -68,7 +68,7 @@ const props: PropRow[] = [
     <section class="doc-section">
       <BankaiText as="h2" size="xl" weight="bold">Slots</BankaiText>
       <BankaiText as="p" tone="muted">
-        <code>default</code> — button content (label and/or icons).
+        <BankaiCode>default</BankaiCode> — button content (label and/or icons).
       </BankaiText>
     </section>
   </article>

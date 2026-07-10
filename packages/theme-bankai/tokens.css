@@ -12,6 +12,11 @@
   --bankai-font-sans:
     ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
     'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  /* House monospace stack: platform-native code fonts (for BankaiCode and the future BankaiCodeBlock),
+   * so snippets render in the reader's preferred mono face without shipping a webfont. */
+  --bankai-font-mono:
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', 'Courier New',
+    monospace;
 
   /*
    * Semantic color tokens — the foundation palette. Every value is a `light-dark()` pair so the theme

@@ -7,6 +7,8 @@ export type {
   BankaiButtonType,
   BankaiButtonVariant,
 } from './components/button/BankaiButton.vue';
+export { default as BankaiCode } from './components/code/BankaiCode.vue';
+export type { BankaiCodeSlots } from './components/code/BankaiCode.vue';
 export { default as BankaiContainer } from './components/container/BankaiContainer.vue';
 export type {
   BankaiContainerAs,

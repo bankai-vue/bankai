@@ -22,6 +22,7 @@ export const componentNav: NavItem[] = [
     to: '/components/text',
     tagline: 'Polymorphic text primitive + inline semantics.',
   },
+  { name: 'Code', to: '/components/code', tagline: 'Inline code — native <code> chip.' },
   { name: 'Flex', to: '/components/flex', tagline: 'Flexbox layout helper.' },
   { name: 'Grid', to: '/components/grid', tagline: 'CSS-grid layout helper.' },
   {

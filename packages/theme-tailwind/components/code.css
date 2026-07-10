@@ -1,0 +1,33 @@
+/*
+ * BankaiCode — inline code, Tailwind theme.
+ *
+ * Mirrors the house theme's `components/code.css`. The font stack speaks the CONSUMER's Tailwind build via
+ * `@apply font-mono` (its `--font-mono`); because it uses `@apply`, this file is Tailwind *source* — it
+ * must be compiled by the consumer's Tailwind build, not shipped as static CSS. Every other value rides a
+ * `--bankai-code-*` custom property (declared in `:where(:root)` below at parity with the house theme), so
+ * a consumer retunes the chip by overriding one property: the background points at the `surface` role, the
+ * radius at Tailwind's `--radius-md`, and the `em`-relative size + padding stay literal (Tailwind's
+ * `text-*`/`p-*` are rem-absolute, but inline code must scale with its surrounding text). Every rule stays
+ * wrapped in zero-specificity `:where()`, so a consumer's own CSS/utility classes override it without
+ * `!important` (SPEC.md §4.4, §4.6). No token bridge is needed — Tailwind has a native `font-mono` utility.
+ */
+
+:where(:root) {
+  /* Inline-code chip background — the `surface` role (this theme's independent palette). */
+  --bankai-code-bg: var(--bankai-color-surface);
+  /* Corner radius → Tailwind's `--radius-md` (fallback matches Tailwind's default). */
+  --bankai-code-radius: var(--radius-md, 0.375rem);
+  /* Size + padding are `em`-relative so the chip scales with its surrounding text, not a frozen px. */
+  --bankai-code-font-size: 0.875em;
+  --bankai-code-padding-block: 0.125em;
+  --bankai-code-padding-inline: 0.25em;
+}
+
+:where(.bankai-code) {
+  @apply font-mono;
+  font-size: var(--bankai-code-font-size);
+  padding-block: var(--bankai-code-padding-block);
+  padding-inline: var(--bankai-code-padding-inline);
+  background-color: var(--bankai-code-bg);
+  border-radius: var(--bankai-code-radius);
+}

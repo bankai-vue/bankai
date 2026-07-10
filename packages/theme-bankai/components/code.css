@@ -1,0 +1,33 @@
+/*
+ * BankaiCode — inline code.
+ *
+ * Targets the `bankai-code` class (the native `<code>` root). Every selector is wrapped in `:where()`
+ * (zero specificity) so a consumer's own CSS or utility classes — Tailwind `font-*` / `bg-*` / `rounded-*`,
+ * Bootstrap, UnoCSS — override any rule below with a single plain class, no `!important` (SPEC.md §4.4, §4.6).
+ *
+ * The look is a subtle inline chip: the house monospace stack, a slightly smaller size, a raised `surface`
+ * background, and the house corner radius. The size and padding are `em`-relative so a snippet inside a
+ * heading or small print scales with its surrounding text (not a frozen px), hugging the glyphs at any
+ * size. Every value rides a `--bankai-code-*` custom property declared in `:where(:root)` below, so a
+ * consumer retunes the chip (color, radius, size, padding) by overriding one property — no selector needed.
+ */
+
+:where(:root) {
+  /* Inline-code chip background — a raised surface against the page. */
+  --bankai-code-bg: var(--bankai-color-surface);
+  /* Corner radius — the house radius by default. */
+  --bankai-code-radius: var(--bankai-radius);
+  /* Size + padding are `em`-relative so the chip scales with its surrounding text, not a frozen px. */
+  --bankai-code-font-size: 0.875em;
+  --bankai-code-padding-block: 0.125em;
+  --bankai-code-padding-inline: 0.25em;
+}
+
+:where(.bankai-code) {
+  font-family: var(--bankai-font-mono);
+  font-size: var(--bankai-code-font-size);
+  padding-block: var(--bankai-code-padding-block);
+  padding-inline: var(--bankai-code-padding-inline);
+  background-color: var(--bankai-code-bg);
+  border-radius: var(--bankai-code-radius);
+}

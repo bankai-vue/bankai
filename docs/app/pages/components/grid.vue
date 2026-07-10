@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { PropRow } from '../../utils/docs';
-import { BankaiGrid, BankaiText } from '@bankai-vue/core';
+import { BankaiCode, BankaiGrid, BankaiText } from '@bankai-vue/core';
 
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiGrid · bankai-vue' });
@@ -63,10 +63,10 @@ const props: PropRow[] = [
     <BankaiText as="h1" size="2xl" weight="black">BankaiGrid</BankaiText>
     <BankaiText as="p" size="lg" tone="muted">
       A polymorphic CSS-grid container for 2D layouts. Enumerated props reflect as
-      <code>data-bankai-*</code>; continuous track values
-      (<code>columns</code>/<code>rows</code>/<code>areas</code>/<code>gap</code>) ride
-      <code>--bankai-grid-*</code> custom properties read by the theme's
-      <code>:where()</code> rules.
+      <BankaiCode>data-bankai-*</BankaiCode>; continuous track values
+      (<BankaiCode>columns</BankaiCode>/<BankaiCode>rows</BankaiCode>/<BankaiCode>areas</BankaiCode>/<BankaiCode>gap</BankaiCode>)
+      ride <BankaiCode>--bankai-grid-*</BankaiCode> custom properties read by the theme's
+      <BankaiCode>:where()</BankaiCode> rules.
     </BankaiText>
 
     <section class="doc-section">
