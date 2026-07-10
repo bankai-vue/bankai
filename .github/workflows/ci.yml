@@ -67,9 +67,20 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: pnpm exec playwright install --with-deps
 
+      # `playwright install-deps` shells out to apt-get, which intermittently hangs on
+      # hosted runners (stuck lock / slow mirror). A healthy run takes <60s; a hang otherwise
+      # eats the whole job budget. `timeout` caps each attempt at 3x the healthy max (step-level
+      # timeout-minutes would kill the whole retry loop on the first hang), then we retry.
+      # Worst-case loop is 3x180s + 2x10s ≈ 9m20s, so timeout-minutes: 10 never cuts a retry short.
       - name: Install Playwright system deps
         if: steps.playwright-cache.outputs.cache-hit == 'true' && runner.os == 'Linux'
-        run: pnpm exec playwright install-deps
+        timeout-minutes: 10
+        run: |
+          for i in 1 2 3; do
+            timeout 180 pnpm exec playwright install-deps && exit 0
+            echo "install-deps attempt $i failed or timed out, retrying in 10s…"; sleep 10
+          done
+          exit 1
 
       - name: Test
         run: pnpm run test
@@ -117,9 +128,16 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: pnpm exec playwright install --with-deps
 
+      # See the note in the `test` job: apt-get via install-deps can hang on hosted runners.
       - name: Install Playwright system deps
         if: steps.playwright-cache.outputs.cache-hit == 'true' && runner.os == 'Linux'
-        run: pnpm exec playwright install-deps
+        timeout-minutes: 10
+        run: |
+          for i in 1 2 3; do
+            timeout 180 pnpm exec playwright install-deps && exit 0
+            echo "install-deps attempt $i failed or timed out, retrying in 10s…"; sleep 10
+          done
+          exit 1
 
       - name: Run e2e tests
         run: pnpm run test:e2e
