@@ -13,6 +13,7 @@ export default defineConfig({
     'src/composables/usePrefixedId.ts',
     'src/composables/useBankaiId.ts',
     'src/components/button/BankaiButton.vue',
+    'src/components/code/BankaiCode.vue',
     'src/components/container/BankaiContainer.vue',
     'src/components/flex/BankaiFlex.vue',
     'src/components/grid/BankaiGrid.vue',

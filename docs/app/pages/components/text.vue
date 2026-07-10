@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { PropRow } from '../../utils/docs';
-import { BankaiFlex, BankaiText } from '@bankai-vue/core';
+import { BankaiCode, BankaiFlex, BankaiText } from '@bankai-vue/core';
 
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiText · bankai-vue' });
@@ -44,10 +44,13 @@ const props: PropRow[] = [
   <article class="doc">
     <BankaiText as="h1" size="2xl" weight="black">BankaiText</BankaiText>
     <BankaiText as="p" size="lg" tone="muted">
-      A polymorphic text primitive. Pick the element with <code>as</code> (including inline
-      semantics like <code>code</code>/<code>kbd</code>/<code>mark</code>) and style with
-      <code>size</code>/<code>weight</code>/<code>tone</code> — each a named set plus a verbatim
-      escape hatch.
+      A polymorphic text primitive. Pick the element with <BankaiCode>as</BankaiCode> (including
+      inline semantics like
+      <BankaiCode>code</BankaiCode>/<BankaiCode>kbd</BankaiCode>/<BankaiCode>mark</BankaiCode>) and
+      style with <BankaiCode>size</BankaiCode>/<BankaiCode>weight</BankaiCode>/<BankaiCode
+        >tone</BankaiCode
+      >
+      — each a named set plus a verbatim escape hatch.
     </BankaiText>
 
     <section class="doc-section">

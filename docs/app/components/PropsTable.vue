@@ -2,6 +2,7 @@
 // Interim props table → to be replaced by <BankaiSimpleTable> once it lands (ROADMAP Phase 1).
 // Rows are hand-authored per page today; a source-generated table is a later step.
 import type { PropRow } from '../utils/docs';
+import { BankaiCode } from '@bankai-vue/core';
 
 defineProps<{ rows: PropRow[] }>();
 </script>
@@ -20,13 +21,13 @@ defineProps<{ rows: PropRow[] }>();
       <tbody>
         <tr v-for="row in rows" :key="row.name">
           <td>
-            <code>{{ row.name }}</code>
+            <BankaiCode>{{ row.name }}</BankaiCode>
           </td>
           <td>
-            <code>{{ row.type }}</code>
+            <BankaiCode>{{ row.type }}</BankaiCode>
           </td>
           <td>
-            <code v-if="row.default !== undefined">{{ row.default }}</code>
+            <BankaiCode v-if="row.default !== undefined">{{ row.default }}</BankaiCode>
             <span v-else>—</span>
           </td>
           <td>{{ row.description }}</td>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BankaiText } from '@bankai-vue/core';
+import { BankaiCode, BankaiText } from '@bankai-vue/core';
 
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiLayout · bankai-vue' });
@@ -96,10 +96,10 @@ const scrollCss = `/* app-shell: fixed header + footer, only main scrolls */
     <BankaiText as="h1" size="2xl" weight="black">BankaiLayout</BankaiText>
     <BankaiText as="p" size="lg" tone="muted">
       The persistent app shell: a CSS-grid root that wraps each slot in its native landmark region
-      (<code>&lt;header&gt;</code>/<code>&lt;aside&gt;</code>/<code>&lt;main&gt;</code>/<code>&lt;footer&gt;</code>),
+      (<BankaiCode>&lt;header&gt;</BankaiCode>/<BankaiCode>&lt;aside&gt;</BankaiCode>/<BankaiCode>&lt;main&gt;</BankaiCode>/<BankaiCode>&lt;footer&gt;</BankaiCode>),
       so an application gets a correct, unique-per-page landmark set for free. The grid tracks are
-      yours to control with plain CSS against <code>.bankai-layout</code> — there is no
-      <code>view</code>-string DSL.
+      yours to control with plain CSS against <BankaiCode>.bankai-layout</BankaiCode> — there is no
+      <BankaiCode>view</BankaiCode>-string DSL.
     </BankaiText>
 
     <section class="doc-section">
@@ -127,46 +127,55 @@ const scrollCss = `/* app-shell: fixed header + footer, only main scrolls */
     <section class="doc-section">
       <BankaiText as="h2" size="xl" weight="bold">Customizing the grid</BankaiText>
       <BankaiText size="sm" tone="muted">
-        <code>BankaiLayout</code> takes no layout props — you own the grid tracks with plain CSS.
-        Every theme rule is zero-specificity (<code>:where()</code>), so a single declaration or
-        utility class overrides it without <code>!important</code>. Regions are pinned by name
-        (<code>grid-area: header</code>, …), so restructuring is just a new
-        <code>grid-template-areas</code> on <code>.bankai-layout</code> — the DOM/source order stays
-        <code>header → sidebar → main → footer</code>, only the visual placement moves.
+        <BankaiCode>BankaiLayout</BankaiCode> takes no layout props — you own the grid tracks with
+        plain CSS. Every theme rule is zero-specificity (<BankaiCode>:where()</BankaiCode>), so a
+        single declaration or utility class overrides it without
+        <BankaiCode>!important</BankaiCode>. Regions are pinned by name (<BankaiCode
+          >grid-area: header</BankaiCode
+        >, …), so restructuring is just a new <BankaiCode>grid-template-areas</BankaiCode> on
+        <BankaiCode>.bankai-layout</BankaiCode> — the DOM/source order stays
+        <BankaiCode>header → sidebar → main → footer</BankaiCode>, only the visual placement moves.
       </BankaiText>
       <pre class="code"><code>{{ overrideCss }}</code></pre>
 
       <BankaiText as="h3" size="lg" weight="semibold">RTL</BankaiText>
       <BankaiText size="sm" tone="muted">
-        Right-to-left works with no extra code. The default uses logical values (<code
-          >grid-template-columns: auto 1fr</code
-        >, <code>min-block-size</code>) and named areas rather than physical left/right, and CSS
-        Grid lays columns along the inline axis — so under <code>dir="rtl"</code> the sidebar moves
-        to the inline-start (right) edge automatically.
+        Right-to-left works with no extra code. The default uses logical values (<BankaiCode
+          >grid-template-columns: auto 1fr</BankaiCode
+        >, <BankaiCode>min-block-size</BankaiCode>) and named areas rather than physical left/right,
+        and CSS Grid lays columns along the inline axis — so under
+        <BankaiCode>dir="rtl"</BankaiCode> the sidebar moves to the inline-start (right) edge
+        automatically.
       </BankaiText>
 
       <BankaiText as="h3" size="lg" weight="semibold">Vertical &amp; scroll behavior</BankaiText>
       <BankaiText size="sm" tone="muted">
-        By default <code>sidebar</code> and <code>main</code> stretch to fill the space between
-        header and footer (the middle row is <code>1fr</code>), and the whole page scrolls — the
-        footer scrolls in after the content, but stays pinned to the bottom of the viewport on short
-        pages (<code>min-block-size: 100dvh</code>). For an app-shell feel — fixed header and footer
-        with only <code>main</code> scrolling — pin the grid to the viewport and make
-        <code>main</code> the scroll container (no <code>position: fixed</code> needed); a sticky
-        header is a one-liner. To let the sidebar hug its content instead of stretching, use
-        <code>align-self: start</code>.
+        By default <BankaiCode>sidebar</BankaiCode> and <BankaiCode>main</BankaiCode> stretch to
+        fill the space between header and footer (the middle row is <BankaiCode>1fr</BankaiCode>),
+        and the whole page scrolls — the footer scrolls in after the content, but stays pinned to
+        the bottom of the viewport on short pages (<BankaiCode>min-block-size: 100dvh</BankaiCode>).
+        For an app-shell feel — fixed header and footer with only
+        <BankaiCode>main</BankaiCode> scrolling — pin the grid to the viewport and make
+        <BankaiCode>main</BankaiCode> the scroll container (no
+        <BankaiCode>position: fixed</BankaiCode> needed); a sticky header is a one-liner. To let the
+        sidebar hug its content instead of stretching, use
+        <BankaiCode>align-self: start</BankaiCode>.
       </BankaiText>
       <pre class="code"><code>{{ scrollCss }}</code></pre>
 
       <BankaiText as="h3" size="lg" weight="semibold">Tailwind &amp; utility classes</BankaiText>
       <BankaiText size="sm" tone="muted">
-        Utilities win by ordinary specificity: <code>col-span-*</code>/<code>row-span-*</code> on
-        children and <code>grid-cols-*</code>/<code>grid-rows-*</code> on the root all override the
-        theme. One caveat — the theme also sets <code>grid-template-areas</code>, which governs
-        where the named regions land and implies its own column count. Overriding only
-        <code>grid-template-columns</code> (e.g. <code>grid-cols-3</code>) while the areas remain
-        leaves a stray empty track and the regions still pinned to their areas; to go fully
-        line-based, also clear the template with <code>grid-template-areas: none</code>.
+        Utilities win by ordinary specificity: <BankaiCode>col-span-*</BankaiCode>/<BankaiCode
+          >row-span-*</BankaiCode
+        >
+        on children and <BankaiCode>grid-cols-*</BankaiCode>/<BankaiCode>grid-rows-*</BankaiCode> on
+        the root all override the theme. One caveat — the theme also sets
+        <BankaiCode>grid-template-areas</BankaiCode>, which governs where the named regions land and
+        implies its own column count. Overriding only
+        <BankaiCode>grid-template-columns</BankaiCode> (e.g. <BankaiCode>grid-cols-3</BankaiCode>)
+        while the areas remain leaves a stray empty track and the regions still pinned to their
+        areas; to go fully line-based, also clear the template with
+        <BankaiCode>grid-template-areas: none</BankaiCode>.
       </BankaiText>
     </section>
 
@@ -184,10 +193,10 @@ const scrollCss = `/* app-shell: fixed header + footer, only main scrolls */
           <tbody>
             <tr v-for="row in slots" :key="row.slot">
               <td>
-                <code>{{ row.slot }}</code>
+                <BankaiCode>{{ row.slot }}</BankaiCode>
               </td>
               <td>
-                <code>{{ row.element }}</code>
+                <BankaiCode>{{ row.element }}</BankaiCode>
               </td>
               <td>{{ row.description }}</td>
             </tr>
