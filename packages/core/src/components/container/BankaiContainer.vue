@@ -57,7 +57,7 @@ export interface BankaiContainerProps {
 </script>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, useAttrs } from 'vue';
 
 const { as = 'div', fluid = false } = defineProps<BankaiContainerProps>();
 
@@ -72,7 +72,12 @@ const { as = 'div', fluid = false } = defineProps<BankaiContainerProps>();
  * consumer `class`/`style`/attributes onto the root. Reusable anywhere (Card, section, hero); the
  * width layer of App › Layout › Page › Container (SPEC.md §5.6) — never renders its own `<main>`.
  */
-defineOptions({ name: 'BankaiContainer', inheritAttrs: true });
+defineOptions({ name: 'BankaiContainer', inheritAttrs: false });
+
+// `inheritAttrs: false` + `v-bind="attrs"` FIRST on the root so the component-owned `data-part`/
+// `data-bankai-fluid` can't be clobbered by a consumer fallthrough (SPEC.md §4.4, §5.6). `class`/`style`
+// still merge, so consumer width utilities keep overriding the theme by ordinary specificity.
+const attrs = useAttrs();
 
 // `data-bankai-fluid` is a presence flag (empty string when on, absent when off) so the CSS can
 // match `[data-bankai-fluid]` regardless of value; Vue drops the attribute when the value is
@@ -83,7 +88,13 @@ defineSlots<BankaiContainerSlots>();
 </script>
 
 <template>
-  <component :is="as" class="bankai-container" data-part="root" :data-bankai-fluid="dataFluid">
+  <component
+    :is="as"
+    v-bind="attrs"
+    class="bankai-container"
+    data-part="root"
+    :data-bankai-fluid="dataFluid"
+  >
     <slot />
   </component>
 </template>

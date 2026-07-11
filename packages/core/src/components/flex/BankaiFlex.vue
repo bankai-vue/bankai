@@ -140,7 +140,7 @@ const NAMED_JUSTIFIES = new Set<string>(['start', 'end', 'center', 'between', 'a
 </script>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, useAttrs } from 'vue';
 import { reflectNamed } from '../../internal/reflect';
 import { resolveGap } from '../../internal/spacing';
 
@@ -162,7 +162,12 @@ const {
  * Renders a `<div>` by default (override via `as`), exposes a `bankai-flex` class plus `data-part="root"`,
  * and merges consumer `class`/`style`/attributes onto the root.
  */
-defineOptions({ name: 'BankaiFlex', inheritAttrs: true });
+defineOptions({ name: 'BankaiFlex', inheritAttrs: false });
+
+// `inheritAttrs: false` + `v-bind="attrs"` FIRST on the root so the component-owned `data-part` and every
+// reflected `data-bankai-*` can't be clobbered by a consumer fallthrough (SPEC.md §4.4, §5.6). `class`/
+// `style` still merge, so consumer utility classes keep overriding the theme by ordinary specificity.
+const attrs = useAttrs();
 
 // A named short keyword reflects as its `data-*` attribute (theme-mapped); any other value rides the
 // `--bankai-flex-*` escape hatch instead. `reflectNamed` (shared with `BankaiGrid`, SPEC.md §4.11)
@@ -192,6 +197,7 @@ defineSlots<BankaiFlexSlots>();
 <template>
   <component
     :is="as"
+    v-bind="attrs"
     class="bankai-flex"
     data-part="root"
     :data-bankai-direction="direction"

@@ -20,17 +20,23 @@ export interface BankaiCodeSlots {
 </script>
 
 <script setup lang="ts">
+import { useAttrs } from 'vue';
+
 /**
  * A minimal inline code primitive. Renders a native `<code class="bankai-code" data-part="root">` so the
  * element carries the phrasing semantics; the accompanying `@bankai-vue/theme-bankai` `:where()` rule gives
  * it a monospace font and a subtle chip background, which a consumer's utility classes override by plain
  * specificity (SPEC.md §4.4, §4.6). Merges consumer `class`/`style`/attributes onto the root; ships no CSS.
  */
-defineOptions({ name: 'BankaiCode', inheritAttrs: true });
+defineOptions({ name: 'BankaiCode', inheritAttrs: false });
+
+// `inheritAttrs: false` + `v-bind="attrs"` FIRST in the template so the component-owned `data-part` can't be
+// clobbered by a consumer fallthrough `data-part` (SPEC.md §4.4, §5.6). `class`/`style` still merge.
+const attrs = useAttrs();
 
 defineSlots<BankaiCodeSlots>();
 </script>
 
 <template>
-  <code class="bankai-code" data-part="root"><slot /></code>
+  <code v-bind="attrs" class="bankai-code" data-part="root"><slot /></code>
 </template>
