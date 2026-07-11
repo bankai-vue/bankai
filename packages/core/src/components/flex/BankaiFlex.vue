@@ -132,7 +132,8 @@ export interface BankaiFlexProps {
 }
 
 // Named members of the open `align`/`justify` props — a value in these sets reflects as its `data-*`
-// (theme-mapped short keyword); anything else takes the verbatim `--bankai-flex-*` escape hatch below.
+// (theme-mapped short keyword); anything else takes the verbatim `--bankai-flex-*` escape hatch. These
+// mirror the theme's `[data-bankai-*]` rules; the reflect split itself is shared (SPEC.md §4.11).
 // Module scope, so allocated once (not per instance).
 const NAMED_ALIGNS = new Set<string>(['start', 'end', 'center', 'baseline', 'stretch']);
 const NAMED_JUSTIFIES = new Set<string>(['start', 'end', 'center', 'between', 'around', 'evenly']);
@@ -140,6 +141,7 @@ const NAMED_JUSTIFIES = new Set<string>(['start', 'end', 'center', 'between', 'a
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { reflectNamed } from '../../internal/reflect';
 import { resolveGap } from '../../internal/spacing';
 
 const {
@@ -162,15 +164,11 @@ const {
  */
 defineOptions({ name: 'BankaiFlex', inheritAttrs: true });
 
-// A named short keyword reflects verbatim as its `data-*` attribute (theme-mapped); any other value
-// takes the `--bankai-flex-*` escape hatch below, so `data-*` is omitted for it (Vue drops `undefined`
-// bindings, keeping the DOM clean).
-const dataAlign = computed(() =>
-  align !== undefined && NAMED_ALIGNS.has(align) ? align : undefined,
-);
-const dataJustify = computed(() =>
-  justify !== undefined && NAMED_JUSTIFIES.has(justify) ? justify : undefined,
-);
+// A named short keyword reflects as its `data-*` attribute (theme-mapped); any other value rides the
+// `--bankai-flex-*` escape hatch instead. `reflectNamed` (shared with `BankaiGrid`, SPEC.md §4.11)
+// splits each prop into those two mutually-exclusive channels, the unused side being `undefined`.
+const alignParts = computed(() => reflectNamed(align, NAMED_ALIGNS));
+const justifyParts = computed(() => reflectNamed(justify, NAMED_JUSTIFIES));
 
 // The style object carries the escape-hatch values on custom properties the theme's base `:where()`
 // rule applies: `gap` (resolved via `internal/spacing`, shared with `BankaiGrid` — SPEC.md §4.11) always
@@ -179,9 +177,8 @@ const dataJustify = computed(() =>
 // and the theme's `normal` fallback applies.
 const rootStyle = computed<CSSProperties>(() => ({
   '--bankai-flex-gap': gap === undefined ? undefined : resolveGap(gap),
-  '--bankai-flex-align': align !== undefined && !NAMED_ALIGNS.has(align) ? align : undefined,
-  '--bankai-flex-justify':
-    justify !== undefined && !NAMED_JUSTIFIES.has(justify) ? justify : undefined,
+  '--bankai-flex-align': alignParts.value.escape,
+  '--bankai-flex-justify': justifyParts.value.escape,
 }));
 
 // `data-bankai-inline` is a presence flag (empty string when on, absent when off) so the CSS can
@@ -198,8 +195,8 @@ defineSlots<BankaiFlexSlots>();
     class="bankai-flex"
     data-part="root"
     :data-bankai-direction="direction"
-    :data-bankai-align="dataAlign"
-    :data-bankai-justify="dataJustify"
+    :data-bankai-align="alignParts.data"
+    :data-bankai-justify="justifyParts.data"
     :data-bankai-wrap="wrap"
     :data-bankai-inline="dataInline"
     :style="rootStyle"

@@ -167,7 +167,8 @@ export interface BankaiGridProps {
 }
 
 // Named members of the open `align`/`justify` props — a value in these sets reflects as its `data-*`
-// (theme-mapped keyword); anything else takes the verbatim `--bankai-grid-*` escape hatch. Module scope,
+// (theme-mapped keyword); anything else takes the verbatim `--bankai-grid-*` escape hatch. These mirror
+// the theme's `[data-bankai-*]` rules; the reflect split itself is shared (SPEC.md §4.11). Module scope,
 // so allocated once (not per instance). Grid `justify` (`justify-items`) has no `baseline` keyword.
 const NAMED_ALIGNS = new Set<string>(['start', 'end', 'center', 'baseline', 'stretch']);
 const NAMED_JUSTIFIES = new Set<string>(['start', 'end', 'center', 'stretch']);
@@ -196,6 +197,7 @@ function resolveAreas(value: BankaiGridAreas): string {
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { reflectNamed } from '../../internal/reflect';
 import { resolveGap } from '../../internal/spacing';
 
 const {
@@ -221,14 +223,11 @@ const {
  */
 defineOptions({ name: 'BankaiGrid', inheritAttrs: true });
 
-// A named keyword reflects verbatim as its `data-*` attribute (theme-mapped); any other value takes
-// the `--bankai-grid-*` escape hatch below, so `data-*` is omitted for it (Vue drops `undefined`).
-const dataAlign = computed(() =>
-  align !== undefined && NAMED_ALIGNS.has(align) ? align : undefined,
-);
-const dataJustify = computed(() =>
-  justify !== undefined && NAMED_JUSTIFIES.has(justify) ? justify : undefined,
-);
+// A named keyword reflects as its `data-*` attribute (theme-mapped); any other value rides the
+// `--bankai-grid-*` escape hatch instead. `reflectNamed` (shared with `BankaiFlex`, SPEC.md §4.11)
+// splits each prop into those two mutually-exclusive channels, the unused side being `undefined`.
+const alignParts = computed(() => reflectNamed(align, NAMED_ALIGNS));
+const justifyParts = computed(() => reflectNamed(justify, NAMED_JUSTIFIES));
 
 // `gap` resolves via `internal/spacing` (shared with `BankaiFlex`, SPEC.md §4.11); `columns`/`rows`
 // and `areas` use the Grid-only module-scope resolvers above; a *verbatim* (non-named) `align`/`justify`
@@ -240,9 +239,8 @@ const rootStyle = computed<CSSProperties>(() => ({
   '--bankai-grid-rows': rows === undefined ? undefined : resolveTracks(rows),
   '--bankai-grid-areas': areas === undefined ? undefined : resolveAreas(areas),
   '--bankai-grid-gap': gap === undefined ? undefined : resolveGap(gap),
-  '--bankai-grid-align': align !== undefined && !NAMED_ALIGNS.has(align) ? align : undefined,
-  '--bankai-grid-justify':
-    justify !== undefined && !NAMED_JUSTIFIES.has(justify) ? justify : undefined,
+  '--bankai-grid-align': alignParts.value.escape,
+  '--bankai-grid-justify': justifyParts.value.escape,
 }));
 
 // `data-bankai-inline` is a presence flag (empty string when on, absent when off) so the CSS can
@@ -259,8 +257,8 @@ defineSlots<BankaiGridSlots>();
     class="bankai-grid"
     data-part="root"
     :data-bankai-flow="flow"
-    :data-bankai-align="dataAlign"
-    :data-bankai-justify="dataJustify"
+    :data-bankai-align="alignParts.data"
+    :data-bankai-justify="justifyParts.data"
     :data-bankai-inline="dataInline"
     :style="rootStyle"
   >

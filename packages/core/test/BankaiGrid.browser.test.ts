@@ -157,6 +157,37 @@ test('exposes gap via the --bankai-grid-gap custom property with scale-step coer
   expect(gapVar({ gap: '1rem' })).toBe('1rem');
   expect(gapVar({ gap: '1rem 2rem' })).toBe('1rem 2rem');
   expect(gapVar({ gap: 'clamp(0.5rem, 2vw, 1.5rem)' })).toBe('clamp(0.5rem, 2vw, 1.5rem)');
+  // A named t-shirt step resolves to its dedicated theme-owned token, not an invalid `gap: md`.
+  expect(gapVar({ gap: 'md' })).toBe('var(--bankai-gap-md)');
+});
+
+// The widened `align`/`justify` types never lie: a value the component doesn't recognise as a keyword
+// is not dropped — it rides the `--bankai-grid-*` escape hatch the theme's base rule applies, with
+// `data-bankai-*` omitted so the two paths stay mutually exclusive (SPEC.md §4.4, §4.6).
+test('reflects a verbatim align/justify on the custom-property escape hatch, not data-*', () => {
+  const { root, teardown } = mountGrid({ align: 'flex-start', justify: 'left' });
+
+  // Non-keyword → no `data-*`, so the keyword `[data-bankai-*]` rules can't spuriously match.
+  expect(Object.hasOwn(root.dataset, 'align')).toBe(false);
+  expect(Object.hasOwn(root.dataset, 'justify')).toBe(false);
+  // …and the value lands verbatim on the escape-hatch custom property instead.
+  expect(root.style.getPropertyValue('--bankai-grid-align')).toBe('flex-start');
+  expect(root.style.getPropertyValue('--bankai-grid-justify')).toBe('left');
+
+  teardown();
+});
+
+// The two channels are mutually exclusive: a recognised keyword reflects as `data-*` and leaves the
+// escape-hatch custom property unset (so the theme's keyword rule wins, not the verbatim base rule).
+test('leaves the escape-hatch custom property unset for a recognised keyword', () => {
+  const { root, teardown } = mountGrid({ align: 'center', justify: 'start' });
+
+  expect(root.dataset.bankaiAlign).toBe('center');
+  expect(root.dataset.bankaiJustify).toBe('start');
+  expect(root.style.getPropertyValue('--bankai-grid-align')).toBe('');
+  expect(root.style.getPropertyValue('--bankai-grid-justify')).toBe('');
+
+  teardown();
 });
 
 test('renders rich slot content', () => {
