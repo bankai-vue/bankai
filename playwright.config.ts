@@ -32,6 +32,11 @@ export default defineConfig({
       threshold: 0.1,
     },
   },
+  // WebKit only ships a Safari-representative build on macOS; the Linux build is a
+  // real WebKit engine and gives cheap, fast cross-engine coverage. WebKit-on-Windows
+  // is neither Safari (that's macOS) nor cheaper than Linux — it's the same non-Safari
+  // port running on the slowest, critical-path runner. So we skip it there (and keep no
+  // *-webkit-win32 baselines). See SPEC.md §4.14.
   projects: [
     {
       name: 'chromium',
@@ -41,10 +46,14 @@ export default defineConfig({
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
     },
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
+    ...(process.platform === 'win32'
+      ? []
+      : [
+          {
+            name: 'webkit',
+            use: { ...devices['Desktop Safari'] },
+          },
+        ]),
   ],
   webServer: {
     command: 'pnpm --filter playground run dev',
