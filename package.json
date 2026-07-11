@@ -17,6 +17,8 @@
     "dev": "pnpm --filter playground run dev",
     "docs:dev": "pnpm --filter @bankai-vue/docs run dev",
     "docs:generate": "pnpm --filter @bankai-vue/docs run generate",
+    "docs:meta": "node scripts/generate-component-meta.ts",
+    "docs:meta:check": "node scripts/generate-component-meta.ts --check",
     "typecheck": "pnpm run typecheck:ts && pnpm run typecheck:vue && pnpm run typecheck:scripts",
     "typecheck:ts": "tsgo --noEmit -p tsconfig.json",
     "typecheck:vue": "pnpm --filter @bankai-vue/core --filter playground run typecheck",
@@ -33,7 +35,7 @@
     "changeset": "changeset",
     "version": "changeset version",
     "release": "pnpm run build && changeset publish",
-    "preflight": "pnpm install && run-s format:check lint typecheck test:types build test"
+    "preflight": "pnpm install && run-s format:check lint typecheck docs:meta:check test:types build test"
   },
   "devDependencies": {
     "@changesets/cli": "catalog:",
@@ -51,6 +53,7 @@
     "typescript": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:",
+    "vue-component-meta": "catalog:",
     "vue-tsc": "catalog:"
   },
   "engines": {

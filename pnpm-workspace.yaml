@@ -44,6 +44,10 @@ catalog:
   '@typescript/native-preview': 7.0.0-dev.20260707.2
   '@types/node': 26.1.1 # dev-only types; 26.x is safely above the >=24.11 node floor
   vue-tsc: 3.3.7
+  # Docs props/slots/events tables are generated from core's source SFCs by
+  # `scripts/generate-component-meta.ts`. Kept in lockstep with vue-tsc (same
+  # @vue/language-tools release line).
+  vue-component-meta: 3.3.7
 
   # Build / bundling (rolldown-based; fits the oxc/voidzero stack).
   tsdown: 0.22.4

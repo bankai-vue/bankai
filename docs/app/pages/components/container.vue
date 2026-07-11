@@ -1,25 +1,8 @@
 <script setup lang="ts">
-import type { PropRow } from '../../utils/docs';
+import { componentMeta } from '../../utils/component-meta.generated';
 
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiContainer · bankai-vue' });
-
-const props: PropRow[] = [
-  {
-    name: 'as',
-    type: 'HTML tag name',
-    default: "'div'",
-    description:
-      'Polymorphic element to render. Defaults to div — a width wrapper carries no semantics of its own; use as="section" only when the box genuinely is one.',
-  },
-  {
-    name: 'fluid',
-    type: 'boolean',
-    default: 'false',
-    description:
-      'Fill the available width (edge-to-edge) instead of the centered max-width. The "bars left/right on huge viewports" toggle.',
-  },
-];
 
 // The two theme knobs, documented so a consumer knows what to override (both are `:where(:root)` custom
 // properties, so a single plain declaration retunes them — no selector, no `!important`).
@@ -86,10 +69,7 @@ const tokens: TokenRow[] = [
       </BankaiText>
     </section>
 
-    <section class="doc-section">
-      <BankaiText as="h2" size="xl" weight="bold">Props</BankaiText>
-      <PropsTable :rows="props" />
-    </section>
+    <ComponentApi :meta="componentMeta.BankaiContainer" />
 
     <section class="doc-section">
       <BankaiText as="h2" size="xl" weight="bold">Theming the width</BankaiText>

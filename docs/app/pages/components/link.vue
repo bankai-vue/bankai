@@ -1,30 +1,8 @@
 <script setup lang="ts">
-import type { PropRow } from '../../utils/docs';
+import { componentMeta } from '../../utils/component-meta.generated';
 
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiLink · bankai-vue' });
-
-const props: PropRow[] = [
-  {
-    name: 'to',
-    type: 'RouteLocationRaw | string | object',
-    description:
-      'Internal navigation target, handed to the resolved router link (NuxtLink, else RouterLink). A string to degrades to a plain <a href> when no router is installed. Typed as vue-router’s RouteLocationRaw once the @bankai-vue/core/vue-router augmentation is active.',
-  },
-  {
-    name: 'href',
-    type: 'string',
-    description:
-      'Explicit anchor target — always a native <a href>, never a router link. Use it for external URLs, mailto:/tel:, fragments, and downloads. Mutually exclusive with to (setting both is a type error).',
-  },
-  {
-    name: 'external',
-    type: 'boolean',
-    default: 'false',
-    description:
-      'Force a plain <a> even when to is set and a router is available (a full-page navigation). Reflected via data-bankai-external.',
-  },
-];
 </script>
 
 <template>
@@ -68,10 +46,7 @@ const props: PropRow[] = [
       </BankaiText>
     </section>
 
-    <section class="doc-section">
-      <BankaiText as="h2" size="xl" weight="bold">Props</BankaiText>
-      <PropsTable :rows="props" />
-    </section>
+    <ComponentApi :meta="componentMeta.BankaiLink" />
   </article>
 </template>
 
