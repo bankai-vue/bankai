@@ -15,7 +15,7 @@ const props: PropRow[] = [
     name: 'href',
     type: 'string',
     description:
-      'Explicit anchor target — always a native <a href>, never a router link. Use it for external URLs, mailto:/tel:, fragments, and downloads. Wins over to.',
+      'Explicit anchor target — always a native <a href>, never a router link. Use it for external URLs, mailto:/tel:, fragments, and downloads. Mutually exclusive with to (setting both is a type error).',
   },
   {
     name: 'external',

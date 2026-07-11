@@ -21,31 +21,43 @@ export interface BankaiLinkSlots {
 
 /**
  * Props for {@link BankaiLink}.
+ *
+ * `to` and `href` are **mutually exclusive**: they name the destination two different ways — router
+ * navigation vs. a raw anchor — so setting both is a type error (a discriminated union with `never` on
+ * the opposite branch, per the SPEC.md §5.6 no-silent-death stance), rather than silently dropping `to`.
+ * Neither is required: a link with neither renders a bare `<a>` (e.g. a JS-driven control).
  */
-export interface BankaiLinkProps {
-  /**
-   * Internal navigation target, handed to the resolved router link (`NuxtLink`, else `RouterLink`).
-   * When no router is installed, a `string` `to` degrades to a plain `<a :href>`; an object `to` needs a
-   * router (there is nothing sensible to put in `href` without one).
-   *
-   * Its type is a router-agnostic fallback by default and vue-router's `RouteLocationRaw` once the
-   * `@bankai-vue/core/vue-router` types augmentation is active — see {@link BankaiLinkTo}.
-   */
-  to?: BankaiLinkTo;
-  /**
-   * Explicit anchor target. Always renders a native `<a href>`, never a router link — use it for external
-   * URLs, `mailto:`/`tel:`, fragments, and downloads. Mutually meaningful with `to`: if both are set,
-   * `href` wins (the link is treated as a plain anchor).
-   */
-  href?: string;
+export type BankaiLinkProps = {
   /**
    * Force a plain `<a>` even when `to` is set and a router is available — e.g. to leave the SPA for a
-   * full-page navigation. Also reflected via `data-bankai-external`.
+   * full-page navigation. Also marks the link external via `data-bankai-external` (independent of the
+   * router path), so it works alongside either `to` or `href`.
    *
    * @default false
    */
   external?: boolean;
-}
+} & (
+  | {
+      /**
+       * Internal navigation target, handed to the resolved router link (`NuxtLink`, else `RouterLink`).
+       * When no router is installed, a `string` `to` degrades to a plain `<a :href>`; an object `to` needs
+       * a router (there is nothing sensible to put in `href` without one).
+       *
+       * Its type is a router-agnostic fallback by default and vue-router's `RouteLocationRaw` once the
+       * `@bankai-vue/core/vue-router` types augmentation is active — see {@link BankaiLinkTo}.
+       */
+      to?: BankaiLinkTo;
+      href?: never;
+    }
+  | {
+      /**
+       * Explicit anchor target. Always renders a native `<a href>`, never a router link — use it for
+       * external URLs, `mailto:`/`tel:`, fragments, and downloads.
+       */
+      href?: string;
+      to?: never;
+    }
+);
 </script>
 
 <script setup lang="ts">
@@ -101,7 +113,7 @@ const relValue = computed<unknown>(() => {
   return config.linkNoopener && attrs.target === '_blank' ? 'noopener noreferrer' : undefined;
 });
 
-// A presence flag (`''` when on, absent when off) marking an external destination — a themable hook
+// A presence flag (`''` when on, absent when off) marking an external destination — a themeable hook
 // (e.g. an outbound icon). Set for a forced `external` or a new-tab target only; a raw `href` is NOT
 // assumed external (URL-sniffing would be non-local guesswork — SPEC.md §5.6), so an internal
 // full-page `href` stays unmarked. Declare `external` (or `target="_blank"`) to opt a link in.

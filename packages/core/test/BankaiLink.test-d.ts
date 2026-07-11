@@ -22,12 +22,21 @@ describe('BankaiLinkTo', () => {
 });
 
 describe('BankaiLinkProps', () => {
-  test('exposes every prop as optional with the expected type', () => {
-    expectTypeOf<BankaiLinkProps>().toEqualTypeOf<{
-      to?: BankaiLinkTo;
-      href?: string;
-      external?: boolean;
-    }>();
+  test('accepts `to` alone (router branch)', () => {
+    expectTypeOf<{ to: string; external: true }>().toExtend<BankaiLinkProps>();
+  });
+
+  test('accepts `href` alone (anchor branch)', () => {
+    expectTypeOf<{ href: string }>().toExtend<BankaiLinkProps>();
+  });
+
+  test('accepts neither (bare <a>)', () => {
+    expectTypeOf<Record<string, never>>().toExtend<BankaiLinkProps>();
+  });
+
+  test('rejects `to` and `href` together (mutually exclusive)', () => {
+    // Both set matches neither branch of the discriminated union.
+    expectTypeOf<{ to: string; href: string }>().not.toExtend<BankaiLinkProps>();
   });
 });
 
