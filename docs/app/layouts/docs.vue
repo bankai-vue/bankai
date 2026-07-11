@@ -6,7 +6,6 @@
 // overrides below only retune the sidebar track / gutters (SPEC.md §4.4, §4.6). Interim → the sidebar
 // nav becomes <BankaiSidebar> once it lands (ROADMAP Phase 1). NuxtLink marks the active route with
 // aria-current for free.
-import { BankaiLayout, BankaiText } from '@bankai-vue/core';
 import { componentNav } from '../utils/docs';
 </script>
 

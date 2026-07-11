@@ -2,7 +2,6 @@
 // Interim site footer, rendered inside <BankaiLayout>'s #footer slot → to be replaced by
 // <BankaiFooter> once it lands. BankaiLayout wraps this in the <footer> contentinfo landmark, so the
 // root here is a plain <div> — a nested <footer> would create a duplicate contentinfo landmark.
-import { BankaiText } from '@bankai-vue/core';
 </script>
 
 <template>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { BankaiFlex, BankaiGrid, BankaiText } from '@bankai-vue/core';
 import { componentNav } from '../utils/docs';
 
 // Header/main/footer landmarks now come from the `default` layout (→ future <BankaiLayout>); this

@@ -4,7 +4,6 @@
 // are auto-imported and slotted into #header/#footer; the default slot is BankaiLayout's sole <main>,
 // so pages render content without their own landmark. Dogfoods the App › Layout › Container structure
 // (SPEC.md §5.6) — the long-run goal is docs composed entirely of Bankai components.
-import { BankaiContainer, BankaiLayout } from '@bankai-vue/core';
 </script>
 
 <template>

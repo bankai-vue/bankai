@@ -3,7 +3,6 @@
 // <BankaiNavbar> once it lands (ROADMAP Phase 1). Uses <NuxtLink> so the /bankai/ base path + SPA
 // nav apply. BankaiLayout wraps this in the <header> banner landmark, so the root here is a plain
 // <div> — a nested <header> would create a duplicate banner landmark.
-import { BankaiFlex, BankaiText } from '@bankai-vue/core';
 </script>
 
 <template>

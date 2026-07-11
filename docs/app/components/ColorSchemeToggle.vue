@@ -13,7 +13,6 @@
 // The three options are mutually exclusive, so this is a WAI-ARIA radiogroup: arrow keys move the
 // selection over a roving tabindex (only the selected radio is tabbable).
 import type { ComponentPublicInstance } from 'vue';
-import { BankaiButton, BankaiFlex } from '@bankai-vue/core';
 import { ref } from 'vue';
 
 type Scheme = 'system' | 'light' | 'dark';
