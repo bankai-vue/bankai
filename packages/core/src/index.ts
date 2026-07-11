@@ -41,6 +41,12 @@ export type {
 } from './components/grid/BankaiGrid.vue';
 export { default as BankaiLayout } from './components/layout/BankaiLayout.vue';
 export type { BankaiLayoutSlots } from './components/layout/BankaiLayout.vue';
+export { default as BankaiLink } from './components/link/BankaiLink.vue';
+export type {
+  BankaiLinkProps,
+  BankaiLinkSlots,
+  BankaiLinkTo,
+} from './components/link/BankaiLink.vue';
 export { default as BankaiText } from './components/text/BankaiText.vue';
 export type {
   BankaiTextAs,

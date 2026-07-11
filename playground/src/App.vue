@@ -6,6 +6,7 @@ import {
   BankaiFlex,
   BankaiGrid,
   BankaiLayout,
+  BankaiLink,
   BankaiText,
   version,
 } from '@bankai-vue/core';
@@ -126,6 +127,22 @@ const tones = ['default', 'muted', 'subtle'] as const;
           >centered (default)</BankaiContainer
         >
         <BankaiContainer fluid class="container-box">fluid (full width)</BankaiContainer>
+      </div>
+    </section>
+
+    <section>
+      <h2>BankaiLink</h2>
+
+      <p>
+        Renders a native <code>&lt;a&gt;</code> here (no router installed); with vue-router/Nuxt it
+        resolves <code>RouterLink</code>/<code>NuxtLink</code> for internal <code>to</code>.
+        External (new-tab) links reflect <code>data-bankai-external</code> and get a safe
+        <code>rel</code>:
+      </p>
+
+      <div class="row">
+        <BankaiLink href="/getting-started">Internal link</BankaiLink>
+        <BankaiLink href="https://example.com" target="_blank">External (new tab)</BankaiLink>
       </div>
     </section>
 

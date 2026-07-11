@@ -31,6 +31,11 @@ catalog:
   # declare a peer of ^3.5.0 so stable consumers work (SPEC.md §4.11/§6).
   vue: 3.6.0-beta.17
 
+  # vue-router — an OPTIONAL peer of core (BankaiLink's first-class internal-link
+  # target). Only used for the `@bankai-vue/core/vue-router` types augmentation and
+  # runtime detection; core never imports it on the router-free `<a>` path.
+  vue-router: 5.1.0
+
   # TypeScript hybrid (SPEC.md §4.8):
   #  - typescript 6.x is the last JS-based release; it provides the compiler
   #    API that vue-tsc + editors still need.

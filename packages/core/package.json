@@ -30,6 +30,10 @@
       "types": "./dist/config.d.ts",
       "import": "./dist/config.js"
     },
+    "./vue-router": {
+      "types": "./dist/vue-router.d.ts",
+      "import": "./dist/vue-router.js"
+    },
     "./composables/usePrefixedId": {
       "types": "./dist/composables/usePrefixedId.d.ts",
       "import": "./dist/composables/usePrefixedId.js"
@@ -62,6 +66,10 @@
       "types": "./dist/components/layout/BankaiLayout.d.ts",
       "import": "./dist/components/layout/BankaiLayout.js"
     },
+    "./components/link/BankaiLink": {
+      "types": "./dist/components/link/BankaiLink.d.ts",
+      "import": "./dist/components/link/BankaiLink.js"
+    },
     "./components/text/BankaiText": {
       "types": "./dist/components/text/BankaiText.d.ts",
       "import": "./dist/components/text/BankaiText.js"
@@ -78,9 +86,16 @@
   "devDependencies": {
     "unplugin-vue": "catalog:",
     "vue": "catalog:",
+    "vue-router": "catalog:",
     "vue-tsc": "catalog:"
   },
   "peerDependencies": {
-    "vue": "^3.5.0"
+    "vue": "^3.5.0",
+    "vue-router": ">=4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "vue-router": {
+      "optional": true
+    }
   }
 }

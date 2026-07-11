@@ -1,0 +1,51 @@
+/*
+ * BankaiLink styling — Tailwind theme.
+ *
+ * Mirrors the house theme's `components/link.css`, but styled with Tailwind's `@apply`
+ * (https://tailwindcss.com/docs/functions-and-directives#apply-directive) so decoration, spacing, and
+ * focus speak the CONSUMER's Tailwind design language (SPEC.md §4.6, §5.4). Because it uses `@apply`, this
+ * file is Tailwind *source* — it must be compiled by the consumer's Tailwind build, not shipped as static CSS.
+ *
+ * Targets the `bankai-link` class and the reflected state (`data-bankai-external`). Every rule stays
+ * wrapped in zero-specificity `:where()`, so a consumer's utility classes override any rule below with a
+ * single plain class, no `!important` needed.
+ *
+ * Link color rides a `--bankai-link-color*` token rather than a Tailwind color utility: it must follow an
+ * in-app light/dark toggle via `light-dark()`/`color-scheme` (matching button.css / text.css), which
+ * Tailwind's `dark:` — keyed off the OS `prefers-color-scheme` media query — would miss. The base color
+ * aliases the foundation `--bankai-color-accent` (tokens.css), so link color and focus ring share one
+ * source; the states deepen toward black in both schemes. Everything utility-expressible (underline,
+ * offset, cursor, transition, focus outline) stays `@apply`.
+ */
+
+:where(:root) {
+  --bankai-link-color: var(--bankai-color-accent);
+  --bankai-link-color-hover: color-mix(in oklch, var(--bankai-link-color), black 15%);
+  --bankai-link-color-active: color-mix(in oklch, var(--bankai-link-color), black 25%);
+}
+
+:where(.bankai-link) {
+  @apply cursor-pointer underline underline-offset-2 transition-colors;
+
+  color: var(--bankai-link-color);
+}
+
+:where(.bankai-link:hover) {
+  color: var(--bankai-link-color-hover);
+}
+
+:where(.bankai-link:active) {
+  color: var(--bankai-link-color-active);
+}
+
+:where(.bankai-link:focus-visible) {
+  @apply rounded-md outline-2 outline-offset-2;
+
+  outline-color: var(--bankai-focus-ring);
+}
+
+/*
+ * `data-bankai-external` marks a link that leaves the site (a cross-origin `href`, a forced `external`, or
+ * a new-tab target). Left unpainted here by design — no forced iconography — but exposed as a zero-specificity
+ * hook a consumer can opt into, e.g. `.bankai-link[data-bankai-external]::after { content: ' ↗'; }`.
+ */

@@ -193,7 +193,8 @@ Navigation content — dropped into the region slots:
 
 - [ ] `BankaiNavbar` — styled top nav bar (brand + links + actions); goes in the `#header` slot
 - [ ] `BankaiSidebar` — styled side-nav panel (sections, collapsible groups); goes in the `#sidebar` slot
-- [ ] `BankaiLink` — styled `<a>` with router-link integration (`to`/`href`); used by nav, Breadcrumb, Menu
+- [x] `BankaiLink` — router-aware link (`to`/`href`/`external`); auto-resolves `NuxtLink` → `RouterLink` → native `<a>` from the app's global component registry (no vue-router dep in core; `vue-router` an optional peer). `to`'s type is a router-agnostic fallback by default and vue-router's `RouteLocationRaw` via the opt-in `@bankai-vue/core/vue-router` types augmentation. Auto `rel="noopener noreferrer"` on `target="_blank"` (opt out via `config.linkNoopener`); `config.linkComponent` overrides the internal-link component. Reflects `data-bankai-external`. Used by nav, Breadcrumb, Menu
+  - **Potential idea (not committed):** an **external-link indicator icon** (a trailing ↗) auto-shown on external links. Deferred because it should render through **`BankaiIcon`** (below) rather than hard-coded glyph/pseudo-content — so it waits on that component. API when it lands: **three-level control** — a global default via `config` (e.g. `linkExternalIcon`, opt-out-able like `linkNoopener`), overridable **per `BankaiLink`** via a prop so a developer can force it on/off for a specific usage. Builds on the `data-bankai-external` state the component already reflects; today both themes leave that hook unpainted by design (no forced iconography).
 - [ ] `BankaiBreadcrumb` _(universal)_ — hierarchical trail
 - [ ] `BankaiPagination` _(universal)_ — paged navigation
 - [ ] `BankaiTabs` (`BankaiTab`, `BankaiTabPanel`)

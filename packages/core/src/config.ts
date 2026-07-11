@@ -1,4 +1,4 @@
-import type { App, InjectionKey, Plugin } from 'vue';
+import type { App, Component, InjectionKey, Plugin } from 'vue';
 import { inject, reactive } from 'vue';
 
 /**
@@ -13,10 +13,45 @@ export interface BankaiConfig {
    * @default true
    */
   idGeneration: boolean;
+  /**
+   * Whether bankai-vue emits development warnings for likely-mistaken usage (e.g. a `BankaiLink` with an
+   * object `to` and no router to resolve it). Warnings are already stripped from production builds; set
+   * `false` to silence them in development too. A single global switch covers every component's warnings.
+   *
+   * @default true
+   */
+  warnings: boolean;
+  /**
+   * Component `BankaiLink` renders for internal (`to`) navigation. Leave unset to auto-detect the
+   * router link: a globally-registered `NuxtLink` (preferred, under Nuxt), else `RouterLink` (vue-router),
+   * else a plain `<a>`. Set this only to force a specific component when auto-detection is insufficient
+   * (e.g. a custom router link, or SSR contexts where the global registration is unavailable at resolve time).
+   *
+   * @default undefined
+   */
+  linkComponent?: Component | string;
+  /**
+   * Site origin (e.g. `https://example.com`) `BankaiLink` compares an `href` against to decide it is
+   * external: an absolute `http(s)` URL to a *different* host reflects `data-bankai-external`. Set this so
+   * the check is accurate and hydration-safe under SSR/SSG, where the current origin is not knowable at
+   * render time. A client-only app can leave it unset — it falls back to `window.location`; with no origin
+   * available at all, any absolute URL is treated as external.
+   *
+   * @default undefined
+   */
+  linkOrigin?: string;
+  /**
+   * Whether `BankaiLink` auto-adds `rel="noopener noreferrer"` to a `target="_blank"` link (a security
+   * default: without it the opened page can reach back through `window.opener`). A consumer-provided `rel`
+   * always wins. Set `false` to opt out globally.
+   *
+   * @default true
+   */
+  linkNoopener: boolean;
 }
 
 function createDefaultConfig(): BankaiConfig {
-  return { idGeneration: true };
+  return { idGeneration: true, warnings: true, linkNoopener: true };
 }
 
 const injectionKey: InjectionKey<BankaiConfig> = Symbol('bankai:config');
