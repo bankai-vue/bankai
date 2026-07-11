@@ -43,7 +43,7 @@ catalog:
   typescript: 6.0.3
   '@typescript/native-preview': 7.0.0-dev.20260707.2
   '@types/node': 26.1.1 # dev-only types; 26.x is safely above the >=24.11 node floor
-  vue-tsc: 3.3.6
+  vue-tsc: 3.3.7
 
   # Build / bundling (rolldown-based; fits the oxc/voidzero stack).
   tsdown: 0.22.4
