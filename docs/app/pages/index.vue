@@ -31,7 +31,8 @@ const specUrl = `${repoUrl}/blob/main/SPEC.md`;
           `:where()`, so the scoped `.cta*` classes below override them cleanly (SPEC §4.4/§4.6).
         -->
         <BankaiFlex align="center" justify="center" gap="6" wrap="wrap">
-          <BankaiLink class="cta cta-solid" :href="repoUrl" target="_blank">
+          <NuxtLink class="cta cta-solid" to="/guide/getting-started">Get started</NuxtLink>
+          <BankaiLink class="cta cta-outline" :href="repoUrl" target="_blank">
             Star on GitHub
           </BankaiLink>
           <BankaiLink class="cta cta-outline" :href="roadmapUrl" target="_blank"

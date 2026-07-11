@@ -12,6 +12,7 @@
         <BankaiText as="span" size="lg" weight="bold">bankai-vue</BankaiText>
       </NuxtLink>
       <BankaiFlex align="center" gap="6" wrap="wrap">
+        <NuxtLink to="/guide/getting-started" class="nav-link">Guide</NuxtLink>
         <NuxtLink to="/components" class="nav-link">Components</NuxtLink>
         <!--
           Client-only: the toggle reads localStorage in setup, so it must not server-render (the

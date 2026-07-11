@@ -6,7 +6,7 @@
 // overrides below only retune the sidebar track / gutters (SPEC.md §4.4, §4.6). Interim → the sidebar
 // nav becomes <BankaiSidebar> once it lands (ROADMAP Phase 1). NuxtLink marks the active route with
 // aria-current for free.
-import { componentNav } from '../utils/docs';
+import { componentNav, guideNav } from '../utils/docs';
 </script>
 
 <template>
@@ -16,7 +16,15 @@ import { componentNav } from '../utils/docs';
     </template>
 
     <template #sidebar>
-      <nav class="docs-sidebar" aria-label="Components">
+      <nav class="docs-sidebar" aria-label="Documentation">
+        <BankaiText as="p" size="sm" weight="semibold" tone="muted" class="docs-sidebar-title">
+          Guide
+        </BankaiText>
+        <ul class="docs-nav">
+          <li v-for="item in guideNav" :key="item.to">
+            <NuxtLink :to="item.to" class="docs-nav-link">{{ item.name }}</NuxtLink>
+          </li>
+        </ul>
         <BankaiText as="p" size="sm" weight="semibold" tone="muted" class="docs-sidebar-title">
           Components
         </BankaiText>
@@ -55,6 +63,11 @@ import { componentNav } from '../utils/docs';
 
 .docs-sidebar-title {
   margin-bottom: 0.5rem;
+}
+
+/* Space each group heading after the first away from the previous group's list. */
+.docs-nav + .docs-sidebar-title {
+  margin-top: 1.25rem;
 }
 
 .docs-nav {
