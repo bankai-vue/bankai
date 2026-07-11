@@ -11,6 +11,18 @@ export interface NavItem {
 }
 
 /**
+ * The guide (non-component) pages. Add an entry when a new guide page lands; the sidebar reads from
+ * here so there is a single source of truth for the "Guide" section.
+ */
+export const guideNav: NavItem[] = [
+  {
+    name: 'Getting started',
+    to: '/guide/getting-started',
+    tagline: 'Install, add a theme, and render your first component.',
+  },
+];
+
+/**
  * The components built so far that have a docs page. Add an entry when a component's page lands
  * — this is part of the per-component landing checklist. The sidebar and the landing "Shipping today"
  * grid both read from here, so there is a single source of truth for what exists.
