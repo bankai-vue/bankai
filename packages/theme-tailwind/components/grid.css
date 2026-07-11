@@ -27,6 +27,11 @@
   grid-template-rows: var(--bankai-grid-rows, none);
   grid-template-areas: var(--bankai-grid-areas, none);
   gap: var(--bankai-grid-gap, normal);
+  /* Escape hatch for a verbatim `align`/`justify` value — plain CSS (no `@apply` reads an arbitrary
+   * custom property). Unset → invalid-at-computed-value → the property keeps its initial value, and a
+   * keyword's `data-*` rule below (`@apply items-*`/`justify-items-*`) wins. */
+  align-items: var(--bankai-grid-align);
+  justify-items: var(--bankai-grid-justify);
 }
 
 :where(.bankai-grid[data-bankai-inline]) {

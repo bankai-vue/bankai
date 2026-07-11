@@ -122,6 +122,37 @@ test('exposes gap via the --bankai-flex-gap custom property with scale-step coer
   expect(gapVar({ gap: '1rem' })).toBe('1rem');
   expect(gapVar({ gap: 'var(--bankai-space-2)' })).toBe('var(--bankai-space-2)');
   expect(gapVar({ gap: 'clamp(0.5rem, 2vw, 1.5rem)' })).toBe('clamp(0.5rem, 2vw, 1.5rem)');
+  // A named t-shirt step resolves to its dedicated theme-owned token, not an invalid `gap: md`.
+  expect(gapVar({ gap: 'md' })).toBe('var(--bankai-gap-md)');
+});
+
+// The widened `align`/`justify` types never lie: a value the component doesn't recognise as a short
+// keyword is not dropped — it rides the `--bankai-flex-*` escape hatch the theme's base rule applies,
+// with `data-bankai-*` omitted so the two paths stay mutually exclusive (SPEC.md §4.4, §4.6).
+test('reflects a verbatim align/justify on the custom-property escape hatch, not data-*', () => {
+  const { root, teardown } = mountFlex({ align: 'flex-start', justify: 'space-between' });
+
+  // Non-keyword → no `data-*`, so the keyword `[data-bankai-*]` rules can't spuriously match.
+  expect(Object.hasOwn(root.dataset, 'align')).toBe(false);
+  expect(Object.hasOwn(root.dataset, 'justify')).toBe(false);
+  // …and the value lands verbatim on the escape-hatch custom property instead.
+  expect(root.style.getPropertyValue('--bankai-flex-align')).toBe('flex-start');
+  expect(root.style.getPropertyValue('--bankai-flex-justify')).toBe('space-between');
+
+  teardown();
+});
+
+// The two channels are mutually exclusive: a recognised keyword reflects as `data-*` and leaves the
+// escape-hatch custom property unset (so the theme's keyword rule wins, not the verbatim base rule).
+test('leaves the escape-hatch custom property unset for a recognised keyword', () => {
+  const { root, teardown } = mountFlex({ align: 'center', justify: 'between' });
+
+  expect(root.dataset.bankaiAlign).toBe('center');
+  expect(root.dataset.bankaiJustify).toBe('between');
+  expect(root.style.getPropertyValue('--bankai-flex-align')).toBe('');
+  expect(root.style.getPropertyValue('--bankai-flex-justify')).toBe('');
+
+  teardown();
 });
 
 test('renders rich slot content', () => {

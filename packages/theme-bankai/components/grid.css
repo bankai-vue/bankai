@@ -8,8 +8,12 @@
  * Tailwind `grid-cols-3` / `items-center` / `gap-4`, Bootstrap, UnoCSS — override any rule below
  * with a single plain class, no `!important` needed (SPEC.md §4.4, §4.6).
  *
- * The short `align`/`justify` keywords map to native box-alignment values here (they're already the
- * grid-idiomatic keywords, so the mapping is 1:1), so the component keeps an ergonomic prop API.
+ * The short `align`/`justify` keywords map to native box-alignment values by the `[data-bankai-*]`
+ * rules below (they're already the grid-idiomatic keywords, so the mapping is 1:1), so the component
+ * keeps an ergonomic prop API. A *verbatim* `align`/`justify` (any native value the component didn't
+ * recognise as a keyword) instead rides `--bankai-grid-align`/`--bankai-grid-justify`, applied by the
+ * base rule here — the escape hatch, so the widened prop types never lie. The two paths are mutually
+ * exclusive and the `data-*` rules sit later at equal `:where()` specificity, so a keyword wins when used.
  */
 
 :where(.bankai-grid) {
@@ -19,6 +23,10 @@
   grid-template-rows: var(--bankai-grid-rows, none);
   grid-template-areas: var(--bankai-grid-areas, none);
   gap: var(--bankai-grid-gap, normal);
+  /* Escape hatch: a verbatim `align`/`justify` value; unset → invalid-at-computed-value → the property
+   * keeps its initial value, and a keyword's `data-*` rule below wins instead. */
+  align-items: var(--bankai-grid-align);
+  justify-items: var(--bankai-grid-justify);
 }
 
 :where(.bankai-grid[data-bankai-inline]) {

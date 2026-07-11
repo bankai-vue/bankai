@@ -18,19 +18,21 @@ const props: PropRow[] = [
   },
   {
     name: 'align',
-    type: "'start' | 'end' | 'center' | 'baseline' | 'stretch'",
-    description: 'align-items (cross axis).',
+    type: "'start' | 'end' | 'center' | 'baseline' | 'stretch' | (string)",
+    description:
+      'align-items (cross axis). A short keyword, or any verbatim CSS value (e.g. flex-start, var(--x)).',
   },
   {
     name: 'justify',
-    type: "'start' | 'end' | 'center' | 'between' | 'around' | 'evenly'",
-    description: 'justify-content (main axis). between/around/evenly map to the space-* values.',
+    type: "'start' | 'end' | 'center' | 'between' | 'around' | 'evenly' | (string)",
+    description:
+      'justify-content (main axis). between/around/evenly map to the space-* values; or pass a verbatim value (e.g. space-between, flex-start).',
   },
   {
     name: 'gap',
-    type: 'number | string',
+    type: "'xs' | 'sm' | 'md' | 'lg' | 'xl' | number | string",
     description:
-      'Spacing between children. A number is a --bankai-space-<n> step; any other string is a verbatim CSS length.',
+      'Spacing between children. A named t-shirt step (--bankai-gap-<name>) or a number (--bankai-space-<n> step); any other string is a verbatim CSS length.',
   },
   {
     name: 'wrap',
