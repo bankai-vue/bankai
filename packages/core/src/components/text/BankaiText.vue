@@ -142,7 +142,7 @@ const NAMED_WEIGHTS = new Set<string>([
 </script>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, useAttrs } from 'vue';
 
 const { as = 'span', size, weight, tone, truncate = false } = defineProps<BankaiTextProps>();
 
@@ -154,7 +154,12 @@ const { as = 'span', size, weight, tone, truncate = false } = defineProps<Bankai
  * Renders a `<span>` by default (override via `as` for inline semantics), exposes a `bankai-text` class plus
  * `data-part="root"`, and merges consumer `class`/`style`/attributes onto the root; ships no CSS of its own.
  */
-defineOptions({ name: 'BankaiText', inheritAttrs: true });
+defineOptions({ name: 'BankaiText', inheritAttrs: false });
+
+// `inheritAttrs: false` + `v-bind="attrs"` FIRST on the root so the component-owned `data-part` and every
+// reflected `data-bankai-*` can't be clobbered by a consumer fallthrough (SPEC.md §4.4, §5.6). `class`/
+// `style` still merge, so consumer utility classes keep overriding the theme by ordinary specificity.
+const attrs = useAttrs();
 
 // A named member reflects verbatim as its `data-*` attribute; any other value takes the custom-property
 // escape hatch below, so `data-*` is omitted for it (Vue drops `undefined` bindings, keeping the DOM clean).
@@ -183,6 +188,7 @@ defineSlots<BankaiTextSlots>();
 <template>
   <component
     :is="as"
+    v-bind="attrs"
     class="bankai-text"
     data-part="root"
     :data-bankai-size="dataSize"

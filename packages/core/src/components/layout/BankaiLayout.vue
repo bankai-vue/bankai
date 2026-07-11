@@ -46,6 +46,8 @@ export interface BankaiLayoutSlots {
 </script>
 
 <script setup lang="ts">
+import { useAttrs } from 'vue';
+
 /**
  * The persistent app shell. Renders a `.bankai-layout` CSS-grid `<div data-part="root">` that wraps
  * each provided slot in its native landmark region (`#header` → `<header>`, `#sidebar` → `<aside>`,
@@ -57,13 +59,18 @@ export interface BankaiLayoutSlots {
  * `class`/`style`/attributes merge onto the root. The shell layer of App › Layout › Page › Container
  * (SPEC.md §5.6) — don't nest it inside another `BankaiLayout` (landmark uniqueness).
  */
-defineOptions({ name: 'BankaiLayout', inheritAttrs: true });
+defineOptions({ name: 'BankaiLayout', inheritAttrs: false });
+
+// `inheritAttrs: false` + `v-bind="attrs"` FIRST on the root so the component-owned `data-part` can't be
+// clobbered by a consumer fallthrough `data-part` (SPEC.md §4.4, §5.6). `class`/`style` still merge. Attrs
+// land on the root only; the child landmark regions keep their own `data-part`s.
+const attrs = useAttrs();
 
 const slots = defineSlots<BankaiLayoutSlots>();
 </script>
 
 <template>
-  <div class="bankai-layout" data-part="root">
+  <div v-bind="attrs" class="bankai-layout" data-part="root">
     <header v-if="slots.header" data-part="header">
       <slot name="header" />
     </header>

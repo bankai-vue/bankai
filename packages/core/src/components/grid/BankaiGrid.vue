@@ -196,7 +196,7 @@ function resolveAreas(value: BankaiGridAreas): string {
 </script>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, useAttrs } from 'vue';
 import { reflectNamed } from '../../internal/reflect';
 import { resolveGap } from '../../internal/spacing';
 
@@ -221,7 +221,12 @@ const {
  * class plus `data-part="root"`, and merges consumer `class`/`style`/attributes onto the root.
  * The 2D sibling of {@link BankaiFlex}.
  */
-defineOptions({ name: 'BankaiGrid', inheritAttrs: true });
+defineOptions({ name: 'BankaiGrid', inheritAttrs: false });
+
+// `inheritAttrs: false` + `v-bind="attrs"` FIRST on the root so the component-owned `data-part` and every
+// reflected `data-bankai-*` can't be clobbered by a consumer fallthrough (SPEC.md §4.4, §5.6). `class`/
+// `style` still merge, so consumer utility classes keep overriding the theme by ordinary specificity.
+const attrs = useAttrs();
 
 // A named keyword reflects as its `data-*` attribute (theme-mapped); any other value rides the
 // `--bankai-grid-*` escape hatch instead. `reflectNamed` (shared with `BankaiFlex`, SPEC.md §4.11)
@@ -254,6 +259,7 @@ defineSlots<BankaiGridSlots>();
 <template>
   <component
     :is="as"
+    v-bind="attrs"
     class="bankai-grid"
     data-part="root"
     :data-bankai-flow="flow"

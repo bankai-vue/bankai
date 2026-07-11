@@ -69,6 +69,7 @@ export interface BankaiButtonProps {
 </script>
 
 <script setup lang="ts">
+import { useAttrs } from 'vue';
 import { useBankaiId } from '../../composables/useBankaiId';
 
 const {
@@ -83,16 +84,24 @@ const {
  * Reflects its state on the root as `data-*` and exposes a `bankai-button` class plus `data-part` hooks for styling; ships no CSS of its own.
  * Auto-generates a stable `id` unless the consumer supplies one.
  */
-defineOptions({ name: 'BankaiButton', inheritAttrs: true });
+defineOptions({ name: 'BankaiButton', inheritAttrs: false });
 
+const attrs = useAttrs();
 const id = useBankaiId('bankai-button');
 
 defineSlots<BankaiButtonSlots>();
 </script>
 
 <template>
+  <!--
+    `:id` comes BEFORE `v-bind="attrs"` so a consumer `id` (including an empty-string opt-out) still wins by
+    fallthrough — `id` is the consumer's to set (see `useBankaiId`). Everything AFTER `v-bind="attrs"` is
+    component-owned and must win instead: `data-part` (anatomy) and the reflected `data-bankai-*` state can't
+    be clobbered by a consumer same-named attribute (SPEC.md §4.4, §5.6). `class` merges regardless of order.
+  -->
   <button
     :id="id"
+    v-bind="attrs"
     class="bankai-button"
     :type="type"
     :disabled="disabled"
