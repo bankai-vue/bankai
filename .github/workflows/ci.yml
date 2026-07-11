@@ -179,6 +179,12 @@ jobs:
       - name: Build
         run: pnpm run build
 
+      # The docs Nuxt app is now part of the shared lint run. Its tsconfig extends the generated
+      # `.nuxt/tsconfig.json` (absent until a `nuxi` run), which type-aware oxlint needs to resolve —
+      # so prepare it here, after the workspace packages are built (the module resolves from dist/).
+      - name: Prepare docs types
+        run: pnpm run docs:prepare
+
       - name: Lint
         run: pnpm run lint --format=github
 

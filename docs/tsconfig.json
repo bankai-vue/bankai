@@ -1,8 +1,9 @@
 {
   // https://nuxt.com/docs/guide/concepts/typescript
   // Extends the config Nuxt generates under .nuxt/ — created by any `nuxi` run
-  // (dev/build/generate/prepare). Because .nuxt/ is absent until then, the shared
-  // root oxlint run excludes docs/ (see .oxlintrc.json); Nuxt's own `nuxi typecheck`
-  // owns type-checking here.
+  // (dev/build/generate/prepare). The shared root oxlint run DOES lint docs/, so it
+  // must be prepared first (`pnpm docs:prepare`, wired into `preflight` and the CI lint
+  // job) or type-aware oxlint fails to resolve this tsconfig. Full type-checking is still
+  // owned by Nuxt's own `nuxi typecheck` (the CI `docs` job).
   "extends": "./.nuxt/tsconfig.json"
 }

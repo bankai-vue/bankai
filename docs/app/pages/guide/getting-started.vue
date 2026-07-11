@@ -5,8 +5,11 @@ definePageMeta({ layout: 'docs' });
 useHead({ title: 'Getting started · bankai-vue' });
 
 // Code samples live here as strings so the template renders them verbatim (no HTML parsing of the
-// `<script setup>` / `<Bankai*>` tags inside them). The `<\/script>` escape keeps a sample from
-// closing this SFC's own script block. Interim → a highlighted <BankaiCodeBlock> once it lands.
+// `<script setup>` / `<Bankai*>` tags inside them). The closing tag in the SFC sample is assembled
+// from parts (`scriptClose`) so the raw source never contains a literal closing-script sequence that
+// would close this SFC's own script block. Interim → a highlighted <BankaiCodeBlock> once it lands.
+// eslint-disable-next-line no-useless-concat -- deliberate: the split keeps the literal tag out of source
+const scriptClose = '</scr' + 'ipt>';
 const viteSetup = `// main.ts
 import { createApp } from 'vue';
 import { createBankai } from '@bankai-vue/core';
@@ -22,7 +25,7 @@ createApp(App)
 
 const viteUsage = `<script setup lang="ts">
 import { BankaiButton } from '@bankai-vue/core';
-<\/script>
+${scriptClose}
 
 <template>
   <BankaiButton variant="solid">Click me</BankaiButton>
