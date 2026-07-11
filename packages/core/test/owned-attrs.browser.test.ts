@@ -37,7 +37,17 @@ interface OwnedCase {
   // Reflected state keyed by its `dataset` name → the value that must survive (derived from `props`, never
   // the consumer's). Empty for components that reflect no state beyond `data-part`.
   reflected: Record<string, string>;
+  // The mirror image of `reflected`: attributes the component intentionally DEFERS to the consumer by binding
+  // them BEFORE `v-bind="attrs"`, keyed by attribute name → the consumer value that must win. This is what
+  // keeps the ordering load-bearing — reorder such a binding after `v-bind` and its consumer value would lose.
+  // Only `BankaiButton` has one today (`id`, see `useBankaiId`); `{}` for the rest.
+  deferred: Record<string, string>;
 }
+
+// A consumer `class` is added to every mount: Vue special-cases `class`/`style` so they MERGE with the
+// component's own regardless of `v-bind` order — the exemption the owned-attr ordering relies on. Asserting
+// it here documents that guarantee alongside the ones it depends on.
+const CONSUMER_CLASS = 'consumer-probe';
 
 const CASES: OwnedCase[] = [
   {
@@ -46,6 +56,10 @@ const CASES: OwnedCase[] = [
     render: (attributes) => h(BankaiButton, attributes, () => 'content'),
     props: { variant: 'outline', size: 'lg' },
     reflected: { bankaiVariant: 'outline', bankaiSize: 'lg' },
+    // The empty-string `id` opt-out is the case that actually exercises the ordering: `useBankaiId` resolves
+    // `id=""` to the *generated* id, so only `:id` being bound before `v-bind="attrs"` lets the consumer's
+    // `""` win on the root. A non-empty consumer id would pass regardless of order (useBankaiId returns it).
+    deferred: { id: '' },
   },
   {
     name: 'BankaiCode',
@@ -53,6 +67,7 @@ const CASES: OwnedCase[] = [
     render: (attributes) => h(BankaiCode, attributes, () => 'content'),
     props: {},
     reflected: {},
+    deferred: {},
   },
   {
     name: 'BankaiContainer',
@@ -60,6 +75,7 @@ const CASES: OwnedCase[] = [
     render: (attributes) => h(BankaiContainer, attributes, () => 'content'),
     props: { fluid: true },
     reflected: { bankaiFluid: '' },
+    deferred: {},
   },
   {
     name: 'BankaiFlex',
@@ -73,6 +89,7 @@ const CASES: OwnedCase[] = [
       bankaiWrap: 'wrap',
       bankaiInline: '',
     },
+    deferred: {},
   },
   {
     name: 'BankaiGrid',
@@ -85,6 +102,7 @@ const CASES: OwnedCase[] = [
       bankaiJustify: 'center',
       bankaiInline: '',
     },
+    deferred: {},
   },
   {
     name: 'BankaiLayout',
@@ -92,6 +110,7 @@ const CASES: OwnedCase[] = [
     render: (attributes) => h(BankaiLayout, attributes, () => 'content'),
     props: {},
     reflected: {},
+    deferred: {},
   },
   {
     name: 'BankaiLink',
@@ -100,6 +119,7 @@ const CASES: OwnedCase[] = [
     // A cross-host new-tab link is genuinely external, so `data-bankai-external` is set and can be probed.
     props: { href: 'https://example.com', target: '_blank' },
     reflected: { bankaiExternal: '' },
+    deferred: {},
   },
   {
     name: 'BankaiText',
@@ -112,6 +132,7 @@ const CASES: OwnedCase[] = [
       bankaiTone: 'muted',
       bankaiTruncate: '',
     },
+    deferred: {},
   },
 ];
 
@@ -127,10 +148,12 @@ function mountOwnedCase(testCase: OwnedCase): { root: HTMLElement; teardown: () 
   const host = document.createElement('div');
   document.body.append(host);
 
-  const clobbers: Record<string, string> = { 'data-part': 'HACKED' };
+  const clobbers: Record<string, string> = { 'data-part': 'HACKED', class: CONSUMER_CLASS };
   for (const key of Object.keys(testCase.reflected)) {
     clobbers[datasetKeyToAttr(key)] = 'HACKED';
   }
+  // Deferred attrs carry their intended consumer value (not `HACKED`): these must win, not survive.
+  Object.assign(clobbers, testCase.deferred);
 
   const app = createApp(() => testCase.render({ ...testCase.props, ...clobbers }));
   app.mount(host);
@@ -158,6 +181,14 @@ for (const testCase of CASES) {
     // Every reflected state keeps the value derived from props, never the consumer's `HACKED`.
     for (const [key, expected] of Object.entries(testCase.reflected)) {
       expect(root.dataset[key]).toBe(expected);
+    }
+    // The consumer `class` merges with the component's own, regardless of `v-bind` order (the exemption
+    // the owned-attr ordering depends on) — both are present, neither clobbers the other.
+    expect(root.classList.contains(testCase.className)).toBe(true);
+    expect(root.classList.contains(CONSUMER_CLASS)).toBe(true);
+    // The mirror case: attrs the component defers (bound before `v-bind="attrs"`) keep the consumer's value.
+    for (const [attr, expected] of Object.entries(testCase.deferred)) {
+      expect(root.getAttribute(attr)).toBe(expected);
     }
 
     teardown();
