@@ -249,6 +249,25 @@ test('honors a config-provided linkComponent override', () => {
   teardown();
 });
 
+test('does not let consumer attrs override component-owned attributes', () => {
+  // `data-part` (anatomy) and `data-bankai-external` (reflected state) are the component's identity, not a
+  // consumer fallthrough. A same-named attribute must NOT clobber them — the template binds `v-bind="attrs"`
+  // BEFORE the owned attributes so the owned values win. Regression guard: this is silently overridable if
+  // an owned attr is ever placed before `v-bind="attrs"` (and is the default under `inheritAttrs: true`).
+  const { root, teardown } = mountLink({
+    href: 'https://example.com',
+    target: '_blank',
+    'data-part': 'HACKED',
+    'data-bankai-external': 'HACKED',
+  });
+
+  expect(root.dataset.part).toBe('root');
+  // A cross-host new-tab link is genuinely external — and the consumer can't spoof the value either way.
+  expect(root.dataset.bankaiExternal).toBe('');
+
+  teardown();
+});
+
 test('forwards attributes/classes/events onto the root', () => {
   let clicks = 0;
   const { root, teardown } = mountLink(
