@@ -49,8 +49,12 @@ test.describe('theme link.css computed styles', () => {
 
   test('focus-visible paints an outline in the focus-ring color', async ({ page }) => {
     const link = page.getByTestId('link-default');
-    // Keyboard focus triggers `:focus-visible` (a programmatic `.focus()` may not).
+    // `:focus-visible` needs the keyboard modality, but a bare `Tab` can't be relied on to LAND on the
+    // link: WebKit on macOS/Windows doesn't tab to links by default (Linux WebKit does). So press `Tab` to
+    // set the keyboard modality, then focus the link explicitly — programmatic focus under an active
+    // keyboard modality still matches `:focus-visible`, and works across every browser/OS.
     await page.keyboard.press('Tab');
+    await link.focus();
     await expect(link).toBeFocused();
 
     expect(await link.evaluate((el) => getComputedStyle(el).outlineStyle)).toBe('solid');
