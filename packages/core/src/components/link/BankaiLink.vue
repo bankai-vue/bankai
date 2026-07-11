@@ -133,11 +133,18 @@ const dataExternal = computed<'' | undefined>(() => {
 
 // Dev guard: an object `to` has no `href` to degrade to, so landing on the native-anchor path with one
 // (no router resolved, or `external` forcing an `<a>`) renders a destination-less link. Warn loudly rather
-// than ship a silent no-op (SPEC.md §5.6). Gated on `import.meta.env.DEV` (typed inline, since core targets
-// no specific bundler) so a Vite/Nuxt prod build constant-folds it away; other runtimes just skip the warn.
+// than ship a silent no-op (SPEC.md §5.6), unless the consumer opted out via `config.warnings`. Gated on
+// `import.meta.env.DEV` (typed inline, since core targets no specific bundler) so a Vite/Nuxt prod build
+// constant-folds it away; other runtimes just skip the warn.
 if ((import.meta as { env?: { DEV?: boolean } }).env?.DEV) {
   watchEffect(() => {
-    if (!usesRouter.value && href === undefined && to !== undefined && typeof to !== 'string') {
+    if (
+      config.warnings &&
+      !usesRouter.value &&
+      href === undefined &&
+      to !== undefined &&
+      typeof to !== 'string'
+    ) {
       console.warn(
         '[BankaiLink] An object `to` renders as an `<a>` with no `href`' +
           (external

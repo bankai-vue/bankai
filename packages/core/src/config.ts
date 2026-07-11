@@ -14,6 +14,14 @@ export interface BankaiConfig {
    */
   idGeneration: boolean;
   /**
+   * Whether bankai-vue emits development warnings for likely-mistaken usage (e.g. a `BankaiLink` with an
+   * object `to` and no router to resolve it). Warnings are already stripped from production builds; set
+   * `false` to silence them in development too. A single global switch covers every component's warnings.
+   *
+   * @default true
+   */
+  warnings: boolean;
+  /**
    * Component `BankaiLink` renders for internal (`to`) navigation. Leave unset to auto-detect the
    * router link: a globally-registered `NuxtLink` (preferred, under Nuxt), else `RouterLink` (vue-router),
    * else a plain `<a>`. Set this only to force a specific component when auto-detection is insufficient
@@ -43,7 +51,7 @@ export interface BankaiConfig {
 }
 
 function createDefaultConfig(): BankaiConfig {
-  return { idGeneration: true, linkNoopener: true };
+  return { idGeneration: true, warnings: true, linkNoopener: true };
 }
 
 const injectionKey: InjectionKey<BankaiConfig> = Symbol('bankai:config');

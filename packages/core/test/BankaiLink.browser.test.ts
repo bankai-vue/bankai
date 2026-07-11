@@ -1,5 +1,5 @@
 import type { Component, Plugin, VNodeChild } from 'vue';
-import { expect, test } from 'vitest';
+import { expect, test, vi } from 'vitest';
 import { createApp, defineComponent, h } from 'vue';
 import { BankaiLink, createBankai } from '../src/index';
 
@@ -11,6 +11,9 @@ interface Mounted {
 
 // Default-slot content for a mount: a plain string, a render function, or `null` to omit the slot.
 type Slot = string | null | (() => VNodeChild);
+
+// A no-op `console.warn` stub (avoids an inline empty/`undefined`-returning arrow the linter flags).
+function noop(): void {}
 
 // A stub router link that records how it was invoked: it renders an <a> tagged with `data-stub` (which
 // component won) and reflects the `to` it received, so tests can assert resolution + `to` forwarding
@@ -164,6 +167,27 @@ test('forwards an object `to` to the router link', () => {
   expect(root.dataset.to).toBe(JSON.stringify({ name: 'user', params: { id: '1' } }));
 
   teardown();
+});
+
+test('warns in dev for an object `to` with no router, and honors config.warnings', () => {
+  const warn = vi.spyOn(console, 'warn').mockImplementation(noop);
+
+  // Object `to`, no router to resolve it → renders a destination-less <a> and warns.
+  const noisy = mountLink({ to: { name: 'user' } }, 'User');
+  expect(warn).toHaveBeenCalledOnce();
+  expect(warn.mock.calls[0]?.[0]).toContain('[BankaiLink]');
+  noisy.teardown();
+
+  warn.mockClear();
+
+  // Opting out globally silences it.
+  const silent = mountLink({ to: { name: 'user' } }, 'User', {
+    plugin: createBankai({ warnings: false }),
+  });
+  expect(warn).not.toHaveBeenCalled();
+  silent.teardown();
+
+  warn.mockRestore();
 });
 
 test('`external` forces a native <a> even with a router present', () => {
