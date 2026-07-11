@@ -1,4 +1,4 @@
-import type { App, InjectionKey, Plugin } from 'vue';
+import type { App, Component, InjectionKey, Plugin } from 'vue';
 import { inject, reactive } from 'vue';
 
 /**
@@ -13,10 +13,27 @@ export interface BankaiConfig {
    * @default true
    */
   idGeneration: boolean;
+  /**
+   * Component `BankaiLink` renders for internal (`to`) navigation. Leave unset to auto-detect the
+   * router link: a globally-registered `NuxtLink` (preferred, under Nuxt), else `RouterLink` (vue-router),
+   * else a plain `<a>`. Set this only to force a specific component when auto-detection is insufficient
+   * (e.g. a custom router link, or SSR contexts where the global registration is unavailable at resolve time).
+   *
+   * @default undefined
+   */
+  linkComponent?: Component | string;
+  /**
+   * Whether `BankaiLink` auto-adds `rel="noopener noreferrer"` to a `target="_blank"` link (a security
+   * default: without it the opened page can reach back through `window.opener`). A consumer-provided `rel`
+   * always wins. Set `false` to opt out globally.
+   *
+   * @default true
+   */
+  linkNoopener: boolean;
 }
 
 function createDefaultConfig(): BankaiConfig {
-  return { idGeneration: true };
+  return { idGeneration: true, linkNoopener: true };
 }
 
 const injectionKey: InjectionKey<BankaiConfig> = Symbol('bankai:config');

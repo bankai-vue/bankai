@@ -1,0 +1,73 @@
+/*
+ * BankaiLink styling.
+ *
+ * Targets the `bankai-link` class and the reflected state (`data-bankai-external`). Every selector is
+ * wrapped in `:where()` (zero specificity) so a consumer's utility classes — Tailwind `text-blue-600` /
+ * `no-underline`, Bootstrap, UnoCSS — override any rule below with a single plain class, no `!important`
+ * needed (SPEC.md §4.4, §4.6).
+ *
+ * Every adjustable property routes through a `--bankai-link-*` component token declared in the
+ * `:where(:root)` block below, each defaulting to a foundation token (`--bankai-color-accent`,
+ * `--bankai-focus-ring`, `--bankai-radius` from tokens.css) or a plain literal. So a consumer restyles the
+ * link by overriding one custom property — e.g. `--bankai-link-decoration: none` — without a selector, and
+ * a foundation retune (e.g. `--bankai-color-accent`) still flows through.
+ *
+ * The component also renders on whatever the environment provides — a native `<a>`, or the underlying
+ * router link (`RouterLink`/`NuxtLink`), which emits an `<a>` too — so a single `.bankai-link` rule covers
+ * all three. Router active state falls through as the router link's own `router-link-active` /
+ * `router-link-exact-active` classes; this theme leaves them unstyled (a consumer opts in per app).
+ */
+
+:where(:root) {
+  /* Link color draws from the foundation interactive `accent` role (tokens.css); its `light-dark()` flips
+   * on `color-scheme`. Retune `--bankai-link-color*` for a link-only tweak, or `--bankai-color-accent` to
+   * move every interactive accent. The states deepen toward black in both schemes (conventional feedback). */
+  --bankai-link-color: var(--bankai-color-accent);
+  --bankai-link-color-hover: color-mix(in oklch, var(--bankai-link-color), black 15%);
+  --bankai-link-color-active: color-mix(in oklch, var(--bankai-link-color), black 25%);
+
+  /* Underline knobs. Decoration is on by default (the accessible signal that text is a link, independent of
+   * color); override `--bankai-link-decoration: none` to drop it. */
+  --bankai-link-decoration: underline;
+  --bankai-link-decoration-hover: underline;
+  --bankai-link-underline-offset: 0.15em;
+
+  --bankai-link-cursor: pointer;
+  /* Color-only transition, so it is unaffected by reduced-motion (no movement). Set to `none` to disable. */
+  --bankai-link-transition: color 150ms ease, text-decoration-color 150ms ease;
+
+  /* Focus ring — width/offset/radius knobs; color defaults to the shared focus ring. */
+  --bankai-link-focus-ring: var(--bankai-focus-ring);
+  --bankai-link-focus-outline-width: 2px;
+  --bankai-link-focus-outline-offset: 2px;
+  --bankai-link-focus-radius: var(--bankai-radius);
+}
+
+:where(.bankai-link) {
+  color: var(--bankai-link-color);
+  text-decoration-line: var(--bankai-link-decoration);
+  text-underline-offset: var(--bankai-link-underline-offset);
+  cursor: var(--bankai-link-cursor);
+  transition: var(--bankai-link-transition);
+}
+
+:where(.bankai-link:hover) {
+  color: var(--bankai-link-color-hover);
+  text-decoration-line: var(--bankai-link-decoration-hover);
+}
+
+:where(.bankai-link:active) {
+  color: var(--bankai-link-color-active);
+}
+
+:where(.bankai-link:focus-visible) {
+  outline: var(--bankai-link-focus-outline-width) solid var(--bankai-link-focus-ring);
+  outline-offset: var(--bankai-link-focus-outline-offset);
+  border-radius: var(--bankai-link-focus-radius);
+}
+
+/*
+ * `data-bankai-external` marks a link that leaves the SPA (an explicit `href`, a forced `external`, or a
+ * new-tab target). Left unpainted here by design — no forced iconography — but exposed as a zero-specificity
+ * hook a consumer can opt into, e.g. `.bankai-link[data-bankai-external]::after { content: ' ↗'; }`.
+ */

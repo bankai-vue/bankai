@@ -193,7 +193,7 @@ Navigation content — dropped into the region slots:
 
 - [ ] `BankaiNavbar` — styled top nav bar (brand + links + actions); goes in the `#header` slot
 - [ ] `BankaiSidebar` — styled side-nav panel (sections, collapsible groups); goes in the `#sidebar` slot
-- [ ] `BankaiLink` — styled `<a>` with router-link integration (`to`/`href`); used by nav, Breadcrumb, Menu
+- [x] `BankaiLink` — router-aware link (`to`/`href`/`external`); auto-resolves `NuxtLink` → `RouterLink` → native `<a>` from the app's global component registry (no vue-router dep in core; `vue-router` an optional peer). `to`'s type is a router-agnostic fallback by default and vue-router's `RouteLocationRaw` via the opt-in `@bankai-vue/core/vue-router` types augmentation. Auto `rel="noopener noreferrer"` on `target="_blank"` (opt out via `config.linkNoopener`); `config.linkComponent` overrides the internal-link component. Reflects `data-bankai-external`. Used by nav, Breadcrumb, Menu
 - [ ] `BankaiBreadcrumb` _(universal)_ — hierarchical trail
 - [ ] `BankaiPagination` _(universal)_ — paged navigation
 - [ ] `BankaiTabs` (`BankaiTab`, `BankaiTabPanel`)

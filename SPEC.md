@@ -225,7 +225,7 @@ Themes are **separate, swappable CSS packages**; `core` stays unstyled. Design t
 
 ### 5.5 Dependency posture
 
-`core` near-zero deps via the §4.13 ladder. Sanctioned narrow/peer deps: `@floating-ui/vue` (positioning). Optional/peer only: VueUse.
+`core` near-zero deps via the §4.13 ladder. Sanctioned narrow/peer deps: `@floating-ui/vue` (positioning). Optional/peer only: VueUse; `vue-router` (`BankaiLink`'s first-class internal-link target — an _optional_ peer: core detects a globally-registered `RouterLink`/`NuxtLink` at runtime and never imports vue-router, and types `to` as `RouteLocationRaw` only through the opt-in `@bankai-vue/core/vue-router` augmentation, so the router-free `<a>` path stays dependency-free).
 
 ### 5.6 App structure — `App` / `Layout` / `Page` / `Container`
 
