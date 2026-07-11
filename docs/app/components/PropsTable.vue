@@ -2,7 +2,6 @@
 // Interim props table → to be replaced by <BankaiSimpleTable> once it lands (ROADMAP Phase 1).
 // Rows are hand-authored per page today; a source-generated table is a later step.
 import type { PropRow } from '../utils/docs';
-import { BankaiCode } from '@bankai-vue/core';
 
 defineProps<{ rows: PropRow[] }>();
 </script>

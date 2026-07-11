@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { PropRow } from '../../utils/docs';
-import { BankaiButton, BankaiCode, BankaiFlex, BankaiText } from '@bankai-vue/core';
 
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiButton · bankai-vue' });

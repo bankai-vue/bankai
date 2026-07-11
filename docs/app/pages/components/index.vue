@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { BankaiGrid, BankaiText } from '@bankai-vue/core';
 import { componentNav } from '../../utils/docs';
 
 definePageMeta({ layout: 'docs' });

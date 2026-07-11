@@ -6,10 +6,9 @@
 export default defineNuxtConfig({
   compatibilityDate: '2026-07-09',
 
-  // Dogfood the first-party module (SPEC.md §4.12/§4.15). Its setup() is a
-  // no-op today; registering it here proves the module builds and loads. Real
-  // component registration / auto-imports land in a later step — until then the
-  // docs import from `@bankai-vue/core` explicitly.
+  // Dogfood the first-party module (SPEC.md §4.12/§4.15): it auto-registers every
+  // `@bankai-vue/core` component (so pages use `<Bankai*>` with no import),
+  // auto-imports the composables, and installs the config per app (SSR-safe).
   modules: ['@bankai-vue/nuxt'],
 
   // The house theme ships the CSS; core ships none (SPEC.md §4.4).

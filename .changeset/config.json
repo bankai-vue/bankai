@@ -2,11 +2,11 @@
   "$schema": "https://unpkg.com/@changesets/config/schema.json",
   "changelog": "@changesets/cli/changelog",
   "commit": false,
-  "fixed": [["@bankai-vue/core", "@bankai-vue/theme-*"]],
+  "fixed": [["@bankai-vue/core", "@bankai-vue/theme-*", "@bankai-vue/nuxt"]],
   "linked": [],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "//": "theme-* auto-joins the fixed[] lockstep group via glob; add any new theme to ignore[] while it is a work-in-progress stub. @bankai-vue/nuxt and @bankai-vue/table-tanstack are ignored until we build them out; promote @bankai-vue/nuxt into fixed[] once its module actually works.",
-  "ignore": ["playground", "@bankai-vue/docs", "@bankai-vue/nuxt", "@bankai-vue/table-tanstack"]
+  "//": "theme-* auto-joins the fixed[] lockstep group via glob; add any new theme to ignore[] while it is a work-in-progress stub. @bankai-vue/nuxt joined fixed[] once its module worked (2026-07-11). @bankai-vue/table-tanstack stays ignored until we build it out.",
+  "ignore": ["playground", "@bankai-vue/docs", "@bankai-vue/table-tanstack"]
 }

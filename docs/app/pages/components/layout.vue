@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { BankaiCode, BankaiText } from '@bankai-vue/core';
-
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiLayout · bankai-vue' });
 

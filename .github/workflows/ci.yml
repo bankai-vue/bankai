@@ -172,6 +172,13 @@ jobs:
       - name: Install deps
         run: pnpm install
 
+      # Build packages first: the shared `tsgo` typecheck resolves cross-package type imports
+      # (e.g. @bankai-vue/nuxt's `import type { BankaiConfig } from '@bankai-vue/core'`) against
+      # each dependency's built `dist/*.d.ts`. core is SFC-based so it is excluded from tsgo's own
+      # compile — without its build there is no declaration to resolve. Matches the test/docs jobs.
+      - name: Build
+        run: pnpm run build
+
       - name: Lint
         run: pnpm run lint --format=github
 
