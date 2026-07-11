@@ -40,3 +40,38 @@ export function resolveLinkComponent(
     components['router-link']
   );
 }
+
+/**
+ * Whether an `href` leaves the current site, driving `BankaiLink`'s `data-bankai-external` hook.
+ *
+ * Only an absolute `http(s)` URL — or a protocol-relative `//host/…` one — can be external; a relative
+ * path (`/x`, `x`, `#frag`), a `mailto:`/`tel:` scheme, or an unparseable value is treated as same-site
+ * (those get marked external only via `external`/`target="_blank"`).
+ *
+ * "Different host" needs a reference origin, which isn't knowable at SSR render time. Resolution order,
+ * so a client SPA gets it for free while SSR/SSG stays deterministic (no hydration mismatch):
+ *
+ * 1. an explicit `origin` ({@link BankaiConfig.linkOrigin}) — applied identically on server and client;
+ * 2. else `window.location.origin` in the browser — accurate for a client-only SPA;
+ * 3. else (SSR with no configured origin) — no reference host, so any absolute `http(s)`/`//` URL is external.
+ */
+export function isExternalHref(href: string, origin: string | undefined): boolean {
+  const reference = origin ?? (typeof window === 'undefined' ? undefined : window.location.origin);
+
+  if (reference === undefined) {
+    // No reference host (SSR, no configured origin): any absolute http(s) or protocol-relative URL is external.
+    return /^(?:https?:)?\/\//iu.test(href);
+  }
+
+  try {
+    // Resolve against the reference so a relative href collapses to the same host (→ internal).
+    const target = new URL(href, reference);
+    return (
+      (target.protocol === 'http:' || target.protocol === 'https:') &&
+      target.host !== new URL(reference).host
+    );
+  } catch {
+    // Unparseable href (or a malformed configured origin) — don't confidently call it external.
+    return false;
+  }
+}

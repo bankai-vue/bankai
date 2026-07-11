@@ -67,7 +67,7 @@
 }
 
 /*
- * `data-bankai-external` marks a link that leaves the SPA (an explicit `href`, a forced `external`, or a
- * new-tab target). Left unpainted here by design — no forced iconography — but exposed as a zero-specificity
+ * `data-bankai-external` marks a link that leaves the site (a cross-origin `href`, a forced `external`, or
+ * a new-tab target). Left unpainted here by design — no forced iconography — but exposed as a zero-specificity
  * hook a consumer can opt into, e.g. `.bankai-link[data-bankai-external]::after { content: ' ↗'; }`.
  */

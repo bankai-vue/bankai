@@ -61,7 +61,10 @@ const props: PropRow[] = [
         <BankaiCode>@bankai-vue/core/vue-router</BankaiCode> to your tsconfig
         <BankaiCode>types</BankaiCode>. A <BankaiCode>target="_blank"</BankaiCode> link gets
         <BankaiCode>rel="noopener noreferrer"</BankaiCode> automatically (opt out via
-        <BankaiCode>config.linkNoopener</BankaiCode>).
+        <BankaiCode>config.linkNoopener</BankaiCode>). An <BankaiCode>href</BankaiCode> to a
+        different host reflects <BankaiCode>data-bankai-external</BankaiCode>; set
+        <BankaiCode>config.linkOrigin</BankaiCode> to your site origin so that check is accurate
+        under SSR/SSG.
       </BankaiText>
     </section>
 

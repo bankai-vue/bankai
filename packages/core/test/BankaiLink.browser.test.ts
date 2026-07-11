@@ -95,10 +95,41 @@ test('renders a plain <a> for an explicit href, even with a router present', () 
   // `href` always wins over router resolution, even when a router is registered.
   expect(root.dataset.stub).toBeUndefined();
   expect(root.getAttribute('href')).toBe('https://example.com');
-  // A raw href is not assumed external (no URL-sniffing) — only `external`/`target="_blank"` mark it.
+  // A cross-host absolute href is external (its host differs from the current origin).
+  expect(root.dataset.bankaiExternal).toBe('');
+
+  teardown();
+});
+
+test('does not mark a same-origin absolute href external', () => {
+  const { root, teardown } = mountLink({ href: `${window.location.origin}/settings` }, 'Settings');
+
+  // Same host as the current origin → an internal full-page link, not external.
   expect(root.dataset.bankaiExternal).toBeUndefined();
 
   teardown();
+});
+
+test('does not mark a relative href external', () => {
+  const { root, teardown } = mountLink({ href: '/docs' }, 'Docs');
+
+  expect(root.dataset.bankaiExternal).toBeUndefined();
+
+  teardown();
+});
+
+test('classifies host against config.linkOrigin over window', () => {
+  // A configured origin is authoritative (SSR/SSG-safe): a URL to that host is internal even though it
+  // differs from window's origin, and a URL to any other host is external.
+  const plugin = createBankai({ linkOrigin: 'https://my-app.example' });
+
+  const internal = mountLink({ href: 'https://my-app.example/settings' }, 'Settings', { plugin });
+  expect(internal.root.dataset.bankaiExternal).toBeUndefined();
+  internal.teardown();
+
+  const external = mountLink({ href: 'https://other.example/x' }, 'Other', { plugin });
+  expect(external.root.dataset.bankaiExternal).toBe('');
+  external.teardown();
 });
 
 test('resolves a globally-registered RouterLink for internal `to`', () => {

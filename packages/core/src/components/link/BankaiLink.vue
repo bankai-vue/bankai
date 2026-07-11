@@ -31,7 +31,9 @@ export type BankaiLinkProps = {
   /**
    * Force a plain `<a>` even when `to` is set and a router is available — e.g. to leave the SPA for a
    * full-page navigation. Also marks the link external via `data-bankai-external` (independent of the
-   * router path), so it works alongside either `to` or `href`.
+   * router path), so it works alongside either `to` or `href`. A full-page navigation needs a URL, so pair
+   * `external` with a `string` `to` (or an `href`); an object `to` has none and renders a dead `<a>` (warns
+   * in dev).
    *
    * @default false
    */
@@ -41,7 +43,9 @@ export type BankaiLinkProps = {
       /**
        * Internal navigation target, handed to the resolved router link (`NuxtLink`, else `RouterLink`).
        * When no router is installed, a `string` `to` degrades to a plain `<a :href>`; an object `to` needs
-       * a router (there is nothing sensible to put in `href` without one).
+       * a router (there is nothing sensible to put in `href` without one). An object `to` with no router to
+       * resolve it — including when `external` forces a plain `<a>` — renders a destination-less anchor and
+       * warns in dev; pass a `string` `to`/`href`, or install a router.
        *
        * Its type is a router-agnostic fallback by default and vue-router's `RouteLocationRaw` once the
        * `@bankai-vue/core/vue-router` types augmentation is active — see {@link BankaiLinkTo}.
@@ -61,9 +65,9 @@ export type BankaiLinkProps = {
 </script>
 
 <script setup lang="ts">
-import { computed, getCurrentInstance, useAttrs } from 'vue';
+import { computed, getCurrentInstance, useAttrs, watchEffect } from 'vue';
 import { useBankaiConfig } from '../../config';
-import { resolveLinkComponent } from '../../internal/link';
+import { isExternalHref, resolveLinkComponent } from '../../internal/link';
 
 const { to, href, external = false } = defineProps<BankaiLinkProps>();
 
@@ -113,13 +117,38 @@ const relValue = computed<unknown>(() => {
   return config.linkNoopener && attrs.target === '_blank' ? 'noopener noreferrer' : undefined;
 });
 
-// A presence flag (`''` when on, absent when off) marking an external destination — a themeable hook
-// (e.g. an outbound icon). Set for a forced `external` or a new-tab target only; a raw `href` is NOT
-// assumed external (URL-sniffing would be non-local guesswork — SPEC.md §5.6), so an internal
-// full-page `href` stays unmarked. Declare `external` (or `target="_blank"`) to opt a link in.
-const dataExternal = computed<'' | undefined>(() =>
-  external || attrs.target === '_blank' ? '' : undefined,
-);
+// A presence flag (`''` when on, absent when off) marking a destination that leaves the site — a themeable
+// hook (e.g. an outbound icon). Set for a forced `external`, a new-tab target, or a rendered `href` whose
+// host differs from our own (see `isExternalHref`: keyed off `config.linkOrigin`, else `window.location`,
+// else an absolute-URL fallback). A router-handled internal `to` has no `anchorHref`, so it is never
+// external. Declare `external` to force the flag on a same-site full-page link.
+const dataExternal = computed<'' | undefined>(() => {
+  if (external || attrs.target === '_blank') {
+    return '';
+  }
+
+  const rendered = anchorHref.value;
+  return rendered !== undefined && isExternalHref(rendered, config.linkOrigin) ? '' : undefined;
+});
+
+// Dev guard: an object `to` has no `href` to degrade to, so landing on the native-anchor path with one
+// (no router resolved, or `external` forcing an `<a>`) renders a destination-less link. Warn loudly rather
+// than ship a silent no-op (SPEC.md §5.6). Gated on `import.meta.env.DEV` (typed inline, since core targets
+// no specific bundler) so a Vite/Nuxt prod build constant-folds it away; other runtimes just skip the warn.
+if ((import.meta as { env?: { DEV?: boolean } }).env?.DEV) {
+  watchEffect(() => {
+    if (!usesRouter.value && href === undefined && to !== undefined && typeof to !== 'string') {
+      console.warn(
+        '[BankaiLink] An object `to` renders as an `<a>` with no `href`' +
+          (external
+            ? ' because `external` forces a plain anchor'
+            : ' because no router is installed to resolve it') +
+          ' — the link has no destination. Pass a `string` `to`/`href`, or install a router.',
+        { to },
+      );
+    }
+  });
+}
 
 defineSlots<BankaiLinkSlots>();
 </script>

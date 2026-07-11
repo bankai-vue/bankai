@@ -23,6 +23,16 @@ export interface BankaiConfig {
    */
   linkComponent?: Component | string;
   /**
+   * Site origin (e.g. `https://example.com`) `BankaiLink` compares an `href` against to decide it is
+   * external: an absolute `http(s)` URL to a *different* host reflects `data-bankai-external`. Set this so
+   * the check is accurate and hydration-safe under SSR/SSG, where the current origin is not knowable at
+   * render time. A client-only app can leave it unset — it falls back to `window.location`; with no origin
+   * available at all, any absolute URL is treated as external.
+   *
+   * @default undefined
+   */
+  linkOrigin?: string;
+  /**
    * Whether `BankaiLink` auto-adds `rel="noopener noreferrer"` to a `target="_blank"` link (a security
    * default: without it the opened page can reach back through `window.opener`). A consumer-provided `rel`
    * always wins. Set `false` to opt out globally.
