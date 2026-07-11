@@ -1,51 +1,8 @@
 <script setup lang="ts">
-import type { PropRow } from '../../utils/docs';
+import { componentMeta } from '../../utils/component-meta.generated';
 
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiFlex · bankai-vue' });
-
-const props: PropRow[] = [
-  {
-    name: 'as',
-    type: 'HTML tag name',
-    default: "'div'",
-    description: 'Polymorphic element to render.',
-  },
-  {
-    name: 'direction',
-    type: "'row' | 'row-reverse' | 'column' | 'column-reverse'",
-    description: 'flex-direction. Omitted when unset (browser default row).',
-  },
-  {
-    name: 'align',
-    type: "'start' | 'end' | 'center' | 'baseline' | 'stretch' | (string)",
-    description:
-      'align-items (cross axis). A short keyword, or any verbatim CSS value (e.g. flex-start, var(--x)).',
-  },
-  {
-    name: 'justify',
-    type: "'start' | 'end' | 'center' | 'between' | 'around' | 'evenly' | (string)",
-    description:
-      'justify-content (main axis). between/around/evenly map to the space-* values; or pass a verbatim value (e.g. space-between, flex-start).',
-  },
-  {
-    name: 'gap',
-    type: "'xs' | 'sm' | 'md' | 'lg' | 'xl' | number | string",
-    description:
-      'Spacing between children. A named t-shirt step (--bankai-gap-<name>) or a number (--bankai-space-<n> step); any other string is a verbatim CSS length.',
-  },
-  {
-    name: 'wrap',
-    type: "'nowrap' | 'wrap' | 'wrap-reverse'",
-    description: 'flex-wrap. Omitted when unset (browser default nowrap).',
-  },
-  {
-    name: 'inline',
-    type: 'boolean',
-    default: 'false',
-    description: 'Render as inline-flex instead of flex.',
-  },
-];
 </script>
 
 <template>
@@ -76,10 +33,7 @@ const props: PropRow[] = [
       </div>
     </section>
 
-    <section class="doc-section">
-      <BankaiText as="h2" size="xl" weight="bold">Props</BankaiText>
-      <PropsTable :rows="props" />
-    </section>
+    <ComponentApi :meta="componentMeta.BankaiFlex" />
   </article>
 </template>
 

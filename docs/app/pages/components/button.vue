@@ -1,36 +1,8 @@
 <script setup lang="ts">
-import type { PropRow } from '../../utils/docs';
+import { componentMeta } from '../../utils/component-meta.generated';
 
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiButton · bankai-vue' });
-
-const props: PropRow[] = [
-  {
-    name: 'variant',
-    type: "'solid' | 'outline' | 'ghost'",
-    default: "'solid'",
-    description: 'Visual variant. Reflected on the root as data-bankai-variant.',
-  },
-  {
-    name: 'size',
-    type: "'sm' | 'md' | 'lg'",
-    default: "'md'",
-    description: 'Size scale. Reflected as data-bankai-size.',
-  },
-  {
-    name: 'type',
-    type: "'button' | 'submit' | 'reset'",
-    default: "'button'",
-    description:
-      "Native button type — defaults to 'button' so it never submits a form by accident.",
-  },
-  {
-    name: 'disabled',
-    type: 'boolean',
-    default: 'false',
-    description: 'Disable the button via the native disabled attribute.',
-  },
-];
 </script>
 
 <template>
@@ -59,17 +31,7 @@ const props: PropRow[] = [
       </div>
     </section>
 
-    <section class="doc-section">
-      <BankaiText as="h2" size="xl" weight="bold">Props</BankaiText>
-      <PropsTable :rows="props" />
-    </section>
-
-    <section class="doc-section">
-      <BankaiText as="h2" size="xl" weight="bold">Slots</BankaiText>
-      <BankaiText as="p" tone="muted">
-        <BankaiCode>default</BankaiCode> — button content (label and/or icons).
-      </BankaiText>
-    </section>
+    <ComponentApi :meta="componentMeta.BankaiButton" />
   </article>
 </template>
 

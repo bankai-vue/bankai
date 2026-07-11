@@ -1,42 +1,8 @@
 <script setup lang="ts">
-import type { PropRow } from '../../utils/docs';
+import { componentMeta } from '../../utils/component-meta.generated';
 
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiText · bankai-vue' });
-
-const props: PropRow[] = [
-  {
-    name: 'as',
-    type: 'BankaiTextElement | string',
-    default: "'span'",
-    description:
-      'Rendered tag. Inline text semantics (code, kbd, mark, strong, em, del, …); any other tag is accepted verbatim.',
-  },
-  {
-    name: 'size',
-    type: "'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | string",
-    description:
-      'Type size. A named step maps to the --bankai-text-size-* scale; any other string is a verbatim CSS font-size.',
-  },
-  {
-    name: 'weight',
-    type: "'thin' … 'black' | number | string",
-    description:
-      'Font weight. A named step reflects as data-bankai-weight; a number/other string is a verbatim font-weight.',
-  },
-  {
-    name: 'tone',
-    type: "'default' | 'muted' | 'subtle' | string",
-    description:
-      'Text tone. A named neutral tone resolves to a theme color; any other string is a verbatim CSS color.',
-  },
-  {
-    name: 'truncate',
-    type: 'boolean',
-    default: 'false',
-    description: 'Truncate overflowing text to a single line with an ellipsis.',
-  },
-];
 </script>
 
 <template>
@@ -69,10 +35,7 @@ const props: PropRow[] = [
       </div>
     </section>
 
-    <section class="doc-section">
-      <BankaiText as="h2" size="xl" weight="bold">Props</BankaiText>
-      <PropsTable :rows="props" />
-    </section>
+    <ComponentApi :meta="componentMeta.BankaiText" />
   </article>
 </template>
 

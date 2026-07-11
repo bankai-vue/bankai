@@ -1,62 +1,8 @@
 <script setup lang="ts">
-import type { PropRow } from '../../utils/docs';
+import { componentMeta } from '../../utils/component-meta.generated';
 
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiGrid · bankai-vue' });
-
-const props: PropRow[] = [
-  {
-    name: 'as',
-    type: 'HTML tag name',
-    default: "'div'",
-    description: 'Polymorphic element to render.',
-  },
-  {
-    name: 'columns',
-    type: 'number | string',
-    description:
-      'grid-template-columns. A number becomes repeat(n, minmax(0, 1fr)); any other string is verbatim.',
-  },
-  {
-    name: 'rows',
-    type: 'number | string',
-    description: 'grid-template-rows. A number becomes repeat(n, …); any other string is verbatim.',
-  },
-  {
-    name: 'areas',
-    type: 'string | string[]',
-    description: 'grid-template-areas. An array is one row per entry; a string is verbatim.',
-  },
-  {
-    name: 'gap',
-    type: "'xs' | 'sm' | 'md' | 'lg' | 'xl' | number | string",
-    description:
-      'Spacing between tracks. A named t-shirt step (--bankai-gap-<name>) or a number (--bankai-space-<n> step); a two-value string sets row/column gaps.',
-  },
-  {
-    name: 'flow',
-    type: "'row' | 'column' | 'dense' | 'row-dense' | 'column-dense'",
-    description: 'grid-auto-flow — auto-placement direction.',
-  },
-  {
-    name: 'align',
-    type: "'start' | 'end' | 'center' | 'baseline' | 'stretch' | (string)",
-    description:
-      'align-items (block axis within each cell). A keyword, or any verbatim CSS value (e.g. flex-start).',
-  },
-  {
-    name: 'justify',
-    type: "'start' | 'end' | 'center' | 'stretch' | (string)",
-    description:
-      'justify-items (inline axis within each cell). A keyword, or any verbatim CSS value (e.g. left, flex-start).',
-  },
-  {
-    name: 'inline',
-    type: 'boolean',
-    default: 'false',
-    description: 'Render as inline-grid instead of grid.',
-  },
-];
 </script>
 
 <template>
@@ -85,10 +31,7 @@ const props: PropRow[] = [
       </div>
     </section>
 
-    <section class="doc-section">
-      <BankaiText as="h2" size="xl" weight="bold">Props</BankaiText>
-      <PropsTable :rows="props" />
-    </section>
+    <ComponentApi :meta="componentMeta.BankaiGrid" />
   </article>
 </template>
 

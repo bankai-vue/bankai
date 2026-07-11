@@ -1,6 +1,12 @@
 {
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
-  "ignorePatterns": [".claude/**", "SPEC.md", "README.md", "CONTRIBUTING.md"],
+  "ignorePatterns": [
+    ".claude/**",
+    "SPEC.md",
+    "README.md",
+    "CONTRIBUTING.md",
+    "docs/app/utils/component-meta.generated.ts"
+  ],
   "singleQuote": true,
   "sortImports": {
     "groups": [

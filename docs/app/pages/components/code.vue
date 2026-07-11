@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { componentMeta } from '../../utils/component-meta.generated';
+
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiCode · bankai-vue' });
 
@@ -78,6 +80,8 @@ const tokens: TokenRow[] = [
         non-breaking addition.
       </BankaiText>
     </section>
+
+    <ComponentApi :meta="componentMeta.BankaiCode" />
 
     <section class="doc-section">
       <BankaiText as="h2" size="xl" weight="bold">Theming</BankaiText>
