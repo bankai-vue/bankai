@@ -25,42 +25,19 @@ const specUrl = `${repoUrl}/blob/main/SPEC.md`;
         </BankaiText>
 
         <!--
-          Interim: reuse BankaiButton's `bankai-button` class + `data-bankai-*` state so the theme
-          styles these links (incl. the hover/active feedback tokens) exactly like a button — until
-          BankaiButton-as-link / BankaiLink lands (ROADMAP Phase 1). `:not(:disabled)` in the theme's
-          hover/active rules matches anchors, so the interaction colors apply.
+          Dogfoods BankaiLink: it renders the native <a> (external `href`), auto-adds
+          `rel="noopener noreferrer"` for `target="_blank"`, and reflects `data-bankai-external`.
+          The button *look* is a docs-local restyle — the theme's link styles are zero-specificity
+          `:where()`, so the scoped `.cta*` classes below override them cleanly (SPEC §4.4/§4.6).
         -->
         <BankaiFlex align="center" justify="center" gap="6" wrap="wrap">
-          <a
-            class="bankai-button cta"
-            data-bankai-variant="solid"
-            data-bankai-size="md"
-            :href="repoUrl"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <BankaiLink class="cta cta-solid" :href="repoUrl" target="_blank">
             Star on GitHub
-          </a>
-          <a
-            class="bankai-button cta"
-            data-bankai-variant="outline"
-            data-bankai-size="md"
-            :href="roadmapUrl"
-            target="_blank"
-            rel="noopener noreferrer"
+          </BankaiLink>
+          <BankaiLink class="cta cta-outline" :href="roadmapUrl" target="_blank"
+            >Roadmap</BankaiLink
           >
-            Roadmap
-          </a>
-          <a
-            class="bankai-button cta"
-            data-bankai-variant="outline"
-            data-bankai-size="md"
-            :href="specUrl"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Spec
-          </a>
+          <BankaiLink class="cta cta-outline" :href="specUrl" target="_blank">Spec</BankaiLink>
         </BankaiFlex>
 
         <BankaiText as="p" size="sm" tone="subtle">
@@ -101,9 +78,43 @@ const specUrl = `${repoUrl}/blob/main/SPEC.md`;
   max-width: 44rem;
 }
 
-/* Only the link-specific reset; visuals (incl. hover/active) come from the `bankai-button` class. */
+/*
+ * Docs-local button look for the hero CTAs on top of BankaiLink. Scoped (so higher specificity than the
+ * theme's zero-specificity `:where(.bankai-link)` rules) — sets color/decoration explicitly so the link's
+ * accent/underline defers to this button styling. Draws on the foundation tokens so it tracks the theme.
+ */
 .cta {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--bankai-space-3, 0.375rem) var(--bankai-space-6, 0.75rem);
+  border: 1px solid transparent;
+  border-radius: var(--bankai-radius, 0.375rem);
+  font-weight: 600;
   text-decoration: none;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+}
+
+.cta-solid {
+  background: var(--bankai-color-primary);
+  color: var(--bankai-color-primary-fg);
+}
+
+.cta-solid:hover {
+  background: color-mix(in oklch, var(--bankai-color-primary), black 12%);
+  color: var(--bankai-color-primary-fg);
+}
+
+.cta-outline {
+  border-color: currentColor;
+  color: inherit;
+}
+
+.cta-outline:hover {
+  background: color-mix(in oklch, currentColor 8%, transparent);
+  color: inherit;
 }
 
 .shipping-grid {
