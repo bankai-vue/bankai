@@ -48,27 +48,30 @@ export function resolveLinkComponent(
  * path (`/x`, `x`, `#frag`), a `mailto:`/`tel:` scheme, or an unparseable value is treated as same-site
  * (those get marked external only via `external`/`target="_blank"`).
  *
- * "Different host" needs a reference origin, which isn't knowable at SSR render time. Resolution order,
- * so a client SPA gets it for free while SSR/SSG stays deterministic (no hydration mismatch):
+ * Pure by design: the caller passes the reference `origin` and this function never reads `window`, so its
+ * result depends only on its inputs. That's what keeps `data-bankai-external` hydration-safe — `BankaiLink`
+ * withholds `window.location.origin` until after hydration (see its `referenceOrigin`), so SSR and the
+ * client's first render feed the same `origin` here.
  *
- * 1. an explicit `origin` ({@link BankaiConfig.linkOrigin}) — applied identically on server and client;
- * 2. else `window.location.origin` in the browser — accurate for a client-only SPA;
- * 3. else (SSR with no configured origin) — no reference host, so any absolute `http(s)`/`//` URL is external.
+ * @param href - the rendered anchor `href` to classify.
+ * @param origin - the reference origin to resolve `href` against:
+ *   - an explicit origin ({@link BankaiConfig.linkOrigin}, or the post-hydration `window.location.origin`) →
+ *     external iff the resolved `http(s)` host differs from it;
+ *   - `undefined` (SSR, or the pre-hydration client render with no configured origin) → no reference host,
+ *     so any absolute `http(s)`/`//` URL is treated as external.
  */
 export function isExternalHref(href: string, origin: string | undefined): boolean {
-  const reference = origin ?? (typeof window === 'undefined' ? undefined : window.location.origin);
-
-  if (reference === undefined) {
-    // No reference host (SSR, no configured origin): any absolute http(s) or protocol-relative URL is external.
+  if (origin === undefined) {
+    // No reference host: any absolute http(s) or protocol-relative URL is external.
     return /^(?:https?:)?\/\//iu.test(href);
   }
 
   try {
     // Resolve against the reference so a relative href collapses to the same host (→ internal).
-    const target = new URL(href, reference);
+    const target = new URL(href, origin);
     return (
       (target.protocol === 'http:' || target.protocol === 'https:') &&
-      target.host !== new URL(reference).host
+      target.host !== new URL(origin).host
     );
   } catch {
     // Unparseable href (or a malformed configured origin) — don't confidently call it external.

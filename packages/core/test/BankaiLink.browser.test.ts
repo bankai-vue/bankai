@@ -1,6 +1,6 @@
 import type { Component, Plugin, VNodeChild } from 'vue';
 import { expect, test, vi } from 'vitest';
-import { createApp, defineComponent, h } from 'vue';
+import { createApp, defineComponent, h, nextTick } from 'vue';
 import { BankaiLink, createBankai } from '../src/index';
 
 interface Mounted {
@@ -104,10 +104,13 @@ test('renders a plain <a> for an explicit href, even with a router present', () 
   teardown();
 });
 
-test('does not mark a same-origin absolute href external', () => {
+test('defers the window host check past hydration for a same-origin absolute href', async () => {
+  // `window.location.origin` is withheld until after hydration so the client's first render reproduces the
+  // server's HTML (no `data-bankai-external` mismatch): pre-hydration a same-origin absolute href is
+  // conservatively external (matching an SSR server), then `onMounted` supplies the origin and it corrects.
   const { root, teardown } = mountLink({ href: `${window.location.origin}/settings` }, 'Settings');
-
-  // Same host as the current origin → an internal full-page link, not external.
+  expect(root.dataset.bankaiExternal).toBe('');
+  await nextTick();
   expect(root.dataset.bankaiExternal).toBeUndefined();
 
   teardown();

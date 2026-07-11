@@ -65,7 +65,7 @@ export type BankaiLinkProps = {
 </script>
 
 <script setup lang="ts">
-import { computed, getCurrentInstance, useAttrs, watchEffect } from 'vue';
+import { computed, getCurrentInstance, onMounted, ref, useAttrs, watchEffect } from 'vue';
 import { useBankaiConfig } from '../../config';
 import { isExternalHref, resolveLinkComponent } from '../../internal/link';
 
@@ -84,6 +84,23 @@ defineOptions({ name: 'BankaiLink', inheritAttrs: false });
 const config = useBankaiConfig();
 const instance = getCurrentInstance();
 const attrs = useAttrs();
+
+// Hydration gate: `onMounted` only runs on the client, only AFTER the hydration render. Reading
+// `window.location` earlier would make the client's first render disagree with the server's HTML — a
+// hydration mismatch on `data-bankai-external`. Deferred here so SSR and the hydration render compute the
+// same value (from `config.linkOrigin` or the origin-less fallback), then the accurate window-based host
+// check reactively kicks in after mount.
+const hydrated = ref(false);
+onMounted(() => {
+  hydrated.value = true;
+});
+
+// Reference origin for the external-host check: an explicit `config.linkOrigin` (identical on server and
+// client — the SSR/SSG-safe path), else `window.location.origin` once hydrated, else `undefined` (SSR, or
+// the pre-hydration client render). Resolving it here keeps `isExternalHref` pure and hydration-safe.
+const referenceOrigin = computed<string | undefined>(
+  () => config.linkOrigin ?? (hydrated.value ? window.location.origin : undefined),
+);
 
 // The component to use for internal navigation (`undefined` → no router installed, fall back to `<a>`).
 const routerComponent = computed(() => resolveLinkComponent(config.linkComponent, instance));
@@ -119,16 +136,15 @@ const relValue = computed<unknown>(() => {
 
 // A presence flag (`''` when on, absent when off) marking a destination that leaves the site — a themeable
 // hook (e.g. an outbound icon). Set for a forced `external`, a new-tab target, or a rendered `href` whose
-// host differs from our own (see `isExternalHref`: keyed off `config.linkOrigin`, else `window.location`,
-// else an absolute-URL fallback). A router-handled internal `to` has no `anchorHref`, so it is never
-// external. Declare `external` to force the flag on a same-site full-page link.
+// host differs from `referenceOrigin` (see `isExternalHref`). A router-handled internal `to` has no
+// `anchorHref`, so it is never external. Declare `external` to force the flag on a same-site full-page link.
 const dataExternal = computed<'' | undefined>(() => {
   if (external || attrs.target === '_blank') {
     return '';
   }
 
   const rendered = anchorHref.value;
-  return rendered !== undefined && isExternalHref(rendered, config.linkOrigin) ? '' : undefined;
+  return rendered !== undefined && isExternalHref(rendered, referenceOrigin.value) ? '' : undefined;
 });
 
 // Dev guard: an object `to` has no `href` to degrade to, so landing on the native-anchor path with one
