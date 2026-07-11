@@ -10,6 +10,7 @@ import type {
   BankaiGridRows,
   BankaiGridSlots,
 } from '../src/index';
+import type { LiteralUnion } from '../src/internal/types';
 import type { VNode } from 'vue';
 import { describe, expectTypeOf, test } from 'vitest';
 
@@ -49,8 +50,13 @@ describe('BankaiGridAreas', () => {
 });
 
 describe('BankaiGridGap', () => {
-  test('accepts a number (spacing-scale step) or a string (verbatim CSS length)', () => {
-    expectTypeOf<BankaiGridGap>().toEqualTypeOf<number | string>();
+  test('suggests named t-shirt steps; accepts any number (scale step) and any string (verbatim length)', () => {
+    // A `LiteralUnion<…, string> | number` union in a `toEqualTypeOf` type arg trips oxlint's
+    // type-aware pass (it can't resolve the alias), so assert the shape with `toExtend` instead.
+    expectTypeOf<'md'>().toExtend<BankaiGridGap>();
+    expectTypeOf<number>().toExtend<BankaiGridGap>();
+    expectTypeOf<string>().toExtend<BankaiGridGap>();
+    expectTypeOf<BankaiGridGap>().toExtend<string | number>();
   });
 });
 
@@ -63,16 +69,24 @@ describe('BankaiGridFlow', () => {
 });
 
 describe('BankaiGridAlign', () => {
-  test('is the closed set of align-items box-alignment keywords', () => {
+  test('suggests the align-items keywords but accepts any verbatim CSS value', () => {
     expectTypeOf<BankaiGridAlign>().toEqualTypeOf<
-      'start' | 'end' | 'center' | 'baseline' | 'stretch'
+      LiteralUnion<'start' | 'end' | 'center' | 'baseline' | 'stretch', string>
     >();
+    expectTypeOf<'start'>().toExtend<BankaiGridAlign>();
+    expectTypeOf<'flex-start'>().toExtend<BankaiGridAlign>();
+    expectTypeOf<string>().toExtend<BankaiGridAlign>();
   });
 });
 
 describe('BankaiGridJustify', () => {
-  test('is the closed set of justify-items box-alignment keywords', () => {
-    expectTypeOf<BankaiGridJustify>().toEqualTypeOf<'start' | 'end' | 'center' | 'stretch'>();
+  test('suggests the justify-items keywords but accepts any verbatim CSS value', () => {
+    expectTypeOf<BankaiGridJustify>().toEqualTypeOf<
+      LiteralUnion<'start' | 'end' | 'center' | 'stretch', string>
+    >();
+    expectTypeOf<'center'>().toExtend<BankaiGridJustify>();
+    expectTypeOf<'left'>().toExtend<BankaiGridJustify>();
+    expectTypeOf<string>().toExtend<BankaiGridJustify>();
   });
 });
 

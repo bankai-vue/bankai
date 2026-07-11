@@ -103,3 +103,27 @@ test.describe('shorthand → CSS mapping (theme flex.css)', () => {
     expect(await computed(page, 'map-gap-static', 'gap')).toBe('4px');
   });
 });
+
+// Bug fixes: a named t-shirt `gap` step (`xs`–`xl`) resolves to `--bankai-gap-<name>` instead of dying
+// as an invalid CSS length, and a verbatim native `align`/`justify` (not a short keyword) rides the
+// escape-hatch custom property applied by the base `:where()` rule — so the widened types never lie.
+// [testId, computed prop, expected value].
+const ESCAPE: Array<[string, string, string]> = [
+  // gap="md" → --bankai-gap-md (0.75rem = 12px on theme-bankai)
+  ['map-gap-named', 'gap', '12px'],
+  ['map-justify-verbatim', 'justify-content', 'space-between'],
+  ['map-align-verbatim', 'align-items', 'flex-start'],
+];
+
+test.describe('escape hatch → CSS (theme flex.css)', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/?fixture=flex-mapping');
+    await expect(page.getByTestId('flex-mapping')).toBeVisible();
+  });
+
+  for (const [testId, prop, expected] of ESCAPE) {
+    test(`${testId} → ${prop}: ${expected}`, async ({ page }) => {
+      expect(await computed(page, testId, prop)).toBe(expected);
+    });
+  }
+});

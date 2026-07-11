@@ -24,6 +24,11 @@
   @apply flex;
   /* Unset `--bankai-flex-gap` falls back to `normal` (no gap). */
   gap: var(--bankai-flex-gap, normal);
+  /* Escape hatch for a verbatim `align`/`justify` value — plain CSS, since no `@apply` reads an
+   * arbitrary custom property (same as `gap`). Unset → invalid-at-computed-value → the property keeps
+   * its initial `normal`, and a short keyword's `data-*` rule below (`@apply items-*`/`justify-*`) wins. */
+  align-items: var(--bankai-flex-align);
+  justify-content: var(--bankai-flex-justify);
 }
 
 :where(.bankai-flex[data-bankai-inline]) {

@@ -1,5 +1,6 @@
 <script lang="ts">
 import type { VoidElementTagName } from '../../internal/dom';
+import type { LiteralUnion } from '../../internal/types';
 import type { CSSProperties, VNode } from 'vue';
 
 // Styled via `@bankai-vue/theme-bankai` (`components/flex.css`), NOT inline styles.
@@ -9,6 +10,12 @@ import type { CSSProperties, VNode } from 'vue';
 // `display:flex` could not be overridden without `!important`. `gap` is a continuous value,
 // so it rides a `--bankai-flex-gap` custom property that the same `:where()` rule reads.
 // Trade-off: the layout needs the theme CSS (or an equivalent targeting `.bankai-flex`) loaded.
+//
+// `align`/`justify` are named-set-plus-escape-hatch (like BankaiText's styling props): a named short
+// keyword reflects as `data-bankai-align`/`data-bankai-justify` (the theme maps it to a CSS value),
+// while any other value — a native CSS keyword (`space-between`, `flex-start`), a `var()`/`calc()` —
+// rides a `--bankai-flex-align`/`--bankai-flex-justify` custom property the theme's base `:where()`
+// rule applies. So the widened types never lie: an accepted value always lands (SPEC.md §4.4, §4.6).
 
 /**
  * Element the {@link BankaiFlex} root renders as (`as` prop).
@@ -24,16 +31,27 @@ export type BankaiFlexDirection = 'row' | 'row-reverse' | 'column' | 'column-rev
 
 /**
  * Cross-axis alignment of a {@link BankaiFlex} — maps to `align-items`.
- * Uses the short box-alignment keywords (`start`/`end` map to `flex-start`/`flex-end`).
+ * A short box-alignment keyword (`start`/`end` map to `flex-start`/`flex-end`) reflects as
+ * `data-bankai-align`; any other string is a verbatim `align-items` value (`'flex-start'`,
+ * `'first baseline'`, `'safe center'`, `'var(--x)'`), carried on `--bankai-flex-align`.
  */
-export type BankaiFlexAlign = 'start' | 'end' | 'center' | 'baseline' | 'stretch';
+export type BankaiFlexAlign = LiteralUnion<
+  'start' | 'end' | 'center' | 'baseline' | 'stretch',
+  string
+>;
 
 /**
  * Main-axis distribution of a {@link BankaiFlex} — maps to `justify-content`.
- * `between`/`around`/`evenly` map to `space-between`/`space-around`/`space-evenly`.
- * (`stretch` is intentionally omitted: it's a no-op on a flex main axis.)
+ * A short keyword (`between`/`around`/`evenly` map to `space-between`/`space-around`/`space-evenly`)
+ * reflects as `data-bankai-justify`; any other string is a verbatim `justify-content` value
+ * (`'space-between'`, `'flex-start'`, `'var(--x)'`), carried on `--bankai-flex-justify`.
+ * (A short `stretch` keyword is intentionally omitted: it's a no-op on a flex main axis — pass it
+ * verbatim if you really want it.)
  */
-export type BankaiFlexJustify = 'start' | 'end' | 'center' | 'between' | 'around' | 'evenly';
+export type BankaiFlexJustify = LiteralUnion<
+  'start' | 'end' | 'center' | 'between' | 'around' | 'evenly',
+  string
+>;
 
 /**
  * `flex-wrap` of a {@link BankaiFlex}. Values are the native CSS keywords.
@@ -43,7 +61,12 @@ export type BankaiFlexWrap = 'nowrap' | 'wrap' | 'wrap-reverse';
 /**
  * Spacing between {@link BankaiFlex} children — maps to `gap`.
  *
- * A `number` (or a bare-numeric `string` like `'4'` from a static `gap="4"`) is a **spacing-scale step**:
+ * A named t-shirt **step** (`'xs'`–`'xl'`) is the ergonomic semantic size: it resolves to the
+ * theme-owned `--bankai-gap-<name>` token (`theme-bankai` sets `xs`=0.25rem … `xl`=1.5rem;
+ * `theme-tailwind` maps onto its `--spacing`), so `gap="md"` "just works" instead of dying as an
+ * invalid CSS length.
+ *
+ * A `number` (or a bare-numeric `string` like `'4'` from a static `gap="4"`) is a numbered **spacing-scale step**:
  * it resolves to the rem-based `--bankai-space-<n>` token from the active theme, so spacing scales with
  * the user's root font size (responsive/accessible), never a frozen pixel value. The step's absolute
  * size is theme-owned (`theme-bankai` uses a 2px-base grid; `theme-tailwind` maps to Tailwind's scale).
@@ -53,7 +76,7 @@ export type BankaiFlexWrap = 'nowrap' | 'wrap' | 'wrap-reverse';
  * Any other `string` is a verbatim CSS length — `'1rem'`, `'var(--bankai-space-2)'`,
  * `'clamp(0.5rem, 2vw, 1.5rem)'` for fluid gaps, etc.
  */
-export type BankaiFlexGap = number | string;
+export type BankaiFlexGap = LiteralUnion<'xs' | 'sm' | 'md' | 'lg' | 'xl', string> | number;
 
 /**
  * Slots of a {@link BankaiFlex}.
@@ -80,17 +103,20 @@ export interface BankaiFlexProps {
    */
   direction?: BankaiFlexDirection;
   /**
-   * Cross-axis alignment (`align-items`). Omitted when unset.
+   * Cross-axis alignment (`align-items`). A short keyword ({@link BankaiFlexAlign}) reflects as
+   * `data-bankai-align`; any other string is a verbatim `align-items` value. Omitted when unset.
    */
   align?: BankaiFlexAlign;
   /**
-   * Main-axis distribution (`justify-content`). Omitted when unset.
+   * Main-axis distribution (`justify-content`). A short keyword ({@link BankaiFlexJustify}) reflects as
+   * `data-bankai-justify`; any other string is a verbatim `justify-content` value (`'space-between'`,
+   * `'flex-start'`, `'var(--x)'`). Omitted when unset.
    */
   justify?: BankaiFlexJustify;
   /**
-   * Spacing between children (`gap`). A number (or a bare-numeric string like `'4'`) is a rem-based
-   * spacing-scale step (`--bankai-space-<n>`); any other string is a verbatim CSS length
-   * (`'1rem'`, `'clamp(…)'`, `'var(--x)'`). Omitted when unset.
+   * Spacing between children (`gap`). A named t-shirt step (`'xs'`–`'xl'`, `--bankai-gap-<name>`) or a
+   * number/bare-numeric string (a rem-based `--bankai-space-<n>` step); any other string is a verbatim
+   * CSS length (`'1rem'`, `'clamp(…)'`, `'var(--x)'`). Omitted when unset.
    */
   gap?: BankaiFlexGap;
   /**
@@ -104,6 +130,12 @@ export interface BankaiFlexProps {
    */
   inline?: boolean;
 }
+
+// Named members of the open `align`/`justify` props — a value in these sets reflects as its `data-*`
+// (theme-mapped short keyword); anything else takes the verbatim `--bankai-flex-*` escape hatch below.
+// Module scope, so allocated once (not per instance).
+const NAMED_ALIGNS = new Set<string>(['start', 'end', 'center', 'baseline', 'stretch']);
+const NAMED_JUSTIFIES = new Set<string>(['start', 'end', 'center', 'between', 'around', 'evenly']);
 </script>
 
 <script setup lang="ts">
@@ -130,17 +162,30 @@ const {
  */
 defineOptions({ name: 'BankaiFlex', inheritAttrs: true });
 
-// `gap` resolves to the CSS value carried by `--bankai-flex-gap` (the theme's `:where()` rule reads
-// it): a spacing-scale step → the rem-based `--bankai-space-<n>` token, any other string verbatim.
-// The coercion lives in `internal/spacing` since `BankaiGrid` shares it (SPEC.md §4.11).
-// Unset → omitted (Vue drops an `undefined` style value), so the theme's `normal` fallback applies.
-const rootStyle = computed<CSSProperties>(() => {
-  const gapCss = gap === undefined ? undefined : resolveGap(gap);
-  return { '--bankai-flex-gap': gapCss };
-});
+// A named short keyword reflects verbatim as its `data-*` attribute (theme-mapped); any other value
+// takes the `--bankai-flex-*` escape hatch below, so `data-*` is omitted for it (Vue drops `undefined`
+// bindings, keeping the DOM clean).
+const dataAlign = computed(() =>
+  align !== undefined && NAMED_ALIGNS.has(align) ? align : undefined,
+);
+const dataJustify = computed(() =>
+  justify !== undefined && NAMED_JUSTIFIES.has(justify) ? justify : undefined,
+);
+
+// The style object carries the escape-hatch values on custom properties the theme's base `:where()`
+// rule applies: `gap` (resolved via `internal/spacing`, shared with `BankaiGrid` — SPEC.md §4.11) always
+// rides `--bankai-flex-gap`; a *verbatim* (non-named) `align`/`justify` rides `--bankai-flex-align`/
+// `-justify`. Each entry is `undefined` unless set, so when all are unset Vue emits no `style` attribute
+// and the theme's `normal` fallback applies.
+const rootStyle = computed<CSSProperties>(() => ({
+  '--bankai-flex-gap': gap === undefined ? undefined : resolveGap(gap),
+  '--bankai-flex-align': align !== undefined && !NAMED_ALIGNS.has(align) ? align : undefined,
+  '--bankai-flex-justify':
+    justify !== undefined && !NAMED_JUSTIFIES.has(justify) ? justify : undefined,
+}));
 
 // `data-bankai-inline` is a presence flag (empty string when on, absent when off) so the CSS can
-// match `[data-bankai-inline]`. The enumerated props reflect their value verbatim, or are omitted
+// match `[data-bankai-inline]`. `direction`/`wrap` reflect their value verbatim, or are omitted
 // when unset (Vue drops `undefined`/`null` attribute bindings), keeping the DOM clean.
 const dataInline = computed<'' | undefined>(() => (inline ? '' : undefined));
 
@@ -153,8 +198,8 @@ defineSlots<BankaiFlexSlots>();
     class="bankai-flex"
     data-part="root"
     :data-bankai-direction="direction"
-    :data-bankai-align="align"
-    :data-bankai-justify="justify"
+    :data-bankai-align="dataAlign"
+    :data-bankai-justify="dataJustify"
     :data-bankai-wrap="wrap"
     :data-bankai-inline="dataInline"
     :style="rootStyle"

@@ -80,6 +80,11 @@ const justifies = [
     <BankaiGrid :gap="4" data-testid="map-gap-step"><span>x</span></BankaiGrid>
     <BankaiGrid :gap="40" data-testid="map-gap-fallback"><span>x</span></BankaiGrid>
     <BankaiGrid gap="2" data-testid="map-gap-static"><span>x</span></BankaiGrid>
+    <!-- named t-shirt gap step → --bankai-gap-md (0.75rem = 12px on theme-bankai), NOT an invalid `gap: md` -->
+    <BankaiGrid gap="md" data-testid="map-gap-named"><span>x</span></BankaiGrid>
+    <!-- escape hatch: a verbatim native `align`/`justify` (not a keyword) rides the custom property -->
+    <BankaiGrid align="flex-start" data-testid="map-align-verbatim"><span>x</span></BankaiGrid>
+    <BankaiGrid justify="flex-start" data-testid="map-justify-verbatim"><span>x</span></BankaiGrid>
   </div>
 </template>
 

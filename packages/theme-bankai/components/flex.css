@@ -8,13 +8,22 @@
  * override any rule below with a single plain class, no `!important` needed (SPEC.md §4.4, §4.6).
  *
  * The short `align`/`justify` keywords (`start`/`end`, `between`/`around`/`evenly`) are mapped
- * to their native CSS values here, so the component keeps an ergonomic prop API.
+ * to their native CSS values by the `[data-bankai-*]` rules below, so the component keeps an
+ * ergonomic prop API. A *verbatim* `align`/`justify` (any native CSS value the component didn't
+ * recognise as a short keyword) instead rides `--bankai-flex-align`/`--bankai-flex-justify`, applied
+ * by the base rule here — the escape hatch, so the widened prop types never lie. The two paths are
+ * mutually exclusive (the component sets exactly one) and the `data-*` rules sit later at equal
+ * `:where()` specificity, so a short keyword wins when used.
  */
 
 :where(.bankai-flex) {
   display: flex;
   /* Unset `--bankai-flex-gap` falls back to `normal` (no gap). */
   gap: var(--bankai-flex-gap, normal);
+  /* Escape hatch: a verbatim `align`/`justify` value; unset → the declaration is invalid-at-computed-value
+   * → the property keeps its initial `normal`, and a short keyword's `data-*` rule below wins instead. */
+  align-items: var(--bankai-flex-align);
+  justify-content: var(--bankai-flex-justify);
 }
 
 :where(.bankai-flex[data-bankai-inline]) {

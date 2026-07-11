@@ -8,6 +8,7 @@ import type {
   BankaiFlexSlots,
   BankaiFlexWrap,
 } from '../src/index';
+import type { LiteralUnion } from '../src/internal/types';
 import type { VNode } from 'vue';
 import { describe, expectTypeOf, test } from 'vitest';
 
@@ -37,18 +38,24 @@ describe('BankaiFlexDirection', () => {
 });
 
 describe('BankaiFlexAlign', () => {
-  test('is the closed set of align-items shorthands', () => {
+  test('suggests the align-items shorthands but accepts any verbatim CSS value', () => {
     expectTypeOf<BankaiFlexAlign>().toEqualTypeOf<
-      'start' | 'end' | 'center' | 'baseline' | 'stretch'
+      LiteralUnion<'start' | 'end' | 'center' | 'baseline' | 'stretch', string>
     >();
+    expectTypeOf<'start'>().toExtend<BankaiFlexAlign>();
+    expectTypeOf<'flex-start'>().toExtend<BankaiFlexAlign>();
+    expectTypeOf<string>().toExtend<BankaiFlexAlign>();
   });
 });
 
 describe('BankaiFlexJustify', () => {
-  test('is the closed set of justify-content shorthands', () => {
+  test('suggests the justify-content shorthands but accepts any verbatim CSS value', () => {
     expectTypeOf<BankaiFlexJustify>().toEqualTypeOf<
-      'start' | 'end' | 'center' | 'between' | 'around' | 'evenly'
+      LiteralUnion<'start' | 'end' | 'center' | 'between' | 'around' | 'evenly', string>
     >();
+    expectTypeOf<'between'>().toExtend<BankaiFlexJustify>();
+    expectTypeOf<'space-between'>().toExtend<BankaiFlexJustify>();
+    expectTypeOf<string>().toExtend<BankaiFlexJustify>();
   });
 });
 
@@ -59,8 +66,13 @@ describe('BankaiFlexWrap', () => {
 });
 
 describe('BankaiFlexGap', () => {
-  test('accepts a number (spacing-scale step) or a string (verbatim CSS length)', () => {
-    expectTypeOf<BankaiFlexGap>().toEqualTypeOf<number | string>();
+  test('suggests named t-shirt steps; accepts any number (scale step) and any string (verbatim length)', () => {
+    // A `LiteralUnion<…, string> | number` union in a `toEqualTypeOf` type arg trips oxlint's
+    // type-aware pass (it can't resolve the alias), so assert the shape with `toExtend` instead.
+    expectTypeOf<'md'>().toExtend<BankaiFlexGap>();
+    expectTypeOf<number>().toExtend<BankaiFlexGap>();
+    expectTypeOf<string>().toExtend<BankaiFlexGap>();
+    expectTypeOf<BankaiFlexGap>().toExtend<string | number>();
   });
 });
 

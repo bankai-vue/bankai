@@ -134,4 +134,27 @@
   --bankai-space-30: calc(var(--bankai-space-unit) * 30);
   --bankai-space-31: calc(var(--bankai-space-unit) * 31);
   --bankai-space-32: calc(var(--bankai-space-unit) * 32);
+
+  /*
+   * Named gap steps — the semantic t-shirt `gap` scale (`BankaiFlex`/`BankaiGrid` `gap="md"`).
+   *
+   * These exist because `gap` is a framework-agnostic CORE prop: it accepts `xs`–`xl` under *any* theme,
+   * so this theme must resolve `--bankai-gap-<name>` or `gap="md"` silently dies for Tailwind consumers.
+   * The idiomatic Tailwind path is still the numeric step (`:gap="4"` → `--bankai-space-4` == `gap-4`) or a
+   * verbatim length; the named scale is the ergonomic/semantic option, carried across from the house theme
+   * so a given `gap="md"` renders the SAME size under either theme.
+   *
+   * NOTE the t-shirt letters do NOT clash with Tailwind's `md:`-style breakpoint prefixes: these are
+   * `--bankai-`-namespaced custom properties, not `gap-md` utilities (no such class exists / is emitted),
+   * and bankai ships no viewport breakpoint props at all (responsiveness is intrinsic/container-driven —
+   * SPEC.md §4.19), so within bankai's API `md` can only mean a size, never a breakpoint.
+   *
+   * Index-preserving like the numbered steps above: xs=`--spacing`×1 (0.25rem) … xl=×6 (1.5rem), so a
+   * named gap lands on the consumer's grid at its Tailwind `gap-*` equivalent (`gap="lg"` == `gap-4` == 1rem).
+   */
+  --bankai-gap-xs: calc(var(--bankai-space-unit) * 1);
+  --bankai-gap-sm: calc(var(--bankai-space-unit) * 2);
+  --bankai-gap-md: calc(var(--bankai-space-unit) * 3);
+  --bankai-gap-lg: calc(var(--bankai-space-unit) * 4);
+  --bankai-gap-xl: calc(var(--bankai-space-unit) * 6);
 }

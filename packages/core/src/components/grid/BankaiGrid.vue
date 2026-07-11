@@ -1,5 +1,6 @@
 <script lang="ts">
 import type { VoidElementTagName } from '../../internal/dom';
+import type { LiteralUnion } from '../../internal/types';
 import type { CSSProperties, VNode } from 'vue';
 
 // Styled via `@bankai-vue/theme-bankai` (`components/grid.css`), NOT inline styles.
@@ -10,6 +11,12 @@ import type { CSSProperties, VNode } from 'vue';
 // (`columns`/`rows`/`areas`/`gap`) ride `--bankai-grid-*` custom properties that the same
 // `:where()` rule reads. Trade-off: the layout needs the theme CSS (or an equivalent
 // targeting `.bankai-grid`) loaded. Sibling of {@link BankaiFlex}, for 2D layouts.
+//
+// `align`/`justify` are named-set-plus-escape-hatch (like BankaiText's styling props): a named keyword
+// reflects as `data-bankai-align`/`data-bankai-justify` (the theme maps it), while any other value — a
+// native box-alignment keyword (`flex-start`, `first baseline`), a `var()`/`calc()` — rides a
+// `--bankai-grid-align`/`--bankai-grid-justify` custom property the theme's base `:where()` rule
+// applies. So the widened types never lie: an accepted value always lands (SPEC.md §4.4, §4.6).
 
 /**
  * Element the {@link BankaiGrid} root renders as (`as` prop).
@@ -52,7 +59,12 @@ export type BankaiGridAreas = string | string[];
 /**
  * Spacing between {@link BankaiGrid} tracks — maps to `gap`.
  *
- * A `number` (or a bare-numeric `string` like `'4'` from a static `gap="4"`) is a **spacing-scale step**:
+ * A named t-shirt **step** (`'xs'`–`'xl'`) is the ergonomic semantic size: it resolves to the
+ * theme-owned `--bankai-gap-<name>` token (`theme-bankai` sets `xs`=0.25rem … `xl`=1.5rem;
+ * `theme-tailwind` maps onto its `--spacing`), so `gap="md"` "just works" instead of dying as an
+ * invalid CSS length.
+ *
+ * A `number` (or a bare-numeric `string` like `'4'` from a static `gap="4"`) is a numbered **spacing-scale step**:
  * it resolves to the rem-based `--bankai-space-<n>` token from the active theme, so spacing scales with
  * the user's root font size (responsive/accessible), never a frozen pixel value. The step's absolute
  * size is theme-owned (`theme-bankai` uses a 2px-base grid; `theme-tailwind` maps to Tailwind's scale).
@@ -61,9 +73,9 @@ export type BankaiGridAreas = string | string[];
  *
  * Any other `string` is a verbatim CSS length — `'1rem'`, `'var(--bankai-space-2)'`,
  * `'clamp(0.5rem, 2vw, 1.5rem)'` for fluid gaps, etc. Set the two axes independently with a
- * two-value string (`'1rem 2rem'` = row-gap column-gap).
+ * two-value string (`'1rem 2rem'` = row-gap column-gap). (A named step is single-axis only.)
  */
-export type BankaiGridGap = number | string;
+export type BankaiGridGap = LiteralUnion<'xs' | 'sm' | 'md' | 'lg' | 'xl', string> | number;
 
 /**
  * Auto-placement direction of a {@link BankaiGrid} — maps to `grid-auto-flow`.
@@ -73,16 +85,22 @@ export type BankaiGridFlow = 'row' | 'column' | 'dense' | 'row-dense' | 'column-
 
 /**
  * In-cell alignment along the block axis of a {@link BankaiGrid} — maps to `align-items`.
- * Uses the native box-alignment keywords.
+ * A native box-alignment keyword reflects as `data-bankai-align`; any other string is a verbatim
+ * `align-items` value (`'flex-start'`, `'first baseline'`, `'var(--x)'`), carried on `--bankai-grid-align`.
  */
-export type BankaiGridAlign = 'start' | 'end' | 'center' | 'baseline' | 'stretch';
+export type BankaiGridAlign = LiteralUnion<
+  'start' | 'end' | 'center' | 'baseline' | 'stretch',
+  string
+>;
 
 /**
  * In-cell alignment along the inline axis of a {@link BankaiGrid} — maps to `justify-items`.
- * Uses the native box-alignment keywords. (Unlike {@link BankaiFlex}'s `justify`, which distributes
- * content on the main axis, a grid's `justify` positions each item within its cell.)
+ * A native box-alignment keyword reflects as `data-bankai-justify`; any other string is a verbatim
+ * `justify-items` value (`'left'`, `'flex-start'`, `'var(--x)'`), carried on `--bankai-grid-justify`.
+ * (Unlike {@link BankaiFlex}'s `justify`, which distributes content on the main axis, a grid's
+ * `justify` positions each item within its cell.)
  */
-export type BankaiGridJustify = 'start' | 'end' | 'center' | 'stretch';
+export type BankaiGridJustify = LiteralUnion<'start' | 'end' | 'center' | 'stretch', string>;
 
 /**
  * Slots of a {@link BankaiGrid}.
@@ -121,9 +139,9 @@ export interface BankaiGridProps {
    */
   areas?: BankaiGridAreas;
   /**
-   * Spacing between tracks (`gap`). A number (or a bare-numeric string like `'4'`) is a rem-based
-   * spacing-scale step (`--bankai-space-<n>`); any other string is a verbatim CSS length
-   * (`'1rem'`, `'1rem 2rem'`, `'clamp(…)'`). Omitted when unset.
+   * Spacing between tracks (`gap`). A named t-shirt step (`'xs'`–`'xl'`, `--bankai-gap-<name>`) or a
+   * number/bare-numeric string (a rem-based `--bankai-space-<n>` step); any other string is a verbatim
+   * CSS length (`'1rem'`, `'1rem 2rem'`, `'clamp(…)'`). Omitted when unset.
    */
   gap?: BankaiGridGap;
   /**
@@ -131,11 +149,13 @@ export interface BankaiGridProps {
    */
   flow?: BankaiGridFlow;
   /**
-   * In-cell block-axis alignment (`align-items`). Omitted when unset.
+   * In-cell block-axis alignment (`align-items`). A native keyword ({@link BankaiGridAlign}) reflects as
+   * `data-bankai-align`; any other string is a verbatim `align-items` value. Omitted when unset.
    */
   align?: BankaiGridAlign;
   /**
-   * In-cell inline-axis alignment (`justify-items`). Omitted when unset.
+   * In-cell inline-axis alignment (`justify-items`). A native keyword ({@link BankaiGridJustify}) reflects
+   * as `data-bankai-justify`; any other string is a verbatim `justify-items` value. Omitted when unset.
    */
   justify?: BankaiGridJustify;
   /**
@@ -145,6 +165,12 @@ export interface BankaiGridProps {
    */
   inline?: boolean;
 }
+
+// Named members of the open `align`/`justify` props — a value in these sets reflects as its `data-*`
+// (theme-mapped keyword); anything else takes the verbatim `--bankai-grid-*` escape hatch. Module scope,
+// so allocated once (not per instance). Grid `justify` (`justify-items`) has no `baseline` keyword.
+const NAMED_ALIGNS = new Set<string>(['start', 'end', 'center', 'baseline', 'stretch']);
+const NAMED_JUSTIFIES = new Set<string>(['start', 'end', 'center', 'stretch']);
 
 // Resolve a `columns`/`rows` prop to a `grid-template-*` value. A number — or a bare-numeric string,
 // since a static `columns="3"` arrives as `'3'` — is a count of equal tracks, expanded to
@@ -195,8 +221,18 @@ const {
  */
 defineOptions({ name: 'BankaiGrid', inheritAttrs: true });
 
+// A named keyword reflects verbatim as its `data-*` attribute (theme-mapped); any other value takes
+// the `--bankai-grid-*` escape hatch below, so `data-*` is omitted for it (Vue drops `undefined`).
+const dataAlign = computed(() =>
+  align !== undefined && NAMED_ALIGNS.has(align) ? align : undefined,
+);
+const dataJustify = computed(() =>
+  justify !== undefined && NAMED_JUSTIFIES.has(justify) ? justify : undefined,
+);
+
 // `gap` resolves via `internal/spacing` (shared with `BankaiFlex`, SPEC.md §4.11); `columns`/`rows`
-// and `areas` use the Grid-only module-scope resolvers above.
+// and `areas` use the Grid-only module-scope resolvers above; a *verbatim* (non-named) `align`/`justify`
+// rides `--bankai-grid-align`/`-justify`, applied by the theme's base rule.
 // Unset props are omitted (Vue drops an `undefined` style value), so the theme's `:where()` fallback
 // (`none`/`normal`) applies and the DOM stays clean.
 const rootStyle = computed<CSSProperties>(() => ({
@@ -204,11 +240,14 @@ const rootStyle = computed<CSSProperties>(() => ({
   '--bankai-grid-rows': rows === undefined ? undefined : resolveTracks(rows),
   '--bankai-grid-areas': areas === undefined ? undefined : resolveAreas(areas),
   '--bankai-grid-gap': gap === undefined ? undefined : resolveGap(gap),
+  '--bankai-grid-align': align !== undefined && !NAMED_ALIGNS.has(align) ? align : undefined,
+  '--bankai-grid-justify':
+    justify !== undefined && !NAMED_JUSTIFIES.has(justify) ? justify : undefined,
 }));
 
 // `data-bankai-inline` is a presence flag (empty string when on, absent when off) so the CSS can
-// match `[data-bankai-inline]`. The enumerated props reflect their value verbatim, or are omitted
-// when unset (Vue drops `undefined`/`null` attribute bindings), keeping the DOM clean.
+// match `[data-bankai-inline]`. `flow` reflects its value verbatim, or is omitted when unset
+// (Vue drops `undefined`/`null` attribute bindings), keeping the DOM clean.
 const dataInline = computed<'' | undefined>(() => (inline ? '' : undefined));
 
 defineSlots<BankaiGridSlots>();
@@ -220,8 +259,8 @@ defineSlots<BankaiGridSlots>();
     class="bankai-grid"
     data-part="root"
     :data-bankai-flow="flow"
-    :data-bankai-align="align"
-    :data-bankai-justify="justify"
+    :data-bankai-align="dataAlign"
+    :data-bankai-justify="dataJustify"
     :data-bankai-inline="dataInline"
     :style="rootStyle"
   >

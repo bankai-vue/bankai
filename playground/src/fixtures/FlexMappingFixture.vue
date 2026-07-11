@@ -76,5 +76,13 @@ const wraps = ['nowrap', 'wrap', 'wrap-reverse'] as const satisfies ReadonlyArra
     <BankaiFlex :gap="40" data-testid="map-gap-fallback"><span>x</span></BankaiFlex>
     <!-- static attribute: `gap="2"` arrives as the string "2"; must resolve to step 2 (0.5rem), not drop -->
     <BankaiFlex gap="2" data-testid="map-gap-static"><span>x</span></BankaiFlex>
+    <!-- named t-shirt gap step → --bankai-gap-md (0.75rem = 12px on theme-bankai), NOT an invalid `gap: md` -->
+    <BankaiFlex gap="md" data-testid="map-gap-named"><span>x</span></BankaiFlex>
+    <!-- escape hatch: a verbatim native `justify`/`align` (not a short keyword) rides the custom property
+         and must still resolve, proving the widened LiteralUnion types don't lie -->
+    <BankaiFlex justify="space-between" data-testid="map-justify-verbatim"
+      ><span>x</span></BankaiFlex
+    >
+    <BankaiFlex align="flex-start" data-testid="map-align-verbatim"><span>x</span></BankaiFlex>
   </div>
 </template>

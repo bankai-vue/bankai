@@ -29,9 +29,9 @@ const props: PropRow[] = [
   },
   {
     name: 'gap',
-    type: 'number | string',
+    type: "'xs' | 'sm' | 'md' | 'lg' | 'xl' | number | string",
     description:
-      'Spacing between tracks. A number is a --bankai-space-<n> step; a two-value string sets row/column gaps.',
+      'Spacing between tracks. A named t-shirt step (--bankai-gap-<name>) or a number (--bankai-space-<n> step); a two-value string sets row/column gaps.',
   },
   {
     name: 'flow',
@@ -40,13 +40,15 @@ const props: PropRow[] = [
   },
   {
     name: 'align',
-    type: "'start' | 'end' | 'center' | 'baseline' | 'stretch'",
-    description: 'align-items (block axis within each cell).',
+    type: "'start' | 'end' | 'center' | 'baseline' | 'stretch' | (string)",
+    description:
+      'align-items (block axis within each cell). A keyword, or any verbatim CSS value (e.g. flex-start).',
   },
   {
     name: 'justify',
-    type: "'start' | 'end' | 'center' | 'stretch'",
-    description: 'justify-items (inline axis within each cell).',
+    type: "'start' | 'end' | 'center' | 'stretch' | (string)",
+    description:
+      'justify-items (inline axis within each cell). A keyword, or any verbatim CSS value (e.g. left, flex-start).',
   },
   {
     name: 'inline',

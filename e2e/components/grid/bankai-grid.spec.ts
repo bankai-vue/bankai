@@ -123,3 +123,27 @@ test.describe('mapping → CSS (theme grid.css)', () => {
     );
   });
 });
+
+// Bug fixes: a named t-shirt `gap` step (`xs`–`xl`) resolves to `--bankai-gap-<name>` instead of dying
+// as an invalid CSS length, and a verbatim native `align`/`justify` (not a keyword) rides the
+// escape-hatch custom property applied by the base `:where()` rule — so the widened types never lie.
+// [testId, computed prop, expected value].
+const ESCAPE: Array<[string, string, string]> = [
+  // gap="md" → --bankai-gap-md (0.75rem = 12px on theme-bankai)
+  ['map-gap-named', 'gap', '12px'],
+  ['map-align-verbatim', 'align-items', 'flex-start'],
+  ['map-justify-verbatim', 'justify-items', 'flex-start'],
+];
+
+test.describe('escape hatch → CSS (theme grid.css)', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/?fixture=grid-mapping');
+    await expect(page.getByTestId('grid-mapping')).toBeVisible();
+  });
+
+  for (const [testId, prop, expected] of ESCAPE) {
+    test(`${testId} → ${prop}: ${expected}`, async ({ page }) => {
+      expect(await computed(page, testId, prop)).toBe(expected);
+    });
+  }
+});
