@@ -20,6 +20,11 @@ export const guideNav: NavItem[] = [
     to: '/guide/getting-started',
     tagline: 'Install, add a theme, and render your first component.',
   },
+  {
+    name: 'SSR, SPA & routing',
+    to: '/guide/rendering',
+    tagline: 'Hydration model, router auto-detection, and linkOrigin.',
+  },
 ];
 
 /**
