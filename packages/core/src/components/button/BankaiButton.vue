@@ -1,4 +1,5 @@
 <script lang="ts">
+import type { LiteralUnion } from '../../internal/types';
 import type { VNode } from 'vue';
 
 // Ships no CSS (SPEC.md §7):
@@ -6,13 +7,20 @@ import type { VNode } from 'vue';
 
 /**
  * Visual variant of a {@link BankaiButton}, reflected on the root as `data-bankai-variant`.
+ * A named house variant (`solid`/`outline`/`ghost`) is styled by the theme; any other string is an
+ * escape hatch — it reflects verbatim as `data-bankai-variant` so a consumer's `[data-bankai-variant='…']`
+ * rule can style a custom variant (SPEC.md §4.4/§4.6). Unlike the `--bankai-*` custom-property escape
+ * hatches on `BankaiText`/`BankaiFlex`/`BankaiGrid`, a variant is a whole bundle of declarations, so the
+ * raw `data-*` string is itself the hatch — there is no single custom property to carry.
  */
-export type BankaiButtonVariant = 'solid' | 'outline' | 'ghost';
+export type BankaiButtonVariant = LiteralUnion<'solid' | 'outline' | 'ghost', string>;
 
 /**
  * Size scale of a {@link BankaiButton}, reflected on the root as `data-bankai-size`.
+ * A named step (`sm`/`md`/`lg`) is styled by the theme; any other string is an escape hatch — it reflects
+ * verbatim as `data-bankai-size` for a consumer's `[data-bankai-size='…']` rule (SPEC.md §4.4/§4.6).
  */
-export type BankaiButtonSize = 'sm' | 'md' | 'lg';
+export type BankaiButtonSize = LiteralUnion<'sm' | 'md' | 'lg', string>;
 
 /**
  * Native `type` of a {@link BankaiButton}.
@@ -41,13 +49,15 @@ export interface BankaiButtonSlots {
  */
 export interface BankaiButtonProps {
   /**
-   * Visual variant. Reflected on the root as `data-bankai-variant` for styling.
+   * Visual variant. A named house variant (`solid`/`outline`/`ghost`) is themed; any other string
+   * reflects verbatim as `data-bankai-variant` as an escape hatch for a custom consumer-styled variant.
    *
    * @default 'solid'
    */
   variant?: BankaiButtonVariant;
   /**
-   * Size scale. Reflected on the root as `data-bankai-size` for styling.
+   * Size scale. A named step (`sm`/`md`/`lg`) is themed; any other string reflects verbatim as
+   * `data-bankai-size` as an escape hatch for a custom consumer-styled size.
    *
    * @default 'md'
    */
