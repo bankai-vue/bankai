@@ -5,6 +5,7 @@ import {
   BankaiCode,
   BankaiContainer,
   BankaiFlex,
+  BankaiFooter,
   BankaiGrid,
   BankaiHeader,
   BankaiHeading,
@@ -171,6 +172,22 @@ const levels = [1, 2, 3, 4, 5, 6] as const;
         <strong>Primary content</strong>
         <p class="main-wide">A_very_long_unbreakable_token_that_would_overflow_without_the_floor</p>
       </BankaiMain>
+    </section>
+
+    <section>
+      <h2>BankaiFooter</h2>
+
+      <p>
+        Standalone <code>&lt;footer&gt;</code> contentinfo region (the page foot), for a shell built
+        without <code>BankaiLayout</code>. Mirrors <code>BankaiHeader</code> with a top border:
+      </p>
+
+      <BankaiFooter data-testid="footer" class="footer-demo">
+        <div class="footer-bar">
+          <small>© 2026 bankai-vue</small>
+          <nav class="footer-links"><span>Privacy</span><span>Terms</span></nav>
+        </div>
+      </BankaiFooter>
     </section>
 
     <section>
@@ -344,6 +361,19 @@ const levels = [1, 2, 3, 4, 5, 6] as const;
   margin: 0.5rem 0 0;
   overflow: hidden;
   font-family: monospace;
+}
+
+/* The BankaiFooter demo lays out its own content as a copyright + links bar. */
+.footer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.footer-links {
+  display: flex;
+  gap: 1rem;
 }
 
 /* Bound the BankaiContainer demo and shrink the max-width so the centered container's side bars are

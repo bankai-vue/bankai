@@ -1,0 +1,31 @@
+/*
+ * BankaiFooter — the standalone `<footer>` contentinfo region.
+ *
+ * Targets the `bankai-footer` class (the native `<footer>` root). Every selector is wrapped in `:where()`
+ * (zero specificity) so a consumer's own CSS or utility classes — Tailwind `p-*` / `border-*` / `bg-*`,
+ * Bootstrap, UnoCSS — override any rule below with a single plain class, no `!important` (SPEC.md §4.4, §4.6).
+ *
+ * The house look mirrors `BankaiHeader`, flipped: inline/block padding, a hairline TOP border (the header
+ * has a bottom border) separating the foot from the content above, and the page background on its own box
+ * (so a bottom-pinned footer stays opaque; a no-op when it sits static against the same page surface).
+ * Every value rides a `--bankai-footer-*` custom property declared in `:where(:root)` below, so a consumer
+ * retunes the foot (padding, border, background) by overriding one property — no selector needed.
+ */
+
+:where(:root) {
+  /* Block (top/bottom) + inline (left/right) padding — the shared spacing scale, matching the header. */
+  --bankai-footer-padding-block: var(--bankai-space-8);
+  --bankai-footer-padding-inline: var(--bankai-space-12);
+  /* Hairline top border separating the foot from the content above. */
+  --bankai-footer-border-width: 1px;
+  --bankai-footer-border-color: var(--bankai-color-border);
+  /* Painted onto its own box so a pinned footer stays opaque; matches the page surface when static. */
+  --bankai-footer-background: var(--bankai-color-bg);
+}
+
+:where(.bankai-footer) {
+  padding-block: var(--bankai-footer-padding-block);
+  padding-inline: var(--bankai-footer-padding-inline);
+  border-block-start: var(--bankai-footer-border-width) solid var(--bankai-footer-border-color);
+  background-color: var(--bankai-footer-background);
+}

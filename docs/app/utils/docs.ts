@@ -68,6 +68,11 @@ export const componentNav: NavItem[] = [
     tagline: 'Standalone <main> content region.',
   },
   {
+    name: 'Footer',
+    to: '/components/footer',
+    tagline: 'Standalone <footer> contentinfo region.',
+  },
+  {
     name: 'Container',
     to: '/components/container',
     tagline: 'Centered max-width width utility (↔ fluid).',

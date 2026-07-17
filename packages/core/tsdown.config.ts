@@ -18,6 +18,7 @@ export default defineConfig({
     'src/components/code/BankaiCode.vue',
     'src/components/container/BankaiContainer.vue',
     'src/components/flex/BankaiFlex.vue',
+    'src/components/footer/BankaiFooter.vue',
     'src/components/grid/BankaiGrid.vue',
     'src/components/header/BankaiHeader.vue',
     'src/components/heading/BankaiHeading.vue',
