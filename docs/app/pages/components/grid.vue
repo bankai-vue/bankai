@@ -6,33 +6,35 @@ useHead({ title: 'BankaiGrid · bankai-vue' });
 </script>
 
 <template>
-  <article class="doc">
-    <BankaiText as="h1" size="2xl" weight="black">BankaiGrid</BankaiText>
-    <BankaiText as="p" size="lg" tone="muted">
-      A polymorphic CSS-grid container for 2D layouts. Enumerated props reflect as
-      <BankaiCode>data-bankai-*</BankaiCode>; continuous track values
-      (<BankaiCode>columns</BankaiCode>/<BankaiCode>rows</BankaiCode>/<BankaiCode>areas</BankaiCode>/<BankaiCode>gap</BankaiCode>)
-      ride <BankaiCode>--bankai-grid-*</BankaiCode> custom properties read by the theme's
-      <BankaiCode>:where()</BankaiCode> rules.
-    </BankaiText>
+  <BankaiPage>
+    <article class="doc">
+      <BankaiText as="h1" size="2xl" weight="black">BankaiGrid</BankaiText>
+      <BankaiText as="p" size="lg" tone="muted">
+        A polymorphic CSS-grid container for 2D layouts. Enumerated props reflect as
+        <BankaiCode>data-bankai-*</BankaiCode>; continuous track values
+        (<BankaiCode>columns</BankaiCode>/<BankaiCode>rows</BankaiCode>/<BankaiCode>areas</BankaiCode>/<BankaiCode>gap</BankaiCode>)
+        ride <BankaiCode>--bankai-grid-*</BankaiCode> custom properties read by the theme's
+        <BankaiCode>:where()</BankaiCode> rules.
+      </BankaiText>
 
-    <section class="doc-section">
-      <BankaiText as="h2" size="xl" weight="bold">Example</BankaiText>
-      <div class="demo">
-        <BankaiText size="sm" tone="muted">columns="3" · gap="4"</BankaiText>
-        <BankaiGrid columns="3" gap="4">
-          <span class="box">1</span>
-          <span class="box">2</span>
-          <span class="box">3</span>
-          <span class="box">4</span>
-          <span class="box">5</span>
-          <span class="box">6</span>
-        </BankaiGrid>
-      </div>
-    </section>
+      <section class="doc-section">
+        <BankaiText as="h2" size="xl" weight="bold">Example</BankaiText>
+        <div class="demo">
+          <BankaiText size="sm" tone="muted">columns="3" · gap="4"</BankaiText>
+          <BankaiGrid columns="3" gap="4">
+            <span class="box">1</span>
+            <span class="box">2</span>
+            <span class="box">3</span>
+            <span class="box">4</span>
+            <span class="box">5</span>
+            <span class="box">6</span>
+          </BankaiGrid>
+        </div>
+      </section>
 
-    <ComponentApi :meta="componentMeta.BankaiGrid" />
-  </article>
+      <ComponentApi :meta="componentMeta.BankaiGrid" />
+    </article>
+  </BankaiPage>
 </template>
 
 <style scoped>

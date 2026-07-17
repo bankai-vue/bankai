@@ -107,109 +107,113 @@ const configOptions: PropRow[] = [
 </script>
 
 <template>
-  <article class="doc">
-    <BankaiText as="h1" size="2xl" weight="black">Getting started</BankaiText>
-    <BankaiText as="p" size="lg" tone="muted">
-      Install <BankaiCode>@bankai-vue/core</BankaiCode>, add a theme for the CSS, and render your
-      first component. Works the same in a plain Vue (Vite) app or in Nuxt.
-    </BankaiText>
+  <BankaiPage>
+    <article class="doc">
+      <BankaiText as="h1" size="2xl" weight="black">Getting started</BankaiText>
+      <BankaiText as="p" size="lg" tone="muted">
+        Install <BankaiCode>@bankai-vue/core</BankaiCode>, add a theme for the CSS, and render your
+        first component. Works the same in a plain Vue (Vite) app or in Nuxt.
+      </BankaiText>
 
-    <p class="callout">
-      <BankaiText as="span" size="sm">
-        <strong>Early development.</strong> The API is being designed in the open and nothing is on
-        npm yet — the steps below document the intended shape. Follow the
-        <BankaiLink
-          href="https://github.com/bankai-vue/bankai/blob/main/ROADMAP.md"
-          target="_blank"
-        >
-          roadmap
-        </BankaiLink>
-        for the first release.
-      </BankaiText>
-    </p>
+      <p class="callout">
+        <BankaiText as="span" size="sm">
+          <strong>Early development.</strong> The API is being designed in the open and nothing is
+          on npm yet — the steps below document the intended shape. Follow the
+          <BankaiLink
+            href="https://github.com/bankai-vue/bankai/blob/main/ROADMAP.md"
+            target="_blank"
+          >
+            roadmap
+          </BankaiLink>
+          for the first release.
+        </BankaiText>
+      </p>
 
-    <section class="doc-section">
-      <BankaiText as="h2" size="xl" weight="bold">Installation</BankaiText>
-      <BankaiText as="p" tone="muted">
-        You need two packages: <BankaiCode>@bankai-vue/core</BankaiCode> for the components and a
-        theme for the CSS. Core ships <em>no</em> CSS of its own — without a theme the components
-        render, but unstyled.
-      </BankaiText>
-      <pre class="code-block"><code>pnpm add @bankai-vue/core @bankai-vue/theme-bankai</code></pre>
-    </section>
+      <section class="doc-section">
+        <BankaiText as="h2" size="xl" weight="bold">Installation</BankaiText>
+        <BankaiText as="p" tone="muted">
+          You need two packages: <BankaiCode>@bankai-vue/core</BankaiCode> for the components and a
+          theme for the CSS. Core ships <em>no</em> CSS of its own — without a theme the components
+          render, but unstyled.
+        </BankaiText>
+        <pre
+          class="code-block"
+        ><code>pnpm add @bankai-vue/core @bankai-vue/theme-bankai</code></pre>
+      </section>
 
-    <section class="doc-section">
-      <BankaiText as="h2" size="xl" weight="bold">Vue (Vite)</BankaiText>
-      <BankaiText as="p" tone="muted">
-        Install the plugin with <BankaiCode>createBankai()</BankaiCode> and import the theme's CSS
-        once at your entry point.
-      </BankaiText>
-      <pre class="code-block"><code>{{ viteSetup }}</code></pre>
-      <BankaiText as="p" tone="muted">Then import components where you use them:</BankaiText>
-      <pre class="code-block"><code>{{ viteUsage }}</code></pre>
-    </section>
+      <section class="doc-section">
+        <BankaiText as="h2" size="xl" weight="bold">Vue (Vite)</BankaiText>
+        <BankaiText as="p" tone="muted">
+          Install the plugin with <BankaiCode>createBankai()</BankaiCode> and import the theme's CSS
+          once at your entry point.
+        </BankaiText>
+        <pre class="code-block"><code>{{ viteSetup }}</code></pre>
+        <BankaiText as="p" tone="muted">Then import components where you use them:</BankaiText>
+        <pre class="code-block"><code>{{ viteUsage }}</code></pre>
+      </section>
 
-    <section class="doc-section">
-      <BankaiText as="h2" size="xl" weight="bold">Nuxt</BankaiText>
-      <BankaiText as="p" tone="muted">
-        Add the first-party module and the theme CSS. The module auto-registers every component (so
-        templates use <BankaiCode>&lt;Bankai*&gt;</BankaiCode> with no import), auto-imports the
-        composables, and installs the config per app so it stays per-request under SSR.
-      </BankaiText>
-      <pre class="code-block"><code>{{ nuxtSetup }}</code></pre>
-      <pre class="code-block"><code>{{ nuxtUsage }}</code></pre>
-      <BankaiText as="h3" size="lg" weight="semibold">Module options</BankaiText>
-      <BankaiText as="p" tone="muted">
-        Configure the module under the <BankaiCode>bankai</BankaiCode> key. Every option is
-        optional.
-      </BankaiText>
-      <pre class="code-block"><code>{{ nuxtOptions }}</code></pre>
-    </section>
+      <section class="doc-section">
+        <BankaiText as="h2" size="xl" weight="bold">Nuxt</BankaiText>
+        <BankaiText as="p" tone="muted">
+          Add the first-party module and the theme CSS. The module auto-registers every component
+          (so templates use <BankaiCode>&lt;Bankai*&gt;</BankaiCode> with no import), auto-imports
+          the composables, and installs the config per app so it stays per-request under SSR.
+        </BankaiText>
+        <pre class="code-block"><code>{{ nuxtSetup }}</code></pre>
+        <pre class="code-block"><code>{{ nuxtUsage }}</code></pre>
+        <BankaiText as="h3" size="lg" weight="semibold">Module options</BankaiText>
+        <BankaiText as="p" tone="muted">
+          Configure the module under the <BankaiCode>bankai</BankaiCode> key. Every option is
+          optional.
+        </BankaiText>
+        <pre class="code-block"><code>{{ nuxtOptions }}</code></pre>
+      </section>
 
-    <section class="doc-section">
-      <BankaiText as="h2" size="xl" weight="bold">Choosing a theme</BankaiText>
-      <BankaiText as="p" tone="muted">
-        Themes are separate CSS packages — core resolves against none of them, so you pick one and
-        import its CSS. Two ship today:
-      </BankaiText>
-      <ul class="doc-list">
-        <li>
-          <BankaiCode>@bankai-vue/theme-bankai</BankaiCode> — the signature house look, an
-          opinionated set of styled defaults. Customize it through
-          <BankaiCode>--bankai-*</BankaiCode> custom properties.
-        </li>
-        <li>
-          <BankaiCode>@bankai-vue/theme-tailwind</BankaiCode> — remaps the design tokens onto your
-          Tailwind scale, so your own Tailwind design language drives the components. Requires
-          Tailwind CSS v4.
-        </li>
-      </ul>
-      <BankaiText as="p" tone="muted">
-        Both override cleanly because the theme CSS is authored with zero-specificity
-        <BankaiCode>:where()</BankaiCode> selectors.
-      </BankaiText>
-    </section>
+      <section class="doc-section">
+        <BankaiText as="h2" size="xl" weight="bold">Choosing a theme</BankaiText>
+        <BankaiText as="p" tone="muted">
+          Themes are separate CSS packages — core resolves against none of them, so you pick one and
+          import its CSS. Two ship today:
+        </BankaiText>
+        <ul class="doc-list">
+          <li>
+            <BankaiCode>@bankai-vue/theme-bankai</BankaiCode> — the signature house look, an
+            opinionated set of styled defaults. Customize it through
+            <BankaiCode>--bankai-*</BankaiCode> custom properties.
+          </li>
+          <li>
+            <BankaiCode>@bankai-vue/theme-tailwind</BankaiCode> — remaps the design tokens onto your
+            Tailwind scale, so your own Tailwind design language drives the components. Requires
+            Tailwind CSS v4.
+          </li>
+        </ul>
+        <BankaiText as="p" tone="muted">
+          Both override cleanly because the theme CSS is authored with zero-specificity
+          <BankaiCode>:where()</BankaiCode> selectors.
+        </BankaiText>
+      </section>
 
-    <section class="doc-section">
-      <BankaiText as="h2" size="xl" weight="bold">Configuration</BankaiText>
-      <BankaiText as="p" tone="muted">
-        Pass initial config to <BankaiCode>createBankai()</BankaiCode> (or the module's
-        <BankaiCode>bankai.config</BankaiCode>). Read or mutate it at runtime with
-        <BankaiCode>useBankaiConfig()</BankaiCode> inside a component's setup.
-      </BankaiText>
-      <pre class="code-block"><code>{{ configExample }}</code></pre>
-      <PropsTable :rows="configOptions" />
-    </section>
+      <section class="doc-section">
+        <BankaiText as="h2" size="xl" weight="bold">Configuration</BankaiText>
+        <BankaiText as="p" tone="muted">
+          Pass initial config to <BankaiCode>createBankai()</BankaiCode> (or the module's
+          <BankaiCode>bankai.config</BankaiCode>). Read or mutate it at runtime with
+          <BankaiCode>useBankaiConfig()</BankaiCode> inside a component's setup.
+        </BankaiText>
+        <pre class="code-block"><code>{{ configExample }}</code></pre>
+        <PropsTable :rows="configOptions" />
+      </section>
 
-    <section class="doc-section">
-      <BankaiText as="h2" size="xl" weight="bold">Next steps</BankaiText>
-      <BankaiText as="p" tone="muted">
-        Browse the
-        <NuxtLink to="/components" class="doc-link">components</NuxtLink>
-        for props, slots, and live examples.
-      </BankaiText>
-    </section>
-  </article>
+      <section class="doc-section">
+        <BankaiText as="h2" size="xl" weight="bold">Next steps</BankaiText>
+        <BankaiText as="p" tone="muted">
+          Browse the
+          <NuxtLink to="/components" class="doc-link">components</NuxtLink>
+          for props, slots, and live examples.
+        </BankaiText>
+      </section>
+    </article>
+  </BankaiPage>
 </template>
 
 <style scoped>

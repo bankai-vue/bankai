@@ -45,72 +45,74 @@ const tokens: TokenRow[] = [
 </script>
 
 <template>
-  <article class="doc">
-    <BankaiText as="h1" size="2xl" weight="black">BankaiCode</BankaiText>
-    <BankaiText as="p" size="lg" tone="muted">
-      A minimal inline code primitive: a native <BankaiCode>&lt;code&gt;</BankaiCode> with a
-      monospace font and a subtle chip background. Reach for it for an identifier, token, path, or
-      short snippet inside a sentence — the block, fenced variant is a separate
-      <BankaiCode>BankaiCodeBlock</BankaiCode> (on the roadmap).
-    </BankaiText>
+  <BankaiPage>
+    <article class="doc">
+      <BankaiText as="h1" size="2xl" weight="black">BankaiCode</BankaiText>
+      <BankaiText as="p" size="lg" tone="muted">
+        A minimal inline code primitive: a native <BankaiCode>&lt;code&gt;</BankaiCode> with a
+        monospace font and a subtle chip background. Reach for it for an identifier, token, path, or
+        short snippet inside a sentence — the block, fenced variant is a separate
+        <BankaiCode>BankaiCodeBlock</BankaiCode> (on the roadmap).
+      </BankaiText>
 
-    <section class="doc-section">
-      <BankaiText as="h2" size="xl" weight="bold">Example</BankaiText>
-      <div class="demo">
-        <BankaiText as="p">
-          Install <BankaiCode>pnpm add @bankai-vue/core</BankaiCode> and import
-          <BankaiCode>BankaiCode</BankaiCode> from it.
-        </BankaiText>
+      <section class="doc-section">
+        <BankaiText as="h2" size="xl" weight="bold">Example</BankaiText>
+        <div class="demo">
+          <BankaiText as="p">
+            Install <BankaiCode>pnpm add @bankai-vue/core</BankaiCode> and import
+            <BankaiCode>BankaiCode</BankaiCode> from it.
+          </BankaiText>
+          <BankaiText as="p" size="sm" tone="muted">
+            The size is <BankaiCode>em</BankaiCode>-relative, so a snippet like
+            <BankaiCode>--bankai-code-bg</BankaiCode> stays proportional even in this smaller line.
+          </BankaiText>
+        </div>
+      </section>
+
+      <section class="doc-section">
+        <BankaiText as="h2" size="xl" weight="bold">Native semantics, no props</BankaiText>
         <BankaiText as="p" size="sm" tone="muted">
-          The size is <BankaiCode>em</BankaiCode>-relative, so a snippet like
-          <BankaiCode>--bankai-code-bg</BankaiCode> stays proportional even in this smaller line.
+          It renders a real <BankaiCode>&lt;code&gt;</BankaiCode>, so the phrasing semantics live on
+          the element itself — assistive tech and the browser treat it as code for free. Today it
+          takes no props; it is a pure, themeable wrapper. A polymorphic
+          <BankaiCode>as</BankaiCode> (to reach the sibling monospace elements
+          <BankaiCode>&lt;kbd&gt;</BankaiCode>, <BankaiCode>&lt;samp&gt;</BankaiCode>,
+          <BankaiCode>&lt;var&gt;</BankaiCode>) may arrive later if dogfooding calls for it — a
+          non-breaking addition.
         </BankaiText>
-      </div>
-    </section>
+      </section>
 
-    <section class="doc-section">
-      <BankaiText as="h2" size="xl" weight="bold">Native semantics, no props</BankaiText>
-      <BankaiText as="p" size="sm" tone="muted">
-        It renders a real <BankaiCode>&lt;code&gt;</BankaiCode>, so the phrasing semantics live on
-        the element itself — assistive tech and the browser treat it as code for free. Today it
-        takes no props; it is a pure, themeable wrapper. A polymorphic
-        <BankaiCode>as</BankaiCode> (to reach the sibling monospace elements
-        <BankaiCode>&lt;kbd&gt;</BankaiCode>, <BankaiCode>&lt;samp&gt;</BankaiCode>,
-        <BankaiCode>&lt;var&gt;</BankaiCode>) may arrive later if dogfooding calls for it — a
-        non-breaking addition.
-      </BankaiText>
-    </section>
+      <ComponentApi :meta="componentMeta.BankaiCode" />
 
-    <ComponentApi :meta="componentMeta.BankaiCode" />
-
-    <section class="doc-section">
-      <BankaiText as="h2" size="xl" weight="bold">Theming</BankaiText>
-      <BankaiText as="p" size="sm" tone="muted">
-        Every theme rule is zero-specificity (<BankaiCode>:where()</BankaiCode>), so a single
-        declaration or a utility class overrides the look without
-        <BankaiCode>!important</BankaiCode>. Retune the chip by overriding a token — globally on
-        <BankaiCode>:root</BankaiCode>, or locally on any ancestor.
-      </BankaiText>
-      <div class="tokens-wrap">
-        <table class="tokens">
-          <thead>
-            <tr>
-              <th>Token</th>
-              <th>Purpose</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="row in tokens" :key="row.token">
-              <td>
-                <BankaiCode>{{ row.token }}</BankaiCode>
-              </td>
-              <td>{{ row.purpose }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-  </article>
+      <section class="doc-section">
+        <BankaiText as="h2" size="xl" weight="bold">Theming</BankaiText>
+        <BankaiText as="p" size="sm" tone="muted">
+          Every theme rule is zero-specificity (<BankaiCode>:where()</BankaiCode>), so a single
+          declaration or a utility class overrides the look without
+          <BankaiCode>!important</BankaiCode>. Retune the chip by overriding a token — globally on
+          <BankaiCode>:root</BankaiCode>, or locally on any ancestor.
+        </BankaiText>
+        <div class="tokens-wrap">
+          <table class="tokens">
+            <thead>
+              <tr>
+                <th>Token</th>
+                <th>Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in tokens" :key="row.token">
+                <td>
+                  <BankaiCode>{{ row.token }}</BankaiCode>
+                </td>
+                <td>{{ row.purpose }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </article>
+  </BankaiPage>
 </template>
 
 <style scoped>

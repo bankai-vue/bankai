@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { componentNav } from '../utils/docs';
 
-// Header/main/footer landmarks now come from the `default` layout (→ future <BankaiLayout>); this
-// page only fills the content slot. The "Shipping today" grid reads from the shared componentNav,
-// so cards link straight to each component's docs page.
+// Header/main/footer landmarks come from the `default` layout (<BankaiLayout>); this route file starts
+// with <BankaiPage> (the per-route host) wrapping a <BankaiContainer> that centers the content at the
+// house width — the App › Layout › Page › Container structure (SPEC.md §5.6). The "Shipping today" grid
+// reads from the shared componentNav, so cards link straight to each component's docs page.
 const repoUrl = 'https://github.com/bankai-vue/bankai';
 const roadmapUrl = `${repoUrl}/blob/main/ROADMAP.md`;
 const specUrl = `${repoUrl}/blob/main/SPEC.md`;
@@ -13,58 +14,68 @@ const specUrl = `${repoUrl}/blob/main/SPEC.md`;
 </script>
 
 <template>
-  <div class="landing">
-    <section class="hero">
-      <BankaiFlex direction="column" align="center" gap="12">
-        <BankaiText as="h1" size="2xl" weight="black">
-          The agnostic, accessibility-first Vue 3 component framework
-        </BankaiText>
-        <BankaiText as="p" size="lg" tone="muted" class="hero-lede">
-          Guiding defaults you can fully restyle · bring your own CSS framework · native modern HTML
-          · first-class TypeScript · MIT, forever.
-        </BankaiText>
+  <BankaiPage>
+    <BankaiContainer class="site-page">
+      <div class="landing">
+        <section class="hero">
+          <BankaiFlex direction="column" align="center" gap="12">
+            <BankaiText as="h1" size="2xl" weight="black">
+              The agnostic, accessibility-first Vue 3 component framework
+            </BankaiText>
+            <BankaiText as="p" size="lg" tone="muted" class="hero-lede">
+              Guiding defaults you can fully restyle · bring your own CSS framework · native modern
+              HTML · first-class TypeScript · MIT, forever.
+            </BankaiText>
 
-        <!--
+            <!--
           Dogfoods BankaiLink: it renders the native <a> (external `href`), auto-adds
           `rel="noopener noreferrer"` for `target="_blank"`, and reflects `data-bankai-external`.
           The button *look* is a docs-local restyle — the theme's link styles are zero-specificity
           `:where()`, so the scoped `.cta*` classes below override them cleanly (SPEC §4.4/§4.6).
         -->
-        <BankaiFlex align="center" justify="center" gap="6" wrap="wrap">
-          <NuxtLink class="cta cta-solid" to="/guide/getting-started">Get started</NuxtLink>
-          <BankaiLink class="cta cta-outline" :href="repoUrl" target="_blank">
-            Star on GitHub
-          </BankaiLink>
-          <BankaiLink class="cta cta-outline" :href="roadmapUrl" target="_blank"
-            >Roadmap</BankaiLink
-          >
-          <BankaiLink class="cta cta-outline" :href="specUrl" target="_blank">Spec</BankaiLink>
-        </BankaiFlex>
+            <BankaiFlex align="center" justify="center" gap="6" wrap="wrap">
+              <NuxtLink class="cta cta-solid" to="/guide/getting-started">Get started</NuxtLink>
+              <BankaiLink class="cta cta-outline" :href="repoUrl" target="_blank">
+                Star on GitHub
+              </BankaiLink>
+              <BankaiLink class="cta cta-outline" :href="roadmapUrl" target="_blank"
+                >Roadmap</BankaiLink
+              >
+              <BankaiLink class="cta cta-outline" :href="specUrl" target="_blank">Spec</BankaiLink>
+            </BankaiFlex>
 
-        <BankaiText as="p" size="sm" tone="subtle">
-          Early development — the API is being designed in the open. Nothing is on npm yet.
-        </BankaiText>
-      </BankaiFlex>
-    </section>
+            <BankaiText as="p" size="sm" tone="subtle">
+              Early development — the API is being designed in the open. Nothing is on npm yet.
+            </BankaiText>
+          </BankaiFlex>
+        </section>
 
-    <section class="shipping">
-      <BankaiText as="h2" size="xl" weight="bold">Built so far</BankaiText>
-      <BankaiGrid columns="2" gap="8" class="shipping-grid">
-        <NuxtLink v-for="item in componentNav" :key="item.to" :to="item.to" class="card">
-          <BankaiText as="h3" size="md" weight="semibold">Bankai{{ item.name }}</BankaiText>
-          <BankaiText as="p" size="sm" tone="muted">{{ item.tagline }}</BankaiText>
-        </NuxtLink>
-      </BankaiGrid>
-    </section>
-  </div>
+        <section class="shipping">
+          <BankaiText as="h2" size="xl" weight="bold">Built so far</BankaiText>
+          <BankaiGrid columns="2" gap="8" class="shipping-grid">
+            <NuxtLink v-for="item in componentNav" :key="item.to" :to="item.to" class="card">
+              <BankaiText as="h3" size="md" weight="semibold">Bankai{{ item.name }}</BankaiText>
+              <BankaiText as="p" size="sm" tone="muted">{{ item.tagline }}</BankaiText>
+            </NuxtLink>
+          </BankaiGrid>
+        </section>
+      </div>
+    </BankaiContainer>
+  </BankaiPage>
 </template>
 
 <style scoped>
 /*
- * Temporary page-local layout. Component *look* comes from @bankai-vue/theme-bankai, not from here;
- * width/region styling lives in the layout and migrates onto BankaiLayout/BankaiContainer as those
- * components land (ROADMAP Phase 1).
+ * Page-local layout only. Component *look* comes from @bankai-vue/theme-bankai, and the content width /
+ * region structure comes from BankaiLayout (shell) + BankaiPage (per-route host) + BankaiContainer
+ * (width) — this file adds only the landing's own vertical rhythm and card/CTA styling.
  */
+
+/* BankaiContainer owns the centered inline width + gutter; we only add the vertical rhythm. */
+.site-page {
+  padding-block: 4rem;
+}
+
 .landing {
   display: flex;
   flex-direction: column;
