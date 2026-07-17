@@ -6,7 +6,114 @@
 // overrides below only retune the sidebar track / gutters (SPEC.md §4.4, §4.6). Interim → the sidebar
 // nav becomes <BankaiSidebar> once it lands (ROADMAP Phase 1). NuxtLink marks the active route with
 // aria-current for free.
+import { nextTick, onMounted, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import { componentNav, guideNav } from '../utils/docs';
+
+// Section headings on every docs page become linkable permalinks: each <h2>–<h6> inside the page
+// gets a slug id and its text is wrapped in an anchor to `#id`, so a click sets the URL hash and a
+// refresh scrolls straight to it. Done as a client-side enhancement in the layout (not per-page) so
+// it covers every current and future page without touching the mixed <BankaiText as="h2"> /
+// <BankaiHeading> markup pages use. Runs after mount (post-hydration → safe to mutate the DOM) and on
+// each client navigation.
+const route = useRoute();
+
+/** Kebab-case slug from a heading's visible text, e.g. "Level is required — and…" → "level-is-required-and". */
+function slugify(text: string): string {
+  return (
+    text
+      .toLowerCase()
+      .trim()
+      // Drop punctuation (em dashes, slashes, …).
+      .replaceAll(/[^\w\s-]/gu, '')
+      // Collapse whitespace / underscores into a single hyphen.
+      .replaceAll(/[\s_-]+/gu, '-')
+      .replaceAll(/^-+|-+$/gu, '')
+  );
+}
+
+/** Give one heading its permalink: wrap its text in an anchor to `#id` (or append a bare "#" when the
+ *  heading already contains a link, so we never nest <a>s). */
+function attachAnchor(heading: HTMLHeadingElement, id: string): void {
+  heading.id = id;
+  heading.dataset.anchored = 'true';
+  const link = document.createElement('a');
+  link.className = 'doc-heading-anchor';
+  link.href = `#${id}`;
+
+  if (heading.querySelector('a')) {
+    link.classList.add('doc-heading-anchor--bare');
+    link.textContent = '#';
+    link.setAttribute('aria-label', `Permalink to ${heading.textContent ?? ''}`);
+    heading.append(' ', link);
+    return;
+  }
+
+  // Wrap the whole heading so the text itself is the clickable permalink.
+  while (heading.firstChild) {
+    link.append(heading.firstChild);
+  }
+  heading.append(link);
+}
+
+/** Assign ids and permalink anchors to every section heading on the page (idempotent per heading). */
+function anchorHeadings(): void {
+  const main = document.querySelector('.docs-main');
+  if (!main) {
+    return;
+  }
+
+  const used = new Set<string>();
+  for (const heading of main.querySelectorAll<HTMLHeadingElement>('h2, h3, h4, h5, h6')) {
+    // Skip headings inside a live-example box — those are illustrative, not navigable sections.
+    if (heading.closest('.demo')) {
+      continue;
+    }
+
+    if (heading.dataset.anchored) {
+      used.add(heading.id);
+      continue;
+    }
+
+    const base = heading.id || slugify(heading.textContent ?? '');
+    if (!base) {
+      continue;
+    }
+
+    // De-dupe within the page so repeated headings still get a unique, stable target.
+    let id = base;
+    for (let n = 2; used.has(id); n++) {
+      id = `${base}-${n}`;
+    }
+    used.add(id);
+    attachAnchor(heading, id);
+  }
+}
+
+/** Scroll to the current URL hash once the ids exist (the SSR HTML has none, so the browser's own
+ *  initial hash-scroll on refresh finds nothing — we do it here after enhancing). */
+function scrollToHash(): void {
+  const id = window.location.hash.slice(1);
+  if (!id) {
+    return;
+  }
+  document.querySelector(`#${CSS.escape(decodeURIComponent(id))}`)?.scrollIntoView();
+}
+
+onMounted(async () => {
+  await nextTick();
+  anchorHeadings();
+  scrollToHash();
+});
+
+// Re-enhance after a client-side route change swaps in a new page's headings.
+watch(
+  () => route.path,
+  async () => {
+    await nextTick();
+    anchorHeadings();
+  },
+);
 </script>
 
 <template>
@@ -99,6 +206,37 @@ import { componentNav, guideNav } from '../utils/docs';
 .docs-main {
   padding: 2rem 1.5rem 2rem 0;
   min-inline-size: 0;
+}
+
+/* Permalink anchors injected by anchorHeadings(). :deep() because the headings live in slotted page
+   content, not this layout's own template. The anchor inherits the heading's look and reveals a
+   trailing "#" on hover/focus; scroll-margin keeps a scrolled-to heading clear of the top edge. */
+.docs-main :deep(:is(h2, h3, h4, h5, h6)) {
+  scroll-margin-top: 1.5rem;
+}
+
+.docs-main :deep(.doc-heading-anchor) {
+  color: inherit;
+  text-decoration: none;
+}
+
+.docs-main :deep(.doc-heading-anchor:not(.doc-heading-anchor--bare))::after {
+  content: '#';
+  margin-inline-start: 0.35em;
+  color: var(--bankai-color-accent, currentColor);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.docs-main :deep(.doc-heading-anchor:not(.doc-heading-anchor--bare)):hover::after,
+.docs-main :deep(.doc-heading-anchor:not(.doc-heading-anchor--bare)):focus-visible::after {
+  opacity: 0.6;
+}
+
+/* The standalone "#" (used only when a heading already contains its own link) sits at reduced weight. */
+.docs-main :deep(.doc-heading-anchor--bare) {
+  color: var(--bankai-color-accent, currentColor);
+  opacity: 0.5;
 }
 
 /* Stack the sidebar above content on narrow viewports: collapse the shell to a single column and
