@@ -61,6 +61,8 @@ export type {
 } from './components/link/BankaiLink.vue';
 export { default as BankaiMain } from './components/main/BankaiMain.vue';
 export type { BankaiMainSlots } from './components/main/BankaiMain.vue';
+export { default as BankaiPage } from './components/page/BankaiPage.vue';
+export type { BankaiPageSlots } from './components/page/BankaiPage.vue';
 export { default as BankaiText } from './components/text/BankaiText.vue';
 export type {
   BankaiTextAs,

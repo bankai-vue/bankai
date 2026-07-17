@@ -9,12 +9,12 @@ defineProps<{ meta: ComponentMeta }>();
 </script>
 
 <template>
-  <section v-if="meta.props.length" class="doc-section">
+  <BankaiFlex v-if="meta.props.length" as="section" direction="column" gap="8">
     <BankaiText as="h2" size="xl" weight="bold">Props</BankaiText>
     <PropsTable :rows="meta.props" />
-  </section>
+  </BankaiFlex>
 
-  <section v-if="meta.slots.length" class="doc-section">
+  <BankaiFlex v-if="meta.slots.length" as="section" direction="column" gap="8">
     <BankaiText as="h2" size="xl" weight="bold">Slots</BankaiText>
     <div class="api-table-wrap">
       <table class="api-table">
@@ -34,9 +34,9 @@ defineProps<{ meta: ComponentMeta }>();
         </tbody>
       </table>
     </div>
-  </section>
+  </BankaiFlex>
 
-  <section v-if="meta.events.length" class="doc-section">
+  <BankaiFlex v-if="meta.events.length" as="section" direction="column" gap="8">
     <BankaiText as="h2" size="xl" weight="bold">Events</BankaiText>
     <div class="api-table-wrap">
       <table class="api-table">
@@ -60,16 +60,10 @@ defineProps<{ meta: ComponentMeta }>();
         </tbody>
       </table>
     </div>
-  </section>
+  </BankaiFlex>
 </template>
 
 <style scoped>
-.doc-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 /* Matches PropsTable so the Slots/Events tables read identically. Horizontal scroll so a wide table
    never forces the page body to scroll sideways. */
 .api-table-wrap {

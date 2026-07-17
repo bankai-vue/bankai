@@ -1,0 +1,22 @@
+/*
+ * BankaiPage — the per-route content host, Tailwind theme.
+ *
+ * Mirrors the house theme's `components/page.css`. BankaiPage's one house default is a min-block-size
+ * fill so a short route still occupies the full content region and pushes a footer down. It stays plain
+ * CSS at parity with the house theme rather than a Tailwind utility (Tailwind's `min-h-full` is physical
+ * `min-height`, not the logical `min-block-size` used here), and it rides a `--bankai-page-*` custom
+ * property — declared under `:where(:root)` at parity with the house theme — that no Tailwind utility can
+ * read. The fill is `100%` (containing-block relative), NOT a `100dvh` viewport unit, so it stays correct
+ * in embedded / side-by-side panes (SPEC.md §4.19). The rule stays wrapped in zero-specificity `:where()`,
+ * so a consumer's own CSS/utility classes targeting `.bankai-page` override it without `!important`
+ * (SPEC.md §4.4, §4.6). No `@apply` here, so — unlike most component files — this one needs no Tailwind
+ * compilation; it is included in the barrel for consistency.
+ */
+
+:where(:root) {
+  --bankai-page-min-block-size: 100%;
+}
+
+:where(.bankai-page) {
+  min-block-size: var(--bankai-page-min-block-size);
+}

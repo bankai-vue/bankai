@@ -342,6 +342,16 @@ export const componentMeta = {
     ],
     "events": []
   },
+  "BankaiPage": {
+    "props": [],
+    "slots": [
+      {
+        "name": "default",
+        "description": "The route's content — typically a BankaiContainer (or several, at different widths) and the page body."
+      }
+    ],
+    "events": []
+  },
   "BankaiText": {
     "props": [
       {

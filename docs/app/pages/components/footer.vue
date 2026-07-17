@@ -18,63 +18,53 @@ const usage = `<!-- a shell built WITHOUT BankaiLayout -->
 </script>
 
 <template>
-  <article class="doc">
-    <BankaiText as="h1" size="2xl" weight="black">BankaiFooter</BankaiText>
-    <BankaiText as="p" size="lg" tone="muted">
-      A standalone <BankaiCode>&lt;footer&gt;</BankaiCode> contentinfo region — the foot of the page
-      (copyright, secondary links, site meta). The native element carries the
-      <BankaiCode>contentinfo</BankaiCode> role; the theme paints the house foot look, the mirror of
-      <BankaiCode>BankaiHeader</BankaiCode> (padding and a top border). Reach for it when you build
-      a shell <em>without</em> <BankaiCode>BankaiLayout</BankaiCode>.
-    </BankaiText>
-
-    <section class="doc-section">
-      <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
-      <pre class="code"><code>{{ usage }}</code></pre>
-    </section>
-
-    <section class="doc-section">
-      <BankaiText as="h2" size="xl" weight="bold">Landmark uniqueness</BankaiText>
-      <BankaiText size="sm" tone="muted">
-        A native <BankaiCode>&lt;footer&gt;</BankaiCode> is the
-        <BankaiCode>contentinfo</BankaiCode> landmark only when it is <em>not</em> nested inside
-        <BankaiCode>&lt;article&gt;</BankaiCode>, <BankaiCode>&lt;aside&gt;</BankaiCode>,
-        <BankaiCode>&lt;main&gt;</BankaiCode>, <BankaiCode>&lt;nav&gt;</BankaiCode>, or
-        <BankaiCode>&lt;section&gt;</BankaiCode> — so use <BankaiCode>BankaiFooter</BankaiCode> at
-        the top level of your document, not deep inside content.
+  <BankaiPage>
+    <BankaiFlex as="article" direction="column" gap="12">
+      <BankaiText as="h1" size="2xl" weight="black">BankaiFooter</BankaiText>
+      <BankaiText as="p" size="lg" tone="muted">
+        A standalone <BankaiCode>&lt;footer&gt;</BankaiCode> contentinfo region — the foot of the
+        page (copyright, secondary links, site meta). The native element carries the
+        <BankaiCode>contentinfo</BankaiCode> role; the theme paints the house foot look, the mirror
+        of <BankaiCode>BankaiHeader</BankaiCode> (padding and a top border). Reach for it when you
+        build a shell <em>without</em> <BankaiCode>BankaiLayout</BankaiCode>.
       </BankaiText>
-      <BankaiText size="sm" tone="muted">
-        Do <strong>not</strong> place it inside <BankaiCode>BankaiLayout</BankaiCode>'s
-        <BankaiCode>#footer</BankaiCode> slot: <BankaiCode>BankaiLayout</BankaiCode> already emits a
-        <BankaiCode>&lt;footer&gt;</BankaiCode> for that slot, so a nested
-        <BankaiCode>BankaiFooter</BankaiCode> would produce a
-        <BankaiCode>&lt;footer&gt;</BankaiCode> inside a <BankaiCode>&lt;footer&gt;</BankaiCode> — a
-        duplicate contentinfo landmark. With <BankaiCode>BankaiLayout</BankaiCode>, drop your footer
-        content straight into <BankaiCode>#footer</BankaiCode>; use
-        <BankaiCode>BankaiFooter</BankaiCode> only for a hand-rolled shell. Every theme rule is
-        zero-specificity (<BankaiCode>:where()</BankaiCode>), so a plain declaration or utility
-        class overrides the padding, border, or background without
-        <BankaiCode>!important</BankaiCode>.
-      </BankaiText>
-    </section>
 
-    <ComponentApi :meta="componentMeta.BankaiFooter" />
-  </article>
+      <BankaiFlex as="section" direction="column" gap="8">
+        <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
+        <pre class="code"><code>{{ usage }}</code></pre>
+      </BankaiFlex>
+
+      <BankaiFlex as="section" direction="column" gap="8">
+        <BankaiText as="h2" size="xl" weight="bold">Landmark uniqueness</BankaiText>
+        <BankaiText size="sm" tone="muted">
+          A native <BankaiCode>&lt;footer&gt;</BankaiCode> is the
+          <BankaiCode>contentinfo</BankaiCode> landmark only when it is <em>not</em> nested inside
+          <BankaiCode>&lt;article&gt;</BankaiCode>, <BankaiCode>&lt;aside&gt;</BankaiCode>,
+          <BankaiCode>&lt;main&gt;</BankaiCode>, <BankaiCode>&lt;nav&gt;</BankaiCode>, or
+          <BankaiCode>&lt;section&gt;</BankaiCode> — so use <BankaiCode>BankaiFooter</BankaiCode> at
+          the top level of your document, not deep inside content.
+        </BankaiText>
+        <BankaiText size="sm" tone="muted">
+          Do <strong>not</strong> place it inside <BankaiCode>BankaiLayout</BankaiCode>'s
+          <BankaiCode>#footer</BankaiCode> slot: <BankaiCode>BankaiLayout</BankaiCode> already emits
+          a <BankaiCode>&lt;footer&gt;</BankaiCode> for that slot, so a nested
+          <BankaiCode>BankaiFooter</BankaiCode> would produce a
+          <BankaiCode>&lt;footer&gt;</BankaiCode> inside a <BankaiCode>&lt;footer&gt;</BankaiCode> —
+          a duplicate contentinfo landmark. With <BankaiCode>BankaiLayout</BankaiCode>, drop your
+          footer content straight into <BankaiCode>#footer</BankaiCode>; use
+          <BankaiCode>BankaiFooter</BankaiCode> only for a hand-rolled shell. Every theme rule is
+          zero-specificity (<BankaiCode>:where()</BankaiCode>), so a plain declaration or utility
+          class overrides the padding, border, or background without
+          <BankaiCode>!important</BankaiCode>.
+        </BankaiText>
+      </BankaiFlex>
+
+      <ComponentApi :meta="componentMeta.BankaiFooter" />
+    </BankaiFlex>
+  </BankaiPage>
 </template>
 
 <style scoped>
-.doc {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.doc-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .code {
   margin: 0;
   padding: 1.25rem;

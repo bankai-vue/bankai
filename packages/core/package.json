@@ -90,6 +90,10 @@
       "types": "./dist/components/main/BankaiMain.d.ts",
       "import": "./dist/components/main/BankaiMain.js"
     },
+    "./components/page/BankaiPage": {
+      "types": "./dist/components/page/BankaiPage.d.ts",
+      "import": "./dist/components/page/BankaiPage.js"
+    },
     "./components/text/BankaiText": {
       "types": "./dist/components/text/BankaiText.d.ts",
       "import": "./dist/components/text/BankaiText.js"

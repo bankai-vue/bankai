@@ -6,28 +6,25 @@ useHead({ title: 'Components · bankai-vue' });
 </script>
 
 <template>
-  <article class="doc">
-    <BankaiText as="h1" size="2xl" weight="black">Components</BankaiText>
-    <BankaiText as="p" size="lg" tone="muted">
-      The components built so far. More land as the roadmap progresses — this list grows with them.
-    </BankaiText>
+  <BankaiPage>
+    <BankaiFlex as="article" direction="column" gap="8">
+      <BankaiText as="h1" size="2xl" weight="black">Components</BankaiText>
+      <BankaiText as="p" size="lg" tone="muted">
+        The components built so far. More land as the roadmap progresses — this list grows with
+        them.
+      </BankaiText>
 
-    <BankaiGrid columns="2" gap="8" class="component-grid">
-      <NuxtLink v-for="item in componentNav" :key="item.to" :to="item.to" class="card">
-        <BankaiText as="h2" size="md" weight="semibold">Bankai{{ item.name }}</BankaiText>
-        <BankaiText as="p" size="sm" tone="muted">{{ item.tagline }}</BankaiText>
-      </NuxtLink>
-    </BankaiGrid>
-  </article>
+      <BankaiGrid columns="2" gap="8" class="component-grid">
+        <NuxtLink v-for="item in componentNav" :key="item.to" :to="item.to" class="card">
+          <BankaiText as="h2" size="md" weight="semibold">Bankai{{ item.name }}</BankaiText>
+          <BankaiText as="p" size="sm" tone="muted">{{ item.tagline }}</BankaiText>
+        </NuxtLink>
+      </BankaiGrid>
+    </BankaiFlex>
+  </BankaiPage>
 </template>
 
 <style scoped>
-.doc {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .component-grid {
   margin-top: 1rem;
 }

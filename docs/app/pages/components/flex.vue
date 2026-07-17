@@ -6,50 +6,40 @@ useHead({ title: 'BankaiFlex · bankai-vue' });
 </script>
 
 <template>
-  <article class="doc">
-    <BankaiText as="h1" size="2xl" weight="black">BankaiFlex</BankaiText>
-    <BankaiText as="p" size="lg" tone="muted">
-      A polymorphic flexbox container. Props reflect as <BankaiCode>data-bankai-*</BankaiCode> and
-      <BankaiCode>gap</BankaiCode> rides a custom property, styled by zero-specificity
-      <BankaiCode>:where()</BankaiCode> theme rules — so a consumer's utility classes override
-      without <BankaiCode>!important</BankaiCode>.
-    </BankaiText>
+  <BankaiPage>
+    <BankaiFlex as="article" direction="column" gap="12">
+      <BankaiText as="h1" size="2xl" weight="black">BankaiFlex</BankaiText>
+      <BankaiText as="p" size="lg" tone="muted">
+        A polymorphic flexbox container. Props reflect as <BankaiCode>data-bankai-*</BankaiCode> and
+        <BankaiCode>gap</BankaiCode> rides a custom property, styled by zero-specificity
+        <BankaiCode>:where()</BankaiCode> theme rules — so a consumer's utility classes override
+        without <BankaiCode>!important</BankaiCode>.
+      </BankaiText>
 
-    <section class="doc-section">
-      <BankaiText as="h2" size="xl" weight="bold">Example</BankaiText>
-      <div class="demo">
-        <BankaiText size="sm" tone="muted">justify="between" · gap="4"</BankaiText>
-        <BankaiFlex justify="between" gap="4">
-          <span class="box">1</span>
-          <span class="box">2</span>
-          <span class="box">3</span>
-        </BankaiFlex>
+      <BankaiFlex as="section" direction="column" gap="8">
+        <BankaiText as="h2" size="xl" weight="bold">Example</BankaiText>
+        <div class="demo">
+          <BankaiText size="sm" tone="muted">justify="between" · gap="4"</BankaiText>
+          <BankaiFlex justify="between" gap="4">
+            <span class="box">1</span>
+            <span class="box">2</span>
+            <span class="box">3</span>
+          </BankaiFlex>
 
-        <BankaiText size="sm" tone="muted">direction="column" · gap="2"</BankaiText>
-        <BankaiFlex direction="column" gap="2">
-          <span class="box">1</span>
-          <span class="box">2</span>
-        </BankaiFlex>
-      </div>
-    </section>
+          <BankaiText size="sm" tone="muted">direction="column" · gap="2"</BankaiText>
+          <BankaiFlex direction="column" gap="2">
+            <span class="box">1</span>
+            <span class="box">2</span>
+          </BankaiFlex>
+        </div>
+      </BankaiFlex>
 
-    <ComponentApi :meta="componentMeta.BankaiFlex" />
-  </article>
+      <ComponentApi :meta="componentMeta.BankaiFlex" />
+    </BankaiFlex>
+  </BankaiPage>
 </template>
 
 <style scoped>
-.doc {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.doc-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .demo {
   display: flex;
   flex-direction: column;
