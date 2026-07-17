@@ -23,6 +23,7 @@ export default defineConfig({
     'src/components/heading/BankaiHeading.vue',
     'src/components/layout/BankaiLayout.vue',
     'src/components/link/BankaiLink.vue',
+    'src/components/main/BankaiMain.vue',
     'src/components/text/BankaiText.vue',
   ],
   format: ['es'],

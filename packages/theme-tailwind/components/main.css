@@ -1,0 +1,16 @@
+/*
+ * BankaiMain — the standalone `<main>` content region, Tailwind theme.
+ *
+ * Mirrors the house theme's `components/main.css`. BankaiMain's one house default — the min-inline-size
+ * floor that lets a wide, unbreakable descendant shrink with its container instead of forcing horizontal
+ * overflow — is a fixed structural constant (like `layout.css`'s literal `grid-area`s), so it stays plain
+ * CSS at parity with the house theme rather than a Tailwind utility (Tailwind's `min-w-0` is physical
+ * `min-width`, not the logical `min-inline-size` used here). The rule stays wrapped in zero-specificity
+ * `:where()`, so a consumer's own CSS/utility classes targeting `.bankai-main` override it without
+ * `!important` (SPEC.md §4.4, §4.6). No `@apply` here, so — unlike the other component files — this one
+ * needs no Tailwind compilation; it is included in the barrel for consistency.
+ */
+
+:where(.bankai-main) {
+  min-inline-size: 0;
+}

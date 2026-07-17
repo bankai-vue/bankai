@@ -1,0 +1,18 @@
+/*
+ * BankaiMain — the standalone `<main>` content region.
+ *
+ * Targets the `bankai-main` class (the native `<main>` root). The rule is wrapped in `:where()` (zero
+ * specificity) so a consumer's own CSS or utility classes override it with a single plain class, no
+ * `!important` (SPEC.md §4.4, §4.6).
+ *
+ * BankaiMain paints nothing — it IS the page surface (no background) and content width/gutter is
+ * `BankaiContainer`'s job (no padding). The one house default is a min-inline-size floor: a grid/flex
+ * child otherwise floors at its min-content width, so a wide, unbreakable descendant (a long `<pre>`,
+ * a table) pushes the whole content column wider and causes horizontal overflow. Flooring at `0` lets
+ * the content region shrink to its container, and the descendant scrolls/wraps within instead. It is a
+ * fixed structural constant, so it stays literal (no `--bankai-main-*` token to retune).
+ */
+
+:where(.bankai-main) {
+  min-inline-size: 0;
+}
