@@ -62,6 +62,10 @@
       "types": "./dist/components/grid/BankaiGrid.d.ts",
       "import": "./dist/components/grid/BankaiGrid.js"
     },
+    "./components/header/BankaiHeader": {
+      "types": "./dist/components/header/BankaiHeader.d.ts",
+      "import": "./dist/components/header/BankaiHeader.js"
+    },
     "./components/heading/BankaiHeading": {
       "types": "./dist/components/heading/BankaiHeading.d.ts",
       "import": "./dist/components/heading/BankaiHeading.js"

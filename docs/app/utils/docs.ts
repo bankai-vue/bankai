@@ -53,6 +53,11 @@ export const componentNav: NavItem[] = [
     tagline: 'App shell emitting native landmark regions.',
   },
   {
+    name: 'Header',
+    to: '/components/header',
+    tagline: 'Standalone <header> banner region.',
+  },
+  {
     name: 'Container',
     to: '/components/container',
     tagline: 'Centered max-width width utility (↔ fluid).',

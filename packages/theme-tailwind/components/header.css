@@ -1,0 +1,27 @@
+/*
+ * BankaiHeader — the standalone `<header>` banner region, Tailwind theme.
+ *
+ * Mirrors the house theme's `components/header.css`, styled `@apply`-first: the values with a clean
+ * Tailwind utility use it — `py-4` (block padding == 1rem), `px-6` (inline padding == 1.5rem), and
+ * `border-b` (the hairline bottom border width) — so the bar speaks the CONSUMER's Tailwind build
+ * (SPEC.md §4.6, §5.4). Because it uses `@apply`, this file is Tailwind *source* — it must be compiled by
+ * the consumer's Tailwind build, not shipped as static CSS. Only the two arbitrary-token colors have no
+ * clean utility, so they ride `--bankai-header-*` custom properties: the bottom-border color and the
+ * background (the `bg` role, this theme's independent palette). Every rule stays wrapped in
+ * zero-specificity `:where()`, so a consumer's own CSS/utility classes override it without `!important`
+ * (SPEC.md §4.4, §4.6). (The full `--bankai-header-*` token surface — padding, border width — lives in
+ * the house theme; here those are Tailwind utilities, the consumer's native override language.)
+ */
+
+:where(:root) {
+  /* Hairline bottom-border color — the `border` role. */
+  --bankai-header-border-color: var(--bankai-color-border);
+  /* Painted onto its own box so a sticky header stays opaque; matches the page surface when static. */
+  --bankai-header-background: var(--bankai-color-bg);
+}
+
+:where(.bankai-header) {
+  @apply py-4 px-6 border-b;
+  border-block-end-color: var(--bankai-header-border-color);
+  background-color: var(--bankai-header-background);
+}

@@ -226,6 +226,16 @@ export const componentMeta = {
     ],
     "events": []
   },
+  "BankaiHeader": {
+    "props": [],
+    "slots": [
+      {
+        "name": "default",
+        "description": "Header content — typically a BankaiNavbar (brand + links + actions)."
+      }
+    ],
+    "events": []
+  },
   "BankaiHeading": {
     "props": [
       {
