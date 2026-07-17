@@ -20,8 +20,8 @@ const OUT = `${root}${OUT_REL}`;
 
 // Curated Type-column strings, keyed `Component.prop`. Seeded from the reviewed hand-authored tables.
 const TYPE_OVERRIDES: Record<string, string> = {
-  'BankaiButton.variant': "'solid' | 'outline' | 'ghost'",
-  'BankaiButton.size': "'sm' | 'md' | 'lg'",
+  'BankaiButton.variant': "'solid' | 'outline' | 'ghost' | (string)",
+  'BankaiButton.size': "'sm' | 'md' | 'lg' | (string)",
   'BankaiContainer.as': 'HTML tag name',
   'BankaiFlex.as': 'HTML tag name',
   'BankaiFlex.direction': "'row' | 'row-reverse' | 'column' | 'column-reverse'",

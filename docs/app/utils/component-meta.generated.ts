@@ -34,16 +34,16 @@ export const componentMeta = {
     "props": [
       {
         "name": "variant",
-        "type": "'solid' | 'outline' | 'ghost'",
+        "type": "'solid' | 'outline' | 'ghost' | (string)",
         "required": false,
-        "description": "Visual variant. Reflected on the root as data-bankai-variant for styling.",
+        "description": "Visual variant. A named house variant (solid/outline/ghost) is themed; any other string reflects verbatim as data-bankai-variant as an escape hatch for a custom consumer-styled variant.",
         "default": "'solid'"
       },
       {
         "name": "size",
-        "type": "'sm' | 'md' | 'lg'",
+        "type": "'sm' | 'md' | 'lg' | (string)",
         "required": false,
-        "description": "Size scale. Reflected on the root as data-bankai-size for styling.",
+        "description": "Size scale. A named step (sm/md/lg) is themed; any other string reflects verbatim as data-bankai-size as an escape hatch for a custom consumer-styled size.",
         "default": "'md'"
       },
       {

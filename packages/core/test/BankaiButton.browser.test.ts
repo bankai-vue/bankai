@@ -107,6 +107,38 @@ test('reflects variant/size and honors disabled', () => {
   teardown();
 });
 
+test('reflects a custom variant/size verbatim as data-* (escape hatch)', () => {
+  // Unlike the named house values, an arbitrary variant/size is not dropped: it reflects verbatim
+  // as `data-bankai-variant`/`data-bankai-size` so a consumer can style it. The raw `data-*` string
+  // IS the escape hatch here (a variant is a bundle of declarations, not a single custom property).
+  const { button, teardown } = mountButton({ variant: 'brand', size: 'xl' });
+
+  expect(button.dataset.bankaiVariant).toBe('brand');
+  expect(button.dataset.bankaiSize).toBe('xl');
+
+  teardown();
+});
+
+test('a plain-specificity consumer rule targeting a custom variant/size wins', () => {
+  // Prove the escape hatch works end-to-end: a consumer stylesheet keyed on the reflected `data-*`
+  // (ordinary specificity, NOT `:where()`) applies to a custom variant/size (SPEC.md §4.4/§4.6).
+  const style = document.createElement('style');
+  style.textContent = `
+    [data-bankai-variant='brand'] { outline-style: dotted; }
+    [data-bankai-size='xl'] { letter-spacing: 3px; }
+  `;
+  document.head.append(style);
+
+  const { button, teardown } = mountButton({ variant: 'brand', size: 'xl' });
+  const computed = getComputedStyle(button);
+
+  expect(computed.outlineStyle).toBe('dotted');
+  expect(computed.letterSpacing).toBe('3px');
+
+  teardown();
+  style.remove();
+});
+
 test('renders rich slot content', () => {
   const { button, teardown } = mountButton({}, () => [h('span', { class: 'icon' }, '★'), 'Save']);
 
