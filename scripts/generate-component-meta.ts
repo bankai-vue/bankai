@@ -74,7 +74,6 @@ interface ComponentMeta {
 }
 
 const checker = createChecker(`${root}packages/core/tsconfig.json`, {
-  forceUseTs: true,
   printer: { newLine: 1 },
 });
 
