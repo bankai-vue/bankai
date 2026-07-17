@@ -150,7 +150,7 @@ Layout regions — `BankaiLayout` wraps each slot in the matching landmark regio
 **App** (infra singleton) › **Layout** (shell + landmarks) › **Page** (per-route host) › **Container** (width utility).
 
 - [x] `BankaiLayout` — CSS-grid app shell; wraps `#header`/`#sidebar`/`#footer`/default slots in the region landmarks below (emitted inline; no props — consumer controls the grid via CSS, no `view`-string DSL). Persists across routes. ≈ Element Plus `el-container` / Quasar `QLayout`, not `QPage`
-- [ ] `BankaiHeader` — `<header>` region (holds `BankaiNavbar`) — standalone version; `BankaiLayout` emits `<header>` inline for its `#header` slot
+- [x] `BankaiHeader` — `<header>` region (holds `BankaiNavbar`) — standalone version; `BankaiLayout` emits `<header>` inline for its `#header` slot
 - [ ] `BankaiAside` — `<aside>` region (holds `BankaiSidebar`) — standalone version; `BankaiLayout` emits `<aside>` inline for its `#sidebar` slot
 - [ ] `BankaiMain` — `<main>` region — emitted by `BankaiLayout`'s default slot, so nothing nested inside should render its own `<main>` (landmark uniqueness)
 - [ ] `BankaiFooter` — `<footer>` region — standalone version; `BankaiLayout` emits `<footer>` inline for its `#footer` slot

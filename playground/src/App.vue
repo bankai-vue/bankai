@@ -5,6 +5,7 @@ import {
   BankaiContainer,
   BankaiFlex,
   BankaiGrid,
+  BankaiHeader,
   BankaiHeading,
   BankaiLayout,
   BankaiLink,
@@ -114,6 +115,23 @@ const levels = [1, 2, 3, 4, 5, 6] as const;
         <div class="region">main</div>
         <template #footer><div class="region">footer</div></template>
       </BankaiLayout>
+    </section>
+
+    <section>
+      <h2>BankaiHeader</h2>
+
+      <p>
+        Standalone <code>&lt;header&gt;</code> banner region (the top-level landmark), for a shell
+        built without <code>BankaiLayout</code>. The theme paints the house banner look — padding
+        and a bottom border:
+      </p>
+
+      <BankaiHeader data-testid="header" class="header-demo">
+        <div class="header-bar">
+          <strong>bankai-vue</strong>
+          <nav class="header-nav"><span>Guide</span><span>Components</span></nav>
+        </div>
+      </BankaiHeader>
     </section>
 
     <section>
@@ -249,6 +267,19 @@ const levels = [1, 2, 3, 4, 5, 6] as const;
   place-items: center;
   padding: 0.5rem;
   background: color-mix(in oklch, currentcolor 8%, transparent);
+}
+
+/* The BankaiHeader demo lays out its own content as a brand + nav bar. */
+.header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.header-nav {
+  display: flex;
+  gap: 1rem;
 }
 
 /* Bound the BankaiContainer demo and shrink the max-width so the centered container's side bars are

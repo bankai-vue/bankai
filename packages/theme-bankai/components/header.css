@@ -1,0 +1,32 @@
+/*
+ * BankaiHeader — the standalone `<header>` banner region.
+ *
+ * Targets the `bankai-header` class (the native `<header>` root). Every selector is wrapped in `:where()`
+ * (zero specificity) so a consumer's own CSS or utility classes — Tailwind `p-*` / `border-*` / `bg-*`,
+ * Bootstrap, UnoCSS — override any rule below with a single plain class, no `!important` (SPEC.md §4.4, §4.6).
+ *
+ * The house look is a full-bleed banner bar: inline/block padding so the brand + nav breathe, a hairline
+ * bottom border separating it from the content, and the page background painted onto its own box (so a
+ * consumer who pins it `position: sticky` gets an opaque bar that covers the content scrolling under it —
+ * the background is a no-op when it sits static against the same page surface). Every value rides a
+ * `--bankai-header-*` custom property declared in `:where(:root)` below, so a consumer retunes the bar
+ * (padding, border, background) by overriding one property — no selector needed.
+ */
+
+:where(:root) {
+  /* Block (top/bottom) + inline (left/right) padding — the shared spacing scale. */
+  --bankai-header-padding-block: var(--bankai-space-8);
+  --bankai-header-padding-inline: var(--bankai-space-12);
+  /* Hairline bottom border separating the banner from the content below. */
+  --bankai-header-border-width: 1px;
+  --bankai-header-border-color: var(--bankai-color-border);
+  /* Painted onto its own box so a sticky header stays opaque; matches the page surface when static. */
+  --bankai-header-background: var(--bankai-color-bg);
+}
+
+:where(.bankai-header) {
+  padding-block: var(--bankai-header-padding-block);
+  padding-inline: var(--bankai-header-padding-inline);
+  border-block-end: var(--bankai-header-border-width) solid var(--bankai-header-border-color);
+  background-color: var(--bankai-header-background);
+}
