@@ -40,14 +40,16 @@ test.describe('default grid placement (theme layout.css)', () => {
     await expect(page.getByTestId('layout-fixture')).toBeVisible();
   });
 
-  test('regions render as the expected native landmarks with their data-parts', async ({
+  test('regions render as the expected native landmarks with their region classes', async ({
     page,
   }) => {
+    // BankaiLayout composes the region components, so each region carries its `.bankai-*` class (the
+    // hook the theme keys grid placement on) on the matching native landmark element.
     const layout = page.getByTestId('layout-fixture').locator('.bankai-layout');
-    await expect(layout.locator('> header[data-part="header"]')).toHaveCount(1);
-    await expect(layout.locator('> aside[data-part="sidebar"]')).toHaveCount(1);
-    await expect(layout.locator('> main[data-part="main"]')).toHaveCount(1);
-    await expect(layout.locator('> footer[data-part="footer"]')).toHaveCount(1);
+    await expect(layout.locator('> header.bankai-header')).toHaveCount(1);
+    await expect(layout.locator('> aside.bankai-aside')).toHaveCount(1);
+    await expect(layout.locator('> main.bankai-main')).toHaveCount(1);
+    await expect(layout.locator('> footer.bankai-footer')).toHaveCount(1);
 
     // In an isolated layout the emitted <main> is the document's sole main landmark.
     await expect(page.locator('main')).toHaveCount(1);

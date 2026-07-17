@@ -34,9 +34,10 @@ function mountLayout(slots: Slots = {}, props: Record<string, unknown> | null = 
   };
 }
 
-// BankaiLayout emits native landmark regions; these unit tests assert the rendered anatomy (root
-// class + `data-part`, which region elements exist, their tag names). That the theme's `:where()`
-// rules place them on a grid is covered by the e2e/visual tests, which load the theme.
+// BankaiLayout composes the region components (BankaiHeader/Aside/Main/Footer); these unit tests
+// assert the rendered anatomy (root class + `data-part`, which region elements exist, their tags and
+// region classes). Each region carries its OWN `data-part="root"` and its `.bankai-*` class — the
+// theme keys grid placement on that class, covered by the e2e/visual tests which load the theme.
 
 test('always renders the grid root and a single <main>, even with no slots', () => {
   const { root, teardown } = mountLayout();
@@ -46,10 +47,10 @@ test('always renders the grid root and a single <main>, even with no slots', () 
   expect(root.dataset.part).toBe('root');
   expect(root.getAttribute('style')).toBe(null);
 
-  // <main> is the sole always-on landmark; the optional regions are absent.
+  // <main> (a BankaiMain) is the sole always-on landmark; the optional regions are absent.
   const main = root.querySelector('main');
   expect(main).not.toBe(null);
-  expect(main?.dataset.part).toBe('main');
+  expect(main?.classList.contains('bankai-main')).toBe(true);
   expect(root.querySelectorAll('main')).toHaveLength(1);
   expect(root.querySelector('header')).toBe(null);
   expect(root.querySelector('aside')).toBe(null);
@@ -58,7 +59,7 @@ test('always renders the grid root and a single <main>, even with no slots', () 
   teardown();
 });
 
-test('wraps each provided slot in its matching landmark region, in DOM order', () => {
+test('wraps each provided slot in its matching region component, in DOM order', () => {
   const { root, teardown } = mountLayout({
     header: () => h('nav', 'nav'),
     sidebar: () => h('div', { class: 'side' }, 'side'),
@@ -71,14 +72,16 @@ test('wraps each provided slot in its matching landmark region, in DOM order', (
   const main = root.querySelector('main');
   const footer = root.querySelector('footer');
 
-  // Each region is the expected native landmark with the expected `data-part`, wrapping its content.
-  expect(header?.dataset.part).toBe('header');
+  // Each region is the expected native landmark, carrying its region class + own data-part="root",
+  // wrapping its content. The grid keys on the region class, so assert that is present.
+  expect(header?.classList.contains('bankai-header')).toBe(true);
+  expect(header?.dataset.part).toBe('root');
   expect(header?.querySelector('nav')?.textContent).toBe('nav');
-  expect(aside?.dataset.part).toBe('sidebar');
+  expect(aside?.classList.contains('bankai-aside')).toBe(true);
   expect(aside?.querySelector('.side')?.textContent).toBe('side');
-  expect(main?.dataset.part).toBe('main');
+  expect(main?.classList.contains('bankai-main')).toBe(true);
   expect(main?.textContent).toBe('content');
-  expect(footer?.dataset.part).toBe('footer');
+  expect(footer?.classList.contains('bankai-footer')).toBe(true);
   expect(footer?.textContent).toBe('foot');
 
   // Regions render header → sidebar → main → footer in source order.

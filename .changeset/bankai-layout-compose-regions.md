@@ -1,0 +1,5 @@
+---
+'@bankai-vue/core': minor
+---
+
+`BankaiLayout` now **composes the region components** (`BankaiHeader`, `BankaiAside`, `BankaiMain`, `BankaiFooter`) instead of emitting bare landmark elements — so its regions carry the same house paint (header/footer borders, the sidebar divider) they get standalone, with one source of truth per region. The rendered landmark set is unchanged (`<header>`/`<aside>`/`<main>`/`<footer>`, emitted only when their slot is provided; `<main>` always). Two consumer-visible changes: each region child now exposes its own `data-part="root"` **and its region class** (`.bankai-header`, `.bankai-aside`, `.bankai-main`, `.bankai-footer`) rather than `data-part="header"`/`"sidebar"`/`"main"`/`"footer"`; and the regions now carry the default region paint. Grid placement keys on the region class — target `.bankai-layout > .bankai-header` (etc.) to retune tracks, and drop a region's default paint with a plain-class override where a custom shell wants bare regions. Don't drop a `BankaiHeader`/`BankaiAside`/`BankaiFooter` into the matching slot (it's already wrapped in that region — a duplicate landmark).
