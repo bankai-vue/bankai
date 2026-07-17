@@ -29,12 +29,12 @@ const usage = `<!-- a shell built WITHOUT BankaiLayout -->
         build a shell <em>without</em> <BankaiCode>BankaiLayout</BankaiCode>.
       </BankaiText>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
         <pre class="code"><code>{{ usage }}</code></pre>
-      </section>
+      </BankaiFlex>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Landmark uniqueness</BankaiText>
         <BankaiText size="sm" tone="muted">
           A native <BankaiCode>&lt;footer&gt;</BankaiCode> is the
@@ -57,7 +57,7 @@ const usage = `<!-- a shell built WITHOUT BankaiLayout -->
           class overrides the padding, border, or background without
           <BankaiCode>!important</BankaiCode>.
         </BankaiText>
-      </section>
+      </BankaiFlex>
 
       <ComponentApi :meta="componentMeta.BankaiFooter" />
     </BankaiFlex>
@@ -65,12 +65,6 @@ const usage = `<!-- a shell built WITHOUT BankaiLayout -->
 </template>
 
 <style scoped>
-.doc-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .code {
   margin: 0;
   padding: 1.25rem;

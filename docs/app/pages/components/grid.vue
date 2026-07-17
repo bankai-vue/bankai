@@ -17,7 +17,7 @@ useHead({ title: 'BankaiGrid · bankai-vue' });
         <BankaiCode>:where()</BankaiCode> rules.
       </BankaiText>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Example</BankaiText>
         <div class="demo">
           <BankaiText size="sm" tone="muted">columns="3" · gap="4"</BankaiText>
@@ -30,7 +30,7 @@ useHead({ title: 'BankaiGrid · bankai-vue' });
             <span class="box">6</span>
           </BankaiGrid>
         </div>
-      </section>
+      </BankaiFlex>
 
       <ComponentApi :meta="componentMeta.BankaiGrid" />
     </BankaiFlex>
@@ -38,12 +38,6 @@ useHead({ title: 'BankaiGrid · bankai-vue' });
 </template>
 
 <style scoped>
-.doc-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .demo {
   display: flex;
   flex-direction: column;

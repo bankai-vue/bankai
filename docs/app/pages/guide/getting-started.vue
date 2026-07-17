@@ -129,7 +129,7 @@ const configOptions: PropRow[] = [
         </BankaiText>
       </p>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Installation</BankaiText>
         <BankaiText as="p" tone="muted">
           You need two packages: <BankaiCode>@bankai-vue/core</BankaiCode> for the components and a
@@ -139,9 +139,9 @@ const configOptions: PropRow[] = [
         <pre
           class="code-block"
         ><code>pnpm add @bankai-vue/core @bankai-vue/theme-bankai</code></pre>
-      </section>
+      </BankaiFlex>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Vue (Vite)</BankaiText>
         <BankaiText as="p" tone="muted">
           Install the plugin with <BankaiCode>createBankai()</BankaiCode> and import the theme's CSS
@@ -150,9 +150,9 @@ const configOptions: PropRow[] = [
         <pre class="code-block"><code>{{ viteSetup }}</code></pre>
         <BankaiText as="p" tone="muted">Then import components where you use them:</BankaiText>
         <pre class="code-block"><code>{{ viteUsage }}</code></pre>
-      </section>
+      </BankaiFlex>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Nuxt</BankaiText>
         <BankaiText as="p" tone="muted">
           Add the first-party module and the theme CSS. The module auto-registers every component
@@ -167,9 +167,9 @@ const configOptions: PropRow[] = [
           optional.
         </BankaiText>
         <pre class="code-block"><code>{{ nuxtOptions }}</code></pre>
-      </section>
+      </BankaiFlex>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Choosing a theme</BankaiText>
         <BankaiText as="p" tone="muted">
           Themes are separate CSS packages — core resolves against none of them, so you pick one and
@@ -191,9 +191,9 @@ const configOptions: PropRow[] = [
           Both override cleanly because the theme CSS is authored with zero-specificity
           <BankaiCode>:where()</BankaiCode> selectors.
         </BankaiText>
-      </section>
+      </BankaiFlex>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Configuration</BankaiText>
         <BankaiText as="p" tone="muted">
           Pass initial config to <BankaiCode>createBankai()</BankaiCode> (or the module's
@@ -202,27 +202,21 @@ const configOptions: PropRow[] = [
         </BankaiText>
         <pre class="code-block"><code>{{ configExample }}</code></pre>
         <PropsTable :rows="configOptions" />
-      </section>
+      </BankaiFlex>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Next steps</BankaiText>
         <BankaiText as="p" tone="muted">
           Browse the
           <NuxtLink to="/components" class="doc-link">components</NuxtLink>
           for props, slots, and live examples.
         </BankaiText>
-      </section>
+      </BankaiFlex>
     </BankaiFlex>
   </BankaiPage>
 </template>
 
 <style scoped>
-.doc-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .callout {
   margin: 0;
   padding: 0.875rem 1rem;

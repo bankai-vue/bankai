@@ -19,7 +19,7 @@ useHead({ title: 'BankaiText · bankai-vue' });
         — each a named set plus a verbatim escape hatch.
       </BankaiText>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Example</BankaiText>
         <div class="demo">
           <BankaiFlex direction="column" gap="3">
@@ -34,7 +34,7 @@ useHead({ title: 'BankaiText · bankai-vue' });
             </BankaiText>
           </BankaiFlex>
         </div>
-      </section>
+      </BankaiFlex>
 
       <ComponentApi :meta="componentMeta.BankaiText" />
     </BankaiFlex>
@@ -42,12 +42,6 @@ useHead({ title: 'BankaiText · bankai-vue' });
 </template>
 
 <style scoped>
-.doc-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .demo {
   padding: 1.5rem;
   border: 1px solid var(--bankai-color-border, currentColor);

@@ -16,7 +16,7 @@ useHead({ title: 'BankaiButton · bankai-vue' });
         <BankaiCode>data-bankai-*</BankaiCode> state.
       </BankaiText>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Example</BankaiText>
         <div class="demo">
           <BankaiFlex align="center" gap="4" wrap="wrap">
@@ -31,7 +31,7 @@ useHead({ title: 'BankaiButton · bankai-vue' });
             <BankaiButton disabled>Disabled</BankaiButton>
           </BankaiFlex>
         </div>
-      </section>
+      </BankaiFlex>
 
       <ComponentApi :meta="componentMeta.BankaiButton" />
     </BankaiFlex>
@@ -39,12 +39,6 @@ useHead({ title: 'BankaiButton · bankai-vue' });
 </template>
 
 <style scoped>
-.doc-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .demo {
   display: flex;
   flex-direction: column;

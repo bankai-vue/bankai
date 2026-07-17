@@ -51,7 +51,7 @@ export default defineNuxtConfig({
         config value you should set when you server-render.
       </BankaiText>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Environments</BankaiText>
         <ul class="doc-list">
           <li>
@@ -67,9 +67,9 @@ export default defineNuxtConfig({
             leakage.
           </li>
         </ul>
-      </section>
+      </BankaiFlex>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Hydration model</BankaiText>
         <BankaiText as="p" tone="muted">
           Components are SSR-safe by design: they generate hydration-stable ids (Vue's
@@ -86,9 +86,9 @@ export default defineNuxtConfig({
           <BankaiCode>window.location</BankaiCode>-based host check only kicks in once the component
           has mounted. That is why the flag never causes a hydration mismatch.
         </BankaiText>
-      </section>
+      </BankaiFlex>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Router detection</BankaiText>
         <BankaiText as="p" tone="muted">
           <BankaiCode>BankaiLink</BankaiCode> renders the right element for internal
@@ -124,9 +124,9 @@ export default defineNuxtConfig({
           router-free app stays dependency-free.
         </BankaiText>
         <pre class="code-block"><code>{{ tsconfigTypes }}</code></pre>
-      </section>
+      </BankaiFlex>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold"
           >Set <BankaiCode>linkOrigin</BankaiCode> when you server-render</BankaiText
         >
@@ -145,9 +145,9 @@ export default defineNuxtConfig({
         </BankaiText>
         <pre class="code-block"><code>{{ linkOriginVite }}</code></pre>
         <pre class="code-block"><code>{{ linkOriginNuxt }}</code></pre>
-      </section>
+      </BankaiFlex>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">See also</BankaiText>
         <BankaiText as="p" tone="muted">
           <BankaiLink to="/guide/getting-started" class="doc-link">Getting started</BankaiLink>
@@ -155,18 +155,12 @@ export default defineNuxtConfig({
           <BankaiLink to="/components/link" class="doc-link">BankaiLink</BankaiLink>
           for its full props and reflected state.
         </BankaiText>
-      </section>
+      </BankaiFlex>
     </BankaiFlex>
   </BankaiPage>
 </template>
 
 <style scoped>
-.doc-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .doc-list {
   display: flex;
   flex-direction: column;

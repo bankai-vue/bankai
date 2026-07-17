@@ -76,7 +76,7 @@ const scrollCss = `/* app-shell: fixed header + footer, only main scrolls */
         no <BankaiCode>view</BankaiCode>-string DSL.
       </BankaiText>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Structure</BankaiText>
         <BankaiText size="sm" tone="muted">
           The default theme shell — header across the top, footer across the bottom, sidebar left of
@@ -91,14 +91,14 @@ const scrollCss = `/* app-shell: fixed header + footer, only main scrolls */
           <div class="cell main">main</div>
           <div class="cell footer">footer</div>
         </div>
-      </section>
+      </BankaiFlex>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
         <pre class="code"><code>{{ usage }}</code></pre>
-      </section>
+      </BankaiFlex>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Customizing the grid</BankaiText>
         <BankaiText size="sm" tone="muted">
           <BankaiCode>BankaiLayout</BankaiCode> takes no layout props — you own the grid tracks with
@@ -152,7 +152,7 @@ const scrollCss = `/* app-shell: fixed header + footer, only main scrolls */
           areas; to go fully line-based, also clear the template with
           <BankaiCode>grid-template-areas: none</BankaiCode>.
         </BankaiText>
-      </section>
+      </BankaiFlex>
 
       <ComponentApi :meta="componentMeta.BankaiLayout" />
     </BankaiFlex>
@@ -160,12 +160,6 @@ const scrollCss = `/* app-shell: fixed header + footer, only main scrolls */
 </template>
 
 <style scoped>
-.doc-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 /* Mirrors BankaiLayout's default grid, but with plain divs so no landmark is emitted. */
 .diagram {
   display: grid;

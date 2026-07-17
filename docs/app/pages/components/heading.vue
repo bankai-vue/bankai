@@ -18,7 +18,7 @@ const levels = [1, 2, 3, 4, 5, 6] as const;
         choice — never a default.
       </BankaiText>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiHeading :level="2">The type scale</BankaiHeading>
         <BankaiText as="p" size="sm" tone="muted">
           Each level maps to a size step the theme paints (keyed on
@@ -33,9 +33,9 @@ const levels = [1, 2, 3, 4, 5, 6] as const;
             Heading level {{ level }}
           </BankaiHeading>
         </div>
-      </section>
+      </BankaiFlex>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiHeading :level="2">Level is required — and it means the outline</BankaiHeading>
         <BankaiText as="p" size="sm" tone="muted">
           There is no universally-safe default heading level, and a wrong one silently breaks the
@@ -49,11 +49,11 @@ const levels = [1, 2, 3, 4, 5, 6] as const;
           the proper fix for wanting a size without skipping a level) is planned as a future
           <BankaiCode>size</BankaiCode> prop; today the visual size tracks the level.
         </BankaiText>
-      </section>
+      </BankaiFlex>
 
       <ComponentApi :meta="componentMeta.BankaiHeading" />
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiHeading :level="2">Theming the scale</BankaiHeading>
         <BankaiText as="p" size="sm" tone="muted">
           Every step is a <BankaiCode>--bankai-heading-*</BankaiCode> custom property (declared on
@@ -62,18 +62,12 @@ const levels = [1, 2, 3, 4, 5, 6] as const;
           <BankaiCode>!important</BankaiCode>. For example, override
           <BankaiCode>--bankai-heading-size-1</BankaiCode> to resize the level-1 step alone.
         </BankaiText>
-      </section>
+      </BankaiFlex>
     </BankaiFlex>
   </BankaiPage>
 </template>
 
 <style scoped>
-.doc-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .demo {
   display: flex;
   flex-direction: column;

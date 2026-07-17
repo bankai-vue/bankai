@@ -17,7 +17,7 @@ useHead({ title: 'BankaiLink · bankai-vue' });
         one component works across plain Vue, vue-router, and Nuxt.
       </BankaiText>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Example</BankaiText>
         <div class="demo">
           <BankaiFlex direction="column" align="start" gap="3">
@@ -27,9 +27,9 @@ useHead({ title: 'BankaiLink · bankai-vue' });
             </BankaiLink>
           </BankaiFlex>
         </div>
-      </section>
+      </BankaiFlex>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Router integration</BankaiText>
         <BankaiText as="p" tone="muted">
           Resolution order is <BankaiCode>NuxtLink</BankaiCode> →
@@ -45,7 +45,7 @@ useHead({ title: 'BankaiLink · bankai-vue' });
           <BankaiCode>config.linkOrigin</BankaiCode> to your site origin so that check is accurate
           under SSR/SSG.
         </BankaiText>
-      </section>
+      </BankaiFlex>
 
       <ComponentApi :meta="componentMeta.BankaiLink" />
     </BankaiFlex>
@@ -53,12 +53,6 @@ useHead({ title: 'BankaiLink · bankai-vue' });
 </template>
 
 <style scoped>
-.doc-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .demo {
   padding: 1.5rem;
   border: 1px solid var(--bankai-color-border, currentColor);

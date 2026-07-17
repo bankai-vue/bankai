@@ -37,7 +37,7 @@ const tokens: TokenRow[] = [
         renders its own <BankaiCode>&lt;main&gt;</BankaiCode>.
       </BankaiText>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Example</BankaiText>
         <div class="demo">
           <BankaiText size="sm" tone="muted">default — centered at max-width</BankaiText>
@@ -50,9 +50,9 @@ const tokens: TokenRow[] = [
             <BankaiContainer fluid class="box">fluid</BankaiContainer>
           </div>
         </div>
-      </section>
+      </BankaiFlex>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold"
           >Responsive by available space, not the viewport</BankaiText
         >
@@ -68,11 +68,11 @@ const tokens: TokenRow[] = [
           dashboards). A full-bleed hero over a centered body is just two containers at different
           widths.
         </BankaiText>
-      </section>
+      </BankaiFlex>
 
       <ComponentApi :meta="componentMeta.BankaiContainer" />
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Theming the width</BankaiText>
         <BankaiText size="sm" tone="muted">
           The cap and gutter are custom properties, so you retune the width by overriding one
@@ -97,18 +97,12 @@ const tokens: TokenRow[] = [
             </tbody>
           </table>
         </div>
-      </section>
+      </BankaiFlex>
     </BankaiFlex>
   </BankaiPage>
 </template>
 
 <style scoped>
-.doc-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .demo {
   display: flex;
   flex-direction: column;

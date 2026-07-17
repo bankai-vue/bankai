@@ -36,12 +36,12 @@ const stickyCss = `/* the header paints the page background, so a sticky bar cov
         <BankaiCode>BankaiLayout</BankaiCode>.
       </BankaiText>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
         <pre class="code"><code>{{ usage }}</code></pre>
-      </section>
+      </BankaiFlex>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Landmark uniqueness</BankaiText>
         <BankaiText size="sm" tone="muted">
           A native <BankaiCode>&lt;header&gt;</BankaiCode> is the
@@ -61,9 +61,9 @@ const stickyCss = `/* the header paints the page background, so a sticky bar cov
           straight into <BankaiCode>#header</BankaiCode>; use
           <BankaiCode>BankaiHeader</BankaiCode> only for a hand-rolled shell.
         </BankaiText>
-      </section>
+      </BankaiFlex>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Sticky header</BankaiText>
         <BankaiText size="sm" tone="muted">
           The theme paints the page background onto the header's own box, so a
@@ -73,7 +73,7 @@ const stickyCss = `/* the header paints the page background, so a sticky bar cov
           padding, border, or background without <BankaiCode>!important</BankaiCode>.
         </BankaiText>
         <pre class="code"><code>{{ stickyCss }}</code></pre>
-      </section>
+      </BankaiFlex>
 
       <ComponentApi :meta="componentMeta.BankaiHeader" />
     </BankaiFlex>
@@ -81,12 +81,6 @@ const stickyCss = `/* the header paints the page background, so a sticky bar cov
 </template>
 
 <style scoped>
-.doc-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .code {
   margin: 0;
   padding: 1.25rem;

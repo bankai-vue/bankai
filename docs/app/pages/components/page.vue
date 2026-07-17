@@ -25,7 +25,7 @@ const usage = `<!-- every route file starts with BankaiPage -->
         <em>not</em> a landmark of its own.
       </BankaiText>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
         <pre class="code"><code>{{ usage }}</code></pre>
         <BankaiText size="sm" tone="muted">
@@ -35,9 +35,9 @@ const usage = `<!-- every route file starts with BankaiPage -->
           <BankaiCode>BankaiPage</BankaiCode> hosts the route inside it, and
           <BankaiCode>BankaiContainer</BankaiCode> sets the content width.
         </BankaiText>
-      </section>
+      </BankaiFlex>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Fills the content region</BankaiText>
         <BankaiText size="sm" tone="muted">
           Its one house default is a <BankaiCode>min-block-size</BankaiCode> fill so a short route
@@ -54,9 +54,9 @@ const usage = `<!-- every route file starts with BankaiPage -->
             <BankaiText size="sm">A short route still fills the height above.</BankaiText>
           </BankaiPage>
         </div>
-      </section>
+      </BankaiFlex>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Not a landmark, no black magic</BankaiText>
         <BankaiText size="sm" tone="muted">
           <BankaiCode>BankaiPage</BankaiCode> renders a plain <BankaiCode>&lt;div&gt;</BankaiCode> —
@@ -67,7 +67,7 @@ const usage = `<!-- every route file starts with BankaiPage -->
           <BankaiCode>level</BankaiCode>. It lands thin today; per-route scroll and route-transition
           concerns arrive once there is routing to dogfood.
         </BankaiText>
-      </section>
+      </BankaiFlex>
 
       <ComponentApi :meta="componentMeta.BankaiPage" />
     </BankaiFlex>
@@ -75,12 +75,6 @@ const usage = `<!-- every route file starts with BankaiPage -->
 </template>
 
 <style scoped>
-.doc-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .code {
   margin: 0;
   padding: 1.25rem;

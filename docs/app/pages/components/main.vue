@@ -28,12 +28,12 @@ const usage = `<!-- a shell built WITHOUT BankaiLayout -->
         when you build a shell <em>without</em> <BankaiCode>BankaiLayout</BankaiCode>.
       </BankaiText>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
         <pre class="code"><code>{{ usage }}</code></pre>
-      </section>
+      </BankaiFlex>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">One per document</BankaiText>
         <BankaiText size="sm" tone="muted">
           The <BankaiCode>main</BankaiCode> landmark must be <strong>unique</strong> — a page has
@@ -45,9 +45,9 @@ const usage = `<!-- a shell built WITHOUT BankaiLayout -->
           <BankaiCode>BankaiMain</BankaiCode> would be a
           <BankaiCode>&lt;main&gt;</BankaiCode> inside a <BankaiCode>&lt;main&gt;</BankaiCode>.
         </BankaiText>
-      </section>
+      </BankaiFlex>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">What it paints</BankaiText>
         <BankaiText size="sm" tone="muted">
           Almost nothing — it <em>is</em> the page surface (no background), and content width and
@@ -60,7 +60,7 @@ const usage = `<!-- a shell built WITHOUT BankaiLayout -->
           rule is zero-specificity (<BankaiCode>:where()</BankaiCode>), so a plain declaration or
           utility class overrides it without <BankaiCode>!important</BankaiCode>.
         </BankaiText>
-      </section>
+      </BankaiFlex>
 
       <ComponentApi :meta="componentMeta.BankaiMain" />
     </BankaiFlex>
@@ -68,12 +68,6 @@ const usage = `<!-- a shell built WITHOUT BankaiLayout -->
 </template>
 
 <style scoped>
-.doc-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .code {
   margin: 0;
   padding: 1.25rem;

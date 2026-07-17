@@ -55,7 +55,7 @@ const tokens: TokenRow[] = [
         <BankaiCode>BankaiCodeBlock</BankaiCode> (on the roadmap).
       </BankaiText>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Example</BankaiText>
         <div class="demo">
           <BankaiText as="p">
@@ -67,9 +67,9 @@ const tokens: TokenRow[] = [
             <BankaiCode>--bankai-code-bg</BankaiCode> stays proportional even in this smaller line.
           </BankaiText>
         </div>
-      </section>
+      </BankaiFlex>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Native semantics, no props</BankaiText>
         <BankaiText as="p" size="sm" tone="muted">
           It renders a real <BankaiCode>&lt;code&gt;</BankaiCode>, so the phrasing semantics live on
@@ -80,11 +80,11 @@ const tokens: TokenRow[] = [
           <BankaiCode>&lt;var&gt;</BankaiCode>) may arrive later if dogfooding calls for it — a
           non-breaking addition.
         </BankaiText>
-      </section>
+      </BankaiFlex>
 
       <ComponentApi :meta="componentMeta.BankaiCode" />
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Theming</BankaiText>
         <BankaiText as="p" size="sm" tone="muted">
           Every theme rule is zero-specificity (<BankaiCode>:where()</BankaiCode>), so a single
@@ -110,18 +110,12 @@ const tokens: TokenRow[] = [
             </tbody>
           </table>
         </div>
-      </section>
+      </BankaiFlex>
     </BankaiFlex>
   </BankaiPage>
 </template>
 
 <style scoped>
-.doc-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .demo {
   display: flex;
   flex-direction: column;

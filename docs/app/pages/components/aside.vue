@@ -31,12 +31,12 @@ const usage = `<!-- a shell built WITHOUT BankaiLayout -->
         <BankaiCode>BankaiLayout</BankaiCode>.
       </BankaiText>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
         <pre class="code"><code>{{ usage }}</code></pre>
-      </section>
+      </BankaiFlex>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Naming the landmark</BankaiText>
         <BankaiText size="sm" tone="muted">
           A page can hold more than one <BankaiCode>complementary</BankaiCode> landmark (a left nav
@@ -47,9 +47,9 @@ const usage = `<!-- a shell built WITHOUT BankaiLayout -->
           <BankaiCode>aria-label</BankaiCode> / <BankaiCode>aria-labelledby</BankaiCode> takes
           precedence over the prop, so you can point at a visible heading instead.
         </BankaiText>
-      </section>
+      </BankaiFlex>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Landmark uniqueness</BankaiText>
         <BankaiText size="sm" tone="muted">
           Do <strong>not</strong> place it inside <BankaiCode>BankaiLayout</BankaiCode>'s
@@ -63,7 +63,7 @@ const usage = `<!-- a shell built WITHOUT BankaiLayout -->
           (<BankaiCode>:where()</BankaiCode>), so a plain declaration or utility class overrides the
           padding, divider, or background without <BankaiCode>!important</BankaiCode>.
         </BankaiText>
-      </section>
+      </BankaiFlex>
 
       <ComponentApi :meta="componentMeta.BankaiAside" />
     </BankaiFlex>
@@ -71,12 +71,6 @@ const usage = `<!-- a shell built WITHOUT BankaiLayout -->
 </template>
 
 <style scoped>
-.doc-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .code {
   margin: 0;
   padding: 1.25rem;

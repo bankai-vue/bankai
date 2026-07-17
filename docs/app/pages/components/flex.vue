@@ -16,7 +16,7 @@ useHead({ title: 'BankaiFlex · bankai-vue' });
         without <BankaiCode>!important</BankaiCode>.
       </BankaiText>
 
-      <section class="doc-section">
+      <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Example</BankaiText>
         <div class="demo">
           <BankaiText size="sm" tone="muted">justify="between" · gap="4"</BankaiText>
@@ -32,7 +32,7 @@ useHead({ title: 'BankaiFlex · bankai-vue' });
             <span class="box">2</span>
           </BankaiFlex>
         </div>
-      </section>
+      </BankaiFlex>
 
       <ComponentApi :meta="componentMeta.BankaiFlex" />
     </BankaiFlex>
@@ -40,12 +40,6 @@ useHead({ title: 'BankaiFlex · bankai-vue' });
 </template>
 
 <style scoped>
-.doc-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .demo {
   display: flex;
   flex-direction: column;
