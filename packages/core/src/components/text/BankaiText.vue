@@ -143,6 +143,7 @@ const NAMED_WEIGHTS = new Set<string>([
 
 <script setup lang="ts">
 import { computed, useAttrs } from 'vue';
+import { reflectNamed } from '../../internal/reflect';
 
 const { as = 'span', size, weight, tone, truncate = false } = defineProps<BankaiTextProps>();
 
@@ -161,22 +162,21 @@ defineOptions({ name: 'BankaiText', inheritAttrs: false });
 // `style` still merge, so consumer utility classes keep overriding the theme by ordinary specificity.
 const attrs = useAttrs();
 
-// A named member reflects verbatim as its `data-*` attribute; any other value takes the custom-property
-// escape hatch below, so `data-*` is omitted for it (Vue drops `undefined` bindings, keeping the DOM clean).
-const dataSize = computed(() => (size !== undefined && NAMED_SIZES.has(size) ? size : undefined));
-const dataTone = computed(() => (tone !== undefined && NAMED_TONES.has(tone) ? tone : undefined));
-// `weight` can be a number, so guard the Set lookup on a string first; a named string → `data-bankai-weight`,
-// a number or any other string → the escape hatch below.
-const weightIsNamed = computed(() => typeof weight === 'string' && NAMED_WEIGHTS.has(weight));
-const dataWeight = computed(() => (weightIsNamed.value ? (weight as string) : undefined));
+// Split each styling prop into its `data-*` (named keyword) vs `--bankai-text-*` (verbatim escape hatch)
+// channels via the shared `reflectNamed` helper (SPEC.md §4.4/§4.6, §4.11). `weight` can be a number, which
+// `reflectNamed` always routes to `escape` (only a string can match a keyword) — so a variable-font `wght`
+// number rides the custom property untouched. Vue drops the `undefined` side of each split, keeping the DOM clean.
+const sizeParts = computed(() => reflectNamed(size, NAMED_SIZES));
+const weightParts = computed(() => reflectNamed(weight, NAMED_WEIGHTS));
+const toneParts = computed(() => reflectNamed(tone, NAMED_TONES));
 
 // The escape-hatch values ride custom properties that the theme's base `:where(.bankai-text)` rule applies.
 // Each is set only for a non-named value; when all are unset the object is all-`undefined`, so Vue emits no
 // `style` attribute at all (the clean default).
 const rootStyle = computed<CSSProperties>(() => ({
-  '--bankai-text-size': size !== undefined && !NAMED_SIZES.has(size) ? size : undefined,
-  '--bankai-text-weight': weight !== undefined && !weightIsNamed.value ? weight : undefined,
-  '--bankai-text-tone': tone !== undefined && !NAMED_TONES.has(tone) ? tone : undefined,
+  '--bankai-text-size': sizeParts.value.escape,
+  '--bankai-text-weight': weightParts.value.escape,
+  '--bankai-text-tone': toneParts.value.escape,
 }));
 
 // `data-bankai-truncate` is a presence flag (empty string when on, absent when off) so the CSS can match `[data-bankai-truncate]`.
@@ -191,9 +191,9 @@ defineSlots<BankaiTextSlots>();
     v-bind="attrs"
     class="bankai-text"
     data-part="root"
-    :data-bankai-size="dataSize"
-    :data-bankai-weight="dataWeight"
-    :data-bankai-tone="dataTone"
+    :data-bankai-size="sizeParts.data"
+    :data-bankai-weight="weightParts.data"
+    :data-bankai-tone="toneParts.data"
     :data-bankai-truncate="dataTruncate"
     :style="rootStyle"
   >
