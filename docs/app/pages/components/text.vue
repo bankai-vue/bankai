@@ -7,7 +7,7 @@ useHead({ title: 'BankaiText · bankai-vue' });
 
 <template>
   <BankaiPage>
-    <article class="doc">
+    <BankaiFlex as="article" direction="column" gap="12">
       <BankaiText as="h1" size="2xl" weight="black">BankaiText</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
         A polymorphic text primitive. Pick the element with <BankaiCode>as</BankaiCode> (including
@@ -37,17 +37,11 @@ useHead({ title: 'BankaiText · bankai-vue' });
       </section>
 
       <ComponentApi :meta="componentMeta.BankaiText" />
-    </article>
+    </BankaiFlex>
   </BankaiPage>
 </template>
 
 <style scoped>
-.doc {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
 .doc-section {
   display: flex;
   flex-direction: column;

@@ -66,7 +66,7 @@ const scrollCss = `/* app-shell: fixed header + footer, only main scrolls */
 
 <template>
   <BankaiPage>
-    <article class="doc">
+    <BankaiFlex as="article" direction="column" gap="12">
       <BankaiText as="h1" size="2xl" weight="black">BankaiLayout</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
         The persistent app shell: a CSS-grid root that wraps each slot in its native landmark region
@@ -155,17 +155,11 @@ const scrollCss = `/* app-shell: fixed header + footer, only main scrolls */
       </section>
 
       <ComponentApi :meta="componentMeta.BankaiLayout" />
-    </article>
+    </BankaiFlex>
   </BankaiPage>
 </template>
 
 <style scoped>
-.doc {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
 .doc-section {
   display: flex;
   flex-direction: column;

@@ -7,7 +7,7 @@ useHead({ title: 'BankaiFlex · bankai-vue' });
 
 <template>
   <BankaiPage>
-    <article class="doc">
+    <BankaiFlex as="article" direction="column" gap="12">
       <BankaiText as="h1" size="2xl" weight="black">BankaiFlex</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
         A polymorphic flexbox container. Props reflect as <BankaiCode>data-bankai-*</BankaiCode> and
@@ -35,17 +35,11 @@ useHead({ title: 'BankaiFlex · bankai-vue' });
       </section>
 
       <ComponentApi :meta="componentMeta.BankaiFlex" />
-    </article>
+    </BankaiFlex>
   </BankaiPage>
 </template>
 
 <style scoped>
-.doc {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
 .doc-section {
   display: flex;
   flex-direction: column;

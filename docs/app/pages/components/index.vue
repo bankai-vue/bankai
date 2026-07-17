@@ -7,7 +7,7 @@ useHead({ title: 'Components · bankai-vue' });
 
 <template>
   <BankaiPage>
-    <article class="doc">
+    <BankaiFlex as="article" direction="column" gap="8">
       <BankaiText as="h1" size="2xl" weight="black">Components</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
         The components built so far. More land as the roadmap progresses — this list grows with
@@ -20,17 +20,11 @@ useHead({ title: 'Components · bankai-vue' });
           <BankaiText as="p" size="sm" tone="muted">{{ item.tagline }}</BankaiText>
         </NuxtLink>
       </BankaiGrid>
-    </article>
+    </BankaiFlex>
   </BankaiPage>
 </template>
 
 <style scoped>
-.doc {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .component-grid {
   margin-top: 1rem;
 }

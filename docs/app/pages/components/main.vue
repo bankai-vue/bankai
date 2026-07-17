@@ -20,7 +20,7 @@ const usage = `<!-- a shell built WITHOUT BankaiLayout -->
 
 <template>
   <BankaiPage>
-    <article class="doc">
+    <BankaiFlex as="article" direction="column" gap="12">
       <BankaiText as="h1" size="2xl" weight="black">BankaiMain</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
         A standalone <BankaiCode>&lt;main&gt;</BankaiCode> content region — the document's primary
@@ -63,17 +63,11 @@ const usage = `<!-- a shell built WITHOUT BankaiLayout -->
       </section>
 
       <ComponentApi :meta="componentMeta.BankaiMain" />
-    </article>
+    </BankaiFlex>
   </BankaiPage>
 </template>
 
 <style scoped>
-.doc {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
 .doc-section {
   display: flex;
   flex-direction: column;

@@ -28,7 +28,7 @@ const tokens: TokenRow[] = [
 
 <template>
   <BankaiPage>
-    <article class="doc">
+    <BankaiFlex as="article" direction="column" gap="12">
       <BankaiText as="h1" size="2xl" weight="black">BankaiContainer</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
         A width utility: centered at a themeable max-width by default, edge-to-edge with
@@ -98,17 +98,11 @@ const tokens: TokenRow[] = [
           </table>
         </div>
       </section>
-    </article>
+    </BankaiFlex>
   </BankaiPage>
 </template>
 
 <style scoped>
-.doc {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
 .doc-section {
   display: flex;
   flex-direction: column;

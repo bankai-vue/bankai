@@ -7,7 +7,7 @@ useHead({ title: 'BankaiGrid · bankai-vue' });
 
 <template>
   <BankaiPage>
-    <article class="doc">
+    <BankaiFlex as="article" direction="column" gap="12">
       <BankaiText as="h1" size="2xl" weight="black">BankaiGrid</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
         A polymorphic CSS-grid container for 2D layouts. Enumerated props reflect as
@@ -33,17 +33,11 @@ useHead({ title: 'BankaiGrid · bankai-vue' });
       </section>
 
       <ComponentApi :meta="componentMeta.BankaiGrid" />
-    </article>
+    </BankaiFlex>
   </BankaiPage>
 </template>
 
 <style scoped>
-.doc {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
 .doc-section {
   display: flex;
   flex-direction: column;

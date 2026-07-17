@@ -42,7 +42,7 @@ export default defineNuxtConfig({
 
 <template>
   <BankaiPage>
-    <article class="doc">
+    <BankaiFlex as="article" direction="column" gap="12">
       <BankaiText as="h1" size="2xl" weight="black">SSR, SPA &amp; routing</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
         bankai-vue components behave the same in a client-only Vue app (SPA) and under Nuxt server
@@ -156,17 +156,11 @@ export default defineNuxtConfig({
           for its full props and reflected state.
         </BankaiText>
       </section>
-    </article>
+    </BankaiFlex>
   </BankaiPage>
 </template>
 
 <style scoped>
-.doc {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
 .doc-section {
   display: flex;
   flex-direction: column;

@@ -108,7 +108,7 @@ const configOptions: PropRow[] = [
 
 <template>
   <BankaiPage>
-    <article class="doc">
+    <BankaiFlex as="article" direction="column" gap="12">
       <BankaiText as="h1" size="2xl" weight="black">Getting started</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
         Install <BankaiCode>@bankai-vue/core</BankaiCode>, add a theme for the CSS, and render your
@@ -212,17 +212,11 @@ const configOptions: PropRow[] = [
           for props, slots, and live examples.
         </BankaiText>
       </section>
-    </article>
+    </BankaiFlex>
   </BankaiPage>
 </template>
 
 <style scoped>
-.doc {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
 .doc-section {
   display: flex;
   flex-direction: column;

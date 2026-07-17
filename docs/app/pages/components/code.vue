@@ -46,7 +46,7 @@ const tokens: TokenRow[] = [
 
 <template>
   <BankaiPage>
-    <article class="doc">
+    <BankaiFlex as="article" direction="column" gap="12">
       <BankaiText as="h1" size="2xl" weight="black">BankaiCode</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
         A minimal inline code primitive: a native <BankaiCode>&lt;code&gt;</BankaiCode> with a
@@ -111,17 +111,11 @@ const tokens: TokenRow[] = [
           </table>
         </div>
       </section>
-    </article>
+    </BankaiFlex>
   </BankaiPage>
 </template>
 
 <style scoped>
-.doc {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
 .doc-section {
   display: flex;
   flex-direction: column;

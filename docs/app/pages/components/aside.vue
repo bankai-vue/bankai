@@ -21,7 +21,7 @@ const usage = `<!-- a shell built WITHOUT BankaiLayout -->
 
 <template>
   <BankaiPage>
-    <article class="doc">
+    <BankaiFlex as="article" direction="column" gap="12">
       <BankaiText as="h1" size="2xl" weight="black">BankaiAside</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
         A standalone <BankaiCode>&lt;aside&gt;</BankaiCode> complementary region — a side rail
@@ -66,17 +66,11 @@ const usage = `<!-- a shell built WITHOUT BankaiLayout -->
       </section>
 
       <ComponentApi :meta="componentMeta.BankaiAside" />
-    </article>
+    </BankaiFlex>
   </BankaiPage>
 </template>
 
 <style scoped>
-.doc {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
 .doc-section {
   display: flex;
   flex-direction: column;

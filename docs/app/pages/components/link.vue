@@ -7,7 +7,7 @@ useHead({ title: 'BankaiLink · bankai-vue' });
 
 <template>
   <BankaiPage>
-    <article class="doc">
+    <BankaiFlex as="article" direction="column" gap="12">
       <BankaiText as="h1" size="2xl" weight="black">BankaiLink</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
         A router-aware link primitive. With no wiring it renders a native
@@ -48,17 +48,11 @@ useHead({ title: 'BankaiLink · bankai-vue' });
       </section>
 
       <ComponentApi :meta="componentMeta.BankaiLink" />
-    </article>
+    </BankaiFlex>
   </BankaiPage>
 </template>
 
 <style scoped>
-.doc {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
 .doc-section {
   display: flex;
   flex-direction: column;

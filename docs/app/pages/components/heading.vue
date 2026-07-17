@@ -9,7 +9,7 @@ const levels = [1, 2, 3, 4, 5, 6] as const;
 
 <template>
   <BankaiPage>
-    <article class="doc">
+    <BankaiFlex as="article" direction="column" gap="12">
       <BankaiHeading :level="1">BankaiHeading</BankaiHeading>
       <BankaiText as="p" size="lg" tone="muted">
         A native <BankaiCode>&lt;h1&gt;</BankaiCode>–<BankaiCode>&lt;h6&gt;</BankaiCode> chosen by a
@@ -63,17 +63,11 @@ const levels = [1, 2, 3, 4, 5, 6] as const;
           <BankaiCode>--bankai-heading-size-1</BankaiCode> to resize the level-1 step alone.
         </BankaiText>
       </section>
-    </article>
+    </BankaiFlex>
   </BankaiPage>
 </template>
 
 <style scoped>
-.doc {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
 .doc-section {
   display: flex;
   flex-direction: column;

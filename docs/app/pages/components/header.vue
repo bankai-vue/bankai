@@ -26,7 +26,7 @@ const stickyCss = `/* the header paints the page background, so a sticky bar cov
 
 <template>
   <BankaiPage>
-    <article class="doc">
+    <BankaiFlex as="article" direction="column" gap="12">
       <BankaiText as="h1" size="2xl" weight="black">BankaiHeader</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
         A standalone <BankaiCode>&lt;header&gt;</BankaiCode> banner region — the top-of-page
@@ -76,17 +76,11 @@ const stickyCss = `/* the header paints the page background, so a sticky bar cov
       </section>
 
       <ComponentApi :meta="componentMeta.BankaiHeader" />
-    </article>
+    </BankaiFlex>
   </BankaiPage>
 </template>
 
 <style scoped>
-.doc {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
 .doc-section {
   display: flex;
   flex-direction: column;

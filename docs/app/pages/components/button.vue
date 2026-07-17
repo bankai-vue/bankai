@@ -7,7 +7,7 @@ useHead({ title: 'BankaiButton · bankai-vue' });
 
 <template>
   <BankaiPage>
-    <article class="doc">
+    <BankaiFlex as="article" direction="column" gap="12">
       <BankaiText as="h1" size="2xl" weight="black">BankaiButton</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
         A native <BankaiCode>&lt;button&gt;</BankaiCode> with typed variant, size, type, and
@@ -34,17 +34,11 @@ useHead({ title: 'BankaiButton · bankai-vue' });
       </section>
 
       <ComponentApi :meta="componentMeta.BankaiButton" />
-    </article>
+    </BankaiFlex>
   </BankaiPage>
 </template>
 
 <style scoped>
-.doc {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
 .doc-section {
   display: flex;
   flex-direction: column;
