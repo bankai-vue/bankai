@@ -37,6 +37,7 @@ const TYPE_OVERRIDES: Record<string, string> = {
   'BankaiGrid.flow': "'row' | 'column' | 'dense' | 'row-dense' | 'column-dense'",
   'BankaiGrid.align': "'start' | 'end' | 'center' | 'baseline' | 'stretch' | (string)",
   'BankaiGrid.justify': "'start' | 'end' | 'center' | 'stretch' | (string)",
+  'BankaiHeading.level': '1 | 2 | 3 | 4 | 5 | 6',
   'BankaiText.as': 'BankaiTextElement | string',
   'BankaiText.size': "'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | string",
   'BankaiText.weight': "'thin' … 'black' | number | string",

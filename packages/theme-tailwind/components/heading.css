@@ -1,0 +1,58 @@
+/*
+ * BankaiHeading styling — Tailwind theme.
+ *
+ * Mirrors the house theme's `components/heading.css`, but styled with Tailwind's `@apply`
+ * (https://tailwindcss.com/docs/functions-and-directives#apply-directive) so the heading type scale
+ * speaks the CONSUMER's Tailwind design language: `text-4xl`, `font-semibold`, … resolve against their
+ * Tailwind build (SPEC.md §4.6, §5.4). Because it uses `@apply`, this file is Tailwind *source* — it must
+ * be compiled by the consumer's Tailwind build, not shipped as static CSS.
+ *
+ * Targets the `bankai-heading` class and the level reflected as `data-bankai-level` (`1`–`6`). Every rule
+ * stays wrapped in zero-specificity `:where()`, so a consumer's utility classes override any rule below
+ * with a single plain class, no `!important` needed.
+ *
+ * The per-level sizes need no token bridge: they come straight from Tailwind's `text-*` scale, whose
+ * font-size + line-height pairs match the house theme's steps (`text-4xl` = level 1 … `text-base` =
+ * level 6). Headings ship `margin: 0` (`m-0`) — spacing is the layout's job — and `text-wrap: balance`
+ * (`text-balance`) to even multi-line headings. Heading color aliases the foundation `--bankai-color-fg`
+ * via a `--bankai-heading-color` token (parity with the house theme), which drives dark mode off
+ * `color-scheme` through `light-dark()`, NOT Tailwind's `dark:` — `dark:` keys off the OS
+ * `prefers-color-scheme`, which ignores a page that flips `color-scheme` on its own (an in-app toggle),
+ * stranding the heading on the wrong branch while the surface flips.
+ */
+
+:where(:root) {
+  /* Heading color as one token, overridable without a selector — parity with the house theme. Aliases the
+   * foundation `--bankai-color-fg` (tokens.css), whose `light-dark()` pair reads Tailwind's `--color-*`
+   * palette and flips on `color-scheme`, so heading color follows a consumer retuning the fg palette. */
+  --bankai-heading-color: var(--bankai-color-fg);
+}
+
+:where(.bankai-heading) {
+  @apply m-0 font-semibold text-balance;
+  color: var(--bankai-heading-color);
+}
+
+:where(.bankai-heading[data-bankai-level='1']) {
+  @apply text-4xl;
+}
+
+:where(.bankai-heading[data-bankai-level='2']) {
+  @apply text-3xl;
+}
+
+:where(.bankai-heading[data-bankai-level='3']) {
+  @apply text-2xl;
+}
+
+:where(.bankai-heading[data-bankai-level='4']) {
+  @apply text-xl;
+}
+
+:where(.bankai-heading[data-bankai-level='5']) {
+  @apply text-lg;
+}
+
+:where(.bankai-heading[data-bankai-level='6']) {
+  @apply text-base;
+}

@@ -5,6 +5,7 @@ import {
   BankaiContainer,
   BankaiFlex,
   BankaiGrid,
+  BankaiHeading,
   BankaiLayout,
   BankaiLink,
   BankaiText,
@@ -32,6 +33,8 @@ const weights = [
   'black',
 ] as const;
 const tones = ['default', 'muted', 'subtle'] as const;
+
+const levels = [1, 2, 3, 4, 5, 6] as const;
 </script>
 
 <template>
@@ -192,6 +195,21 @@ const tones = ['default', 'muted', 'subtle'] as const;
         <BankaiText size="1.75rem">custom size</BankaiText>
         <BankaiText :weight="350">weight 350</BankaiText>
         <BankaiText tone="rgb(220, 38, 38)">custom color</BankaiText>
+      </BankaiFlex>
+    </section>
+
+    <section>
+      <h2>BankaiHeading</h2>
+
+      <p>
+        Native <code>&lt;h1&gt;</code>–<code>&lt;h6&gt;</code> via a required <code>level</code>;
+        the theme paints the per-level type scale keyed on <code>data-bankai-level</code>:
+      </p>
+
+      <BankaiFlex direction="column" align="start" :gap="2">
+        <BankaiHeading v-for="level in levels" :key="level" :level="level">
+          Heading level {{ level }}
+        </BankaiHeading>
       </BankaiFlex>
     </section>
   </main>

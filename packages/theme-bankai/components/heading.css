@@ -1,0 +1,80 @@
+/*
+ * BankaiHeading styling.
+ *
+ * Targets the `bankai-heading` class and the level reflected as `data-bankai-level` (`1`–`6`). Every
+ * selector is wrapped in `:where()` (zero specificity) so a consumer's utility classes — Tailwind
+ * `text-4xl` / `font-semibold` / `leading-tight`, Bootstrap, UnoCSS — override any rule below with a
+ * single plain class, no `!important` needed (SPEC.md §4.4, §4.6).
+ *
+ * The type styles are keyed on `data-bankai-level`, NOT the `<hN>` tag: in v1 the visual size tracks the
+ * semantic level 1:1, but keying on the reflected attribute keeps the styling independent of the element
+ * and ready for a future `size` prop that decouples the two (ROADMAP). Each level pairs a font-size with
+ * its own line-height, both `--bankai-heading-*` component tokens declared in the `:where(:root)` block
+ * below — so a consumer can retune one step (e.g. `--bankai-heading-size-1`) by overriding one custom
+ * property, no selector needed. Sizes are heading-specific and deliberately larger than the shared
+ * `--bankai-text-size-*` type scale (which tops out at 1.5rem), so they live here rather than in tokens.css.
+ *
+ * Headings ship `margin: 0` (spacing is the layout's job — `BankaiFlex`/`BankaiStack` `gap`), so they
+ * compose without fighting a baked-in vertical rhythm. `text-wrap: balance` evens multi-line headings
+ * across their lines (a progressive enhancement — ignored where unsupported).
+ */
+
+:where(:root) {
+  /* Heading color: the strongest neutral foreground, shared with the rest of the theme via the foundation
+   * `--bankai-color-fg` (tokens.css). Override this one property to shift heading color alone. */
+  --bankai-heading-color: var(--bankai-color-fg);
+  /* Single weight across levels; override for a lighter or heavier house heading. */
+  --bankai-heading-font-weight: 600;
+
+  /* Per-level font-size + paired line-height. Tighter leading on the larger steps, looser on the smaller
+   * ones, matching how display type reads. Retune a single step by overriding its property. */
+  --bankai-heading-size-1: 2.25rem;
+  --bankai-heading-line-height-1: 2.5rem;
+  --bankai-heading-size-2: 1.875rem;
+  --bankai-heading-line-height-2: 2.25rem;
+  --bankai-heading-size-3: 1.5rem;
+  --bankai-heading-line-height-3: 2rem;
+  --bankai-heading-size-4: 1.25rem;
+  --bankai-heading-line-height-4: 1.75rem;
+  --bankai-heading-size-5: 1.125rem;
+  --bankai-heading-line-height-5: 1.75rem;
+  --bankai-heading-size-6: 1rem;
+  --bankai-heading-line-height-6: 1.5rem;
+}
+
+:where(.bankai-heading) {
+  margin: 0;
+  font-weight: var(--bankai-heading-font-weight);
+  color: var(--bankai-heading-color);
+  text-wrap: balance;
+}
+
+:where(.bankai-heading[data-bankai-level='1']) {
+  font-size: var(--bankai-heading-size-1);
+  line-height: var(--bankai-heading-line-height-1);
+}
+
+:where(.bankai-heading[data-bankai-level='2']) {
+  font-size: var(--bankai-heading-size-2);
+  line-height: var(--bankai-heading-line-height-2);
+}
+
+:where(.bankai-heading[data-bankai-level='3']) {
+  font-size: var(--bankai-heading-size-3);
+  line-height: var(--bankai-heading-line-height-3);
+}
+
+:where(.bankai-heading[data-bankai-level='4']) {
+  font-size: var(--bankai-heading-size-4);
+  line-height: var(--bankai-heading-line-height-4);
+}
+
+:where(.bankai-heading[data-bankai-level='5']) {
+  font-size: var(--bankai-heading-size-5);
+  line-height: var(--bankai-heading-line-height-5);
+}
+
+:where(.bankai-heading[data-bankai-level='6']) {
+  font-size: var(--bankai-heading-size-6);
+  line-height: var(--bankai-heading-line-height-6);
+}
