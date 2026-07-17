@@ -94,6 +94,9 @@ _Phase 1 is deliberately front-loaded — it's a lot of components, but most are
 Form orchestration (`BankaiForm`) + the field wrapper (`BankaiField` / `BankaiFieldset`) + the native input set, ending with the heavier Combobox and the date/time family. Native-element-anchored throughout (§4.9); see the checklist for the full list.
 
 - **Open decision — Select strategy:** leaning native-modern — customizable `<select>` (`appearance: base-select`) as progressive enhancement over a styled-native baseline, rather than a from-scratch listbox. Confirm when Phase 2 starts (Baseline support timing is the deciding factor).
+- **Design note — form-state cascade (`disabled` / `loading`).** `BankaiForm` should be able to carry `:disabled` / `:loading` and have it flow down to descendant controls (`BankaiButton`, `BankaiInput`, …) via the F2 form context (inject). **Affected by default, per-component opt-out.** Two subtleties that shape the API — settle both at F2/`BankaiForm` time, don't pre-build:
+  - **Inherit vs. explicit-override (three-state).** A child needs to distinguish _unset → inherit the form_, _`true` → force on_, and _`false` → override the form_ (e.g. a Cancel button clickable during submit). A plain `boolean` with `default: false` collapses "unset" and "explicit false," erasing the inherit signal — so the opt-out can't be `:disabled="false"`. Model the child state as `boolean | undefined` (effective = `own ?? formState`) or add a dedicated detach control (`ignore-form-state`). This directly revisits `BankaiButton`'s `defineModel<boolean>('loading', { default: false })` (the `default: false` is what removes "inherit").
+  - **`loading` cascades by role, not verbatim.** A submitting form typically wants _all fields disabled + only the `type="submit"` action showing the spinner_ — not every button spinning. So the form context likely provides **both** `disabled` and `busy`, and each component consumes them by role (inputs/non-submit buttons → disabled; submit button → loading), rather than copying one flag down.
 
 ### Phase 3 — Overlays & disclosure _(F1)_
 
@@ -127,6 +130,18 @@ Not set in stone — these names and APIs are **provisional** and get developed 
 ### Phase 0 — Landed
 
 - [x] `BankaiButton`
+
+**`BankaiButton` — potential ideas (not committed; add the API when dogfooding needs it):**
+
+- **Loading / async state.** A busy state for actions in flight (form submit, async handlers). Shapes the point where `BankaiButton` graduates from pure attribute-fallthrough to a **declared `@click` emit** — the reason today's docs Events table is empty is that a native button forwards `@click` via `v-bind="attrs"` with nothing declared; once the button must _gate_ clicks while busy it has to re-emit its own, which then documents itself in the generated table.
+  - **`loading` via `defineModel`** — `const loading = defineModel<boolean>('loading', { default: false })` so a consumer can use either **`:loading`** (one-way, they own it) or **`v-model:loading`** (two-way, the component may flip it). Unbound → internal local state.
+  - **Interaction gating = `aria-disabled` + JS click-guard, _not_ native `disabled`.** While busy, reflect `data-bankai-loading` + `aria-busy="true"` + `aria-disabled="true"` and swallow the click in JS. Keeps the button focusable and screen-reader-announced (native `disabled` drops it from tab order and suppresses the busy announcement). `disabled` and `loading` stay distinct reflected states so the theme can paint them differently.
+  - **Gated `@click` emit** — signature `(event: MouseEvent, controls: { done: () => void; fail: () => void })`. First arg stays a real `MouseEvent`, so existing native expectations (`e.preventDefault()`, modifiers) survive the move off fallthrough; the click only fires when not busy/disabled.
+  - **`done` / `fail` both just set `loading = false`.** Two callbacks (not one) on purpose: this establishes the general **details-object-with-callbacks convention** (à la Quasar `QTree` `@lazy-load` → `{ done, fail, node, key }`) that later components reuse — not button-local trivia.
+  - **v1 scope** = controlled `loading` (`defineModel`) + gated emit. **"Managed mode"** (a click auto-sets busy and clears on `done`/`fail`) can layer on later with **no breaking change** — the emit already reserves the `controls` slot, and whether it surfaces upstream collapses into "did the consumer bind `v-model:loading`." Decide the exact opt-in shape at implementation time.
+  - **Depends on `BankaiSpinner`** (Phase 1) for the indicator — exposed as a `data-part="spinner"` element and/or a slot; core ships no CSS, the theme paints it (content stays mounted but visually hidden so width doesn't jump).
+  - **Form-context awareness.** `disabled`/`loading` must eventually read the F2 form context so a `BankaiForm :disabled`/`:loading` cascades down — including the inherit-vs-override (three-state) and cascade-by-role subtleties. See the _form-state cascade_ design note under Phase 2.
+  - **Two convention candidates to lift into `SPEC.md` when a 2nd component needs them** (don't pre-write): the **click-gating / re-emit contract** (when a component may swallow a native event and emit its own), and the **async "action controls" `{ done, fail }` payload** convention above.
 
 ### Phase 1 — Docs-shell dogfooding
 
