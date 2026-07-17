@@ -10,7 +10,7 @@ declare global {
    * Global declaration-merging is keyed by name, so it survives bundling.
    *
    * vue-router is the standard Vue router, so its types ship first-class — but as an opt-in augmentation
-   * rather than a hard import, so the router-free (`<a>`-only) path stays dependency-free (SPEC.md §5.5).
+   * rather than a hard import, so the router-free (`<a>`-only) path stays dependency-free.
    *
    * @example
    * ```jsonc

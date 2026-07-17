@@ -65,13 +65,13 @@ function readCoreExports(): unknown {
 }
 
 /**
- * First-party Nuxt module for bankai-vue (SPEC.md §4.12): auto-imports and SSR-safe registration for
+ * First-party Nuxt module for bankai-vue: auto-imports and SSR-safe registration for
  * `@bankai-vue/core` across SSR / SSG / client-only modes. The components are already SSR-safe on their
  * own (hydration-stable `useId`-based ids, no `window`/`document` at setup); this module wires them into
  * Nuxt's auto-import and provides the config per app so it stays per-request under SSR.
  *
  * It is deliberately theme-agnostic — it registers `@bankai-vue/core` only. The consumer picks and loads
- * a theme's CSS themselves (`css: ['@bankai-vue/theme-bankai']`), per SPEC.md §4.4.
+ * a theme's CSS themselves (`css: ['@bankai-vue/theme-bankai']`).
  */
 export default defineNuxtModule<ModuleOptions>({
   meta: {

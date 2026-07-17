@@ -24,7 +24,7 @@ export interface BankaiLinkSlots {
  *
  * `to` and `href` are **mutually exclusive**: they name the destination two different ways — router
  * navigation vs. a raw anchor — so setting both is a type error (a discriminated union with `never` on
- * the opposite branch, per the SPEC.md §5.6 no-silent-death stance), rather than silently dropping `to`.
+ * the opposite branch, per the no-silent-death stance), rather than silently dropping `to`.
  * Neither is required: a link with neither renders a bare `<a>` (e.g. a JS-driven control).
  */
 export type BankaiLinkProps = {

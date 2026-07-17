@@ -7,7 +7,7 @@
  * The `& Record<never, never>` brands `BaseType` so the compiler won't fold the literals into it
  * (`'a' | string` would otherwise widen to `string` and lose the suggestions).
  *
- * Vendored from type-fest to keep `@bankai-vue/core` dependency-free (SPEC.md §4.13):
+ * Vendored from type-fest to keep `@bankai-vue/core` dependency-free:
  * https://github.com/sindresorhus/type-fest/blob/main/source/literal-union.d.ts
  */
 export type LiteralUnion<LiteralType, BaseType extends string | number> =
