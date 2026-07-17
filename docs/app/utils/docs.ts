@@ -63,6 +63,11 @@ export const componentNav: NavItem[] = [
     tagline: 'Standalone <aside> complementary side rail.',
   },
   {
+    name: 'Main',
+    to: '/components/main',
+    tagline: 'Standalone <main> content region.',
+  },
+  {
     name: 'Container',
     to: '/components/container',
     tagline: 'Centered max-width width utility (↔ fluid).',

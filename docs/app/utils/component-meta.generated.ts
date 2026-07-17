@@ -322,6 +322,16 @@ export const componentMeta = {
     ],
     "events": []
   },
+  "BankaiMain": {
+    "props": [],
+    "slots": [
+      {
+        "name": "default",
+        "description": "The document's primary content — typically a BankaiPage / BankaiContainer and the page body."
+      }
+    ],
+    "events": []
+  },
   "BankaiText": {
     "props": [
       {

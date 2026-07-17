@@ -10,6 +10,7 @@ import {
   BankaiHeading,
   BankaiLayout,
   BankaiLink,
+  BankaiMain,
   BankaiText,
   version,
 } from '@bankai-vue/core';
@@ -152,6 +153,24 @@ const levels = [1, 2, 3, 4, 5, 6] as const;
           <span>API</span>
         </nav>
       </BankaiAside>
+    </section>
+
+    <!-- Note: this gallery also emits a <main> in the BankaiLayout demo above, so the sandbox has two
+         main landmarks — fine for a component gallery, not a pattern for a real page. -->
+    <section>
+      <h2>BankaiMain</h2>
+
+      <p>
+        Standalone <code>&lt;main&gt;</code> content region (the unique main landmark), for a shell
+        built without <code>BankaiLayout</code>. It paints nothing — no padding
+        (<code>BankaiContainer</code>'s job) and no background — but floors
+        <code>min-inline-size</code> so wide content shrinks with its container:
+      </p>
+
+      <BankaiMain data-testid="main" class="main-demo">
+        <strong>Primary content</strong>
+        <p class="main-wide">A_very_long_unbreakable_token_that_would_overflow_without_the_floor</p>
+      </BankaiMain>
     </section>
 
     <section>
@@ -311,6 +330,20 @@ const levels = [1, 2, 3, 4, 5, 6] as const;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+/* Bound the BankaiMain demo so the min-inline-size floor is observable (the wide token clips instead
+   of pushing the box wider). */
+.main-demo {
+  inline-size: 20rem;
+  padding: 0.75rem;
+  outline: 1px dashed color-mix(in oklch, currentcolor 30%, transparent);
+}
+
+.main-wide {
+  margin: 0.5rem 0 0;
+  overflow: hidden;
+  font-family: monospace;
 }
 
 /* Bound the BankaiContainer demo and shrink the max-width so the centered container's side bars are
