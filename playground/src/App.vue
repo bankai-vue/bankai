@@ -12,6 +12,7 @@ import {
   BankaiLayout,
   BankaiLink,
   BankaiMain,
+  BankaiPage,
   BankaiText,
   version,
 } from '@bankai-vue/core';
@@ -208,6 +209,23 @@ const levels = [1, 2, 3, 4, 5, 6] as const;
     </section>
 
     <section>
+      <h2>BankaiPage</h2>
+
+      <p>
+        Per-route content host — the box at the top of every route file. It is not a landmark (it
+        sits inside <code>&lt;main&gt;</code>) and paints nothing, but its min-block-size fills the
+        content region so a short route still occupies the full height (the frame is bounded here so
+        the fill is visible; the outlined box is the page):
+      </p>
+
+      <div class="page-demo">
+        <BankaiPage data-testid="page" class="page-box">
+          <p style="margin: 0">Short route content</p>
+        </BankaiPage>
+      </div>
+    </section>
+
+    <section>
       <h2>BankaiLink</h2>
 
       <p>
@@ -392,5 +410,18 @@ const levels = [1, 2, 3, 4, 5, 6] as const;
   text-align: center;
   border-radius: 0.375rem;
   background: color-mix(in oklch, currentcolor 8%, transparent);
+}
+
+/* Bound the BankaiPage demo with a definite block size so the min-block-size fill is observable (the
+   short one-line page stretches to the full frame height). */
+.page-demo {
+  block-size: 12rem;
+  padding: 0.5rem;
+  outline: 1px dashed color-mix(in oklch, currentcolor 30%, transparent);
+}
+
+.page-box {
+  padding: 0.75rem;
+  outline: 2px solid color-mix(in oklch, currentcolor 20%, transparent);
 }
 </style>

@@ -1,0 +1,29 @@
+/*
+ * BankaiPage — the per-route content host.
+ *
+ * Targets the `bankai-page` class (a plain `<div>` root). The rule is wrapped in `:where()` (zero
+ * specificity) so a consumer's own CSS or utility classes override it with a single plain class, no
+ * `!important` (SPEC.md §4.4, §4.6).
+ *
+ * BankaiPage paints nothing — width/gutter is `BankaiContainer`'s job and it is the page surface (no
+ * background). Its one house default is a min-block-size fill: the page host stretches to fill the
+ * content region (the `<main>` it sits in), so a short route still occupies the full height and pushes a
+ * footer to the bottom. The fill is `100%` (relative to the containing block), NOT a `100dvh`
+ * viewport unit — a viewport height would break embedded / side-by-side panes where the box is a fraction
+ * of the window (SPEC.md §4.19); `100%` fills whatever space the parent actually gives it. It resolves
+ * only when that parent has a definite block size (Layout's `1fr` main, an app-shell), and is a harmless
+ * no-op otherwise.
+ *
+ * The fill rides a `--bankai-page-*` custom property declared in `:where(:root)` below, so a consumer
+ * retunes or disables it (e.g. `auto`) by overriding a single property — no selector needed.
+ */
+
+:where(:root) {
+  /* Fill the content region so a short route still pushes a footer down. `100%` (containing-block
+   * relative), never a viewport unit — correct in embedded / side-by-side panes (SPEC.md §4.19). */
+  --bankai-page-min-block-size: 100%;
+}
+
+:where(.bankai-page) {
+  min-block-size: var(--bankai-page-min-block-size);
+}

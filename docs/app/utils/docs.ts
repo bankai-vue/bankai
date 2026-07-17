@@ -78,6 +78,11 @@ export const componentNav: NavItem[] = [
     tagline: 'Centered max-width width utility (↔ fluid).',
   },
   {
+    name: 'Page',
+    to: '/components/page',
+    tagline: 'Per-route content host inside <main>.',
+  },
+  {
     name: 'Link',
     to: '/components/link',
     tagline: 'Router-aware link — <a>, RouterLink, or NuxtLink.',
