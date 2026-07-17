@@ -7,8 +7,9 @@
  * Tailwind build, not shipped as static CSS. The grid template and `min-block-size` have no Tailwind
  * utility, so they ride `--bankai-layout-*` custom properties (declared in `:where(:root)` below at
  * parity with the house theme — structural values, identical in both themes), so a consumer retunes
- * one axis by overriding a single property. The per-region `grid-area` assignments stay literal. Every
- * rule stays wrapped in zero-specificity `:where()`, so a consumer's own CSS/utility classes targeting
+ * one axis by overriding a single property. The per-region `grid-area` assignments — keyed on the
+ * region CLASS (`BankaiLayout` composes those region components) — stay literal. Every rule stays
+ * wrapped in zero-specificity `:where()`, so a consumer's own CSS/utility classes targeting
  * `.bankai-layout` override the default track sizing without `!important` (SPEC.md §4.4, §4.6).
  */
 
@@ -30,18 +31,18 @@
   grid-template-areas: var(--bankai-layout-areas);
 }
 
-:where(.bankai-layout > [data-part='header']) {
+:where(.bankai-layout > .bankai-header) {
   grid-area: header;
 }
 
-:where(.bankai-layout > [data-part='sidebar']) {
+:where(.bankai-layout > .bankai-aside) {
   grid-area: sidebar;
 }
 
-:where(.bankai-layout > [data-part='main']) {
+:where(.bankai-layout > .bankai-main) {
   grid-area: main;
 }
 
-:where(.bankai-layout > [data-part='footer']) {
+:where(.bankai-layout > .bankai-footer) {
   grid-area: footer;
 }

@@ -1,8 +1,9 @@
 <script setup lang="ts">
 // Interim site header, rendered inside <BankaiLayout>'s #header slot → to be replaced by
 // <BankaiNavbar> once it lands (ROADMAP Phase 1). Uses <NuxtLink> so the /bankai/ base path + SPA
-// nav apply. BankaiLayout wraps this in the <header> banner landmark, so the root here is a plain
-// <div> — a nested <header> would create a duplicate banner landmark.
+// nav apply. BankaiLayout composes BankaiHeader for the #header slot, so this root is a plain <div>
+// (a nested <header> would duplicate the banner landmark) AND the banner bar look — inline/block
+// padding + a bottom border — now comes from BankaiHeader's theme paint, not this component.
 </script>
 
 <template>
@@ -31,11 +32,7 @@
 </template>
 
 <style scoped>
-.site-header {
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid var(--bankai-color-border, currentColor);
-}
-
+/* Padding + bottom border come from BankaiHeader's theme paint (BankaiLayout wraps this slot in one). */
 .brand {
   text-decoration: none;
   color: inherit;

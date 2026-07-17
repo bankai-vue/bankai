@@ -162,6 +162,17 @@ watch(
   column-gap: 2.5rem;
 }
 
+/* BankaiLayout now composes BankaiAside for the #sidebar slot, which ships a default region paint
+   (padding + an inline-end divider + background). The docs sidebar keeps its own bespoke styling
+   below, so opt that region out of the default paint — a plain-class override beats the theme's
+   zero-specificity `:where()` rules (SPEC §4.4). `:deep()` because the `.bankai-aside` is rendered
+   inside BankaiLayout, a child component, so it doesn't carry this layout's scope id. */
+.docs-layout :deep(.bankai-aside) {
+  padding: 0;
+  border-inline-end: none;
+  background: none;
+}
+
 .docs-sidebar {
   position: sticky;
   top: 2rem;

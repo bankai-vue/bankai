@@ -285,19 +285,19 @@ export const componentMeta = {
     "slots": [
       {
         "name": "header",
-        "description": "Top region — wrapped in <header data-part=\"header\"> (the banner landmark). Typically holds a navbar. Omitted from the DOM when not provided."
+        "description": "Top region — wrapped in a BankaiHeader (<header class=\"bankai-header\">, the banner landmark). Typically holds a navbar. Omitted from the DOM when not provided."
       },
       {
         "name": "sidebar",
-        "description": "Side region — wrapped in <aside data-part=\"sidebar\"> (the complementary landmark). Typically holds a sidebar nav. Omitted from the DOM when not provided."
+        "description": "Side region — wrapped in a BankaiAside (<aside class=\"bankai-aside\">, the complementary landmark). Typically holds a sidebar nav. Omitted from the DOM when not provided."
       },
       {
         "name": "footer",
-        "description": "Bottom region — wrapped in <footer data-part=\"footer\"> (the contentinfo landmark). Omitted from the DOM when not provided."
+        "description": "Bottom region — wrapped in a BankaiFooter (<footer class=\"bankai-footer\">, the contentinfo landmark). Omitted from the DOM when not provided."
       },
       {
         "name": "default",
-        "description": "Main content region — wrapped in <main data-part=\"main\"> (the main landmark), always rendered. The per-route host (BankaiPage) and content go here; nothing inside should render its own <main> (landmark uniqueness)."
+        "description": "Main content region — wrapped in a BankaiMain (<main class=\"bankai-main\">, the main landmark), always rendered. The per-route host (BankaiPage) and content go here; nothing inside should render its own <main> (landmark uniqueness)."
       }
     ],
     "events": []

@@ -5,8 +5,9 @@ definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiLayout · bankai-vue' });
 
 // BankaiLayout has no configuration props: the grid tracks are controlled with plain CSS against
-// `.bankai-layout` and the `data-part`s (SPEC §5.6), not a `view`-string DSL. Each slot maps to a
-// native landmark region — documented in the generated Slots table (from the SFC's slot JSDoc).
+// `.bankai-layout` and the region classes (SPEC §5.6), not a `view`-string DSL. It composes the region
+// components, so each slot maps to a `Bankai{Header,Aside,Main,Footer}` — documented in the generated
+// Slots table (from the SFC's slot JSDoc).
 
 // Rendered as text (not live) so this page does not nest a second <main> inside the docs shell —
 // landmark uniqueness is exactly what BankaiLayout protects.
@@ -50,13 +51,13 @@ const scrollCss = `/* app-shell: fixed header + footer, only main scrolls */
   block-size: 100dvh;
   min-block-size: 0;
 }
-.bankai-layout > [data-part='main'] {
+.bankai-layout > .bankai-main {
   overflow: auto;
   min-block-size: 0;
 }
 
 /* or, in the page-scroll default, just pin the header on scroll */
-.bankai-layout > [data-part='header'] {
+.bankai-layout > .bankai-header {
   position: sticky;
   inset-block-start: 0;
   z-index: 1;

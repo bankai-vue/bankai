@@ -1,11 +1,12 @@
 /*
  * BankaiLayout — the app-shell grid.
  *
- * Targets the `bankai-layout` class (the grid root) and its direct region children by `data-part`
- * (`header`/`sidebar`/`main`/`footer`). Every selector is wrapped in `:where()` (zero specificity)
- * so a consumer's own CSS or utility classes targeting `.bankai-layout` override the default track
- * sizing with a single plain class — no `!important` (SPEC.md §4.4, §4.6). There is no `view`-string
- * DSL: the consumer redefines the grid by setting `grid-template-*` on `.bankai-layout` directly.
+ * Targets the `bankai-layout` class (the grid root) and its direct region children by CLASS
+ * (`.bankai-header`/`.bankai-aside`/`.bankai-main`/`.bankai-footer` — `BankaiLayout` composes those
+ * region components). Every selector is wrapped in `:where()` (zero specificity) so a consumer's own
+ * CSS or utility classes targeting `.bankai-layout` override the default track sizing with a single
+ * plain class — no `!important` (SPEC.md §4.4, §4.6). There is no `view`-string DSL: the consumer
+ * redefines the grid by setting `grid-template-*` on `.bankai-layout` directly.
  *
  * Default shell: header spans the top, footer the bottom, sidebar sits left of the main content, and
  * `main` fills the remaining space. Because the region elements are emitted only when their slot is
@@ -16,7 +17,7 @@
  * The grid template + min block size ride `--bankai-layout-*` custom properties declared in
  * `:where(:root)` below, so a consumer retunes one axis — e.g. `--bankai-layout-columns` — by
  * overriding a single property, without redeclaring the whole grid. (The per-region `grid-area`
- * assignments stay literal: they pin each `data-part` to the named area the template references.)
+ * assignments stay literal: they pin each region class to the named area the template references.)
  */
 
 :where(:root) {
@@ -38,18 +39,18 @@
   grid-template-areas: var(--bankai-layout-areas);
 }
 
-:where(.bankai-layout > [data-part='header']) {
+:where(.bankai-layout > .bankai-header) {
   grid-area: header;
 }
 
-:where(.bankai-layout > [data-part='sidebar']) {
+:where(.bankai-layout > .bankai-aside) {
   grid-area: sidebar;
 }
 
-:where(.bankai-layout > [data-part='main']) {
+:where(.bankai-layout > .bankai-main) {
   grid-area: main;
 }
 
-:where(.bankai-layout > [data-part='footer']) {
+:where(.bankai-layout > .bankai-footer) {
   grid-area: footer;
 }
