@@ -32,8 +32,8 @@ const tokens: TokenRow[] = [
     <BankaiText as="p" size="lg" tone="muted">
       A width utility: centered at a themeable max-width by default, edge-to-edge with
       <BankaiCode>fluid</BankaiCode>. Reusable anywhere — a Card, a section, a hero — not once per
-      route. The width layer of App › Layout › Page › Container (SPEC §5.6); it is not a landmark
-      and never renders its own <BankaiCode>&lt;main&gt;</BankaiCode>.
+      route. The width layer of App › Layout › Page › Container; it is not a landmark and never
+      renders its own <BankaiCode>&lt;main&gt;</BankaiCode>.
     </BankaiText>
 
     <section class="doc-section">
@@ -60,12 +60,11 @@ const tokens: TokenRow[] = [
         the containing block, and <BankaiCode>margin-inline: auto</BankaiCode> centers within it. So
         a container caps at its max-width when there is room (bars on the sides) and
         <strong>collapses to edge-to-edge on its own</strong> when its parent is narrower — with no
-        media queries. This is deliberate (SPEC §4.19): it stays correct inside an embedded or
-        split-screen pane, where the viewport is wide but the container's box is only a fraction of
-        it — the case a viewport breakpoint gets wrong. <BankaiCode>fluid</BankaiCode> is for the
-        opposite intent: fill the width <em>even when</em> there is room for bars (full-bleed
-        heroes, dashboards). A full-bleed hero over a centered body is just two containers at
-        different widths.
+        media queries. This is deliberate: it stays correct inside an embedded or split-screen pane,
+        where the viewport is wide but the container's box is only a fraction of it — the case a
+        viewport breakpoint gets wrong. <BankaiCode>fluid</BankaiCode> is for the opposite intent:
+        fill the width <em>even when</em> there is room for bars (full-bleed heroes, dashboards). A
+        full-bleed hero over a centered body is just two containers at different widths.
       </BankaiText>
     </section>
 

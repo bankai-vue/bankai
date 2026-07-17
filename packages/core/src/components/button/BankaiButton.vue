@@ -9,7 +9,7 @@ import type { VNode } from 'vue';
  * Visual variant of a {@link BankaiButton}, reflected on the root as `data-bankai-variant`.
  * A named house variant (`solid`/`outline`/`ghost`) is styled by the theme; any other string is an
  * escape hatch — it reflects verbatim as `data-bankai-variant` so a consumer's `[data-bankai-variant='…']`
- * rule can style a custom variant (SPEC.md §4.4/§4.6). Unlike the `--bankai-*` custom-property escape
+ * rule can style a custom variant. Unlike the `--bankai-*` custom-property escape
  * hatches on `BankaiText`/`BankaiFlex`/`BankaiGrid`, a variant is a whole bundle of declarations, so the
  * raw `data-*` string is itself the hatch — there is no single custom property to carry.
  */
@@ -18,7 +18,7 @@ export type BankaiButtonVariant = LiteralUnion<'solid' | 'outline' | 'ghost', st
 /**
  * Size scale of a {@link BankaiButton}, reflected on the root as `data-bankai-size`.
  * A named step (`sm`/`md`/`lg`) is styled by the theme; any other string is an escape hatch — it reflects
- * verbatim as `data-bankai-size` for a consumer's `[data-bankai-size='…']` rule (SPEC.md §4.4/§4.6).
+ * verbatim as `data-bankai-size` for a consumer's `[data-bankai-size='…']` rule.
  */
 export type BankaiButtonSize = LiteralUnion<'sm' | 'md' | 'lg', string>;
 

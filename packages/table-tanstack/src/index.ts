@@ -1,5 +1,5 @@
 /**
- * Opt-in TanStack adapter for the bankai-vue DataTable (SPEC.md §4.10 / §5.3).
+ * Opt-in TanStack adapter for the bankai-vue DataTable.
  *
  * The TanStack-backed `DataTable<T>` and the `TableModel<T>` contract land with
  * the step-3 de-risking spike; this entry exists now only so the package,

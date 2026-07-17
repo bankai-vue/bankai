@@ -72,8 +72,8 @@ const tokens: TokenRow[] = [
       <BankaiText as="h2" size="xl" weight="bold">Native semantics, no props</BankaiText>
       <BankaiText as="p" size="sm" tone="muted">
         It renders a real <BankaiCode>&lt;code&gt;</BankaiCode>, so the phrasing semantics live on
-        the element itself (SPEC §4.9) — assistive tech and the browser treat it as code for free.
-        Today it takes no props; it is a pure, themeable wrapper. A polymorphic
+        the element itself — assistive tech and the browser treat it as code for free. Today it
+        takes no props; it is a pure, themeable wrapper. A polymorphic
         <BankaiCode>as</BankaiCode> (to reach the sibling monospace elements
         <BankaiCode>&lt;kbd&gt;</BankaiCode>, <BankaiCode>&lt;samp&gt;</BankaiCode>,
         <BankaiCode>&lt;var&gt;</BankaiCode>) may arrive later if dogfooding calls for it — a

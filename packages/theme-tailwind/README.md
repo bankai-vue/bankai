@@ -8,7 +8,7 @@ A **per-framework** theme for [`@bankai-vue/core`](../core). Where the house
 theme [`@bankai-vue/theme-bankai`](../theme-bankai) owns its own absolute design
 tokens, this theme leans on **Tailwind**: it **remaps** `core`'s semantic spacing
 scale onto Tailwind's `--spacing`, and styles components with **`@apply`** — so
-your Tailwind design language drives them (`SPEC.md` §4.6, §5.4).
+your Tailwind design language drives them.
 
 This is **not** a port of `theme-bankai`'s look. The goal is that components feel
 like they belong in a stock Tailwind project — a default Tailwind look-and-feel
