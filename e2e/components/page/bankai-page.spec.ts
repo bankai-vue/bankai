@@ -37,11 +37,14 @@ test.describe('page host + theme (theme-bankai page.css)', () => {
   }) => {
     const host = page.getByTestId('page');
 
-    // The house fill resolved from the theme: `100%` of the containing block (SPEC.md §4.19 — not a
-    // viewport unit). The fixture frame is 16rem tall, so the fill resolves to that pixel height.
-    expect(await host.evaluate((el) => getComputedStyle(el).minBlockSize)).toBe(`${16 * 16}px`);
+    // The house fill wired by the theme: `100%` of the containing block (SPEC.md §4.19 — not a
+    // viewport unit). `getComputedStyle` reports the computed value of a percentage `min-block-size`
+    // verbatim (unlike `height`/`width`, the `min-*`/`max-*` sizing properties are NOT resolved to
+    // pixels), so this locks that the `--bankai-page-min-block-size` token resolved to `100%`.
+    expect(await host.evaluate((el) => getComputedStyle(el).minBlockSize)).toBe('100%');
 
-    // With the fill, the short one-line page still stretches to the full 16rem frame height.
+    // …and it resolves to the frame's pixel height: the fixture frame is 16rem tall, so the short
+    // one-line page still stretches to the full 16rem instead of hugging its one line of content.
     expect(await height(host)).toBeGreaterThanOrEqual(16 * 16 - 1);
   });
 });
