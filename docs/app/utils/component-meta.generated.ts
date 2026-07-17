@@ -176,6 +176,16 @@ export const componentMeta = {
     ],
     "events": []
   },
+  "BankaiFooter": {
+    "props": [],
+    "slots": [
+      {
+        "name": "default",
+        "description": "Footer content — typically copyright, secondary navigation, or site meta."
+      }
+    ],
+    "events": []
+  },
   "BankaiGrid": {
     "props": [
       {

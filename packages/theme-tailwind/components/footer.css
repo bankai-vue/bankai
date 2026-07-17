@@ -1,0 +1,27 @@
+/*
+ * BankaiFooter — the standalone `<footer>` contentinfo region, Tailwind theme.
+ *
+ * Mirrors the house theme's `components/footer.css` (itself the flip of the header), styled `@apply`-first:
+ * the values with a clean Tailwind utility use it — `py-4` (block padding == 1rem), `px-6` (inline padding
+ * == 1.5rem), and `border-t` (the hairline TOP border width) — so the foot speaks the CONSUMER's Tailwind
+ * build (SPEC.md §4.6, §5.4). Because it uses `@apply`, this file is Tailwind *source* — it must be
+ * compiled by the consumer's Tailwind build, not shipped as static CSS. Only the two arbitrary-token colors
+ * have no clean utility, so they ride `--bankai-footer-*` custom properties: the top-border color and the
+ * background (the `bg` role, this theme's independent palette). Every rule stays wrapped in zero-specificity
+ * `:where()`, so a consumer's own CSS/utility classes override it without `!important` (SPEC.md §4.4, §4.6).
+ * (The full `--bankai-footer-*` token surface — padding, border width — lives in the house theme; here
+ * those are Tailwind utilities, the consumer's native override language.)
+ */
+
+:where(:root) {
+  /* Hairline top-border color — the `border` role. */
+  --bankai-footer-border-color: var(--bankai-color-border);
+  /* Painted onto its own box so a pinned footer stays opaque; matches the page surface when static. */
+  --bankai-footer-background: var(--bankai-color-bg);
+}
+
+:where(.bankai-footer) {
+  @apply py-4 px-6 border-t;
+  border-block-start-color: var(--bankai-footer-border-color);
+  background-color: var(--bankai-footer-background);
+}
