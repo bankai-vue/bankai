@@ -30,6 +30,23 @@ export interface ComponentMeta {
 }
 
 export const componentMeta = {
+  "BankaiAside": {
+    "props": [
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible name for the region, set as aria-label. A page can have several complementary landmarks, so label each one (e.g. \"Secondary navigation\", \"Filters\") to tell them apart in a screen reader's landmark list. Omit for a single, unambiguous aside. A consumer's own aria-label / aria-labelledby fallthrough takes precedence over this default."
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "description": "Side-rail content — typically a BankaiSidebar (sections, collapsible groups)."
+      }
+    ],
+    "events": []
+  },
   "BankaiButton": {
     "props": [
       {

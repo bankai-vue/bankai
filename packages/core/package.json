@@ -42,6 +42,10 @@
       "types": "./dist/composables/useBankaiId.d.ts",
       "import": "./dist/composables/useBankaiId.js"
     },
+    "./components/aside/BankaiAside": {
+      "types": "./dist/components/aside/BankaiAside.d.ts",
+      "import": "./dist/components/aside/BankaiAside.js"
+    },
     "./components/button/BankaiButton": {
       "types": "./dist/components/button/BankaiButton.d.ts",
       "import": "./dist/components/button/BankaiButton.js"
