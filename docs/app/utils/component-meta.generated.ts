@@ -226,6 +226,23 @@ export const componentMeta = {
     ],
     "events": []
   },
+  "BankaiHeading": {
+    "props": [
+      {
+        "name": "level",
+        "type": "1 | 2 | 3 | 4 | 5 | 6",
+        "required": true,
+        "description": "Heading level 1–6 → renders the native <h1>–<h6> and reflects data-bankai-level. Required — there is no safe default heading level, and a wrong one breaks the document outline assistive tech navigates by, so the level is always an explicit, deliberate choice."
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "description": "Heading content."
+      }
+    ],
+    "events": []
+  },
   "BankaiLayout": {
     "props": [],
     "slots": [

@@ -1,0 +1,5 @@
+---
+'@bankai-vue/theme-bankai': minor
+---
+
+Style `BankaiHeading` and introduce the heading type-scale tokens — maps its level (reflected as `data-bankai-level`) to per-level `font-size`/`line-height` at zero specificity (`:where()`), so a consumer's utility classes override without `!important`. Adds a heading-specific `--bankai-heading-size-*` / `--bankai-heading-line-height-*` scale (`1`–`6`, deliberately larger than the shared `--bankai-text-size-*` scale, which tops out at 1.5rem) plus a single `--bankai-heading-font-weight` and a `--bankai-heading-color` aliasing the foundation `--bankai-color-fg` — all declared under `:where(:root)`, so a step's size, leading, weight, or color can be retuned by overriding one custom property, no selector needed. Headings ship `margin: 0` (spacing is the layout's job) and `text-wrap: balance` to even multi-line headings. The styles key on `data-bankai-level` rather than the `<hN>` tag, keeping them independent of the element and ready for a future `size` prop.

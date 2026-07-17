@@ -39,6 +39,12 @@ export type {
   BankaiGridRows,
   BankaiGridSlots,
 } from './components/grid/BankaiGrid.vue';
+export { default as BankaiHeading } from './components/heading/BankaiHeading.vue';
+export type {
+  BankaiHeadingLevel,
+  BankaiHeadingProps,
+  BankaiHeadingSlots,
+} from './components/heading/BankaiHeading.vue';
 export { default as BankaiLayout } from './components/layout/BankaiLayout.vue';
 export type { BankaiLayoutSlots } from './components/layout/BankaiLayout.vue';
 export { default as BankaiLink } from './components/link/BankaiLink.vue';
