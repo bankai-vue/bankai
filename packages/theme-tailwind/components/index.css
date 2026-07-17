@@ -19,6 +19,7 @@
  * For finer granularity, import individual `components/<name>.css` files instead of this barrel.
  */
 
+@import './aside.css';
 @import './button.css';
 @import './code.css';
 @import './container.css';

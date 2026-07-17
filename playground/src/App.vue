@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {
+  BankaiAside,
   BankaiButton,
   BankaiCode,
   BankaiContainer,
@@ -132,6 +133,25 @@ const levels = [1, 2, 3, 4, 5, 6] as const;
           <nav class="header-nav"><span>Guide</span><span>Components</span></nav>
         </div>
       </BankaiHeader>
+    </section>
+
+    <section>
+      <h2>BankaiAside</h2>
+
+      <p>
+        Standalone <code>&lt;aside&gt;</code> complementary region (a side rail), for a shell built
+        without <code>BankaiLayout</code>. The <code>label</code> prop names the landmark; the theme
+        paints padding and an inline-end divider:
+      </p>
+
+      <BankaiAside data-testid="aside" label="Secondary navigation" class="aside-demo">
+        <nav class="aside-nav">
+          <strong>Section</strong>
+          <span>Overview</span>
+          <span>Guides</span>
+          <span>API</span>
+        </nav>
+      </BankaiAside>
     </section>
 
     <section>
@@ -280,6 +300,17 @@ const levels = [1, 2, 3, 4, 5, 6] as const;
 .header-nav {
   display: flex;
   gap: 1rem;
+}
+
+/* Bound the BankaiAside demo so the rail reads as a fixed column. */
+.aside-demo {
+  inline-size: 12rem;
+}
+
+.aside-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 /* Bound the BankaiContainer demo and shrink the max-width so the centered container's side bars are

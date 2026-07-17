@@ -1,0 +1,27 @@
+/*
+ * BankaiAside — the standalone `<aside>` complementary region (side rail), Tailwind theme.
+ *
+ * Mirrors the house theme's `components/aside.css`, styled `@apply`-first: the values with a clean
+ * Tailwind utility use it — `p-4` (block + inline padding == 1rem) and `border-e` (the inline-end divider
+ * width) — so the rail speaks the CONSUMER's Tailwind build (SPEC.md §4.6, §5.4). Because it uses
+ * `@apply`, this file is Tailwind *source* — it must be compiled by the consumer's Tailwind build, not
+ * shipped as static CSS. Only the two arbitrary-token colors have no clean utility, so they ride
+ * `--bankai-aside-*` custom properties: the divider color and the background (the `bg` role, this theme's
+ * independent palette). Every rule stays wrapped in zero-specificity `:where()`, so a consumer's own
+ * CSS/utility classes override it without `!important` (SPEC.md §4.4, §4.6). (The full `--bankai-aside-*`
+ * token surface — padding, border width — lives in the house theme; here those are Tailwind utilities,
+ * the consumer's native override language.)
+ */
+
+:where(:root) {
+  /* Inline-end divider color — the `border` role. */
+  --bankai-aside-border-color: var(--bankai-color-border);
+  /* Painted onto its own box so a sticky rail stays opaque; matches the page surface when static. */
+  --bankai-aside-background: var(--bankai-color-bg);
+}
+
+:where(.bankai-aside) {
+  @apply p-4 border-e;
+  border-inline-end-color: var(--bankai-aside-border-color);
+  background-color: var(--bankai-aside-background);
+}

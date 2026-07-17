@@ -13,6 +13,7 @@ export default defineConfig({
     'src/vue-router.ts',
     'src/composables/usePrefixedId.ts',
     'src/composables/useBankaiId.ts',
+    'src/components/aside/BankaiAside.vue',
     'src/components/button/BankaiButton.vue',
     'src/components/code/BankaiCode.vue',
     'src/components/container/BankaiContainer.vue',

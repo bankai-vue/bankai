@@ -1,0 +1,31 @@
+/*
+ * BankaiAside — the standalone `<aside>` complementary region (side rail).
+ *
+ * Targets the `bankai-aside` class (the native `<aside>` root). Every selector is wrapped in `:where()`
+ * (zero specificity) so a consumer's own CSS or utility classes — Tailwind `p-*` / `border-*` / `bg-*`,
+ * Bootstrap, UnoCSS — override any rule below with a single plain class, no `!important` (SPEC.md §4.4, §4.6).
+ *
+ * The house look is a quiet side rail: even block/inline padding, a hairline divider on the inline-end
+ * (the edge facing the main content — logical, so it flips under RTL), and the page background on its own
+ * box (so a sticky rail stays opaque; a no-op when static against the same page surface). Every value rides
+ * a `--bankai-aside-*` custom property declared in `:where(:root)` below, so a consumer retunes the rail
+ * (padding, divider, background) by overriding one property — no selector needed.
+ */
+
+:where(:root) {
+  /* Block (top/bottom) + inline (start/end) padding — the shared spacing scale. */
+  --bankai-aside-padding-block: var(--bankai-space-8);
+  --bankai-aside-padding-inline: var(--bankai-space-8);
+  /* Hairline divider on the inline-end edge, separating the rail from the main content. */
+  --bankai-aside-border-width: 1px;
+  --bankai-aside-border-color: var(--bankai-color-border);
+  /* Painted onto its own box so a sticky rail stays opaque; matches the page surface when static. */
+  --bankai-aside-background: var(--bankai-color-bg);
+}
+
+:where(.bankai-aside) {
+  padding-block: var(--bankai-aside-padding-block);
+  padding-inline: var(--bankai-aside-padding-inline);
+  border-inline-end: var(--bankai-aside-border-width) solid var(--bankai-aside-border-color);
+  background-color: var(--bankai-aside-background);
+}
