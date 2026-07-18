@@ -46,6 +46,11 @@ export const componentNav: NavItem[] = [
   },
   { name: 'Code', to: '/components/code', tagline: 'Inline code — native <code> chip.' },
   {
+    name: 'CodeBlock',
+    to: '/components/code-block',
+    tagline: 'Block <pre><code> with a copy button.',
+  },
+  {
     name: 'Heading',
     to: '/components/heading',
     tagline: 'Native <h1>–<h6> via a required level.',

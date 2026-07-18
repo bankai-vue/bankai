@@ -13,6 +13,11 @@ export type {
 } from './components/button/BankaiButton.vue';
 export { default as BankaiCode } from './components/code/BankaiCode.vue';
 export type { BankaiCodeSlots } from './components/code/BankaiCode.vue';
+export { default as BankaiCodeBlock } from './components/code-block/BankaiCodeBlock.vue';
+export type {
+  BankaiCodeBlockProps,
+  BankaiCodeBlockSlots,
+} from './components/code-block/BankaiCodeBlock.vue';
 export { default as BankaiContainer } from './components/container/BankaiContainer.vue';
 export type {
   BankaiContainerAs,

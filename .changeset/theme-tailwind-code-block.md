@@ -1,0 +1,5 @@
+---
+'@bankai-vue/theme-tailwind': minor
+---
+
+Style `BankaiCodeBlock` in the Tailwind theme, `@apply`-first — values with a clean Tailwind utility use it (`relative`, `rounded-md`, `font-mono`, `text-sm`/`leading-relaxed`, `overflow-x-auto`, `p-4`, and `sr-only` for the live region) so the panel speaks the consumer's Tailwind build; only values with no clean utility ride a `--bankai-code-block-*` custom property: `--bankai-code-block-bg` (the `surface` role) and `--bankai-code-block-copy-offset` (the copy toolbar pins with logical `inset-block-start` / `inset-inline-end` so it flips under RTL and vertical writing modes, which Tailwind's physical `top`/scalar `end` utilities don't express). Every rule stays wrapped in zero-specificity `:where()`, so a consumer's own CSS/utility classes override it without `!important`. The full `--bankai-code-block-*` token surface (font-family, radius, padding, line-height) lives in the house theme; here those are Tailwind utilities, the consumer's native override language.

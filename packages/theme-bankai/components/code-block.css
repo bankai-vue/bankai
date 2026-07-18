@@ -1,0 +1,78 @@
+/*
+ * BankaiCodeBlock — block (fenced) code with a copy button.
+ *
+ * Targets the `bankai-code-block` class (a `<div>` root wrapping a native `<pre><code>`) and its
+ * `data-part`s (`pre`/`code`/`copy`/`status`). Every selector is wrapped in `:where()` (zero specificity)
+ * so a consumer's own CSS or utility classes — Tailwind `bg-*`/`rounded-*`/`p-*`, Bootstrap, UnoCSS —
+ * override any rule below with a single plain class, no `!important` (SPEC.md §4.4, §4.6).
+ *
+ * The look is a raised code panel: the house monospace stack, a slightly smaller size, the `surface`
+ * background, and the house corner radius. The `<pre>` scrolls horizontally on its own (`overflow-x`) so a
+ * long line never widens the layout. The copy button (a composed `BankaiButton`, already themed by
+ * `button.css`) sits in a toolbar pinned to the block's top inline-end corner — outside the scrolling
+ * `<pre>`, so it stays put while the code scrolls. The `role="status"` live region is visually hidden
+ * (sr-only): it exists only to announce the copy to assistive tech.
+ *
+ * Every value rides a `--bankai-code-block-*` custom property declared in `:where(:root)` below, so a
+ * consumer retunes the panel (color, radius, size, padding, the copy offset) by overriding one property —
+ * no selector needed.
+ */
+
+:where(:root) {
+  /* Panel surface — a raised `surface` against the page, matching the inline `BankaiCode` chip. */
+  --bankai-code-block-bg: var(--bankai-color-surface);
+  /* Font family — the shared house monospace stack (also feeds inline `BankaiCode`). */
+  --bankai-code-block-font-family: var(--bankai-font-mono);
+  /* A slightly smaller, denser size than body text, with a comfortable code line-height. */
+  --bankai-code-block-font-size: var(--bankai-text-size-sm);
+  --bankai-code-block-line-height: 1.6;
+  /* Corner radius — the house radius by default. */
+  --bankai-code-block-radius: var(--bankai-radius);
+  /* Panel padding (the scrolling `<pre>`). */
+  --bankai-code-block-padding-block: var(--bankai-space-8);
+  --bankai-code-block-padding-inline: var(--bankai-space-8);
+  /* Inset of the copy toolbar from the block's top inline-end corner. */
+  --bankai-code-block-copy-offset: var(--bankai-space-4);
+}
+
+:where(.bankai-code-block) {
+  position: relative;
+  margin: 0;
+  background-color: var(--bankai-code-block-bg);
+  border-radius: var(--bankai-code-block-radius);
+  font-family: var(--bankai-code-block-font-family);
+  font-size: var(--bankai-code-block-font-size);
+  line-height: var(--bankai-code-block-line-height);
+}
+
+:where(.bankai-code-block > [data-part='pre']) {
+  margin: 0;
+  overflow-x: auto;
+  padding-block: var(--bankai-code-block-padding-block);
+  padding-inline: var(--bankai-code-block-padding-inline);
+}
+
+/* The `<code>` inherits the panel font; a BYO highlighter's `language-*` class styles it further. */
+:where(.bankai-code-block [data-part='code']) {
+  font-family: inherit;
+}
+
+/* Copy toolbar — pinned to the top inline-end corner, outside the scrolling `<pre>` so it stays put. */
+:where(.bankai-code-block > [data-part='copy']) {
+  position: absolute;
+  inset-block-start: var(--bankai-code-block-copy-offset);
+  inset-inline-end: var(--bankai-code-block-copy-offset);
+}
+
+/* The `role="status"` live region: sr-only. Present in the DOM (so it can announce) but visually hidden. */
+:where(.bankai-code-block [data-part='status']) {
+  position: absolute;
+  clip-path: inset(50%);
+  overflow: hidden;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  white-space: nowrap;
+  border: 0;
+}

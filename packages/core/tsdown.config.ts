@@ -17,6 +17,7 @@ export default defineConfig({
     'src/components/aside/BankaiAside.vue',
     'src/components/button/BankaiButton.vue',
     'src/components/code/BankaiCode.vue',
+    'src/components/code-block/BankaiCodeBlock.vue',
     'src/components/container/BankaiContainer.vue',
     'src/components/flex/BankaiFlex.vue',
     'src/components/footer/BankaiFooter.vue',
