@@ -63,11 +63,19 @@ export interface BankaiCodeBlockProps {
    * @default 'Copied'
    */
   copiedLabel?: string;
+  /**
+   * How long (ms) the copy button stays in its "copied" state after a successful copy before reverting
+   * to idle. Overrides the global `codeBlockCopiedDuration` config ({@link BankaiConfig}) for this block.
+   *
+   * @default 2000
+   */
+  copiedDuration?: number;
 }
 </script>
 
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, ref, useAttrs } from 'vue';
+import { useBankaiConfig } from '../../config';
 import BankaiButton from '../button/BankaiButton.vue';
 
 const {
@@ -76,6 +84,7 @@ const {
   copyable = true,
   copyLabel = 'Copy',
   copiedLabel = 'Copied',
+  copiedDuration,
 } = defineProps<BankaiCodeBlockProps>();
 
 /**
@@ -93,16 +102,13 @@ defineOptions({ name: 'BankaiCodeBlock', inheritAttrs: false });
 // `data-bankai-copied` can't be clobbered by a consumer fallthrough (SPEC.md §4.4, §5.6). `class`/`style`
 // still merge. Attrs land on the root only; the composed `BankaiButton` keeps its own anatomy.
 const attrs = useAttrs();
+const config = useBankaiConfig();
 
 // The de-facto highlighter hook: `language-<lang>` on the `<code>` (Prism/highlight.js read it), absent
 // when no language is set so the DOM stays clean.
 const languageClass = computed<string | undefined>(() =>
   language ? `language-${language}` : undefined,
 );
-
-// How long the "copied" feedback (button label swap + `data-bankai-copied` + the announced status)
-// persists before reverting to the idle state.
-const COPIED_RESET_MS = 2000;
 
 const copied = ref(false);
 
@@ -130,10 +136,12 @@ async function handleCopy(): Promise<void> {
     if (resetTimer) {
       clearTimeout(resetTimer);
     }
+    // Per-instance `copiedDuration` overrides the global config; `??` (not `||`) so an explicit `0`
+    // (revert on the next tick) is honored rather than falling back to the default.
     resetTimer = setTimeout(() => {
       copied.value = false;
       announcement.value = '';
-    }, COPIED_RESET_MS);
+    }, copiedDuration ?? config.codeBlockCopiedDuration);
   } catch {
     // Clipboard API unavailable (insecure context) or permission denied — leave the idle state, so the
     // component never claims a copy that did not happen.

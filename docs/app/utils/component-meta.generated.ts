@@ -130,6 +130,12 @@ export const componentMeta = {
         "required": false,
         "description": "The button's label text after a successful copy (when the copy slot is not used) and the message announced by the role=\"status\" live region. Overriding both labels localizes the component with no extra config surface.",
         "default": "'Copied'"
+      },
+      {
+        "name": "copiedDuration",
+        "type": "number",
+        "required": false,
+        "description": "How long (ms) the copy button stays in its \"copied\" state after a successful copy before reverting to idle. Overrides the global codeBlockCopiedDuration config (BankaiConfig ) for this block."
       }
     ],
     "slots": [

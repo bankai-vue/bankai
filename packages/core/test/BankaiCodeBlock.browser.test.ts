@@ -158,6 +158,22 @@ test('re-announces on a repeat copy within the window', async () => {
   teardown();
 });
 
+test('reverts the copied state after the per-instance `copiedDuration`', async () => {
+  stubClipboard();
+  const { root, teardown } = mountCodeBlock({ code: 'x', copiedDuration: 50 });
+
+  const status = root.querySelector('[data-part="status"]');
+  root.querySelector<HTMLButtonElement>('.bankai-code-block-copy')?.click();
+
+  // A short duration reverts the copied state (flag + live region) on its own.
+  await vi.waitFor(() => {
+    expect(Object.hasOwn(root.dataset, 'bankaiCopied')).toBe(false);
+    expect(status?.textContent).toBe('');
+  });
+
+  teardown();
+});
+
 test('copies the `code` prop verbatim even when the default slot renders custom markup', async () => {
   const writeText = stubClipboard();
   const { root, teardown } = mountCodeBlock(

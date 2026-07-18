@@ -13,6 +13,7 @@ describe('BankaiCodeBlockProps', () => {
       copyable?: boolean;
       copyLabel?: string;
       copiedLabel?: string;
+      copiedDuration?: number;
     }>();
   });
 

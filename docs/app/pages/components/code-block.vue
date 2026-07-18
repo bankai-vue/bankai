@@ -90,14 +90,17 @@ const tokens: TokenRow[] = [
       <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Accessible copy</BankaiText>
         <BankaiText as="p" size="sm" tone="muted">
-          The copy button is a composed <BankaiCode>BankaiButton</BankaiCode> with a stable
-          accessible name; a successful copy is announced through a visually hidden
-          <BankaiCode>role="status"</BankaiCode> live region. Override the
-          <BankaiCode>copyLabel</BankaiCode> / <BankaiCode>copiedLabel</BankaiCode> props to
-          localize both the button text and the announcement, use the
-          <BankaiCode>copy</BankaiCode> slot (which receives the
+          The copy button is a composed <BankaiCode>BankaiButton</BankaiCode> whose accessible name
+          tracks its visible label; a successful copy is announced (and re-announced on a repeat
+          copy) through a visually hidden <BankaiCode>role="status"</BankaiCode> live region.
+          Override the <BankaiCode>copyLabel</BankaiCode> /
+          <BankaiCode>copiedLabel</BankaiCode> props to localize both the button text and the
+          announcement, use the <BankaiCode>copy</BankaiCode> slot (which receives the
           <BankaiCode>copied</BankaiCode> state) to swap in an icon, or set
-          <BankaiCode>:copyable="false"</BankaiCode> to drop the button entirely.
+          <BankaiCode>:copyable="false"</BankaiCode> to drop the button entirely. The copied state's
+          duration is tunable per-block via <BankaiCode>copiedDuration</BankaiCode> (ms) and
+          globally via <BankaiCode>BankaiConfig.codeBlockCopiedDuration</BankaiCode> (default
+          <BankaiCode>2000</BankaiCode>).
         </BankaiText>
       </BankaiFlex>
 

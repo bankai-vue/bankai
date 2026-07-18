@@ -48,10 +48,19 @@ export interface BankaiConfig {
    * @default true
    */
   linkNoopener: boolean;
+  /**
+   * How long (ms) `BankaiCodeBlock`'s copy button stays in its "copied" state after a successful copy —
+   * the window during which it reflects `data-bankai-copied`, shows `copiedLabel`, and its `role="status"`
+   * region announces the copy — before reverting to idle. A per-instance `copiedDuration` prop overrides
+   * it for a single block.
+   *
+   * @default 2000
+   */
+  codeBlockCopiedDuration: number;
 }
 
 function createDefaultConfig(): BankaiConfig {
-  return { idGeneration: true, warnings: true, linkNoopener: true };
+  return { idGeneration: true, warnings: true, linkNoopener: true, codeBlockCopiedDuration: 2000 };
 }
 
 const injectionKey: InjectionKey<BankaiConfig> = Symbol('bankai:config');
