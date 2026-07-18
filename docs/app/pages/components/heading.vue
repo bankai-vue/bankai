@@ -56,18 +56,6 @@ const levels = [1, 2, 3, 4, 5, 6] as const;
       </BankaiFlex>
 
       <ComponentApi :meta="componentMeta.BankaiHeading" />
-
-      <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiHeading :level="2">{{ t('comp.heading.themingHeading') }}</BankaiHeading>
-        <BankaiText as="p" size="sm" tone="muted">
-          <i18n-t keypath="comp.heading.themingBody" tag="span" scope="global">
-            <template #vars><BankaiCode>--bankai-heading-*</BankaiCode></template>
-            <template #root><BankaiCode>:root</BankaiCode></template>
-            <template #important><BankaiCode>!important</BankaiCode></template>
-            <template #example><BankaiCode>--bankai-heading-size-1</BankaiCode></template>
-          </i18n-t>
-        </BankaiText>
-      </BankaiFlex>
     </BankaiFlex>
   </BankaiPage>
 </template>

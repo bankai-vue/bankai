@@ -1,30 +1,10 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { componentMeta } from '../../utils/component-meta.generated';
 
 const { t } = useI18n();
 
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiContainer · bankai-vue' });
-
-// The two theme knobs, documented so a consumer knows what to override (both are `:where(:root)` custom
-// properties, so a single plain declaration retunes them — no selector, no `!important`). Purposes are
-// localized, so this is a computed that re-evaluates when the locale switches.
-interface TokenRow {
-  token: string;
-  purpose: string;
-}
-
-const tokens = computed<TokenRow[]>(() => [
-  {
-    token: '--bankai-container-max-width',
-    purpose: t('comp.container.tokens.maxWidth'),
-  },
-  {
-    token: '--bankai-container-gutter',
-    purpose: t('comp.container.tokens.gutter'),
-  },
-]);
 
 // The max-width is shrunk on the demo wrappers (a plain declaration beats the theme's zero-specificity
 // token) so the centered container's side bars are visible in a narrow doc column.
@@ -76,35 +56,6 @@ const tokens = computed<TokenRow[]>(() => [
       </BankaiFlex>
 
       <ComponentApi :meta="componentMeta.BankaiContainer" />
-
-      <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">{{
-          t('comp.container.themingHeading')
-        }}</BankaiText>
-        <BankaiText size="sm" tone="muted">
-          <i18n-t keypath="comp.container.themingBody" tag="span" scope="global">
-            <template #root><BankaiCode>:root</BankaiCode></template>
-          </i18n-t>
-        </BankaiText>
-        <div class="tokens-wrap">
-          <table class="tokens">
-            <thead>
-              <tr>
-                <th>{{ t('table.token') }}</th>
-                <th>{{ t('table.purpose') }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="row in tokens" :key="row.token">
-                <td>
-                  <BankaiCode>{{ row.token }}</BankaiCode>
-                </td>
-                <td>{{ row.purpose }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </BankaiFlex>
     </BankaiFlex>
   </BankaiPage>
 </template>
@@ -131,32 +82,5 @@ const tokens = computed<TokenRow[]>(() => [
   text-align: center;
   border-radius: 0.5rem;
   background: color-mix(in oklch, currentcolor 10%, transparent);
-}
-
-.tokens-wrap {
-  overflow-x: auto;
-}
-
-.tokens {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: var(--bankai-text-size-sm, 0.875rem);
-}
-
-.tokens th,
-.tokens td {
-  padding: 0.5rem 0.75rem;
-  text-align: left;
-  vertical-align: top;
-  border-bottom: 1px solid var(--bankai-color-border, currentColor);
-}
-
-.tokens th {
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.tokens code {
-  white-space: nowrap;
 }
 </style>

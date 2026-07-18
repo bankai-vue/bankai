@@ -23,10 +23,29 @@ export interface MetaEvent {
   description: string;
 }
 
+export interface MetaExpose {
+  name: string;
+  type: string;
+  description: string;
+}
+
+export interface MetaThemeToken {
+  name: string;
+  value: string;
+}
+
 export interface ComponentMeta {
   props: MetaProp[];
   slots: MetaSlot[];
   events: MetaEvent[];
+  exposed: MetaExpose[];
+  /**
+   * CSS custom-property token surface per theme (the `--bankai-<component>-*` declarations with their
+   * default value). Keyed by theme so the docs table can switch with the active theme; `bankai` (the house
+   * theme) is populated today. Token *purpose* prose is localized in the docs i18n messages, keyed by token
+   * name — it is theme-independent.
+   */
+  theming: { bankai: MetaThemeToken[] };
 }
 
 export const componentMeta = {
@@ -38,7 +57,11 @@ export const componentMeta = {
         "description": "The whole application — typically a BankaiLayout (or a standalone region shell) and its routes."
       }
     ],
-    "events": []
+    "events": [],
+    "exposed": [],
+    "theming": {
+      "bankai": []
+    }
   },
   "BankaiAside": {
     "props": [
@@ -55,7 +78,32 @@ export const componentMeta = {
         "description": "Side-rail content — typically a BankaiSidebar (sections, collapsible groups)."
       }
     ],
-    "events": []
+    "events": [],
+    "exposed": [],
+    "theming": {
+      "bankai": [
+        {
+          "name": "--bankai-aside-padding-block",
+          "value": "var(--bankai-space-8)"
+        },
+        {
+          "name": "--bankai-aside-padding-inline",
+          "value": "var(--bankai-space-8)"
+        },
+        {
+          "name": "--bankai-aside-border-width",
+          "value": "1px"
+        },
+        {
+          "name": "--bankai-aside-border-color",
+          "value": "var(--bankai-color-border)"
+        },
+        {
+          "name": "--bankai-aside-background",
+          "value": "var(--bankai-color-bg)"
+        }
+      ]
+    }
   },
   "BankaiButton": {
     "props": [
@@ -94,7 +142,132 @@ export const componentMeta = {
         "description": "Button content — label and/or icons."
       }
     ],
-    "events": []
+    "events": [],
+    "exposed": [],
+    "theming": {
+      "bankai": [
+        {
+          "name": "--bankai-button-fg",
+          "value": "var(--bankai-color-primary-fg)"
+        },
+        {
+          "name": "--bankai-button-bg",
+          "value": "var(--bankai-color-primary)"
+        },
+        {
+          "name": "--bankai-button-bg-hover",
+          "value": "color-mix(in oklch, var(--bankai-button-bg), black 12%)"
+        },
+        {
+          "name": "--bankai-button-bg-active",
+          "value": "color-mix(in oklch, var(--bankai-button-bg), black 20%)"
+        },
+        {
+          "name": "--bankai-button-bg-hover-quiet",
+          "value": "color-mix(in oklch, currentcolor 8%, transparent)"
+        },
+        {
+          "name": "--bankai-button-bg-active-quiet",
+          "value": "color-mix(in oklch, currentcolor 14%, transparent)"
+        },
+        {
+          "name": "--bankai-button-border-width",
+          "value": "1px"
+        },
+        {
+          "name": "--bankai-button-border-style",
+          "value": "solid"
+        },
+        {
+          "name": "--bankai-button-border-color",
+          "value": "transparent"
+        },
+        {
+          "name": "--bankai-button-radius",
+          "value": "var(--bankai-radius)"
+        },
+        {
+          "name": "--bankai-button-display",
+          "value": "inline-flex"
+        },
+        {
+          "name": "--bankai-button-align",
+          "value": "center"
+        },
+        {
+          "name": "--bankai-button-gap",
+          "value": "var(--bankai-space-4)"
+        },
+        {
+          "name": "--bankai-button-font",
+          "value": "inherit"
+        },
+        {
+          "name": "--bankai-button-cursor",
+          "value": "pointer"
+        },
+        {
+          "name": "--bankai-button-transition",
+          "value": "background-color 150ms ease, border-color 150ms ease, color 150ms ease"
+        },
+        {
+          "name": "--bankai-button-focus-ring",
+          "value": "var(--bankai-focus-ring)"
+        },
+        {
+          "name": "--bankai-button-focus-outline-width",
+          "value": "2px"
+        },
+        {
+          "name": "--bankai-button-focus-outline-offset",
+          "value": "2px"
+        },
+        {
+          "name": "--bankai-button-disabled-opacity",
+          "value": "0.5"
+        },
+        {
+          "name": "--bankai-button-disabled-cursor",
+          "value": "not-allowed"
+        },
+        {
+          "name": "--bankai-button-sm-padding-y",
+          "value": "var(--bankai-space-1)"
+        },
+        {
+          "name": "--bankai-button-sm-padding-x",
+          "value": "var(--bankai-space-4)"
+        },
+        {
+          "name": "--bankai-button-sm-font-size",
+          "value": "var(--bankai-text-size-sm)"
+        },
+        {
+          "name": "--bankai-button-md-padding-y",
+          "value": "var(--bankai-space-3)"
+        },
+        {
+          "name": "--bankai-button-md-padding-x",
+          "value": "var(--bankai-space-6)"
+        },
+        {
+          "name": "--bankai-button-md-font-size",
+          "value": "var(--bankai-text-size-md)"
+        },
+        {
+          "name": "--bankai-button-lg-padding-y",
+          "value": "var(--bankai-space-4)"
+        },
+        {
+          "name": "--bankai-button-lg-padding-x",
+          "value": "var(--bankai-space-8)"
+        },
+        {
+          "name": "--bankai-button-lg-font-size",
+          "value": "var(--bankai-text-size-lg)"
+        }
+      ]
+    }
   },
   "BankaiCodeBlock": {
     "props": [
@@ -146,7 +319,44 @@ export const componentMeta = {
         "description": "Copy-button content. Receives the current copied state so a consumer can swap label/icon. When omitted, the button shows the copyLabel / copiedLabel text."
       }
     ],
-    "events": []
+    "events": [],
+    "exposed": [],
+    "theming": {
+      "bankai": [
+        {
+          "name": "--bankai-code-block-bg",
+          "value": "var(--bankai-color-surface)"
+        },
+        {
+          "name": "--bankai-code-block-font-family",
+          "value": "var(--bankai-font-mono)"
+        },
+        {
+          "name": "--bankai-code-block-font-size",
+          "value": "var(--bankai-text-size-sm)"
+        },
+        {
+          "name": "--bankai-code-block-line-height",
+          "value": "1.6"
+        },
+        {
+          "name": "--bankai-code-block-radius",
+          "value": "var(--bankai-radius)"
+        },
+        {
+          "name": "--bankai-code-block-padding-block",
+          "value": "var(--bankai-space-8)"
+        },
+        {
+          "name": "--bankai-code-block-padding-inline",
+          "value": "var(--bankai-space-8)"
+        },
+        {
+          "name": "--bankai-code-block-copy-offset",
+          "value": "var(--bankai-space-4)"
+        }
+      ]
+    }
   },
   "BankaiCode": {
     "props": [],
@@ -156,7 +366,36 @@ export const componentMeta = {
         "description": "Inline code content — an identifier, token, path, or short snippet."
       }
     ],
-    "events": []
+    "events": [],
+    "exposed": [],
+    "theming": {
+      "bankai": [
+        {
+          "name": "--bankai-code-font-family",
+          "value": "var(--bankai-font-mono)"
+        },
+        {
+          "name": "--bankai-code-bg",
+          "value": "var(--bankai-color-surface)"
+        },
+        {
+          "name": "--bankai-code-radius",
+          "value": "var(--bankai-radius)"
+        },
+        {
+          "name": "--bankai-code-font-size",
+          "value": "0.875em"
+        },
+        {
+          "name": "--bankai-code-padding-block",
+          "value": "0.125em"
+        },
+        {
+          "name": "--bankai-code-padding-inline",
+          "value": "0.25em"
+        }
+      ]
+    }
   },
   "BankaiContainer": {
     "props": [
@@ -181,7 +420,20 @@ export const componentMeta = {
         "description": "Container children — the content whose width is constrained."
       }
     ],
-    "events": []
+    "events": [],
+    "exposed": [],
+    "theming": {
+      "bankai": [
+        {
+          "name": "--bankai-container-max-width",
+          "value": "80rem"
+        },
+        {
+          "name": "--bankai-container-gutter",
+          "value": "var(--bankai-space-8, 1rem)"
+        }
+      ]
+    }
   },
   "BankaiFlex": {
     "props": [
@@ -236,7 +488,11 @@ export const componentMeta = {
         "description": "Flex children."
       }
     ],
-    "events": []
+    "events": [],
+    "exposed": [],
+    "theming": {
+      "bankai": []
+    }
   },
   "BankaiFooter": {
     "props": [],
@@ -246,7 +502,32 @@ export const componentMeta = {
         "description": "Footer content — typically copyright, secondary navigation, or site meta."
       }
     ],
-    "events": []
+    "events": [],
+    "exposed": [],
+    "theming": {
+      "bankai": [
+        {
+          "name": "--bankai-footer-padding-block",
+          "value": "var(--bankai-space-8)"
+        },
+        {
+          "name": "--bankai-footer-padding-inline",
+          "value": "var(--bankai-space-12)"
+        },
+        {
+          "name": "--bankai-footer-border-width",
+          "value": "1px"
+        },
+        {
+          "name": "--bankai-footer-border-color",
+          "value": "var(--bankai-color-border)"
+        },
+        {
+          "name": "--bankai-footer-background",
+          "value": "var(--bankai-color-bg)"
+        }
+      ]
+    }
   },
   "BankaiGrid": {
     "props": [
@@ -313,7 +594,11 @@ export const componentMeta = {
         "description": "Grid children."
       }
     ],
-    "events": []
+    "events": [],
+    "exposed": [],
+    "theming": {
+      "bankai": []
+    }
   },
   "BankaiHeader": {
     "props": [],
@@ -323,7 +608,32 @@ export const componentMeta = {
         "description": "Header content — typically a BankaiNavbar (brand + links + actions)."
       }
     ],
-    "events": []
+    "events": [],
+    "exposed": [],
+    "theming": {
+      "bankai": [
+        {
+          "name": "--bankai-header-padding-block",
+          "value": "var(--bankai-space-8)"
+        },
+        {
+          "name": "--bankai-header-padding-inline",
+          "value": "var(--bankai-space-12)"
+        },
+        {
+          "name": "--bankai-header-border-width",
+          "value": "1px"
+        },
+        {
+          "name": "--bankai-header-border-color",
+          "value": "var(--bankai-color-border)"
+        },
+        {
+          "name": "--bankai-header-background",
+          "value": "var(--bankai-color-bg)"
+        }
+      ]
+    }
   },
   "BankaiHeading": {
     "props": [
@@ -340,7 +650,68 @@ export const componentMeta = {
         "description": "Heading content."
       }
     ],
-    "events": []
+    "events": [],
+    "exposed": [],
+    "theming": {
+      "bankai": [
+        {
+          "name": "--bankai-heading-color",
+          "value": "var(--bankai-color-fg)"
+        },
+        {
+          "name": "--bankai-heading-font-weight",
+          "value": "600"
+        },
+        {
+          "name": "--bankai-heading-size-1",
+          "value": "2.25rem"
+        },
+        {
+          "name": "--bankai-heading-line-height-1",
+          "value": "2.5rem"
+        },
+        {
+          "name": "--bankai-heading-size-2",
+          "value": "1.875rem"
+        },
+        {
+          "name": "--bankai-heading-line-height-2",
+          "value": "2.25rem"
+        },
+        {
+          "name": "--bankai-heading-size-3",
+          "value": "1.5rem"
+        },
+        {
+          "name": "--bankai-heading-line-height-3",
+          "value": "2rem"
+        },
+        {
+          "name": "--bankai-heading-size-4",
+          "value": "1.25rem"
+        },
+        {
+          "name": "--bankai-heading-line-height-4",
+          "value": "1.75rem"
+        },
+        {
+          "name": "--bankai-heading-size-5",
+          "value": "1.125rem"
+        },
+        {
+          "name": "--bankai-heading-line-height-5",
+          "value": "1.75rem"
+        },
+        {
+          "name": "--bankai-heading-size-6",
+          "value": "1rem"
+        },
+        {
+          "name": "--bankai-heading-line-height-6",
+          "value": "1.5rem"
+        }
+      ]
+    }
   },
   "BankaiLayout": {
     "props": [],
@@ -362,7 +733,28 @@ export const componentMeta = {
         "description": "Main content region — wrapped in a BankaiMain (<main class=\"bankai-main\">, the main landmark), always rendered. The per-route host (BankaiPage) and content go here; nothing inside should render its own <main> (landmark uniqueness)."
       }
     ],
-    "events": []
+    "events": [],
+    "exposed": [],
+    "theming": {
+      "bankai": [
+        {
+          "name": "--bankai-layout-min-block-size",
+          "value": "100dvh"
+        },
+        {
+          "name": "--bankai-layout-columns",
+          "value": "auto 1fr"
+        },
+        {
+          "name": "--bankai-layout-rows",
+          "value": "auto 1fr auto"
+        },
+        {
+          "name": "--bankai-layout-areas",
+          "value": "'header header' 'sidebar main' 'footer footer'"
+        }
+      ]
+    }
   },
   "BankaiLink": {
     "props": [
@@ -392,7 +784,60 @@ export const componentMeta = {
         "description": "Link content — the label, and optionally an icon."
       }
     ],
-    "events": []
+    "events": [],
+    "exposed": [],
+    "theming": {
+      "bankai": [
+        {
+          "name": "--bankai-link-color",
+          "value": "var(--bankai-color-accent)"
+        },
+        {
+          "name": "--bankai-link-color-hover",
+          "value": "color-mix(in oklch, var(--bankai-link-color), black 15%)"
+        },
+        {
+          "name": "--bankai-link-color-active",
+          "value": "color-mix(in oklch, var(--bankai-link-color), black 25%)"
+        },
+        {
+          "name": "--bankai-link-decoration",
+          "value": "underline"
+        },
+        {
+          "name": "--bankai-link-decoration-hover",
+          "value": "underline"
+        },
+        {
+          "name": "--bankai-link-underline-offset",
+          "value": "0.15em"
+        },
+        {
+          "name": "--bankai-link-cursor",
+          "value": "pointer"
+        },
+        {
+          "name": "--bankai-link-transition",
+          "value": "color 150ms ease, text-decoration-color 150ms ease"
+        },
+        {
+          "name": "--bankai-link-focus-ring",
+          "value": "var(--bankai-focus-ring)"
+        },
+        {
+          "name": "--bankai-link-focus-outline-width",
+          "value": "2px"
+        },
+        {
+          "name": "--bankai-link-focus-outline-offset",
+          "value": "2px"
+        },
+        {
+          "name": "--bankai-link-focus-radius",
+          "value": "var(--bankai-radius)"
+        }
+      ]
+    }
   },
   "BankaiMain": {
     "props": [],
@@ -402,7 +847,11 @@ export const componentMeta = {
         "description": "The document's primary content — typically a BankaiPage / BankaiContainer and the page body."
       }
     ],
-    "events": []
+    "events": [],
+    "exposed": [],
+    "theming": {
+      "bankai": []
+    }
   },
   "BankaiPage": {
     "props": [],
@@ -412,7 +861,16 @@ export const componentMeta = {
         "description": "The route's content — typically a BankaiContainer (or several, at different widths) and the page body."
       }
     ],
-    "events": []
+    "events": [],
+    "exposed": [],
+    "theming": {
+      "bankai": [
+        {
+          "name": "--bankai-page-min-block-size",
+          "value": "100%"
+        }
+      ]
+    }
   },
   "BankaiText": {
     "props": [
@@ -455,6 +913,47 @@ export const componentMeta = {
         "description": "Text content."
       }
     ],
-    "events": []
+    "events": [],
+    "exposed": [],
+    "theming": {
+      "bankai": [
+        {
+          "name": "--bankai-text-color",
+          "value": "var(--bankai-color-fg)"
+        },
+        {
+          "name": "--bankai-text-color-muted",
+          "value": "var(--bankai-color-fg-muted)"
+        },
+        {
+          "name": "--bankai-text-color-subtle",
+          "value": "var(--bankai-color-fg-subtle)"
+        },
+        {
+          "name": "--bankai-text-line-height-xs",
+          "value": "1rem"
+        },
+        {
+          "name": "--bankai-text-line-height-sm",
+          "value": "1.25rem"
+        },
+        {
+          "name": "--bankai-text-line-height-md",
+          "value": "1.5rem"
+        },
+        {
+          "name": "--bankai-text-line-height-lg",
+          "value": "1.75rem"
+        },
+        {
+          "name": "--bankai-text-line-height-xl",
+          "value": "1.75rem"
+        },
+        {
+          "name": "--bankai-text-line-height-2xl",
+          "value": "2rem"
+        }
+      ]
+    }
   }
 } satisfies Record<string, ComponentMeta>;

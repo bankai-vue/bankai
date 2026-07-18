@@ -185,14 +185,30 @@ jobs:
       - name: Prepare docs types
         run: pnpm run docs:prepare
 
+      - name: Check formatting
+        run: pnpm run format:check
+
       - name: Lint
         run: pnpm run lint --format=github
 
       - name: Type check
         run: pnpm run typecheck
 
-      - name: Check formatting
-        run: pnpm run format:check
+      # Type-level tests (`*.test-d.ts`, vue-tsc) — a distinct run from the `test` job's `vitest run`,
+      # which never executes them. Types are platform-independent, so run once here rather than across
+      # the test matrix.
+      - name: Type tests
+        run: pnpm run test:types
+
+      # The committed docs manifests are generated from source, so verify they aren't stale — the docs
+      # SSG build reads the committed files and would pass even if they lag behind the components.
+      # `docs:meta:check` fails if a prop/slot/token changed without `pnpm docs:meta`; `docs:theming:check`
+      # fails if a generated theme token has no en+de purpose (or a locale has a stale one).
+      - name: Check generated component meta
+        run: pnpm run docs:meta:check
+
+      - name: Check theming purposes
+        run: pnpm run docs:theming:check
 
   # The docs Nuxt app is excluded from the shared build/typecheck/lint jobs (its tsconfig
   # extends the generated .nuxt/tsconfig.json, absent until a `nuxi` run). Validate it here so a
