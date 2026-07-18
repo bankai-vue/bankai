@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import * as coreLocales from '@bankai-vue/core/locales';
+
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'Internationalization · bankai-vue' });
 
@@ -63,6 +65,58 @@ function toggle() {
   config.i18n.locale = config.i18n.locale === 'de' ? 'en' : 'de';
 }
 ${closeScript}`;
+
+// Locale coverage: how many message keys each shipped bundle defines vs. the complete English base.
+// Computed from the real bundles (`@bankai-vue/core/locales`), so it stays honest as components add
+// strings or new locales ship — a bundle missing newly-added keys drops below 100% here automatically.
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
+function countCoverage(base: unknown, bundle: unknown): { done: number; total: number } {
+  let done = 0;
+  let total = 0;
+  const walk = (baseNode: unknown, bundleNode: unknown): void => {
+    if (!isRecord(baseNode)) {
+      return;
+    }
+    const patch = isRecord(bundleNode) ? bundleNode : undefined;
+    for (const [key, value] of Object.entries(baseNode)) {
+      if (isRecord(value)) {
+        walk(value, patch?.[key]);
+      } else {
+        total += 1;
+        const translated = patch?.[key];
+        // A present-but-empty/undefined leaf falls through to English, so it does not count as covered.
+        if (typeof translated === 'string' && translated.length > 0) {
+          done += 1;
+        }
+      }
+    }
+  };
+  walk(base, bundle);
+  return { done, total };
+}
+
+function languageName(code: string): string {
+  try {
+    return new Intl.DisplayNames(['en'], { type: 'language' }).of(code) ?? code;
+  } catch {
+    // Intl.DisplayNames unavailable or the code is unrecognized — fall back to the raw code.
+    return code;
+  }
+}
+
+const localeRows = coreLocales.availableLocales.map((code) => {
+  const { done, total } = countCoverage(coreLocales.en, Reflect.get(coreLocales, code));
+  return {
+    code,
+    name: languageName(code),
+    done,
+    total,
+    percent: total === 0 ? 100 : Math.round((done / total) * 100),
+  };
+});
 </script>
 
 <template>
@@ -93,6 +147,60 @@ ${closeScript}`;
           doesn't ship. The config is installed per app, so it stays per-request under SSR.
         </BankaiText>
         <CodeBlock language="ts" :code="registerNuxt" />
+      </BankaiFlex>
+
+      <BankaiFlex as="section" direction="column" gap="8">
+        <BankaiText as="h2" size="xl" weight="bold">Locale coverage</BankaiText>
+        <BankaiText as="p" tone="muted">
+          English is the complete base — 100% by definition. Each shipped bundle covers a share of
+          the message keys; whatever it omits falls through to English. As new components add
+          default strings, a bundle's coverage drops until the new keys are translated.
+        </BankaiText>
+        <div class="coverage-wrap">
+          <table class="coverage-table">
+            <thead>
+              <tr>
+                <th scope="col">Locale</th>
+                <th scope="col">Coverage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="row in localeRows" :key="row.code">
+                <td>
+                  <BankaiText as="span" weight="semibold">{{ row.name }}</BankaiText>
+                  <BankaiCode>{{ row.code }}</BankaiCode>
+                </td>
+                <td>
+                  <div class="coverage-cell">
+                    <div class="coverage-bar" aria-hidden="true">
+                      <div class="coverage-fill" :style="{ inlineSize: `${row.percent}%` }" />
+                    </div>
+                    <BankaiText as="span" size="sm" tone="muted">
+                      {{ row.percent }}% · {{ row.done }}/{{ row.total }} strings
+                    </BankaiText>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <BankaiFlex class="contribute-banner" direction="column" gap="3">
+          <BankaiText as="p" weight="semibold">Missing your language?</BankaiText>
+          <BankaiText as="p" size="sm" tone="muted">
+            Locale bundles are small partial dictionaries — completing a bundle below 100%, or
+            adding a language bankai-vue doesn't ship yet, is a great first contribution. Each is a
+            plain object of message keys with English as the fallback, so you translate only what
+            you want.
+          </BankaiText>
+          <BankaiLink
+            href="https://github.com/bankai-vue/bankai/tree/main/packages/core/src/i18n/locales"
+            target="_blank"
+            class="doc-link"
+          >
+            Browse the locale bundles on GitHub →
+          </BankaiLink>
+        </BankaiFlex>
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
@@ -165,5 +273,55 @@ ${closeScript}`;
 
 .doc-link {
   color: inherit;
+}
+
+.coverage-wrap {
+  overflow-x: auto;
+}
+
+.coverage-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.coverage-table th,
+.coverage-table td {
+  padding: 0.5rem 0.75rem;
+  text-align: start;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--bankai-color-border, currentColor);
+}
+
+.coverage-table th {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.coverage-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.coverage-bar {
+  inline-size: 8rem;
+  block-size: 0.5rem;
+  flex: none;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--bankai-color-border, currentColor);
+}
+
+.coverage-fill {
+  block-size: 100%;
+  border-radius: inherit;
+  background: var(--bankai-color-primary, currentColor);
+}
+
+.contribute-banner {
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--bankai-color-border, currentColor);
+  border-radius: var(--bankai-radius, 0.5rem);
+  background: var(--bankai-color-surface, transparent);
 }
 </style>
