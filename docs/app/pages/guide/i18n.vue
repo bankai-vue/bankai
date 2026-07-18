@@ -16,15 +16,14 @@ app.use(
   }),
 );`;
 
-const registerNuxt = `// nuxt.config.ts
-import { de } from '@bankai-vue/core/locales';
-
+const registerNuxt = `// nuxt.config.ts — under Nuxt, just set the locale: the module auto-injects the
+// matching built-in bundle (here 'de'), so no import or messages registration is needed.
 export default defineNuxtConfig({
   modules: ['@bankai-vue/nuxt'],
   css: ['@bankai-vue/theme-bankai'],
 
   bankai: {
-    config: { i18n: { locale: 'de', messages: { de } } },
+    config: { i18n: { locale: 'de' } },
   },
 });`;
 
@@ -87,8 +86,11 @@ ${closeScript}`;
         </BankaiText>
         <CodeBlock language="ts" :code="registerVite" />
         <BankaiText as="p" tone="muted">
-          Under Nuxt, set the same values in <BankaiCode>nuxt.config</BankaiCode>. The module
-          installs the config per app, so it stays per-request under SSR.
+          Under Nuxt it is even less: set <BankaiCode>i18n.locale</BankaiCode> and the module
+          auto-injects the matching built-in bundle into its generated plugin — no import, no
+          <BankaiCode>messages</BankaiCode> — as a static, tree-shaken, SSR-safe import. Register a
+          bundle in <BankaiCode>messages</BankaiCode> only to override it or add a locale core
+          doesn't ship. The config is installed per app, so it stays per-request under SSR.
         </BankaiText>
         <CodeBlock language="ts" :code="registerNuxt" />
       </BankaiFlex>

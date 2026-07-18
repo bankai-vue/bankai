@@ -1,4 +1,5 @@
 import type { BankaiConfigInput } from '@bankai-vue/core';
+import { availableLocales } from '@bankai-vue/core/locales';
 import {
   addComponent,
   addImports,
@@ -8,6 +9,7 @@ import {
 } from '@nuxt/kit';
 import { createRequire } from 'node:module';
 import { componentsFromExports } from './discover';
+import { localesToInject, renderPluginContents } from './plugin';
 
 /**
  * Options for the bankai-vue Nuxt module. Set them under the `bankai` key in `nuxt.config`.
@@ -120,18 +122,14 @@ export default defineNuxtModule<ModuleOptions>({
     // 3. Install `createBankai` per Nuxt app via a generated plugin, so the config is provided per-request
     //    under SSR (each request's `vueApp` gets its own reactive config — no shared module-level fallback,
     //    hence no cross-request leakage). The build-time `config` option is baked into the plugin.
+    //    A built-in locale named by `config.i18n` but not registered in `messages` is auto-injected as a
+    //    static import of its `@bankai-vue/core/locales/<code>` bundle — so a Nuxt consumer just sets
+    //    `locale` and the bundle follows (a plain-Vue app registers bundles explicitly). Static, so it
+    //    tree-shakes to only the configured locale and stays SSR-safe.
+    const injectedLocales = localesToInject(options.config, availableLocales);
     addPluginTemplate({
       filename: 'bankai-vue.plugin.mjs',
-      getContents: () =>
-        [
-          "import { createBankai } from '@bankai-vue/core';",
-          "import { defineNuxtPlugin } from '#app';",
-          '',
-          'export default defineNuxtPlugin((nuxtApp) => {',
-          `  nuxtApp.vueApp.use(createBankai(${JSON.stringify(options.config)}));`,
-          '});',
-          '',
-        ].join('\n'),
+      getContents: () => renderPluginContents(options.config, injectedLocales),
     });
   },
 });
