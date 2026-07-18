@@ -1,24 +1,28 @@
 <script setup lang="ts">
 import { componentNav } from '../../utils/docs';
 
+const { t } = useI18n();
+
 definePageMeta({ layout: 'docs' });
-useHead({ title: 'Components · bankai-vue' });
+// Function form so the title re-evaluates when the locale switches.
+useHead(() => ({ title: t('pages.components.title') }));
 </script>
 
 <template>
   <BankaiPage>
     <BankaiFlex as="article" direction="column" gap="8">
-      <BankaiText as="h1" size="2xl" weight="black">Components</BankaiText>
+      <BankaiText as="h1" size="2xl" weight="black">{{ t('componentsIndex.heading') }}</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
-        The components built so far. More land as the roadmap progresses — this list grows with
-        them.
+        {{ t('componentsIndex.lede') }}
       </BankaiText>
 
       <BankaiGrid columns="2" gap="8" class="component-grid">
-        <NuxtLink v-for="item in componentNav" :key="item.to" :to="item.to" class="card">
+        <NuxtLinkLocale v-for="item in componentNav" :key="item.to" :to="item.to" class="card">
           <BankaiText as="h2" size="md" weight="semibold">Bankai{{ item.name }}</BankaiText>
-          <BankaiText as="p" size="sm" tone="muted">{{ item.tagline }}</BankaiText>
-        </NuxtLink>
+          <BankaiText as="p" size="sm" tone="muted">
+            {{ t(`components.${item.key}.tagline`) }}
+          </BankaiText>
+        </NuxtLinkLocale>
       </BankaiGrid>
     </BankaiFlex>
   </BankaiPage>

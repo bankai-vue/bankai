@@ -1,0 +1,120 @@
+{
+  "nav": {
+    "guide": "Leitfaden",
+    "components": "Komponenten"
+  },
+  "sidebar": {
+    "label": "Dokumentation"
+  },
+  "switcher": {
+    "label": "Sprache"
+  },
+  "footer": {
+    "text": "MIT © bankai-vue · Diese Seite wurde mit bankai-vue erstellt."
+  },
+  "pages": {
+    "components": { "title": "Komponenten · bankai-vue" },
+    "gettingStarted": { "title": "Erste Schritte · bankai-vue" },
+    "rendering": { "title": "SSR, SPA & Routing · bankai-vue" },
+    "i18n": { "title": "Internationalisierung · bankai-vue" }
+  },
+  "home": {
+    "hero": {
+      "title": "Das agnostische, auf Barrierefreiheit ausgelegte Vue-3-Komponenten-Framework",
+      "lede": "Leitende Standardwerte, die du vollständig umgestalten kannst · bring dein eigenes CSS-Framework mit · natives modernes HTML · erstklassiges TypeScript · MIT, für immer."
+    },
+    "cta": {
+      "getStarted": "Loslegen",
+      "github": "Auf GitHub einen Stern geben",
+      "roadmap": "Roadmap",
+      "spec": "Spezifikation"
+    },
+    "earlyNote": "Frühe Entwicklung — die API wird öffentlich entworfen. Es ist noch nichts auf npm.",
+    "builtSoFar": "Bisher gebaut"
+  },
+  "componentsIndex": {
+    "heading": "Komponenten",
+    "lede": "Die bisher gebauten Komponenten. Weitere kommen mit dem Fortschritt der Roadmap hinzu — diese Liste wächst mit ihnen."
+  },
+  "guide": {
+    "getting-started": {
+      "name": "Erste Schritte",
+      "tagline": "Installieren, ein Theme hinzufügen und die erste Komponente rendern."
+    },
+    "rendering": {
+      "name": "SSR, SPA & Routing",
+      "tagline": "Hydrations-Modell, Router-Auto-Erkennung und linkOrigin."
+    },
+    "i18n": {
+      "name": "Internationalisierung",
+      "tagline": "Standard-Strings mit Locale-Bundles lokalisieren."
+    }
+  },
+  "components": {
+    "app": { "tagline": "Infrastruktur-Wurzel-Wrapper + eingebettete Oberfläche." },
+    "button": { "tagline": "Natives <button> mit Variante/Größe/Typ." },
+    "text": { "tagline": "Polymorphe Text-Primitive + Inline-Semantik." },
+    "code": { "tagline": "Inline-Code — natives <code>-Element." },
+    "code-block": { "tagline": "Block <pre><code> mit Kopier-Schaltfläche." },
+    "heading": { "tagline": "Natives <h1>–<h6> über eine erforderliche Ebene." },
+    "flex": { "tagline": "Flexbox-Layout-Helfer." },
+    "grid": { "tagline": "CSS-Grid-Layout-Helfer." },
+    "layout": { "tagline": "App-Shell, die native Landmark-Regionen ausgibt." },
+    "header": { "tagline": "Eigenständige <header>-Banner-Region." },
+    "aside": { "tagline": "Eigenständige <aside>-Seitenleiste (complementary)." },
+    "main": { "tagline": "Eigenständige <main>-Inhaltsregion." },
+    "footer": { "tagline": "Eigenständige <footer>-Region (contentinfo)." },
+    "container": { "tagline": "Zentriertes Breiten-Hilfsmittel mit max. Breite (↔ fluid)." },
+    "page": { "tagline": "Host für Routen-Inhalt innerhalb von <main>." },
+    "link": { "tagline": "Router-fähiger Link — <a>, RouterLink oder NuxtLink." }
+  },
+  "gettingStarted": {
+    "heading": "Erste Schritte",
+    "lede": "Installiere {core}, füge ein Theme für das CSS hinzu und rendere deine erste Komponente. Funktioniert gleich in einer reinen Vue-(Vite-)App oder in Nuxt.",
+    "callout": {
+      "lead": "Frühe Entwicklung.",
+      "body": "Die API wird öffentlich entworfen und es ist noch nichts auf npm — die folgenden Schritte dokumentieren die geplante Form. Folge der {roadmap} für das erste Release.",
+      "roadmapLink": "Roadmap"
+    },
+    "install": {
+      "heading": "Installation",
+      "body": "Du brauchst zwei Pakete: {core} für die Komponenten und ein Theme für das CSS. Core liefert {no} eigenes CSS — ohne ein Theme rendern die Komponenten, aber ohne Stil.",
+      "no": "kein"
+    },
+    "vite": {
+      "heading": "Vue (Vite)",
+      "intro": "Installiere das Plugin mit {createBankai} und importiere das CSS des Themes einmal an deinem Einstiegspunkt.",
+      "then": "Importiere die Komponenten dann dort, wo du sie verwendest:"
+    },
+    "nuxt": {
+      "heading": "Nuxt",
+      "intro": "Füge das First-Party-Modul und das Theme-CSS hinzu. Das Modul registriert automatisch jede Komponente (sodass Templates {tag} ohne Import verwenden), importiert die Composables automatisch und installiert die Konfiguration pro App, sodass sie unter SSR pro Anfrage bleibt.",
+      "optionsHeading": "Modul-Optionen",
+      "optionsIntro": "Konfiguriere das Modul unter dem Schlüssel {bankai}. Jede Option ist optional."
+    },
+    "theme": {
+      "heading": "Ein Theme wählen",
+      "intro": "Themes sind separate CSS-Pakete — Core löst gegen keines davon auf, also wählst du eines aus und importierst dessen CSS. Zwei werden heute ausgeliefert:",
+      "bankai": "{pkg} — der charakteristische House-Look, ein durchdachter Satz gestalteter Standardwerte. Passe ihn über {vars} Custom Properties an.",
+      "tailwind": "{pkg} — bildet die Design-Tokens auf deine Tailwind-Skala ab, sodass deine eigene Tailwind-Designsprache die Komponenten steuert. Erfordert Tailwind CSS v4.",
+      "override": "Beide lassen sich sauber überschreiben, weil das Theme-CSS mit spezifitätsfreien {where}-Selektoren geschrieben ist."
+    },
+    "config": {
+      "heading": "Konfiguration",
+      "intro": "Übergib die Anfangs-Konfiguration an {createBankai} (oder an {bankaiConfig} des Moduls). Lies oder ändere sie zur Laufzeit mit {useBankaiConfig} im Setup einer Komponente.",
+      "options": {
+        "idGeneration": "Ob Komponenten eine stabile id generieren, wenn der Nutzer keine angibt. Eine vom Nutzer angegebene id gewinnt immer.",
+        "warnings": "Entwicklungs-Warnungen für wahrscheinlich fehlerhafte Nutzung ausgeben. Aus Produktions-Builds bereits entfernt; auf false setzen, um sie auch im Dev-Modus zu unterdrücken.",
+        "linkComponent": "Erzwingt die Komponente, die BankaiLink für interne Navigation rendert. Nicht setzen, um NuxtLink → RouterLink → <a> automatisch zu erkennen.",
+        "linkOrigin": "Ursprung der Website, mit dem BankaiLink einen href vergleicht, um zu entscheiden, ob er extern ist. Setze ihn für genaue, hydrationssichere Prüfungen unter SSR/SSG.",
+        "linkNoopener": "Fügt einem target=\"_blank\"-Link automatisch rel=\"noopener noreferrer\" hinzu. Ein vom Nutzer angegebenes rel gewinnt immer.",
+        "codeBlockCopiedDuration": "Wie lange (ms) die Kopier-Schaltfläche von BankaiCodeBlock im Kopiert-Zustand bleibt, bevor sie zurückwechselt. Ein copiedDuration-Prop pro Instanz überschreibt dies."
+      }
+    },
+    "next": {
+      "heading": "Nächste Schritte",
+      "body": "Durchstöbere die {components} für Props, Slots und Live-Beispiele.",
+      "componentsLink": "Komponenten"
+    }
+  }
+}

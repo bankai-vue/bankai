@@ -10,6 +10,8 @@ import { nextTick, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { componentNav, guideNav } from '../utils/docs';
 
+const { t } = useI18n();
+
 // Section headings on every docs page become linkable permalinks: each <h2>–<h6> inside the page
 // gets a slug id and its text is wrapped in an anchor to `#id`, so a click sets the URL hash and a
 // refresh scrolls straight to it. Done as a client-side enhancement in the layout (not per-page) so
@@ -123,21 +125,24 @@ watch(
     </template>
 
     <template #sidebar>
-      <nav class="docs-sidebar" aria-label="Documentation">
+      <nav class="docs-sidebar" :aria-label="t('sidebar.label')">
         <BankaiText as="p" size="sm" weight="semibold" tone="muted" class="docs-sidebar-title">
-          Guide
+          {{ t('nav.guide') }}
         </BankaiText>
         <ul class="docs-nav">
           <li v-for="item in guideNav" :key="item.to">
-            <NuxtLink :to="item.to" class="docs-nav-link">{{ item.name }}</NuxtLink>
+            <NuxtLinkLocale :to="item.to" class="docs-nav-link">
+              {{ t(`guide.${item.key}.name`) }}
+            </NuxtLinkLocale>
           </li>
         </ul>
         <BankaiText as="p" size="sm" weight="semibold" tone="muted" class="docs-sidebar-title">
-          Components
+          {{ t('nav.components') }}
         </BankaiText>
+        <!-- Component names are proper identifiers (BankaiButton, …), so they are not localized. -->
         <ul class="docs-nav">
           <li v-for="item in componentNav" :key="item.to">
-            <NuxtLink :to="item.to" class="docs-nav-link">{{ item.name }}</NuxtLink>
+            <NuxtLinkLocale :to="item.to" class="docs-nav-link">{{ item.name }}</NuxtLinkLocale>
           </li>
         </ul>
       </nav>

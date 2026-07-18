@@ -17,9 +17,10 @@
 // and no hydration mismatch, since there is no server-rendered version to reconcile against.
 //
 // The three options are mutually exclusive, so this is a WAI-ARIA radiogroup: arrow keys move the
-// selection over a roving tabindex (only the selected radio is tabbable).
-import type { ComponentPublicInstance } from 'vue';
+// selection over a roving tabindex (only the selected radio is tabbable); the keyboard behaviour is
+// shared with LocaleSwitcher via useRovingRadiogroup.
 import { ref } from 'vue';
+import { useRovingRadiogroup } from '../composables/useRovingRadiogroup';
 
 type Scheme = 'system' | 'light' | 'dark';
 
@@ -58,7 +59,6 @@ function readStored(): Scheme {
 }
 
 const scheme = ref<Scheme>(readStored());
-const group = ref<ComponentPublicInstance | null>(null);
 
 // Drive the shared `<style>` rule that overrides `color-scheme` on `:root` + `.bankai-app`. 'system'
 // removes the rule so the theme default (follow the OS) resumes.
@@ -90,29 +90,11 @@ function select(next: Scheme): void {
   }
 }
 
-// Roving tabindex: move focus to the radio that just became selected.
-function focusOption(index: number): void {
-  const root = group.value?.$el as HTMLElement | undefined;
-  root?.querySelectorAll<HTMLButtonElement>('button')[index]?.focus();
-}
-
-// Arrow keys cycle the selection (WAI-ARIA radiogroup pattern); preventDefault stops page scroll.
-function onKeydown(event: KeyboardEvent): void {
-  const forward = event.key === 'ArrowRight' || event.key === 'ArrowDown';
-  const backward = event.key === 'ArrowLeft' || event.key === 'ArrowUp';
-  if (!forward && !backward) {
-    return;
-  }
-  event.preventDefault();
-  const current = options.findIndex((opt) => opt.key === scheme.value);
-  const nextIndex = (current + (forward ? 1 : -1) + options.length) % options.length;
-  const nextOption = options[nextIndex];
-  if (!nextOption) {
-    return;
-  }
-  select(nextOption.key);
-  focusOption(nextIndex);
-}
+const { group, onKeydown } = useRovingRadiogroup<Scheme>(
+  () => options.map((opt) => opt.key),
+  () => scheme.value,
+  select,
+);
 </script>
 
 <template>

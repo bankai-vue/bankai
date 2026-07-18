@@ -5,6 +5,7 @@ import { componentNav } from '../utils/docs';
 // with <BankaiPage> (the per-route host) wrapping a <BankaiContainer> that centers the content at the
 // house width — the App › Layout › Page › Container structure (SPEC.md §5.6). The "Shipping today" grid
 // reads from the shared componentNav, so cards link straight to each component's docs page.
+const { t } = useI18n();
 const repoUrl = 'https://github.com/bankai-vue/bankai';
 const roadmapUrl = `${repoUrl}/blob/main/ROADMAP.md`;
 const specUrl = `${repoUrl}/blob/main/SPEC.md`;
@@ -20,11 +21,10 @@ const specUrl = `${repoUrl}/blob/main/SPEC.md`;
         <section class="hero">
           <BankaiFlex direction="column" align="center" gap="12">
             <BankaiText as="h1" size="2xl" weight="black">
-              The agnostic, accessibility-first Vue 3 component framework
+              {{ t('home.hero.title') }}
             </BankaiText>
             <BankaiText as="p" size="lg" tone="muted" class="hero-lede">
-              Guiding defaults you can fully restyle · bring your own CSS framework · native modern
-              HTML · first-class TypeScript · MIT, forever.
+              {{ t('home.hero.lede') }}
             </BankaiText>
 
             <!--
@@ -34,29 +34,35 @@ const specUrl = `${repoUrl}/blob/main/SPEC.md`;
           `:where()`, so the scoped `.cta*` classes below override them cleanly (SPEC §4.4/§4.6).
         -->
             <BankaiFlex align="center" justify="center" gap="6" wrap="wrap">
-              <NuxtLink class="cta cta-solid" to="/guide/getting-started">Get started</NuxtLink>
+              <NuxtLinkLocale class="cta cta-solid" to="/guide/getting-started">
+                {{ t('home.cta.getStarted') }}
+              </NuxtLinkLocale>
               <BankaiLink class="cta cta-outline" :href="repoUrl" target="_blank">
-                Star on GitHub
+                {{ t('home.cta.github') }}
               </BankaiLink>
-              <BankaiLink class="cta cta-outline" :href="roadmapUrl" target="_blank"
-                >Roadmap</BankaiLink
-              >
-              <BankaiLink class="cta cta-outline" :href="specUrl" target="_blank">Spec</BankaiLink>
+              <BankaiLink class="cta cta-outline" :href="roadmapUrl" target="_blank">
+                {{ t('home.cta.roadmap') }}
+              </BankaiLink>
+              <BankaiLink class="cta cta-outline" :href="specUrl" target="_blank">
+                {{ t('home.cta.spec') }}
+              </BankaiLink>
             </BankaiFlex>
 
             <BankaiText as="p" size="sm" tone="subtle">
-              Early development — the API is being designed in the open. Nothing is on npm yet.
+              {{ t('home.earlyNote') }}
             </BankaiText>
           </BankaiFlex>
         </section>
 
         <section class="shipping">
-          <BankaiText as="h2" size="xl" weight="bold">Built so far</BankaiText>
+          <BankaiText as="h2" size="xl" weight="bold">{{ t('home.builtSoFar') }}</BankaiText>
           <BankaiGrid columns="2" gap="8" class="shipping-grid">
-            <NuxtLink v-for="item in componentNav" :key="item.to" :to="item.to" class="card">
+            <NuxtLinkLocale v-for="item in componentNav" :key="item.to" :to="item.to" class="card">
               <BankaiText as="h3" size="md" weight="semibold">Bankai{{ item.name }}</BankaiText>
-              <BankaiText as="p" size="sm" tone="muted">{{ item.tagline }}</BankaiText>
-            </NuxtLink>
+              <BankaiText as="p" size="sm" tone="muted">
+                {{ t(`components.${item.key}.tagline`) }}
+              </BankaiText>
+            </NuxtLinkLocale>
           </BankaiGrid>
         </section>
       </div>

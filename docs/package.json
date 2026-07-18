@@ -15,6 +15,7 @@
     "@bankai-vue/core": "workspace:*",
     "@bankai-vue/nuxt": "workspace:*",
     "@bankai-vue/theme-bankai": "workspace:*",
+    "@nuxtjs/i18n": "catalog:",
     "nuxt": "catalog:",
     "vue": "catalog:"
   },

@@ -1,107 +1,60 @@
 // Shared docs data + types. Auto-imported by Nuxt, but imported explicitly across the site so the
 // linter/type-checker resolve it deterministically.
+//
+// This module is the single source of truth for what EXISTS (which guide/component pages, and their
+// routes). The display TEXT (names, taglines) is localized, so it lives in the docs-site i18n message
+// files (docs/i18n/locales/*.json) keyed by `key` — not here. Consumers render e.g.
+// `$t(\`guide.${item.key}.name\`)` / `$t(\`components.${item.key}.tagline\`)`.
 
 export interface NavItem {
-  /** Short display name, e.g. `Button` (the page renders `Bankai{name}` where a full name reads better). */
-  name: string;
+  /** Stable identifier: the last route segment. Doubles as the i18n message key for this item. */
+  key: string;
   /** Route path, e.g. `/components/button`. */
   to: string;
-  /** One-line summary for cards and the sidebar. */
-  tagline: string;
+}
+
+export interface ComponentNavItem extends NavItem {
+  /**
+   * PascalCase component identifier, e.g. `Button` — the page renders `Bankai{name}`. Not localized
+   * (it's the component's proper name), so it stays here rather than in the i18n messages.
+   */
+  name: string;
 }
 
 /**
  * The guide (non-component) pages. Add an entry when a new guide page lands; the sidebar reads from
- * here so there is a single source of truth for the "Guide" section.
+ * here so there is a single source of truth for the "Guide" section. Localized labels/taglines live
+ * under `guide.<key>` in the i18n message files.
  */
 export const guideNav: NavItem[] = [
-  {
-    name: 'Getting started',
-    to: '/guide/getting-started',
-    tagline: 'Install, add a theme, and render your first component.',
-  },
-  {
-    name: 'SSR, SPA & routing',
-    to: '/guide/rendering',
-    tagline: 'Hydration model, router auto-detection, and linkOrigin.',
-  },
-  {
-    name: 'Internationalization',
-    to: '/guide/i18n',
-    tagline: 'Localize default strings with locale bundles.',
-  },
+  { key: 'getting-started', to: '/guide/getting-started' },
+  { key: 'rendering', to: '/guide/rendering' },
+  { key: 'i18n', to: '/guide/i18n' },
 ];
 
 /**
  * The components built so far that have a docs page. Add an entry when a component's page lands
  * — this is part of the per-component landing checklist. The sidebar and the landing "Shipping today"
- * grid both read from here, so there is a single source of truth for what exists.
+ * grid both read from here, so there is a single source of truth for what exists. Localized taglines
+ * live under `components.<key>` in the i18n message files.
  */
-export const componentNav: NavItem[] = [
-  {
-    name: 'App',
-    to: '/components/app',
-    tagline: 'Infra root wrapper + embedded surface.',
-  },
-  { name: 'Button', to: '/components/button', tagline: 'Native <button> with variant/size/type.' },
-  {
-    name: 'Text',
-    to: '/components/text',
-    tagline: 'Polymorphic text primitive + inline semantics.',
-  },
-  { name: 'Code', to: '/components/code', tagline: 'Inline code — native <code> chip.' },
-  {
-    name: 'CodeBlock',
-    to: '/components/code-block',
-    tagline: 'Block <pre><code> with a copy button.',
-  },
-  {
-    name: 'Heading',
-    to: '/components/heading',
-    tagline: 'Native <h1>–<h6> via a required level.',
-  },
-  { name: 'Flex', to: '/components/flex', tagline: 'Flexbox layout helper.' },
-  { name: 'Grid', to: '/components/grid', tagline: 'CSS-grid layout helper.' },
-  {
-    name: 'Layout',
-    to: '/components/layout',
-    tagline: 'App shell emitting native landmark regions.',
-  },
-  {
-    name: 'Header',
-    to: '/components/header',
-    tagline: 'Standalone <header> banner region.',
-  },
-  {
-    name: 'Aside',
-    to: '/components/aside',
-    tagline: 'Standalone <aside> complementary side rail.',
-  },
-  {
-    name: 'Main',
-    to: '/components/main',
-    tagline: 'Standalone <main> content region.',
-  },
-  {
-    name: 'Footer',
-    to: '/components/footer',
-    tagline: 'Standalone <footer> contentinfo region.',
-  },
-  {
-    name: 'Container',
-    to: '/components/container',
-    tagline: 'Centered max-width width utility (↔ fluid).',
-  },
-  {
-    name: 'Page',
-    to: '/components/page',
-    tagline: 'Per-route content host inside <main>.',
-  },
-  {
-    name: 'Link',
-    to: '/components/link',
-    tagline: 'Router-aware link — <a>, RouterLink, or NuxtLink.',
-  },
+export const componentNav: ComponentNavItem[] = [
+  { key: 'app', name: 'App', to: '/components/app' },
+  { key: 'button', name: 'Button', to: '/components/button' },
+  { key: 'text', name: 'Text', to: '/components/text' },
+  { key: 'code', name: 'Code', to: '/components/code' },
+  { key: 'code-block', name: 'CodeBlock', to: '/components/code-block' },
+  { key: 'heading', name: 'Heading', to: '/components/heading' },
+  { key: 'flex', name: 'Flex', to: '/components/flex' },
+  { key: 'grid', name: 'Grid', to: '/components/grid' },
+  { key: 'layout', name: 'Layout', to: '/components/layout' },
+  { key: 'header', name: 'Header', to: '/components/header' },
+  { key: 'aside', name: 'Aside', to: '/components/aside' },
+  { key: 'main', name: 'Main', to: '/components/main' },
+  { key: 'footer', name: 'Footer', to: '/components/footer' },
+  { key: 'container', name: 'Container', to: '/components/container' },
+  { key: 'page', name: 'Page', to: '/components/page' },
+  { key: 'link', name: 'Link', to: '/components/link' },
 ];
 
 /** One row of a component's props table (hand-authored today; to be generated from source later). */

@@ -1,6 +1,9 @@
 <script setup lang="ts">
+const { t } = useI18n();
+
 definePageMeta({ layout: 'docs' });
-useHead({ title: 'SSR, SPA & routing · bankai-vue' });
+// Function form so the title re-evaluates when the locale switches.
+useHead(() => ({ title: t('pages.rendering.title') }));
 
 // Samples with `<Bankai*>` tags live here as strings so BankaiCodeBlock renders them verbatim rather
 // than parsing them as HTML; the tag-free samples (tsconfig / config) render through it just the same.

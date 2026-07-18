@@ -1,0 +1,120 @@
+{
+  "nav": {
+    "guide": "Guide",
+    "components": "Components"
+  },
+  "sidebar": {
+    "label": "Documentation"
+  },
+  "switcher": {
+    "label": "Language"
+  },
+  "footer": {
+    "text": "MIT © bankai-vue · This site is built with bankai-vue."
+  },
+  "pages": {
+    "components": { "title": "Components · bankai-vue" },
+    "gettingStarted": { "title": "Getting started · bankai-vue" },
+    "rendering": { "title": "SSR, SPA & routing · bankai-vue" },
+    "i18n": { "title": "Internationalization · bankai-vue" }
+  },
+  "home": {
+    "hero": {
+      "title": "The agnostic, accessibility-first Vue 3 component framework",
+      "lede": "Guiding defaults you can fully restyle · bring your own CSS framework · native modern HTML · first-class TypeScript · MIT, forever."
+    },
+    "cta": {
+      "getStarted": "Get started",
+      "github": "Star on GitHub",
+      "roadmap": "Roadmap",
+      "spec": "Spec"
+    },
+    "earlyNote": "Early development — the API is being designed in the open. Nothing is on npm yet.",
+    "builtSoFar": "Built so far"
+  },
+  "componentsIndex": {
+    "heading": "Components",
+    "lede": "The components built so far. More land as the roadmap progresses — this list grows with them."
+  },
+  "guide": {
+    "getting-started": {
+      "name": "Getting started",
+      "tagline": "Install, add a theme, and render your first component."
+    },
+    "rendering": {
+      "name": "SSR, SPA & routing",
+      "tagline": "Hydration model, router auto-detection, and linkOrigin."
+    },
+    "i18n": {
+      "name": "Internationalization",
+      "tagline": "Localize default strings with locale bundles."
+    }
+  },
+  "components": {
+    "app": { "tagline": "Infra root wrapper + embedded surface." },
+    "button": { "tagline": "Native <button> with variant/size/type." },
+    "text": { "tagline": "Polymorphic text primitive + inline semantics." },
+    "code": { "tagline": "Inline code — native <code> chip." },
+    "code-block": { "tagline": "Block <pre><code> with a copy button." },
+    "heading": { "tagline": "Native <h1>–<h6> via a required level." },
+    "flex": { "tagline": "Flexbox layout helper." },
+    "grid": { "tagline": "CSS-grid layout helper." },
+    "layout": { "tagline": "App shell emitting native landmark regions." },
+    "header": { "tagline": "Standalone <header> banner region." },
+    "aside": { "tagline": "Standalone <aside> complementary side rail." },
+    "main": { "tagline": "Standalone <main> content region." },
+    "footer": { "tagline": "Standalone <footer> contentinfo region." },
+    "container": { "tagline": "Centered max-width width utility (↔ fluid)." },
+    "page": { "tagline": "Per-route content host inside <main>." },
+    "link": { "tagline": "Router-aware link — <a>, RouterLink, or NuxtLink." }
+  },
+  "gettingStarted": {
+    "heading": "Getting started",
+    "lede": "Install {core}, add a theme for the CSS, and render your first component. Works the same in a plain Vue (Vite) app or in Nuxt.",
+    "callout": {
+      "lead": "Early development.",
+      "body": "The API is being designed in the open and nothing is on npm yet — the steps below document the intended shape. Follow the {roadmap} for the first release.",
+      "roadmapLink": "roadmap"
+    },
+    "install": {
+      "heading": "Installation",
+      "body": "You need two packages: {core} for the components and a theme for the CSS. Core ships {no} CSS of its own — without a theme the components render, but unstyled.",
+      "no": "no"
+    },
+    "vite": {
+      "heading": "Vue (Vite)",
+      "intro": "Install the plugin with {createBankai} and import the theme's CSS once at your entry point.",
+      "then": "Then import components where you use them:"
+    },
+    "nuxt": {
+      "heading": "Nuxt",
+      "intro": "Add the first-party module and the theme CSS. The module auto-registers every component (so templates use {tag} with no import), auto-imports the composables, and installs the config per app so it stays per-request under SSR.",
+      "optionsHeading": "Module options",
+      "optionsIntro": "Configure the module under the {bankai} key. Every option is optional."
+    },
+    "theme": {
+      "heading": "Choosing a theme",
+      "intro": "Themes are separate CSS packages — core resolves against none of them, so you pick one and import its CSS. Two ship today:",
+      "bankai": "{pkg} — the signature house look, an opinionated set of styled defaults. Customize it through {vars} custom properties.",
+      "tailwind": "{pkg} — remaps the design tokens onto your Tailwind scale, so your own Tailwind design language drives the components. Requires Tailwind CSS v4.",
+      "override": "Both override cleanly because the theme CSS is authored with zero-specificity {where} selectors."
+    },
+    "config": {
+      "heading": "Configuration",
+      "intro": "Pass initial config to {createBankai} (or the module's {bankaiConfig}). Read or mutate it at runtime with {useBankaiConfig} inside a component's setup.",
+      "options": {
+        "idGeneration": "Whether components generate a stable id when the consumer supplies none. A consumer-provided id always wins.",
+        "warnings": "Emit development warnings for likely-mistaken usage. Already stripped from production builds; set false to silence them in dev too.",
+        "linkComponent": "Force the component BankaiLink renders for internal navigation. Leave unset to auto-detect NuxtLink → RouterLink → <a>.",
+        "linkOrigin": "Site origin BankaiLink compares an href against to decide it is external. Set it for accurate, hydration-safe checks under SSR/SSG.",
+        "linkNoopener": "Auto-add rel=\"noopener noreferrer\" to a target=\"_blank\" link. A consumer-provided rel always wins.",
+        "codeBlockCopiedDuration": "How long (ms) BankaiCodeBlock's copy button stays in its copied state before reverting. A per-instance copiedDuration prop overrides it."
+      }
+    },
+    "next": {
+      "heading": "Next steps",
+      "body": "Browse the {components} for props, slots, and live examples.",
+      "componentsLink": "components"
+    }
+  }
+}
