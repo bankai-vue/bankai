@@ -27,7 +27,7 @@ const usage = `<!-- every route file starts with BankaiPage -->
 
       <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
-        <pre class="code"><code>{{ usage }}</code></pre>
+        <CodeBlock language="vue" :code="usage" />
         <BankaiText size="sm" tone="muted">
           The nesting is App › Layout › <strong>Page</strong> › Container:
           <BankaiCode>BankaiLayout</BankaiCode> (or a standalone
@@ -75,16 +75,6 @@ const usage = `<!-- every route file starts with BankaiPage -->
 </template>
 
 <style scoped>
-.code {
-  margin: 0;
-  padding: 1.25rem;
-  overflow-x: auto;
-  border-radius: 0.75rem;
-  background: color-mix(in oklch, currentcolor 6%, transparent);
-  font-size: var(--bankai-text-size-sm, 0.875rem);
-  line-height: 1.6;
-}
-
 /* Bound the live demo with a definite block size so the min-block-size fill is observable. */
 .page-demo {
   block-size: 10rem;

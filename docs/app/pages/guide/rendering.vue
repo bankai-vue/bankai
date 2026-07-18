@@ -2,8 +2,8 @@
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'SSR, SPA & routing · bankai-vue' });
 
-// Samples with `<Bankai*>` tags live here as strings so the template renders them verbatim rather than
-// parsing them as HTML. Tag-free samples (tsconfig / config) are inline <pre> blocks below.
+// Samples with `<Bankai*>` tags live here as strings so BankaiCodeBlock renders them verbatim rather
+// than parsing them as HTML; the tag-free samples (tsconfig / config) render through it just the same.
 const linkUsage = `<template>
   <!-- Internal: renders NuxtLink / RouterLink if a router is installed, else a plain <a href="/about">. -->
   <BankaiLink to="/about">About</BankaiLink>
@@ -115,7 +115,7 @@ export default defineNuxtConfig({
           <BankaiCode>to</BankaiCode> with no router degrades to a plain
           <BankaiCode>&lt;a href&gt;</BankaiCode>.
         </BankaiText>
-        <pre class="code-block"><code>{{ linkUsage }}</code></pre>
+        <CodeBlock language="vue" :code="linkUsage" />
         <BankaiText as="h3" size="lg" weight="semibold">vue-router types (opt-in)</BankaiText>
         <BankaiText as="p" tone="muted">
           By default <BankaiCode>to</BankaiCode> is a router-agnostic type. If you use vue-router,
@@ -123,7 +123,7 @@ export default defineNuxtConfig({
           vue-router's <BankaiCode>RouteLocationRaw</BankaiCode>. It is an opt-in augmentation, so a
           router-free app stays dependency-free.
         </BankaiText>
-        <pre class="code-block"><code>{{ tsconfigTypes }}</code></pre>
+        <CodeBlock language="jsonc" :code="tsconfigTypes" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
@@ -143,8 +143,8 @@ export default defineNuxtConfig({
           available at all, any absolute <BankaiCode>http(s)</BankaiCode> URL is treated as
           external.
         </BankaiText>
-        <pre class="code-block"><code>{{ linkOriginVite }}</code></pre>
-        <pre class="code-block"><code>{{ linkOriginNuxt }}</code></pre>
+        <CodeBlock language="ts" :code="linkOriginVite" />
+        <CodeBlock language="ts" :code="linkOriginNuxt" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
@@ -171,23 +171,5 @@ export default defineNuxtConfig({
 
 .doc-link {
   color: inherit;
-}
-
-/* Interim block-code look → future <BankaiCodeBlock>. Scrolls horizontally so a long line never
-   forces the page body to scroll sideways. */
-.code-block {
-  margin: 0;
-  padding: 1rem 1.25rem;
-  overflow-x: auto;
-  border: 1px solid var(--bankai-color-border, currentColor);
-  border-radius: 0.75rem;
-  background: color-mix(in oklch, currentcolor 4%, transparent);
-  font-size: var(--bankai-text-size-sm, 0.875rem);
-  line-height: 1.6;
-}
-
-.code-block code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  white-space: pre;
 }
 </style>

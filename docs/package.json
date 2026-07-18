@@ -19,6 +19,7 @@
     "vue": "catalog:"
   },
   "devDependencies": {
+    "shiki": "catalog:",
     "typescript": "catalog:",
     "vue-tsc": "catalog:"
   }

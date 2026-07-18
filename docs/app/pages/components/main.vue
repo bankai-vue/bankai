@@ -30,7 +30,7 @@ const usage = `<!-- a shell built WITHOUT BankaiLayout -->
 
       <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
-        <pre class="code"><code>{{ usage }}</code></pre>
+        <CodeBlock language="html" :code="usage" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
@@ -66,15 +66,3 @@ const usage = `<!-- a shell built WITHOUT BankaiLayout -->
     </BankaiFlex>
   </BankaiPage>
 </template>
-
-<style scoped>
-.code {
-  margin: 0;
-  padding: 1.25rem;
-  overflow-x: auto;
-  border-radius: 0.75rem;
-  background: color-mix(in oklch, currentcolor 6%, transparent);
-  font-size: var(--bankai-text-size-sm, 0.875rem);
-  line-height: 1.6;
-}
-</style>

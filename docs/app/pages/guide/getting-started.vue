@@ -4,10 +4,10 @@ import type { PropRow } from '../../utils/docs';
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'Getting started · bankai-vue' });
 
-// Code samples live here as strings so the template renders them verbatim (no HTML parsing of the
+// Code samples live here as strings so BankaiCodeBlock renders them verbatim (no HTML parsing of the
 // `<script setup>` / `<Bankai*>` tags inside them). The closing tag in the SFC sample is assembled
 // from parts (`scriptClose`) so the raw source never contains a literal closing-script sequence that
-// would close this SFC's own script block. Interim → a highlighted <BankaiCodeBlock> once it lands.
+// would close this SFC's own script block.
 // eslint-disable-next-line no-useless-concat -- deliberate: the split keeps the literal tag out of source
 const scriptClose = '</scr' + 'ipt>';
 const viteSetup = `// main.ts
@@ -143,9 +143,7 @@ const configOptions: PropRow[] = [
           theme for the CSS. Core ships <em>no</em> CSS of its own — without a theme the components
           render, but unstyled.
         </BankaiText>
-        <pre
-          class="code-block"
-        ><code>pnpm add @bankai-vue/core @bankai-vue/theme-bankai</code></pre>
+        <CodeBlock language="bash" code="pnpm add @bankai-vue/core @bankai-vue/theme-bankai" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
@@ -154,9 +152,9 @@ const configOptions: PropRow[] = [
           Install the plugin with <BankaiCode>createBankai()</BankaiCode> and import the theme's CSS
           once at your entry point.
         </BankaiText>
-        <pre class="code-block"><code>{{ viteSetup }}</code></pre>
+        <CodeBlock language="ts" :code="viteSetup" />
         <BankaiText as="p" tone="muted">Then import components where you use them:</BankaiText>
-        <pre class="code-block"><code>{{ viteUsage }}</code></pre>
+        <CodeBlock language="vue" :code="viteUsage" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
@@ -166,14 +164,14 @@ const configOptions: PropRow[] = [
           (so templates use <BankaiCode>&lt;Bankai*&gt;</BankaiCode> with no import), auto-imports
           the composables, and installs the config per app so it stays per-request under SSR.
         </BankaiText>
-        <pre class="code-block"><code>{{ nuxtSetup }}</code></pre>
-        <pre class="code-block"><code>{{ nuxtUsage }}</code></pre>
+        <CodeBlock language="ts" :code="nuxtSetup" />
+        <CodeBlock language="vue" :code="nuxtUsage" />
         <BankaiText as="h3" size="lg" weight="semibold">Module options</BankaiText>
         <BankaiText as="p" tone="muted">
           Configure the module under the <BankaiCode>bankai</BankaiCode> key. Every option is
           optional.
         </BankaiText>
-        <pre class="code-block"><code>{{ nuxtOptions }}</code></pre>
+        <CodeBlock language="ts" :code="nuxtOptions" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
@@ -207,7 +205,7 @@ const configOptions: PropRow[] = [
           <BankaiCode>bankai.config</BankaiCode>). Read or mutate it at runtime with
           <BankaiCode>useBankaiConfig()</BankaiCode> inside a component's setup.
         </BankaiText>
-        <pre class="code-block"><code>{{ configExample }}</code></pre>
+        <CodeBlock language="ts" :code="configExample" />
         <PropsTable :rows="configOptions" />
       </BankaiFlex>
 
@@ -243,23 +241,5 @@ const configOptions: PropRow[] = [
 
 .doc-link {
   color: inherit;
-}
-
-/* Interim block-code look → future <BankaiCodeBlock>. Scrolls horizontally so a long line never
-   forces the page body to scroll sideways. */
-.code-block {
-  margin: 0;
-  padding: 1rem 1.25rem;
-  overflow-x: auto;
-  border: 1px solid var(--bankai-color-border, currentColor);
-  border-radius: 0.75rem;
-  background: color-mix(in oklch, currentcolor 4%, transparent);
-  font-size: var(--bankai-text-size-sm, 0.875rem);
-  line-height: 1.6;
-}
-
-.code-block code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  white-space: pre;
 }
 </style>
