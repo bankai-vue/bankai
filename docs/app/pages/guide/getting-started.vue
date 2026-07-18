@@ -1,8 +1,16 @@
 <script setup lang="ts">
 import type { PropRow } from '../../utils/docs';
+import { computed } from 'vue';
+
+// Pilot page for the docs-site i18n: fully translated (en + de). Prose lives in the message files;
+// paragraphs with inline components (<BankaiCode>, <em>, links) use <i18n-t> with named slots so the
+// markup stays in the template while the surrounding text is localized. Code samples are not
+// translated. The rest of the site keeps its English prose with the same machinery ready.
+const { t } = useI18n();
 
 definePageMeta({ layout: 'docs' });
-useHead({ title: 'Getting started · bankai-vue' });
+// Function form so the title re-evaluates when the locale switches.
+useHead(() => ({ title: t('pages.gettingStarted.title') }));
 
 // Code samples live here as strings so BankaiCodeBlock renders them verbatim (no HTML parsing of the
 // `<script setup>` / `<Bankai*>` tags inside them). The closing tag in the SFC sample is assembled
@@ -69,152 +77,175 @@ app.use(
 );`;
 
 // Reuses the props table for the config surface: same name / type / default / description shape.
-const configOptions: PropRow[] = [
+// Names/types/defaults are code identifiers (not localized); only the descriptions are translated, so
+// this is a computed that re-evaluates when the locale switches.
+const configOptions = computed<PropRow[]>(() => [
   {
     name: 'idGeneration',
     type: 'boolean',
     default: 'true',
-    description:
-      'Whether components generate a stable id when the consumer supplies none. A consumer-provided id always wins.',
+    description: t('gettingStarted.config.options.idGeneration'),
   },
   {
     name: 'warnings',
     type: 'boolean',
     default: 'true',
-    description:
-      'Emit development warnings for likely-mistaken usage. Already stripped from production builds; set false to silence them in dev too.',
+    description: t('gettingStarted.config.options.warnings'),
   },
   {
     name: 'linkComponent',
     type: 'Component | string',
-    description:
-      'Force the component BankaiLink renders for internal navigation. Leave unset to auto-detect NuxtLink → RouterLink → <a>.',
+    description: t('gettingStarted.config.options.linkComponent'),
   },
   {
     name: 'linkOrigin',
     type: 'string',
-    description:
-      'Site origin BankaiLink compares an href against to decide it is external. Set it for accurate, hydration-safe checks under SSR/SSG.',
+    description: t('gettingStarted.config.options.linkOrigin'),
   },
   {
     name: 'linkNoopener',
     type: 'boolean',
     default: 'true',
-    description:
-      'Auto-add rel="noopener noreferrer" to a target="_blank" link. A consumer-provided rel always wins.',
+    description: t('gettingStarted.config.options.linkNoopener'),
   },
   {
     name: 'codeBlockCopiedDuration',
     type: 'number',
     default: '2000',
-    description:
-      "How long (ms) BankaiCodeBlock's copy button stays in its copied state before reverting. A per-instance copiedDuration prop overrides it.",
+    description: t('gettingStarted.config.options.codeBlockCopiedDuration'),
   },
-];
+]);
 </script>
 
 <template>
   <BankaiPage>
     <BankaiFlex as="article" direction="column" gap="12">
-      <BankaiText as="h1" size="2xl" weight="black">Getting started</BankaiText>
+      <BankaiText as="h1" size="2xl" weight="black">{{ t('gettingStarted.heading') }}</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
-        Install <BankaiCode>@bankai-vue/core</BankaiCode>, add a theme for the CSS, and render your
-        first component. Works the same in a plain Vue (Vite) app or in Nuxt.
+        <i18n-t keypath="gettingStarted.lede" tag="span" scope="global">
+          <template #core><BankaiCode>@bankai-vue/core</BankaiCode></template>
+        </i18n-t>
       </BankaiText>
 
       <p class="callout">
         <BankaiText as="span" size="sm">
-          <strong>Early development.</strong> The API is being designed in the open and nothing is
-          on npm yet — the steps below document the intended shape. Follow the
-          <BankaiLink
-            href="https://github.com/bankai-vue/bankai/blob/main/ROADMAP.md"
-            target="_blank"
-          >
-            roadmap
-          </BankaiLink>
-          for the first release.
+          <strong>{{ t('gettingStarted.callout.lead') }}</strong>
+          <i18n-t keypath="gettingStarted.callout.body" tag="span" scope="global">
+            <template #roadmap>
+              <BankaiLink
+                href="https://github.com/bankai-vue/bankai/blob/main/ROADMAP.md"
+                target="_blank"
+              >
+                {{ t('gettingStarted.callout.roadmapLink') }}
+              </BankaiLink>
+            </template>
+          </i18n-t>
         </BankaiText>
       </p>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Installation</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{
+          t('gettingStarted.install.heading')
+        }}</BankaiText>
         <BankaiText as="p" tone="muted">
-          You need two packages: <BankaiCode>@bankai-vue/core</BankaiCode> for the components and a
-          theme for the CSS. Core ships <em>no</em> CSS of its own — without a theme the components
-          render, but unstyled.
+          <i18n-t keypath="gettingStarted.install.body" tag="span" scope="global">
+            <template #core><BankaiCode>@bankai-vue/core</BankaiCode></template>
+            <template #no
+              ><em>{{ t('gettingStarted.install.no') }}</em></template
+            >
+          </i18n-t>
         </BankaiText>
         <CodeBlock language="bash" code="pnpm add @bankai-vue/core @bankai-vue/theme-bankai" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Vue (Vite)</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{
+          t('gettingStarted.vite.heading')
+        }}</BankaiText>
         <BankaiText as="p" tone="muted">
-          Install the plugin with <BankaiCode>createBankai()</BankaiCode> and import the theme's CSS
-          once at your entry point.
+          <i18n-t keypath="gettingStarted.vite.intro" tag="span" scope="global">
+            <template #createBankai><BankaiCode>createBankai()</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
         <CodeBlock language="ts" :code="viteSetup" />
-        <BankaiText as="p" tone="muted">Then import components where you use them:</BankaiText>
+        <BankaiText as="p" tone="muted">{{ t('gettingStarted.vite.then') }}</BankaiText>
         <CodeBlock language="vue" :code="viteUsage" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Nuxt</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{
+          t('gettingStarted.nuxt.heading')
+        }}</BankaiText>
         <BankaiText as="p" tone="muted">
-          Add the first-party module and the theme CSS. The module auto-registers every component
-          (so templates use <BankaiCode>&lt;Bankai*&gt;</BankaiCode> with no import), auto-imports
-          the composables, and installs the config per app so it stays per-request under SSR.
+          <i18n-t keypath="gettingStarted.nuxt.intro" tag="span" scope="global">
+            <template #tag><BankaiCode>&lt;Bankai*&gt;</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
         <CodeBlock language="ts" :code="nuxtSetup" />
         <CodeBlock language="vue" :code="nuxtUsage" />
-        <BankaiText as="h3" size="lg" weight="semibold">Module options</BankaiText>
+        <BankaiText as="h3" size="lg" weight="semibold">{{
+          t('gettingStarted.nuxt.optionsHeading')
+        }}</BankaiText>
         <BankaiText as="p" tone="muted">
-          Configure the module under the <BankaiCode>bankai</BankaiCode> key. Every option is
-          optional.
+          <i18n-t keypath="gettingStarted.nuxt.optionsIntro" tag="span" scope="global">
+            <template #bankai><BankaiCode>bankai</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
         <CodeBlock language="ts" :code="nuxtOptions" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Choosing a theme</BankaiText>
-        <BankaiText as="p" tone="muted">
-          Themes are separate CSS packages — core resolves against none of them, so you pick one and
-          import its CSS. Two ship today:
-        </BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{
+          t('gettingStarted.theme.heading')
+        }}</BankaiText>
+        <BankaiText as="p" tone="muted">{{ t('gettingStarted.theme.intro') }}</BankaiText>
         <ul class="doc-list">
           <li>
-            <BankaiCode>@bankai-vue/theme-bankai</BankaiCode> — the signature house look, an
-            opinionated set of styled defaults. Customize it through
-            <BankaiCode>--bankai-*</BankaiCode> custom properties.
+            <i18n-t keypath="gettingStarted.theme.bankai" tag="span" scope="global">
+              <template #pkg><BankaiCode>@bankai-vue/theme-bankai</BankaiCode></template>
+              <template #vars><BankaiCode>--bankai-*</BankaiCode></template>
+            </i18n-t>
           </li>
           <li>
-            <BankaiCode>@bankai-vue/theme-tailwind</BankaiCode> — remaps the design tokens onto your
-            Tailwind scale, so your own Tailwind design language drives the components. Requires
-            Tailwind CSS v4.
+            <i18n-t keypath="gettingStarted.theme.tailwind" tag="span" scope="global">
+              <template #pkg><BankaiCode>@bankai-vue/theme-tailwind</BankaiCode></template>
+            </i18n-t>
           </li>
         </ul>
         <BankaiText as="p" tone="muted">
-          Both override cleanly because the theme CSS is authored with zero-specificity
-          <BankaiCode>:where()</BankaiCode> selectors.
+          <i18n-t keypath="gettingStarted.theme.override" tag="span" scope="global">
+            <template #where><BankaiCode>:where()</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Configuration</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{
+          t('gettingStarted.config.heading')
+        }}</BankaiText>
         <BankaiText as="p" tone="muted">
-          Pass initial config to <BankaiCode>createBankai()</BankaiCode> (or the module's
-          <BankaiCode>bankai.config</BankaiCode>). Read or mutate it at runtime with
-          <BankaiCode>useBankaiConfig()</BankaiCode> inside a component's setup.
+          <i18n-t keypath="gettingStarted.config.intro" tag="span" scope="global">
+            <template #createBankai><BankaiCode>createBankai()</BankaiCode></template>
+            <template #bankaiConfig><BankaiCode>bankai.config</BankaiCode></template>
+            <template #useBankaiConfig><BankaiCode>useBankaiConfig()</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
         <CodeBlock language="ts" :code="configExample" />
         <PropsTable :rows="configOptions" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Next steps</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{
+          t('gettingStarted.next.heading')
+        }}</BankaiText>
         <BankaiText as="p" tone="muted">
-          Browse the
-          <NuxtLink to="/components" class="doc-link">components</NuxtLink>
-          for props, slots, and live examples.
+          <i18n-t keypath="gettingStarted.next.body" tag="span" scope="global">
+            <template #components>
+              <NuxtLinkLocale to="/components" class="doc-link">
+                {{ t('gettingStarted.next.componentsLink') }}
+              </NuxtLinkLocale>
+            </template>
+          </i18n-t>
         </BankaiText>
       </BankaiFlex>
     </BankaiFlex>

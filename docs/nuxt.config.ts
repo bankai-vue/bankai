@@ -11,11 +11,39 @@ export default defineNuxtConfig({
   // Dogfood the first-party module (SPEC.md §4.12/§4.15): it auto-registers every
   // `@bankai-vue/core` component (so pages use `<Bankai*>` with no import),
   // auto-imports the composables, and installs the config per app (SSR-safe).
-  modules: ['@bankai-vue/nuxt'],
+  //
+  // @nuxtjs/i18n localizes the docs SITE itself (nav/chrome/prose). This is a SEPARATE
+  // system from `@bankai-vue/core`'s component i18n above — distinct config, distinct
+  // message files (docs/i18n/locales/*.json), distinct coverage. The two are linked at
+  // one point only: a plugin (app/plugins/bankai-locale-sync.ts) mirrors the active docs
+  // locale into `config.i18n.locale`, so a single header switcher drives both at once.
+  modules: ['@bankai-vue/nuxt', '@nuxtjs/i18n'],
 
-  // Register the German bundle so the header LocaleToggle can switch to it at runtime. The default
-  // locale stays English; the toggle flips `config.i18n.locale` live. (Auto-inject only covers the
-  // single *active* configured locale, so a runtime switcher across locales registers them explicitly.)
+  // Docs-site i18n. `prefix_except_default` keeps English at `/…` and German at `/de/…`
+  // (SEO-friendly, crawlable localized routes). Message files live in docs/i18n/locales/.
+  // `detectBrowserLanguage: false` keeps every route deterministic for SSG — no cookie
+  // redirect; the header switcher is the sole, explicit locale control.
+  i18n: {
+    strategy: 'prefix_except_default',
+    defaultLocale: 'en',
+    locales: [
+      { code: 'en', language: 'en-US', name: 'English', file: 'en.json' },
+      { code: 'de', language: 'de-DE', name: 'Deutsch', file: 'de.json' },
+    ],
+    detectBrowserLanguage: false,
+    compilation: {
+      // Component taglines intentionally contain literal element names like `<button>` / `<code>`,
+      // rendered as TEXT via `{{ }}` (Vue escapes them). Relax the compiler's strict no-HTML check so
+      // those messages compile — otherwise one flagged message aborts the whole bundle and every key
+      // falls back to itself. Safe here: messages are static and authored, never passed to `v-html`.
+      strictMessage: false,
+    },
+  },
+
+  // Register bankai's German COMPONENT bundle so the header language switcher can render component
+  // strings (e.g. BankaiCodeBlock's "Copy" → "Kopieren") in German too. The docs locale is mirrored
+  // into `config.i18n.locale` by app/plugins/bankai-locale-sync.ts. Auto-inject only covers the single
+  // *active* configured locale, so a switcher spanning locales registers each bundle explicitly.
   bankai: {
     config: { i18n: { messages: { de } } },
   },
@@ -29,7 +57,10 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       crawlLinks: true,
-      routes: ['/'],
+      // Seed both locale roots: `crawlLinks` then follows the auto-localized <NuxtLink>
+      // nav from each, so every `/de/…` page is prerendered alongside its English twin
+      // (verify `/bankai/de/…` files exist after `docs:generate`).
+      routes: ['/', '/de'],
     },
   },
 

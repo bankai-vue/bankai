@@ -83,6 +83,11 @@ catalog:
   '@nuxt/kit': 4.4.8
   '@nuxt/module-builder': 1.0.2
 
+  # Docs-only Nuxt i18n module — localizes the documentation SITE itself
+  # (nav/chrome/prose, en + de) via @nuxtjs/i18n. Distinct from @bankai-vue/core's
+  # component i18n (BankaiMessages). v10 peers @nuxt/kit ^4.4.8 (matches the pin).
+  '@nuxtjs/i18n': 10.4.1
+
   # Docs-only syntax highlighter. Runs at prerender (server-side) to bake
   # highlighted markup into the static HTML; guarded behind `import.meta.server`
   # so it never reaches the shipped client bundle. Dual-theme output resolves via

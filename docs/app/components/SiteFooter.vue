@@ -3,12 +3,13 @@
 // BankaiFooter for the #footer slot, so this root is a plain <div> (a nested <footer> would duplicate
 // the contentinfo landmark) AND the foot bar look — padding + a top border — now comes from
 // BankaiFooter's theme paint, not this component; only the centering stays here.
+const { t } = useI18n();
 </script>
 
 <template>
   <div class="site-footer">
     <BankaiText as="span" size="sm" tone="subtle">
-      MIT © bankai-vue · This site is built with bankai-vue.
+      {{ t('footer.text') }}
     </BankaiText>
   </div>
 </template>

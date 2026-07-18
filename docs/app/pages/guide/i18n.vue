@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import * as coreLocales from '@bankai-vue/core/locales';
 
+const { t } = useI18n();
+
 definePageMeta({ layout: 'docs' });
-useHead({ title: 'Internationalization · bankai-vue' });
+// Function form so the title re-evaluates when the locale switches. NOTE: the coverage table below
+// measures bankai's COMPONENT-i18n (`@bankai-vue/core/locales`) — a separate system from this
+// docs-site i18n. Its logic is deliberately left untouched; only this page's title/prose is localized.
+useHead(() => ({ title: t('pages.i18n.title') }));
 
 // Samples live here as strings so BankaiCodeBlock renders them verbatim.
 const registerVite = `import { createBankai } from '@bankai-vue/core';
