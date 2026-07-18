@@ -104,6 +104,34 @@ test('createBankai({ idGeneration: false }) disables id generation', () => {
   teardown();
 });
 
+test('codeBlockCopiedDuration defaults to 2000', () => {
+  let config: BankaiConfig | undefined;
+  const Comp = defineComponent({
+    setup() {
+      config = useBankaiConfig();
+      return (): VNode => h('div');
+    },
+  });
+
+  const { teardown } = mount(Comp);
+  expect(config?.codeBlockCopiedDuration).toBe(2000);
+  teardown();
+});
+
+test('createBankai overrides codeBlockCopiedDuration', () => {
+  let config: BankaiConfig | undefined;
+  const Comp = defineComponent({
+    setup() {
+      config = useBankaiConfig();
+      return (): VNode => h('div');
+    },
+  });
+
+  const { teardown } = mount(Comp, createBankai({ codeBlockCopiedDuration: 500 }));
+  expect(config?.codeBlockCopiedDuration).toBe(500);
+  teardown();
+});
+
 test('useBankaiConfig reflects the installed config', () => {
   let config: BankaiConfig | undefined;
   const Comp = defineComponent({

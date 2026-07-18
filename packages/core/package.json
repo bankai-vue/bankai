@@ -58,6 +58,10 @@
       "types": "./dist/components/code/BankaiCode.d.ts",
       "import": "./dist/components/code/BankaiCode.js"
     },
+    "./components/code-block/BankaiCodeBlock": {
+      "types": "./dist/components/code-block/BankaiCodeBlock.d.ts",
+      "import": "./dist/components/code-block/BankaiCodeBlock.js"
+    },
     "./components/container/BankaiContainer": {
       "types": "./dist/components/container/BankaiContainer.d.ts",
       "import": "./dist/components/container/BankaiContainer.js"

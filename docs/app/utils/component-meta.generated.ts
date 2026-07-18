@@ -96,6 +96,60 @@ export const componentMeta = {
     ],
     "events": []
   },
+  "BankaiCodeBlock": {
+    "props": [
+      {
+        "name": "code",
+        "type": "string",
+        "required": true,
+        "description": "The code as a string. It is the source of truth for the clipboard (the copy button writes exactly this) and, when the default slot is not used, the text rendered inside the <code>."
+      },
+      {
+        "name": "language",
+        "type": "string",
+        "required": false,
+        "description": "Language identifier. Reflected verbatim as the language-<language> class on the <code> — the de-facto convention a BYO syntax highlighter (Shiki, Prism, highlight.js) or CSS keys off. Core itself highlights nothing."
+      },
+      {
+        "name": "copyable",
+        "type": "boolean",
+        "required": false,
+        "description": "Render the copy-to-clipboard button (and its role=\"status\" live region). Set false to omit it.",
+        "default": "true"
+      },
+      {
+        "name": "copyLabel",
+        "type": "string",
+        "required": false,
+        "description": "The copy button's accessible name and its idle label text (when the copy slot is not used).",
+        "default": "'Copy'"
+      },
+      {
+        "name": "copiedLabel",
+        "type": "string",
+        "required": false,
+        "description": "The button's label text after a successful copy (when the copy slot is not used) and the message announced by the role=\"status\" live region. Overriding both labels localizes the component with no extra config surface.",
+        "default": "'Copied'"
+      },
+      {
+        "name": "copiedDuration",
+        "type": "number",
+        "required": false,
+        "description": "How long (ms) the copy button stays in its \"copied\" state after a successful copy before reverting to idle. Overrides the global codeBlockCopiedDuration config (BankaiConfig ) for this block."
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "description": "Rendered code body — an escape hatch for pre-highlighted markup (e.g. a BYO highlighter's output). When omitted, the raw code prop renders verbatim as text. Either way the copy button writes the code prop, so the copied text stays exact regardless of what is rendered."
+      },
+      {
+        "name": "copy",
+        "description": "Copy-button content. Receives the current copied state so a consumer can swap label/icon. When omitted, the button shows the copyLabel / copiedLabel text."
+      }
+    ],
+    "events": []
+  },
   "BankaiCode": {
     "props": [],
     "slots": [

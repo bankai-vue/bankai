@@ -214,7 +214,7 @@ Navigation content — dropped into the region slots:
 - [ ] `BankaiPagination` _(universal)_ — paged navigation
 - [ ] `BankaiTabs` (`BankaiTab`, `BankaiTabPanel`)
 - [ ] `BankaiThemeToggle`
-- [ ] `BankaiCodeBlock` — fenced/block code + copy button
+- [x] `BankaiCodeBlock` — block (fenced) code + copy button. Renders a native `.bankai-code-block` `<div data-part="root">` wrapping `<pre data-part="pre"><code data-part="code">`; the `code` prop is the source of truth (renders verbatim, or pass pre-highlighted markup via the default slot — either way it is the exact clipboard string). Core highlights nothing: the optional `language` prop reflects as the de-facto `language-<lang>` class on the `<code>` for a BYO highlighter. The copy button is a composed `BankaiButton` (stable accessible name) that reflects a transient `data-bankai-copied` and announces success via a visually hidden `role="status"` region; `copyLabel`/`copiedLabel` localize the text + announcement, the `copy` slot swaps in an icon (receives `copied`), and `:copyable="false"` drops the button. Distinct from the inline `BankaiCode`
 - [ ] `BankaiSearch` — native `<search>` landmark wrapping the docs search/filter controls
 
 Typography — anchors the `@bankai-vue/theme-bankai` type scale; the home for inline text semantics:

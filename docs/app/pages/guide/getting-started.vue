@@ -103,6 +103,13 @@ const configOptions: PropRow[] = [
     description:
       'Auto-add rel="noopener noreferrer" to a target="_blank" link. A consumer-provided rel always wins.',
   },
+  {
+    name: 'codeBlockCopiedDuration',
+    type: 'number',
+    default: '2000',
+    description:
+      "How long (ms) BankaiCodeBlock's copy button stays in its copied state before reverting. A per-instance copiedDuration prop overrides it.",
+  },
 ];
 </script>
 

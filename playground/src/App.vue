@@ -4,6 +4,7 @@ import {
   BankaiAside,
   BankaiButton,
   BankaiCode,
+  BankaiCodeBlock,
   BankaiContainer,
   BankaiFlex,
   BankaiFooter,
@@ -41,6 +42,9 @@ const weights = [
 const tones = ['default', 'muted', 'subtle'] as const;
 
 const levels = [1, 2, 3, 4, 5, 6] as const;
+
+const codeBlockExample = `pnpm add @bankai-vue/core @bankai-vue/theme-bankai
+# then import a theme's index.css and start composing`;
 </script>
 
 <template>
@@ -270,6 +274,18 @@ const levels = [1, 2, 3, 4, 5, 6] as const;
         <BankaiText as="span" size="sm">smaller line (<BankaiCode>sm</BankaiCode>)</BankaiText> as
         in this one.
       </p>
+    </section>
+
+    <section>
+      <h2>BankaiCodeBlock</h2>
+
+      <p>
+        Block code — a native <BankaiCode>&lt;pre&gt;&lt;code&gt;</BankaiCode> with a copy button.
+        The <BankaiCode>code</BankaiCode> prop is the exact clipboard source; core highlights
+        nothing, so <BankaiCode>language</BankaiCode> only reflects as a
+        <BankaiCode>language-*</BankaiCode> class for a BYO highlighter.
+      </p>
+      <BankaiCodeBlock language="bash" :code="codeBlockExample" />
     </section>
 
     <section>
