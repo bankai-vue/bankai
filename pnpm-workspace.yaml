@@ -82,19 +82,3 @@ catalog:
   nuxt: 4.4.8
   '@nuxt/kit': 4.4.8
   '@nuxt/module-builder': 1.0.2
-
-# Trusted, exact-pinned tooling (+ their platform bindings) is exempt from the
-# release-age delay so Renovate bumps can be installed immediately. Matched by
-# name/glob rather than exact version, so these survive version bumps.
-minimumReleaseAgeExclude:
-  - oxfmt
-  - '@oxfmt/*'
-  - oxlint
-  - '@oxlint/*'
-  - oxlint-tsgolint
-  - '@oxlint-tsgolint/*'
-  - '@typescript/native-preview'
-  - '@typescript/native-preview-*'
-  - vue-tsc
-  - '@vue/language-core'
-  - vite
