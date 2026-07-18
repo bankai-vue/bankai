@@ -1,3 +1,5 @@
+export { default as BankaiApp } from './components/app/BankaiApp.vue';
+export type { BankaiAppSlots } from './components/app/BankaiApp.vue';
 export { default as BankaiAside } from './components/aside/BankaiAside.vue';
 export type { BankaiAsideProps, BankaiAsideSlots } from './components/aside/BankaiAside.vue';
 export { default as BankaiButton } from './components/button/BankaiButton.vue';

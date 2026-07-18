@@ -30,6 +30,16 @@ export interface ComponentMeta {
 }
 
 export const componentMeta = {
+  "BankaiApp": {
+    "props": [],
+    "slots": [
+      {
+        "name": "default",
+        "description": "The whole application — typically a BankaiLayout (or a standalone region shell) and its routes."
+      }
+    ],
+    "events": []
+  },
   "BankaiAside": {
     "props": [
       {

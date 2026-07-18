@@ -11,7 +11,11 @@ useHead({
 
 <template>
   <NuxtRouteAnnouncer />
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
+  <!-- The infra singleton at the true root — one BankaiApp persists across every route and layout
+       (App › Layout › Page › Container). It carries the house surface on its own box. -->
+  <BankaiApp>
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </BankaiApp>
 </template>

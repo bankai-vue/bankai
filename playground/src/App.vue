@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {
+  BankaiApp,
   BankaiAside,
   BankaiButton,
   BankaiCode,
@@ -105,6 +106,24 @@ const levels = [1, 2, 3, 4, 5, 6] as const;
         <BankaiButton variant="outline" style="grid-area: sidebar">side</BankaiButton>
         <BankaiButton variant="ghost" style="grid-area: main">main</BankaiButton>
       </BankaiGrid>
+    </section>
+
+    <section>
+      <h2>BankaiApp</h2>
+
+      <p>
+        Infra singleton at the root of the App › Layout › Page › Container structure. It lands thin:
+        its one job today is the embedded-mode surface — it carries the house
+        <code>color-scheme</code> and <code>--bankai-color-bg</code>/<code>-fg</code> on its own
+        box, so a bankai island in a foreign page is self-contained (the box below sits on a
+        non-house gray to show its own painted surface):
+      </p>
+
+      <div class="app-demo">
+        <BankaiApp data-testid="app" class="app-box">
+          <p style="margin: 0">Self-contained bankai island</p>
+        </BankaiApp>
+      </div>
     </section>
 
     <section>
@@ -423,5 +442,16 @@ const levels = [1, 2, 3, 4, 5, 6] as const;
 .page-box {
   padding: 0.75rem;
   outline: 2px solid color-mix(in oklch, currentcolor 20%, transparent);
+}
+
+/* A non-house "foreign host" surface so the embedded BankaiApp's own painted surface stands out. */
+.app-demo {
+  padding: 1.5rem;
+  background-color: oklch(70% 0.03 250);
+}
+
+.app-box {
+  padding: 1rem;
+  border-radius: 0.5rem;
 }
 </style>
