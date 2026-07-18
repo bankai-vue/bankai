@@ -1,7 +1,8 @@
+import type { BankaiConfig } from '../src/config';
 import type { Plugin, Slots } from 'vue';
 import { afterEach, expect, test, vi } from 'vitest';
-import { createApp, h } from 'vue';
-import { createBankai } from '../src/config';
+import { createApp, h, nextTick } from 'vue';
+import { createBankai, useBankaiConfig } from '../src/config';
 import de from '../src/i18n/locales/de';
 import { BankaiCodeBlock } from '../src/index';
 
@@ -253,6 +254,34 @@ test('localizes the labels from the global i18n config', async () => {
   });
 
   teardown();
+});
+
+test('switches the localized labels at runtime when config.i18n.locale changes', async () => {
+  // Capture the reactive config from a root that renders the block, then flip the locale live —
+  // no re-mount, no reload — and assert the rendered label follows.
+  let config: BankaiConfig | undefined;
+  const host = document.createElement('div');
+  document.body.append(host);
+  const app = createApp({
+    setup() {
+      config = useBankaiConfig();
+      return (): ReturnType<typeof h> => h(BankaiCodeBlock, { code: 'x' });
+    },
+  });
+  // `locale` defaults to 'en'; the German bundle is registered but not yet active.
+  app.use(createBankai({ i18n: { messages: { de } } }));
+  app.mount(host);
+
+  const button = host.querySelector('.bankai-code-block-copy');
+  expect(button?.textContent).toBe('Copy');
+
+  config!.i18n.locale = 'de';
+  await nextTick();
+  expect(button?.textContent).toBe('Kopieren');
+  expect(button?.getAttribute('aria-label')).toBe('Kopieren');
+
+  app.unmount();
+  host.remove();
 });
 
 test('a per-instance label prop overrides the localized message', () => {
