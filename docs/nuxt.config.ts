@@ -42,12 +42,19 @@ export default defineNuxtConfig({
       // theme's `:root { color-scheme: light dark }` keeps following the OS. Interim to
       // the ColorSchemeToggle / future BankaiThemeToggle; on SSG this inline script is
       // the sanctioned fallback (no per-request server to read a cookie).
+      //
+      // The override MUST target `.bankai-app`, not `<html>`: the root <BankaiApp> re-declares
+      // `color-scheme` on its own box (theme-bankai/components/app.css, for embedded islands),
+      // which severs inheritance of an <html> override for the whole app subtree. We inject a
+      // `.bankai-app { color-scheme }` rule (class specificity 0,1,0) that beats the theme's
+      // `:where(.bankai-app)` (0,0,0) and applies the instant `.bankai-app` is parsed. The
+      // <style id> is the single source of truth the ColorSchemeToggle updates at runtime.
       script: [
         {
           key: 'bankai-color-scheme-init',
           tagPosition: 'head',
           innerHTML:
-            "try{var v=localStorage.getItem('bankai-docs-color-scheme');if(v)document.documentElement.style.colorScheme=v}catch(e){}",
+            "try{var v=localStorage.getItem('bankai-docs-color-scheme');if(v==='light'||v==='dark'){var s=document.createElement('style');s.id='bankai-color-scheme';s.textContent='.bankai-app{color-scheme:'+v+'}';document.head.appendChild(s)}}catch(e){}",
         },
       ],
     },
