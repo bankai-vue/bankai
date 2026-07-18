@@ -27,7 +27,7 @@ const usage = `<!-- the outermost wrapper of an application -->
 
       <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
-        <pre class="code"><code>{{ usage }}</code></pre>
+        <BankaiCodeBlock language="vue" :code="usage" />
         <BankaiText size="sm" tone="muted">
           Wrap your application once at the root. It is a <strong>singleton</strong>: its services
           are provided by injection, so nesting an App inside another App would silently shadow the
@@ -74,16 +74,6 @@ const usage = `<!-- the outermost wrapper of an application -->
 </template>
 
 <style scoped>
-.code {
-  margin: 0;
-  padding: 1.25rem;
-  overflow-x: auto;
-  border-radius: 0.75rem;
-  background: color-mix(in oklch, currentcolor 6%, transparent);
-  font-size: var(--bankai-text-size-sm, 0.875rem);
-  line-height: 1.6;
-}
-
 /* A non-house "foreign host" surface so the embedded App's own painted surface is visible against it. */
 .app-demo {
   padding: 1.5rem;

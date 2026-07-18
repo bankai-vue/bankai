@@ -95,7 +95,7 @@ const scrollCss = `/* app-shell: fixed header + footer, only main scrolls */
 
       <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
-        <pre class="code"><code>{{ usage }}</code></pre>
+        <BankaiCodeBlock language="vue" :code="usage" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
@@ -111,7 +111,7 @@ const scrollCss = `/* app-shell: fixed header + footer, only main scrolls */
           <BankaiCode>header → sidebar → main → footer</BankaiCode>, only the visual placement
           moves.
         </BankaiText>
-        <pre class="code"><code>{{ overrideCss }}</code></pre>
+        <BankaiCodeBlock language="css" :code="overrideCss" />
 
         <BankaiText as="h3" size="lg" weight="semibold">RTL</BankaiText>
         <BankaiText size="sm" tone="muted">
@@ -136,7 +136,7 @@ const scrollCss = `/* app-shell: fixed header + footer, only main scrolls */
           the sidebar hug its content instead of stretching, use
           <BankaiCode>align-self: start</BankaiCode>.
         </BankaiText>
-        <pre class="code"><code>{{ scrollCss }}</code></pre>
+        <BankaiCodeBlock language="css" :code="scrollCss" />
 
         <BankaiText as="h3" size="lg" weight="semibold">Tailwind &amp; utility classes</BankaiText>
         <BankaiText size="sm" tone="muted">
@@ -196,15 +196,5 @@ const scrollCss = `/* app-shell: fixed header + footer, only main scrolls */
 
 .cell.footer {
   grid-area: footer;
-}
-
-.code {
-  margin: 0;
-  padding: 1.25rem;
-  overflow-x: auto;
-  border-radius: 0.75rem;
-  background: color-mix(in oklch, currentcolor 6%, transparent);
-  font-size: var(--bankai-text-size-sm, 0.875rem);
-  line-height: 1.6;
 }
 </style>
