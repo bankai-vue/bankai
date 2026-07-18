@@ -27,7 +27,7 @@ const usage = `<!-- the outermost wrapper of an application -->
 
       <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
-        <BankaiCodeBlock language="vue" :code="usage" />
+        <CodeBlock language="vue" :code="usage" />
         <BankaiText size="sm" tone="muted">
           Wrap your application once at the root. It is a <strong>singleton</strong>: its services
           are provided by injection, so nesting an App inside another App would silently shadow the

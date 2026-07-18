@@ -31,7 +31,7 @@ const usage = `<!-- a shell built WITHOUT BankaiLayout -->
 
       <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
-        <BankaiCodeBlock language="vue" :code="usage" />
+        <CodeBlock language="vue" :code="usage" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">

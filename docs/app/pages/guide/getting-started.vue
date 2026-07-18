@@ -143,10 +143,7 @@ const configOptions: PropRow[] = [
           theme for the CSS. Core ships <em>no</em> CSS of its own — without a theme the components
           render, but unstyled.
         </BankaiText>
-        <BankaiCodeBlock
-          language="bash"
-          code="pnpm add @bankai-vue/core @bankai-vue/theme-bankai"
-        />
+        <CodeBlock language="bash" code="pnpm add @bankai-vue/core @bankai-vue/theme-bankai" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
@@ -155,9 +152,9 @@ const configOptions: PropRow[] = [
           Install the plugin with <BankaiCode>createBankai()</BankaiCode> and import the theme's CSS
           once at your entry point.
         </BankaiText>
-        <BankaiCodeBlock language="ts" :code="viteSetup" />
+        <CodeBlock language="ts" :code="viteSetup" />
         <BankaiText as="p" tone="muted">Then import components where you use them:</BankaiText>
-        <BankaiCodeBlock language="vue" :code="viteUsage" />
+        <CodeBlock language="vue" :code="viteUsage" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
@@ -167,14 +164,14 @@ const configOptions: PropRow[] = [
           (so templates use <BankaiCode>&lt;Bankai*&gt;</BankaiCode> with no import), auto-imports
           the composables, and installs the config per app so it stays per-request under SSR.
         </BankaiText>
-        <BankaiCodeBlock language="ts" :code="nuxtSetup" />
-        <BankaiCodeBlock language="vue" :code="nuxtUsage" />
+        <CodeBlock language="ts" :code="nuxtSetup" />
+        <CodeBlock language="vue" :code="nuxtUsage" />
         <BankaiText as="h3" size="lg" weight="semibold">Module options</BankaiText>
         <BankaiText as="p" tone="muted">
           Configure the module under the <BankaiCode>bankai</BankaiCode> key. Every option is
           optional.
         </BankaiText>
-        <BankaiCodeBlock language="ts" :code="nuxtOptions" />
+        <CodeBlock language="ts" :code="nuxtOptions" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
@@ -208,7 +205,7 @@ const configOptions: PropRow[] = [
           <BankaiCode>bankai.config</BankaiCode>). Read or mutate it at runtime with
           <BankaiCode>useBankaiConfig()</BankaiCode> inside a component's setup.
         </BankaiText>
-        <BankaiCodeBlock language="ts" :code="configExample" />
+        <CodeBlock language="ts" :code="configExample" />
         <PropsTable :rows="configOptions" />
       </BankaiFlex>
 

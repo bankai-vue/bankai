@@ -27,7 +27,7 @@ const usage = `<!-- every route file starts with BankaiPage -->
 
       <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
-        <BankaiCodeBlock language="vue" :code="usage" />
+        <CodeBlock language="vue" :code="usage" />
         <BankaiText size="sm" tone="muted">
           The nesting is App › Layout › <strong>Page</strong> › Container:
           <BankaiCode>BankaiLayout</BankaiCode> (or a standalone

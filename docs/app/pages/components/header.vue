@@ -38,7 +38,7 @@ const stickyCss = `/* the header paints the page background, so a sticky bar cov
 
       <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
-        <BankaiCodeBlock language="vue" :code="usage" />
+        <CodeBlock language="vue" :code="usage" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
@@ -72,7 +72,7 @@ const stickyCss = `/* the header paints the page background, so a sticky bar cov
           (<BankaiCode>:where()</BankaiCode>), so a plain declaration or utility class overrides the
           padding, border, or background without <BankaiCode>!important</BankaiCode>.
         </BankaiText>
-        <BankaiCodeBlock language="css" :code="stickyCss" />
+        <CodeBlock language="css" :code="stickyCss" />
       </BankaiFlex>
 
       <ComponentApi :meta="componentMeta.BankaiHeader" />

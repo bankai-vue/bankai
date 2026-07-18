@@ -115,7 +115,7 @@ export default defineNuxtConfig({
           <BankaiCode>to</BankaiCode> with no router degrades to a plain
           <BankaiCode>&lt;a href&gt;</BankaiCode>.
         </BankaiText>
-        <BankaiCodeBlock language="vue" :code="linkUsage" />
+        <CodeBlock language="vue" :code="linkUsage" />
         <BankaiText as="h3" size="lg" weight="semibold">vue-router types (opt-in)</BankaiText>
         <BankaiText as="p" tone="muted">
           By default <BankaiCode>to</BankaiCode> is a router-agnostic type. If you use vue-router,
@@ -123,7 +123,7 @@ export default defineNuxtConfig({
           vue-router's <BankaiCode>RouteLocationRaw</BankaiCode>. It is an opt-in augmentation, so a
           router-free app stays dependency-free.
         </BankaiText>
-        <BankaiCodeBlock language="jsonc" :code="tsconfigTypes" />
+        <CodeBlock language="jsonc" :code="tsconfigTypes" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
@@ -143,8 +143,8 @@ export default defineNuxtConfig({
           available at all, any absolute <BankaiCode>http(s)</BankaiCode> URL is treated as
           external.
         </BankaiText>
-        <BankaiCodeBlock language="ts" :code="linkOriginVite" />
-        <BankaiCodeBlock language="ts" :code="linkOriginNuxt" />
+        <CodeBlock language="ts" :code="linkOriginVite" />
+        <CodeBlock language="ts" :code="linkOriginNuxt" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">

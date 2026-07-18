@@ -82,3 +82,9 @@ catalog:
   nuxt: 4.4.8
   '@nuxt/kit': 4.4.8
   '@nuxt/module-builder': 1.0.2
+
+  # Docs-only syntax highlighter. Runs at prerender (server-side) to bake
+  # highlighted markup into the static HTML; guarded behind `import.meta.server`
+  # so it never reaches the shipped client bundle. Dual-theme output resolves via
+  # `light-dark()`, matching the house theme's dark-mode model (SPEC.md §4.18).
+  shiki: 4.3.1

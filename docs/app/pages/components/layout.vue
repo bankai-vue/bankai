@@ -95,7 +95,7 @@ const scrollCss = `/* app-shell: fixed header + footer, only main scrolls */
 
       <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
-        <BankaiCodeBlock language="vue" :code="usage" />
+        <CodeBlock language="vue" :code="usage" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
@@ -111,7 +111,7 @@ const scrollCss = `/* app-shell: fixed header + footer, only main scrolls */
           <BankaiCode>header → sidebar → main → footer</BankaiCode>, only the visual placement
           moves.
         </BankaiText>
-        <BankaiCodeBlock language="css" :code="overrideCss" />
+        <CodeBlock language="css" :code="overrideCss" />
 
         <BankaiText as="h3" size="lg" weight="semibold">RTL</BankaiText>
         <BankaiText size="sm" tone="muted">
@@ -136,7 +136,7 @@ const scrollCss = `/* app-shell: fixed header + footer, only main scrolls */
           the sidebar hug its content instead of stretching, use
           <BankaiCode>align-self: start</BankaiCode>.
         </BankaiText>
-        <BankaiCodeBlock language="css" :code="scrollCss" />
+        <CodeBlock language="css" :code="scrollCss" />
 
         <BankaiText as="h3" size="lg" weight="semibold">Tailwind &amp; utility classes</BankaiText>
         <BankaiText size="sm" tone="muted">
