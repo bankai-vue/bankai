@@ -2,13 +2,15 @@
 // Interim theme switcher for the docs header → to be replaced by <BankaiThemeToggle> (ROADMAP Phase 1).
 //
 // The bankai theme drives dark mode purely from `color-scheme` + `light-dark()` (SPEC §4.18), so
-// switching is just overriding `color-scheme` — no JS token swap. The override targets `.bankai-app`
-// (NOT <html>): the root <BankaiApp> re-declares `color-scheme` on its own box for embedded islands
-// (theme-bankai/components/app.css), which severs inheritance of an <html> override for the whole app
-// subtree. We drive a single `.bankai-app { color-scheme }` rule via a `<style id>` element — its
-// class specificity (0,1,0) beats the theme's `:where(.bankai-app)` (0,0,0). The stored choice is
-// applied *before paint* by the inline head script in nuxt.config, which seeds the same `<style id>`
-// (no color flash). 'system' removes the rule → the theme default (follow the OS) resumes.
+// switching is just overriding `color-scheme` — no JS token swap. The override targets BOTH `:root`
+// and `.bankai-app`: the theme sets `color-scheme` at zero specificity on `:where(:root)` (drives the
+// `html` canvas paint) AND on `:where(.bankai-app)` (the embedded-island surface, whose re-declaration
+// severs inheritance from `:root`). Overriding only one leaves the other on the OS scheme — e.g.
+// `.bankai-app`-only left the `html` canvas behind the app dark on a dark OS. We drive a single
+// `:root,.bankai-app { color-scheme }` rule via a `<style id>` element — each selector's specificity
+// (0,1,0) beats the theme's `:where()` (0,0,0). The stored choice is applied *before paint* by the
+// inline head script in nuxt.config, which seeds the same `<style id>` (no color flash). 'system'
+// removes the rule → the theme default (follow the OS) resumes.
 //
 // Rendered client-only (SiteHeader wraps it in <ClientOnly>), so setup reads the stored choice
 // synchronously and the first paint already shows the right option selected — no active-state flash
@@ -23,7 +25,7 @@ type Scheme = 'system' | 'light' | 'dark';
 
 const STORAGE_KEY = 'bankai-docs-color-scheme';
 // Shared with the no-flash head script in nuxt.config — the single `<style>` element whose rule
-// overrides `color-scheme` on `.bankai-app`.
+// overrides `color-scheme` on `:root` + `.bankai-app`.
 const STYLE_ID = 'bankai-color-scheme';
 const cssValue: Record<Scheme, string> = {
   system: 'light dark',
@@ -58,8 +60,8 @@ function readStored(): Scheme {
 const scheme = ref<Scheme>(readStored());
 const group = ref<ComponentPublicInstance | null>(null);
 
-// Drive the shared `<style>` rule that overrides `color-scheme` on `.bankai-app`. 'system' removes
-// the rule so the theme default (follow the OS) resumes.
+// Drive the shared `<style>` rule that overrides `color-scheme` on `:root` + `.bankai-app`. 'system'
+// removes the rule so the theme default (follow the OS) resumes.
 function applyScheme(next: Scheme): void {
   let style = document.querySelector(`#${STYLE_ID}`);
   if (next === 'system') {
@@ -71,7 +73,7 @@ function applyScheme(next: Scheme): void {
     style.id = STYLE_ID;
     document.head.append(style);
   }
-  style.textContent = `.bankai-app{color-scheme:${cssValue[next]}}`;
+  style.textContent = `:root,.bankai-app{color-scheme:${cssValue[next]}}`;
 }
 
 function select(next: Scheme): void {

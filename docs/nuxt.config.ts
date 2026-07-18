@@ -43,18 +43,21 @@ export default defineNuxtConfig({
       // the ColorSchemeToggle / future BankaiThemeToggle; on SSG this inline script is
       // the sanctioned fallback (no per-request server to read a cookie).
       //
-      // The override MUST target `.bankai-app`, not `<html>`: the root <BankaiApp> re-declares
-      // `color-scheme` on its own box (theme-bankai/components/app.css, for embedded islands),
-      // which severs inheritance of an <html> override for the whole app subtree. We inject a
-      // `.bankai-app { color-scheme }` rule (class specificity 0,1,0) that beats the theme's
-      // `:where(.bankai-app)` (0,0,0) and applies the instant `.bankai-app` is parsed. The
+      // The override must target BOTH `:root` and `.bankai-app`. The theme declares `color-scheme`
+      // twice with zero specificity — `:where(:root)` (tokens.css, drives the `html` canvas paint in
+      // base.css) and `:where(.bankai-app)` (app.css, the embedded-island surface). The root
+      // <BankaiApp> re-declaring it on its own box severs inheritance, so overriding only `:root`
+      // leaves the app subtree on the OS scheme, and overriding only `.bankai-app` leaves the `html`
+      // canvas (the margin/overscroll area behind the app) on the OS scheme. We inject a
+      // `:root,.bankai-app { color-scheme }` rule — each selector's specificity (0,1,0) beats the
+      // theme's `:where()` (0,0,0) — and it applies the instant those elements are parsed. The
       // <style id> is the single source of truth the ColorSchemeToggle updates at runtime.
       script: [
         {
           key: 'bankai-color-scheme-init',
           tagPosition: 'head',
           innerHTML:
-            "try{var v=localStorage.getItem('bankai-docs-color-scheme');if(v==='light'||v==='dark'){var s=document.createElement('style');s.id='bankai-color-scheme';s.textContent='.bankai-app{color-scheme:'+v+'}';document.head.appendChild(s)}}catch(e){}",
+            "try{var v=localStorage.getItem('bankai-docs-color-scheme');if(v==='light'||v==='dark'){var s=document.createElement('style');s.id='bankai-color-scheme';s.textContent=':root,.bankai-app{color-scheme:'+v+'}';document.head.appendChild(s)}}catch(e){}",
         },
       ],
     },
