@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { componentMeta } from '../../utils/component-meta.generated';
 
 const { t } = useI18n();
@@ -13,48 +12,6 @@ const installExample = `pnpm add @bankai-vue/core @bankai-vue/theme-bankai`;
 const usageExample = `<template>
   <BankaiCodeBlock language="ts" :code="snippet" />
 </template>`;
-
-// The theme tokens, documented so a consumer knows what to override (each is a `:where(:root)` custom
-// property, so a single plain declaration overrides one — no selector, no `!important`).
-interface TokenRow {
-  token: string;
-  purpose: string;
-}
-
-const tokens = computed<TokenRow[]>(() => [
-  {
-    token: '--bankai-code-block-bg',
-    purpose: t('comp.codeBlock.tokens.bg'),
-  },
-  {
-    token: '--bankai-code-block-font-family',
-    purpose: t('comp.codeBlock.tokens.fontFamily'),
-  },
-  {
-    token: '--bankai-code-block-font-size',
-    purpose: t('comp.codeBlock.tokens.fontSize'),
-  },
-  {
-    token: '--bankai-code-block-line-height',
-    purpose: t('comp.codeBlock.tokens.lineHeight'),
-  },
-  {
-    token: '--bankai-code-block-radius',
-    purpose: t('comp.codeBlock.tokens.radius'),
-  },
-  {
-    token: '--bankai-code-block-padding-block',
-    purpose: t('comp.codeBlock.tokens.paddingBlock'),
-  },
-  {
-    token: '--bankai-code-block-padding-inline',
-    purpose: t('comp.codeBlock.tokens.paddingInline'),
-  },
-  {
-    token: '--bankai-code-block-copy-offset',
-    purpose: t('comp.codeBlock.tokens.copyOffset'),
-  },
-]);
 </script>
 
 <template>
@@ -129,35 +86,6 @@ const tokens = computed<TokenRow[]>(() => [
       </BankaiFlex>
 
       <ComponentApi :meta="componentMeta.BankaiCodeBlock" />
-
-      <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">{{ t('ui.theming') }}</BankaiText>
-        <BankaiText as="p" size="sm" tone="muted">
-          <i18n-t keypath="comp.codeBlock.themingBody" tag="span" scope="global">
-            <template #where><BankaiCode>:where()</BankaiCode></template>
-            <template #important><BankaiCode>!important</BankaiCode></template>
-            <template #root><BankaiCode>:root</BankaiCode></template>
-          </i18n-t>
-        </BankaiText>
-        <div class="tokens-wrap">
-          <table class="tokens">
-            <thead>
-              <tr>
-                <th>{{ t('table.token') }}</th>
-                <th>{{ t('table.purpose') }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="row in tokens" :key="row.token">
-                <td>
-                  <BankaiCode>{{ row.token }}</BankaiCode>
-                </td>
-                <td>{{ row.purpose }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </BankaiFlex>
     </BankaiFlex>
   </BankaiPage>
 </template>
@@ -165,32 +93,5 @@ const tokens = computed<TokenRow[]>(() => [
 <style scoped>
 .doc-link {
   color: inherit;
-}
-
-.tokens-wrap {
-  overflow-x: auto;
-}
-
-.tokens {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: var(--bankai-text-size-sm, 0.875rem);
-}
-
-.tokens th,
-.tokens td {
-  padding: 0.5rem 0.75rem;
-  text-align: left;
-  vertical-align: top;
-  border-bottom: 1px solid var(--bankai-color-border, currentColor);
-}
-
-.tokens th {
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.tokens code {
-  white-space: nowrap;
 }
 </style>

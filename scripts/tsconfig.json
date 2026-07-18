@@ -3,7 +3,10 @@
   // library packages, these need Node globals + `node:` module types.
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "types": ["node"]
+    "types": ["node"],
+    // check-theming-purposes.ts imports the generated manifest by its `.ts` path (node runs these
+    // scripts with native type stripping, which requires the extension). noEmit is inherited from base.
+    "allowImportingTsExtensions": true
   },
   "include": ["**/*.ts"]
 }

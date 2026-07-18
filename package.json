@@ -19,6 +19,7 @@
     "docs:generate": "pnpm --filter @bankai-vue/docs run generate",
     "docs:meta": "node scripts/generate-component-meta.ts",
     "docs:meta:check": "node scripts/generate-component-meta.ts --check",
+    "docs:theming:check": "node scripts/check-theming-purposes.ts",
     "docs:prepare": "pnpm --filter @bankai-vue/docs exec nuxt prepare",
     "typecheck": "pnpm run typecheck:ts && pnpm run typecheck:vue && pnpm run typecheck:scripts",
     "typecheck:ts": "tsgo --noEmit -p tsconfig.json",
@@ -36,7 +37,7 @@
     "changeset": "changeset",
     "version": "changeset version",
     "release": "pnpm run build && changeset publish",
-    "preflight": "pnpm install && run-s format:check build docs:prepare lint typecheck docs:meta:check test:types test"
+    "preflight": "pnpm install && run-s format:check build docs:prepare lint typecheck docs:meta:check docs:theming:check test:types test"
   },
   "devDependencies": {
     "@changesets/cli": "catalog:",

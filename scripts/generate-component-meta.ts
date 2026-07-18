@@ -10,6 +10,12 @@
 // bare alias (`BankaiFlexGap`), leaks the `LiteralUnion` helper, or — for BankaiLink's conditional `to` —
 // emits garbage (`string | it | et`). `TYPE_OVERRIDES` supplies the real accepted values for those; every
 // other prop falls through to the auto type. Everything besides `type` is generated.
+//
+// `theming` lists each component's CSS custom-property token surface, read straight from the house theme
+// (`@bankai-vue/theme-bankai`): the `--bankai-<component>-*` declarations in that CSS file's `:where(:root)`
+// block, with their default values. Keyed per theme (`bankai` today) so the docs table can switch when a
+// theme switcher lands. The token *purpose* prose is localized and lives in the docs i18n messages (keyed by
+// token name), not here — it is theme-independent, mirroring how prop descriptions are handled.
 import { existsSync, globSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createChecker } from 'vue-component-meta';
@@ -61,6 +67,35 @@ function cleanType(type: string): string {
   return type.replace(/\s*\|\s*undefined\s*$/u, '').replaceAll('"', "'");
 }
 
+// Extract a component's CSS token surface from its house-theme stylesheet: the `--bankai-*` custom-property
+// declarations in the `:where(:root)` block(s), paired with their default value. Only *declarations* match
+// (a `--name:` in property position), so `var(--x)` references — including the shared-scale tokens a default
+// resolves to — are never picked up. Values may span lines (`[^;]` matches newlines); collapse whitespace.
+// The `:where(:root)` blocks hold no nested braces, so `[^}]*` captures a block body safely.
+//
+// Comments are stripped first: they document tokens with example declarations (`--bankai-link-decoration:
+// none`) that carry no `;`, which would otherwise let the value regex run past the comment into the next
+// real declaration.
+function extractThemeTokens(rawCss: string): Array<{ name: string; value: string }> {
+  const css = rawCss.replaceAll(/\/\*[\s\S]*?\*\//gu, '');
+  const tokens: Array<{ name: string; value: string }> = [];
+  const seen = new Set<string>();
+  const blocks = css.matchAll(/:where\(:root\)\s*\{([^}]*)\}/gu);
+  for (const block of blocks) {
+    const decls = block[1]!.matchAll(/(--bankai-[\w-]+)\s*:\s*([^;]+);/gu);
+    for (const [, name, value] of decls) {
+      if (seen.has(name!)) {
+        continue;
+      }
+
+      seen.add(name!);
+      tokens.push({ name: name!, value: value!.replaceAll(/\s+/gu, ' ').trim() });
+    }
+  }
+
+  return tokens;
+}
+
 interface MetaProp {
   name: string;
   type: string;
@@ -68,10 +103,16 @@ interface MetaProp {
   required: boolean;
   description: string;
 }
+interface ThemeToken {
+  name: string;
+  value: string;
+}
 interface ComponentMeta {
   props: MetaProp[];
   slots: Array<{ name: string; description: string }>;
   events: Array<{ name: string; type: string; description: string }>;
+  exposed: Array<{ name: string; type: string; description: string }>;
+  theming: { bankai: ThemeToken[] };
 }
 
 const checker = createChecker(`${root}packages/core/tsconfig.json`, {
@@ -84,6 +125,10 @@ const data: Record<string, ComponentMeta> = {};
 for (const rel of files) {
   const name = rel.split('/').at(-1)!.replace('.vue', '');
   const meta = checker.getComponentMeta(`${root}${rel}`);
+
+  // The component's directory name (e.g. `code-block`) is also its house-theme CSS file's basename.
+  const cssPath = `${root}packages/theme-bankai/components/${rel.split('/').at(-2)}.css`;
+  const themeTokens = existsSync(cssPath) ? extractThemeTokens(readFileSync(cssPath, 'utf8')) : [];
 
   const props: MetaProp[] = meta.props
     .filter((p) => !p.global)
@@ -110,6 +155,14 @@ for (const rel of files) {
       type: e.type,
       description: clean(e.description),
     })),
+    // Only components that call `defineExpose` surface a public instance API; today none do, so this is
+    // empty for every component — the docs render an explicit "nothing exposed" state from it.
+    exposed: meta.exposed.map((x) => ({
+      name: x.name,
+      type: cleanType(x.type),
+      description: clean(x.description),
+    })),
+    theming: { bankai: themeTokens },
   };
 }
 
@@ -138,10 +191,29 @@ export interface MetaEvent {
   description: string;
 }
 
+export interface MetaExpose {
+  name: string;
+  type: string;
+  description: string;
+}
+
+export interface MetaThemeToken {
+  name: string;
+  value: string;
+}
+
 export interface ComponentMeta {
   props: MetaProp[];
   slots: MetaSlot[];
   events: MetaEvent[];
+  exposed: MetaExpose[];
+  /**
+   * CSS custom-property token surface per theme (the \`--bankai-<component>-*\` declarations with their
+   * default value). Keyed by theme so the docs table can switch with the active theme; \`bankai\` (the house
+   * theme) is populated today. Token *purpose* prose is localized in the docs i18n messages, keyed by token
+   * name — it is theme-independent.
+   */
+  theming: { bankai: MetaThemeToken[] };
 }`;
 
 const content = `${header}\n\n${types}\n\nexport const componentMeta = ${JSON.stringify(
