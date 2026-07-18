@@ -3,6 +3,8 @@
 // The bankai-vue documentation site is built on Nuxt + bankai-vue itself
 // (SPEC.md §4.15) — dogfooding is the requirements-discovery process. It ships
 // as a static site to GitHub Pages (see .github/workflows/deploy-docs.yml).
+import { de } from '@bankai-vue/core/locales';
+
 export default defineNuxtConfig({
   compatibilityDate: '2026-07-09',
 
@@ -10,6 +12,13 @@ export default defineNuxtConfig({
   // `@bankai-vue/core` component (so pages use `<Bankai*>` with no import),
   // auto-imports the composables, and installs the config per app (SSR-safe).
   modules: ['@bankai-vue/nuxt'],
+
+  // Register the German bundle so the header LocaleToggle can switch to it at runtime. The default
+  // locale stays English; the toggle flips `config.i18n.locale` live. (Auto-inject only covers the
+  // single *active* configured locale, so a runtime switcher across locales registers them explicitly.)
+  bankai: {
+    config: { i18n: { messages: { de } } },
+  },
 
   // The house theme ships the CSS; core ships none (SPEC.md §4.4).
   css: ['@bankai-vue/theme-bankai'],
