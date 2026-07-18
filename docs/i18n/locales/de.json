@@ -68,6 +68,28 @@
     "page": { "tagline": "Host für Routen-Inhalt innerhalb von <main>." },
     "link": { "tagline": "Router-fähiger Link — <a>, RouterLink oder NuxtLink." }
   },
+  "ui": {
+    "example": "Beispiel",
+    "usage": "Verwendung",
+    "theming": "Theming",
+    "landmarkUniqueness": "Eindeutigkeit von Landmarks",
+    "seeAlso": "Siehe auch"
+  },
+  "table": {
+    "prop": "Prop",
+    "type": "Typ",
+    "default": "Standard",
+    "description": "Beschreibung",
+    "slot": "Slot",
+    "event": "Event",
+    "token": "Token",
+    "purpose": "Zweck"
+  },
+  "api": {
+    "props": "Props",
+    "slots": "Slots",
+    "events": "Events"
+  },
   "gettingStarted": {
     "heading": "Erste Schritte",
     "lede": "Installiere {core}, füge ein Theme für das CSS hinzu und rendere deine erste Komponente. Funktioniert gleich in einer reinen Vue-(Vite-)App oder in Nuxt.",
@@ -116,5 +138,228 @@
       "body": "Durchstöbere die {components} für Props, Slots und Live-Beispiele.",
       "componentsLink": "Komponenten"
     }
+  },
+  "comp": {
+    "app": {
+      "lede": "Das Infrastruktur-Singleton an der Wurzel einer Anwendung — die äußerste Schicht von App › Layout › Page › Container. Es rendert ein einfaches {div} und ist {not} eine Landmark.",
+      "ledeNot": "keine",
+      "usageBody": "Umschließe deine Anwendung einmal an der Wurzel. Es ist ein {singleton}: Seine Dienste werden per Injection bereitgestellt, sodass das Verschachteln einer App in einer anderen App die äußere still überdecken würde — {nesting}. Apps {sideBySide} zu platzieren ist legitim (eingebettete Micro-Frontends, Split-Screen).",
+      "usageSingleton": "Singleton",
+      "usageNesting": "Vorfahr-/Nachfahr-Verschachtelung wird nicht empfohlen",
+      "usageSideBySide": "nebeneinander",
+      "embeddedHeading": "Oberfläche für den eingebetteten Modus",
+      "embeddedBody": "Ihre einzige Aufgabe heute ist eine {surface}: Das Theme trägt {colorScheme} und die grundlegenden {bg}/{fg}-Tokens auf der {own} Box der App. So malt eine bankai-Insel, die in eine fremde Seite fallen gelassen wird, die helle/dunkle House-Oberfläche für ihren Teilbaum {without} das globale {html}-Seiten-Painting (das ein eingebetteter Nutzer kappen kann). Die Box unten sitzt auf einem Nicht-House-Hintergrund, um ihre eigene gemalte Oberfläche zu zeigen:",
+      "embeddedSurface": "in sich geschlossene Oberfläche",
+      "embeddedOwn": "eigenen",
+      "embeddedWithout": "ohne",
+      "override": "Jede Theme-Regel ist spezifitätsfrei ({where}), sodass eine einfache Deklaration oder Utility-Klasse sie ohne {important} überschreibt.",
+      "thinHeading": "Landet schlank",
+      "thinBody": "{bankaiApp} nimmt heute keine Props. Seine reichere Infrastruktur-Rolle — ein einziges Overlay-/Portal-Mount-Ziel, ein Toast-Host und ein App-Config-Kontext — kommt mit dem Overlay-Fundament, sobald die Overlay-Wurzel, die es bereitstellen würde, erste Nutzer hat. Bis dahin liefert es nur die Oberfläche statt einer spekulativen leeren API."
+    },
+    "aside": {
+      "lede": "Eine eigenständige {aside}-complementary-Region — eine Seitenleiste neben dem Hauptinhalt, typischerweise eine Sidebar-Navigation. Das native Element trägt die Rolle {complementary}; das Theme malt den House-Seitenleisten-Look (Padding und einen Trenner am inline-Ende). Greif dazu, wenn du eine Shell {without} {bankaiLayout} baust.",
+      "ledeWithout": "ohne",
+      "namingHeading": "Die Landmark benennen",
+      "namingBody": "Eine Seite kann mehr als eine {complementary}-Landmark enthalten (etwa eine linke Navigation und eine rechte Leiste). Wenn dem so ist, braucht jede einen zugänglichen Namen, damit die Landmark-Liste eines Screenreaders sie auseinanderhalten kann — übergib {label}, das {ariaLabel} setzt (z. B. {ex1}, {ex2}). Eine einzelne, eindeutige aside kann es weglassen. Dein eigenes {ariaLabel2} / {ariaLabelledby} hat Vorrang vor dem Prop, sodass du stattdessen auf eine sichtbare Überschrift zeigen kannst.",
+      "uniquenessBody": "Platziere sie {not} im {sidebar}-Slot von {bankaiLayout}: {bankaiLayout2} gibt für diesen Slot bereits eine {aside} aus, sodass eine verschachtelte {bankaiAside} eine {aside2} innerhalb einer {aside3} erzeugen würde. Mit {bankaiLayout3} lege deine Sidebar direkt in {sidebar2}; verwende {bankaiAside2} nur für eine handgebaute Shell oder eine zweite Leiste. Jede Theme-Regel ist spezifitätsfrei ({where}), sodass eine einfache Deklaration oder Utility-Klasse das Padding, den Trenner oder den Hintergrund ohne {important} überschreibt.",
+      "uniquenessNot": "nicht"
+    },
+    "button": {
+      "lede": "Ein natives {button} mit typisierten variant-, size-, type- und disabled-Props. Bringt kein eigenes CSS mit — das Theme gestaltet die Klasse {cls} und den Zustand {state}."
+    },
+    "code": {
+      "lede": "Ein minimales Inline-Code-Primitive: ein natives {code} mit Monospace-Schrift und einem dezenten Chip-Hintergrund. Greif dazu für einen Bezeichner, ein Token, einen Pfad oder ein kurzes Snippet innerhalb eines Satzes — die geblockte Variante ist ein separates {codeBlock} (auf der Roadmap).",
+      "exampleP1": "Installiere {install} und importiere {code} daraus.",
+      "exampleP2": "Die Größe ist {em}-relativ, sodass ein Snippet wie {token} auch in dieser kleineren Zeile proportional bleibt.",
+      "semanticsHeading": "Native Semantik, keine Props",
+      "semanticsBody": "Es rendert ein echtes {code}, sodass die Phrasierungs-Semantik auf dem Element selbst lebt — assistive Technik und der Browser behandeln es kostenlos als Code. Heute nimmt es keine Props; es ist ein reiner, thembarer Wrapper. Ein polymorphes {as} (um die verwandten Monospace-Elemente {kbd}, {samp}, {var} zu erreichen) kommt vielleicht später, wenn das Dogfooding es verlangt — eine nicht brechende Ergänzung.",
+      "themingBody": "Jede Theme-Regel ist spezifitätsfrei ({where}), sodass eine einzelne Deklaration oder eine Utility-Klasse den Look ohne {important} überschreibt. Justiere den Chip nach, indem du ein Token überschreibst — global auf {root} oder lokal auf einem beliebigen Vorfahren.",
+      "tokens": {
+        "fontFamily": "Die Chip-Schriftfamilie (House-Standard: --bankai-font-mono).",
+        "bg": "Der Hintergrund des Inline-Chips (House-Standard: die Surface-Rolle).",
+        "radius": "Der Eckenradius (House-Standard: --bankai-radius).",
+        "fontSize": "Die Chip-Schriftgröße, em-relativ, sodass sie mit dem umgebenden Text skaliert.",
+        "paddingBlock": "Vertikales Padding, em-relativ.",
+        "paddingInline": "Horizontales Padding, em-relativ.",
+        "fontMono": "Der geteilte Monospace-Stack, auf den --bankai-code-font-family standardmäßig zurückgreift (speist auch BankaiCodeBlock)."
+      }
+    },
+    "codeBlock": {
+      "lede": "Ein geblocktes Code-Primitive: ein natives {preCode} mit einer In-die-Zwischenablage-kopieren-Schaltfläche. Für einen Bezeichner oder ein kurzes Snippet innerhalb eines Satzes greif stattdessen zum Inline-{code}.",
+      "exampleBody": "Übergib das Snippet als {code}-Prop — es ist zugleich das, was gerendert wird, und der exakte String, den die Kopier-Schaltfläche schreibt. Klicke auf {copy}, um es auszuprobieren.",
+      "byoHeading": "Bring deinen eigenen Highlighter mit",
+      "byoBody": "Core hebt nichts hervor — es bleibt design- und werkzeug-agnostisch. Das {language}-Prop spiegelt sich lediglich als {langClass}-Klasse auf dem {code} wider, der De-facto-Haken, an dem ein Highlighter (Shiki, Prism, highlight.js) oder dein eigenes CSS ansetzt. Um bereits hervorgehobenes Markup zu rendern, gib es durch den Default-Slot; das {codeProp}-Prop bleibt der exakte String, den die Kopier-Schaltfläche schreibt, sodass der kopierte Text nie das Wrapper-Markup des Highlighters ist.",
+      "a11yHeading": "Barrierefreies Kopieren",
+      "a11yBody1": "Die Kopier-Schaltfläche ist ein zusammengesetzter {bankaiButton}, dessen zugänglicher Name seinem sichtbaren Label folgt; ein erfolgreiches Kopieren wird (und bei einem erneuten Kopieren erneut) über eine visuell verborgene {status}-Live-Region angesagt. Überschreibe die {copyLabel}- / {copiedLabel}-Props, um sowohl den Schaltflächentext als auch die Ansage für einen Block zu setzen, verwende den {copySlot}-Slot (der den {copied}-Zustand erhält), um ein Icon einzusetzen, oder setze {copyableFalse}, um die Schaltfläche ganz zu entfernen. Die Dauer des Kopiert-Zustands ist pro Block über {copiedDuration} (ms) und global über {config} einstellbar (Standard {default}).",
+      "a11yBody2": "Um die Labels {appWide} statt pro Block zu lokalisieren, setze eine Locale in der i18n-Konfiguration statt der Props — siehe den {guideLink}. Ein Prop pro Block gewinnt immer über die konfigurierte Locale.",
+      "a11yAppWide": "app-weit",
+      "a11yGuideLink": "Internationalisierungs-Leitfaden",
+      "themingBody": "Jede Theme-Regel ist spezifitätsfrei ({where}), sodass eine einzelne Deklaration oder eine Utility-Klasse den Look ohne {important} überschreibt. Justiere das Panel nach, indem du ein Token überschreibst — global auf {root} oder lokal auf einem beliebigen Vorfahren.",
+      "tokens": {
+        "bg": "Der Panel-Hintergrund (House-Standard: die Surface-Rolle).",
+        "fontFamily": "Die Panel-Schriftfamilie (House-Standard: --bankai-font-mono).",
+        "fontSize": "Die Code-Schriftgröße (House-Standard: --bankai-text-size-sm).",
+        "lineHeight": "Die Zeilenhöhe des Codes.",
+        "radius": "Der Eckenradius (House-Standard: --bankai-radius).",
+        "paddingBlock": "Vertikales Padding des scrollenden Panels.",
+        "paddingInline": "Horizontales Padding des scrollenden Panels.",
+        "copyOffset": "Einzug der Kopier-Schaltfläche von der oberen inline-Ende-Ecke."
+      }
+    },
+    "container": {
+      "lede": "Ein Breiten-Hilfsmittel: standardmäßig auf einer thembaren max. Breite zentriert, mit {fluid} randlos. Überall wiederverwendbar — eine Card, ein Abschnitt, ein Hero — nicht einmal pro Route. Die Breiten-Schicht von App › Layout › Page › Container; es ist keine Landmark und rendert nie sein eigenes {main}.",
+      "demoDefaultLabel": "Standard — auf max. Breite zentriert",
+      "demoFluidLabel": "fluid — füllt die verfügbare Breite",
+      "responsiveHeading": "Responsiv nach verfügbarem Platz, nicht nach dem Viewport",
+      "responsiveBody": "Die zentrierte Breite ist intrinsisch: {maxInlineSize} löst gegen den umgebenden Block auf, und {marginInline} zentriert darin. So begrenzt sich ein Container auf seine max. Breite, wenn Platz ist (Balken an den Seiten), und {collapses}, wenn sein Elternelement schmaler ist — ganz ohne Media Queries. Das ist Absicht: Es bleibt korrekt in einem eingebetteten oder Split-Screen-Bereich, wo der Viewport breit ist, aber die Box des Containers nur ein Bruchteil davon — genau der Fall, den ein Viewport-Breakpoint falsch behandelt. {fluid} ist für die entgegengesetzte Absicht: die Breite füllen, {evenWhen} Platz für Balken wäre (randlose Heros, Dashboards). Ein randloser Hero über einem zentrierten Body sind einfach zwei Container mit unterschiedlichen Breiten.",
+      "responsiveCollapses": "wird von selbst randlos",
+      "responsiveEvenWhen": "auch wenn",
+      "themingHeading": "Die Breite thematisieren",
+      "themingBody": "Die Obergrenze und die Rinne sind Custom Properties, sodass du die Breite nachjustierst, indem du eine Property überschreibst (kein Selektor nötig) — global auf {root} oder lokal auf einem beliebigen Vorfahren.",
+      "tokens": {
+        "maxWidth": "Die Obergrenze des zentrierten Inhalts (House-Standard 80rem). Wird bei fluid ignoriert.",
+        "gutter": "Inline-Padding, damit der Inhalt nie den Rand berührt, wenn die Box randlos ist."
+      }
+    },
+    "flex": {
+      "lede": "Ein polymorpher Flexbox-Container. Props spiegeln sich als {data} wider und {gap} reitet auf einer Custom Property, gestaltet durch spezifitätsfreie {where}-Theme-Regeln — sodass die Utility-Klassen eines Nutzers ohne {important} überschreiben."
+    },
+    "footer": {
+      "lede": "Eine eigenständige {footer}-contentinfo-Region — der Fuß der Seite (Copyright, sekundäre Links, Site-Meta). Das native Element trägt die Rolle {contentinfo}; das Theme malt den House-Fuß-Look, das Spiegelbild von {bankaiHeader} (Padding und ein oberer Rahmen). Greif dazu, wenn du eine Shell {without} {bankaiLayout} baust.",
+      "ledeWithout": "ohne",
+      "uniquenessBody1": "Ein natives {footer} ist nur dann die {contentinfo}-Landmark, wenn es {not} in {article}, {aside}, {main}, {nav} oder {section} verschachtelt ist — verwende {bankaiFooter} also auf der obersten Ebene deines Dokuments, nicht tief im Inhalt.",
+      "uniquenessBody1Not": "nicht",
+      "uniquenessBody2": "Platziere es {not} im {footerSlot}-Slot von {bankaiLayout}: {bankaiLayout2} gibt für diesen Slot bereits ein {footer} aus, sodass ein verschachteltes {bankaiFooter} ein {footer2} innerhalb eines {footer3} erzeugen würde — eine doppelte contentinfo-Landmark. Mit {bankaiLayout3} lege deinen Footer-Inhalt direkt in {footerSlot2}; verwende {bankaiFooter2} nur für eine handgebaute Shell. Jede Theme-Regel ist spezifitätsfrei ({where}), sodass eine einfache Deklaration oder Utility-Klasse das Padding, den Rahmen oder den Hintergrund ohne {important} überschreibt.",
+      "uniquenessBody2Not": "nicht"
+    },
+    "grid": {
+      "lede": "Ein polymorpher CSS-Grid-Container für 2D-Layouts. Aufgezählte Props spiegeln sich als {data} wider; kontinuierliche Track-Werte ({tracks}) reiten auf {vars}-Custom-Properties, die von den {where}-Regeln des Themes gelesen werden."
+    },
+    "header": {
+      "lede": "Eine eigenständige {header}-Banner-Region — die Landmark am Seitenkopf, die typischerweise deine Navbar hält. Das native Element trägt die Rolle {banner}; das Theme malt den House-Balken-Look (Padding und ein unterer Rahmen). Greif dazu, wenn du eine Shell {without} {bankaiLayout} baust.",
+      "ledeWithout": "ohne",
+      "uniquenessBody1": "Ein natives {header} ist nur dann die {banner}-Landmark, wenn es {not} in {article}, {aside}, {main}, {nav} oder {section} verschachtelt ist — verwende {bankaiHeader} also auf der obersten Ebene deines Dokuments, nicht tief im Inhalt.",
+      "uniquenessBody1Not": "nicht",
+      "uniquenessBody2": "Platziere es {not} im {headerSlot}-Slot von {bankaiLayout}: {bankaiLayout2} gibt für diesen Slot bereits ein {header} aus, sodass ein verschachteltes {bankaiHeader} ein {header2} innerhalb eines {header3} erzeugen würde — eine doppelte banner-Landmark. Mit {bankaiLayout3} lege deine Navbar direkt in {headerSlot2}; verwende {bankaiHeader2} nur für eine handgebaute Shell.",
+      "uniquenessBody2Not": "nicht",
+      "stickyHeading": "Klebriger Header",
+      "stickyBody": "Das Theme malt den Seitenhintergrund auf die eigene Box des Headers, sodass ein {sticky}-Balken über darunter scrollendem Inhalt opak bleibt — kein zusätzlicher Hintergrund nötig. Jede Theme-Regel ist spezifitätsfrei ({where}), sodass eine einfache Deklaration oder Utility-Klasse das Padding, den Rahmen oder den Hintergrund ohne {important} überschreibt."
+    },
+    "heading": {
+      "lede": "Ein natives {h1}–{h6}, gewählt durch ein erforderliches {level}. Das Element selbst trägt die Dokument-Gliederungs-Semantik, an der sich assistive Technik orientiert, sodass die Ebene immer eine explizite, bewusste Wahl ist — nie ein Standard.",
+      "scaleHeading": "Die Typografie-Skala",
+      "scaleBody": "Jede Ebene wird auf einen Größen-Schritt abgebildet, den das Theme malt (verankert an {dataLevel}). Überschriften liefern {margin} — Abstände sind Sache des Layouts ({flex} / {stack} {gap}).",
+      "requiredHeading": "Level ist erforderlich — und es meint die Gliederung",
+      "requiredBody1": "Es gibt keine universell sichere Standard-Überschriftenebene, und eine falsche bricht still die Dokument-Gliederung, an der sich Screenreader-Nutzer orientieren — daher hat {level} keinen Standard und muss angegeben werden. Wähle es nach dem Platz der Überschrift in der Seitenhierarchie (überspringe keine Ebenen), nicht danach, wie groß sie aussehen soll.",
+      "requiredBody2": "Das Entkoppeln der visuellen Größe von der semantischen Ebene (ein {h2}, der wie ein {h1} gestaltet ist — die richtige Lösung, wenn man eine Größe will, ohne eine Ebene zu überspringen) ist als künftiges {size}-Prop geplant; heute folgt die visuelle Größe der Ebene.",
+      "themingHeading": "Die Skala thematisieren",
+      "themingBody": "Jeder Schritt ist eine {vars}-Custom-Property (deklariert auf {root}), sodass du eine Größe, ihre Zeilenhöhe, das geteilte Gewicht oder die Farbe nachjustierst, indem du eine einzelne Property überschreibst — kein Selektor, kein {important}. Überschreibe z. B. {example}, um allein den Level-1-Schritt zu skalieren."
+    },
+    "layout": {
+      "lede": "Die persistente App-Shell: eine CSS-Grid-Wurzel, die jeden Slot in seine native Landmark-Region ({regions}) einwickelt, sodass eine Anwendung kostenlos einen korrekten, pro Seite eindeutigen Landmark-Satz erhält. Die Grid-Tracks kannst du mit einfachem CSS gegen {cls} steuern — es gibt keine {view}-String-DSL.",
+      "structureHeading": "Struktur",
+      "structureBody": "Die Standard-Theme-Shell — Header über die Oberseite, Footer über die Unterseite, Sidebar links vom Hauptinhalt. Fehlende Regionen lassen ihren Track kollabieren, sodass eine App ohne Header oder ohne Sidebar keine Überschreibung braucht.",
+      "customizingHeading": "Das Grid anpassen",
+      "customizingBody": "{bankaiLayout} nimmt keine Layout-Props — du besitzt die Grid-Tracks mit einfachem CSS. Jede Theme-Regel ist spezifitätsfrei ({where}), sodass eine einzelne Deklaration oder Utility-Klasse sie ohne {important} überschreibt. Regionen werden per Name fixiert ({gridArea}, …), sodass ein Umbau nur ein neues {gridTemplateAreas} auf {cls} ist — die DOM-/Quell-Reihenfolge bleibt {order}, nur die visuelle Platzierung wandert.",
+      "rtlHeading": "RTL",
+      "rtlBody": "Rechts-nach-links funktioniert ohne zusätzlichen Code. Der Standard verwendet logische Werte ({cols}, {minBlockSize}) und benannte Bereiche statt physisches Links/Rechts, und CSS Grid legt Spalten entlang der inline-Achse an — sodass unter {rtl} die Sidebar automatisch an den inline-Start-Rand (rechts) wandert.",
+      "scrollHeading": "Vertikal- & Scroll-Verhalten",
+      "scrollBody": "Standardmäßig dehnen sich {sidebar} und {main}, um den Raum zwischen Header und Footer zu füllen (die mittlere Zeile ist {fr}), und die ganze Seite scrollt — der Footer scrollt nach dem Inhalt herein, bleibt aber auf kurzen Seiten am unteren Rand des Viewports fixiert ({minBlockSize}). Für ein App-Shell-Gefühl — fixierter Header und Footer, bei dem nur {main2} scrollt — fixiere das Grid am Viewport und mache {main3} zum Scroll-Container (kein {positionFixed} nötig); ein klebriger Header ist ein Einzeiler. Damit die Sidebar sich an ihren Inhalt schmiegt, statt sich zu dehnen, verwende {alignSelf}.",
+      "tailwindHeading": "Tailwind & Utility-Klassen",
+      "tailwindBody": "Utilities gewinnen durch gewöhnliche Spezifität: {colSpan}/{rowSpan} auf Kindern und {gridCols}/{gridRows} auf der Wurzel überschreiben alle das Theme. Ein Vorbehalt — das Theme setzt auch {gridTemplateAreas}, das steuert, wo die benannten Regionen landen, und impliziert eine eigene Spaltenzahl. Nur {gridTemplateColumns} zu überschreiben (z. B. {gridCols3}), während die Bereiche bleiben, hinterlässt einen verirrten leeren Track und die Regionen weiterhin an ihren Bereichen fixiert; um vollständig linienbasiert zu werden, leere auch das Template mit {areasNone}."
+    },
+    "link": {
+      "lede": "Ein router-fähiges Link-Primitive. Ohne Verdrahtung rendert es ein natives {a}; unter vue-router oder Nuxt löst es den global registrierten {routerLink} / {nuxtLink} für interne {to}-Navigation auf — sodass eine Komponente über reines Vue, vue-router und Nuxt hinweg funktioniert.",
+      "demoInternalLabel": "Interner Link (to)",
+      "demoExternalLabel": "Externer Link (neuer Tab)",
+      "routerHeading": "Router-Integration",
+      "routerBody": "Die Auflösungsreihenfolge ist {nuxtLink} → {routerLink} → natives {a}, erkannt aus den global registrierten Komponenten der App — sodass Core keine Abhängigkeit von vue-router braucht. Überschreibe die Komponente für interne Links mit {linkComponent}. Für erstklassige vue-router-Typisierung von {to} füge {types} zu den {typesKey} in deiner tsconfig hinzu. Ein {targetBlank}-Link erhält automatisch {rel} (abwählbar über {linkNoopener}). Ein {href} zu einem anderen Host spiegelt {external} wider; setze {linkOrigin} auf den Ursprung deiner Website, damit diese Prüfung unter SSR/SSG genau ist."
+    },
+    "main": {
+      "lede": "Eine eigenständige {main}-Inhaltsregion — der primäre Inhalt des Dokuments. Das native Element trägt die Rolle {mainRole}. Greif dazu, wenn du eine Shell {without} {bankaiLayout} baust.",
+      "ledeWithout": "ohne",
+      "oneHeading": "Eine pro Dokument",
+      "oneBody": "Die {mainRole}-Landmark muss {unique} sein — eine Seite hat genau ein {main}, sodass {bankaiMain} kein Prop für einen zugänglichen Namen nimmt (anders als {bankaiAside}, von dem es mehrere geben kann). Platziere es {not} in einem {bankaiLayout}: Der Default-Slot von Layout gibt bereits das einzige {main2} aus, sodass ein verschachteltes {bankaiMain2} ein {main3} innerhalb eines {main4} wäre.",
+      "oneUnique": "eindeutig",
+      "oneNot": "nicht",
+      "paintsHeading": "Was es malt",
+      "paintsBody": "Fast nichts — es {is} die Seitenoberfläche (kein Hintergrund), und Inhaltsbreite und Rinne gehören zu {bankaiContainer} (kein Padding). Der eine House-Standard ist eine {minInlineSize}-Untergrenze: Als Grid- oder Flex-Kind würde die Region sonst bei der Min-Breite ihres Inhalts begrenzt, sodass ein breiter, nicht umbrechbarer Nachfahre (ein langes {pre}, eine Tabelle) die ganze Inhaltsspalte breiter drückt und horizontales Überlaufen verursacht. Die Begrenzung auf {zero} lässt die Region auf ihren Container schrumpfen und den Nachfahren darin scrollen oder umbrechen. Jede Theme-Regel ist spezifitätsfrei ({where}), sodass eine einfache Deklaration oder Utility-Klasse sie ohne {important} überschreibt.",
+      "paintsIs": "ist"
+    },
+    "page": {
+      "lede": "Der Host für Routen-Inhalt — die Box am Anfang jeder Routen-Datei. Sie sitzt im {main} des Dokuments und beherbergt den Inhalt einer Route; sie ist {not} eine eigene Landmark.",
+      "ledeNot": "keine",
+      "usageBody": "Die Verschachtelung ist App › Layout › {page} › Container: {bankaiLayout} (oder ein eigenständiges {bankaiMain}) gibt das {main} aus, {bankaiPage} beherbergt die Route darin, und {bankaiContainer} legt die Inhaltsbreite fest.",
+      "usagePage": "Page",
+      "fillsHeading": "Füllt die Inhaltsregion",
+      "fillsBody": "Ihr einer House-Standard ist eine {minBlockSize}-Füllung, sodass eine kurze Route dennoch die volle Inhaltsregion einnimmt und einen Footer nach unten drückt. Die Füllung sind {percent} des umgebenden Blocks, {not} eine {dvh}-Viewport-Einheit — eine Viewport-Höhe würde eingebettete oder nebeneinanderliegende Bereiche brechen, in denen die Box ein Bruchteil des Fensters ist (sie füllt, welchen Raum auch immer das Elternelement gibt). Jede Theme-Regel ist spezifitätsfrei ({where}), sodass eine einfache Deklaration oder Utility-Klasse sie ohne {important} überschreibt.",
+      "fillsNot": "keine",
+      "notLandmarkHeading": "Keine Landmark, keine Magie",
+      "notLandmarkBody": "{bankaiPage} rendert ein einfaches {div} — es ist bewusst keine Landmark und rendert nie sein eigenes {main} (der Default-Slot von Layout gibt bereits das einzige aus). Es macht auch {no} implizites Umschreiben von Kindern: Es gibt keinen automatischen Überschriftenebenen-Kontext, sodass das Tag eines {bankaiHeading} immer explizit über sein {level} ist. Es landet heute schlank; Belange wie Scroll pro Route und Routen-Übergänge kommen, sobald es Routing zum Dogfooding gibt.",
+      "notLandmarkNo": "kein"
+    },
+    "text": {
+      "lede": "Ein polymorphes Text-Primitive. Wähle das Element mit {as} (einschließlich Inline-Semantik wie {code}/{kbd}/{mark}) und gestalte mit {size}/{weight}/{tone} — jeweils ein benannter Satz plus eine wörtliche Escape-Hatch."
+    }
+  },
+  "renderingPage": {
+    "lede": "bankai-vue-Komponenten verhalten sich gleich in einer reinen Client-Vue-App (SPA) und unter Nuxt-Server-Rendering (SSR) oder statischer Generierung (SSG). Diese Seite behandelt, was das ermöglicht — das Hydrations-Modell, wie {bankaiLink} deinen Router findet, und den einen Konfigurationswert, den du beim Server-Rendering setzen solltest.",
+    "environmentsHeading": "Umgebungen",
+    "environmentsSpa": "{spa} Installiere das Plugin mit {createBankai} und importiere die Komponenten dort, wo du sie verwendest. Alles läuft auf dem Client.",
+    "environmentsSpaLead": "SPA (Vite).",
+    "environmentsNuxt": "{nuxtSsr} Das {module} registriert automatisch jede Komponente und installiert die Konfiguration {perApp} über ein generiertes Plugin — sodass unter SSR jede Anfrage ihre eigene reaktive Konfiguration erhält, ohne Übertragung zwischen Anfragen.",
+    "environmentsNuxtLead": "Nuxt SSR / SSG.",
+    "environmentsNuxtModuleLink": "Nuxt-Modul",
+    "environmentsNuxtPerApp": "pro App",
+    "hydrationHeading": "Hydrations-Modell",
+    "hydrationBody1": "Komponenten sind von Grund auf SSR-sicher: Sie generieren hydrationsstabile ids (Vues {useId}) und lesen während des Setups kein {window} oder {document}, sodass das Server-HTML und das erste Render des Clients immer übereinstimmen.",
+    "hydrationBody2": "Jeder Zustand, der nur auf dem Client bekannt sein kann, wird bewusst bis {after} der Hydration zurückgehalten und aktualisiert sich dann reaktiv. Das klarste Beispiel ist das {external}-Flag von {bankaiLink}: Auf dem Server und beim ersten Client-Render wird es aus {linkOrigin} (oder einem ursprungslosen Fallback) berechnet; die genaue, {windowLocation}-basierte Host-Prüfung greift erst, sobald die Komponente gemountet ist. Deshalb verursacht das Flag nie eine Hydrations-Diskrepanz.",
+    "hydrationAfter": "nach",
+    "routerHeading": "Router-Erkennung",
+    "routerIntro": "{bankaiLink} rendert das richtige Element für interne ({to}) Navigation ohne Verdrahtung, aufgelöst in dieser Reihenfolge:",
+    "routerItem1": "eine explizite {linkComponent}-Überschreibung in {bankaiConfig}, falls du eine setzt;",
+    "routerItem2": "ein global registrierter {nuxtLink} (unter Nuxt bevorzugt — er ergänzt Prefetch, Base-URL und Behandlung externer URLs);",
+    "routerItem3": "ein global registrierter {routerLink} (eine reine vue-router-App);",
+    "routerItem4": "andernfalls ein natives {a} — kein Router installiert.",
+    "routerBody": "Die Erkennung liest die globale Komponenten-Registry der App, genau dort, wo {vueRouter} und Nuxt diese registrieren — sodass Core nie einen Router importiert und abhängigkeitsfrei bleibt. Ein {string}-{to} ohne Router fällt auf ein einfaches {aHref} zurück.",
+    "typesHeading": "vue-router-Typen (Opt-in)",
+    "typesBody": "Standardmäßig ist {to} ein router-agnostischer Typ. Wenn du vue-router verwendest, füge den types-Eintrag zu deiner {tsconfig} hinzu, um ihn als vue-routers {routeLocationRaw} zu typisieren. Es ist eine Opt-in-Erweiterung, sodass eine router-freie App abhängigkeitsfrei bleibt.",
+    "originHeading": "Setze {linkOrigin} beim Server-Rendering",
+    "originBody1": "Um zu entscheiden, dass ein Link extern ist, vergleicht {bankaiLink} den {href}-Host mit einem Referenz-Ursprung. Auf dem Server gibt es kein {window} — und unter SSG gibt es überhaupt keine Anfrage — sodass der aktuelle Ursprung zur Render-Zeit nicht bekannt ist.",
+    "originBody2": "Setze {linkOrigin} auf den kanonischen Ursprung deiner Website, damit die Prüfung genau und auf Server und Client identisch ist. Eine reine Client-SPA kann ihn ungesetzt lassen — sie fällt nach der Hydration auf {windowLocation} zurück; ist überhaupt kein Ursprung verfügbar, wird jede absolute {httpS}-URL als extern behandelt.",
+    "seeAlsoBody": "{gettingStarted} für Installation und Konfiguration, und {link} für seine vollständigen Props und den gespiegelten Zustand.",
+    "seeAlsoGettingStarted": "Erste Schritte",
+    "seeAlsoLink": "BankaiLink"
+  },
+  "i18nPage": {
+    "lede": "Komponenten liefern englische Standard-Strings — das {copy} einer Kopier-Schaltfläche und mehr, wenn Komponenten wachsen. bankai-vue lokalisiert sie über eine kleine Konfigurationsfläche, sodass du eine Locale einmal setzt und die Standardwerte jeder Komponente folgen. Props pro Instanz überschreiben weiterhin ein einzelnes Element.",
+    "ledeCopy": "Copy",
+    "registerHeading": "Eine Locale registrieren",
+    "registerBody1": "Locale-Bundles sind Opt-in-, tree-shakebare Exporte. Importiere die, die du verwendest, registriere sie unter {messages} und setze {locale}. Ein deutsches ({de}) Bundle wird heute ausgeliefert; Englisch ist die eingebaute Basis und braucht keinen Import.",
+    "registerBody2": "Unter Nuxt ist es noch weniger: Setze {locale} und das Modul injiziert automatisch das passende eingebaute Bundle in sein generiertes Plugin — kein Import, kein {messages} — als statischer, tree-shakebarer, SSR-sicherer Import. Registriere ein Bundle in {messages2} nur, um es zu überschreiben oder eine Locale hinzuzufügen, die Core nicht ausliefert. Die Konfiguration wird pro App installiert, sodass sie unter SSR pro Anfrage bleibt.",
+    "coverageHeading": "Locale-Abdeckung",
+    "coverageBody": "Englisch ist die vollständige Basis — 100% per Definition. Jedes ausgelieferte Bundle deckt einen Anteil der Nachrichten-Schlüssel ab; was es auslässt, fällt auf Englisch zurück. Wenn neue Komponenten Standard-Strings hinzufügen, sinkt die Abdeckung eines Bundles, bis die neuen Schlüssel übersetzt sind.",
+    "coverageColLocale": "Locale",
+    "coverageColCoverage": "Abdeckung",
+    "coverageStrings": "Strings",
+    "contributeHeading": "Fehlt deine Sprache?",
+    "contributeBody": "Locale-Bundles sind kleine partielle Wörterbücher — ein Bundle unter 100% zu vervollständigen oder eine Sprache hinzuzufügen, die bankai-vue noch nicht ausliefert, ist ein toller erster Beitrag. Jedes ist ein einfaches Objekt aus Nachrichten-Schlüsseln mit Englisch als Fallback, sodass du nur übersetzt, was du willst.",
+    "contributeLink": "Die Locale-Bundles auf GitHub durchstöbern →",
+    "overrideHeading": "Nur einige Strings überschreiben",
+    "overrideBody": "Ein Bundle kann {partial} sein. Jeden Schlüssel, den du weglässt, fällt auf die vollständige englische Basis zurück, sodass du ein ausgeliefertes Bundle registrieren, ein Bundle für eine Locale ohne eigenes von Hand schreiben oder einen einzelnen String anpassen kannst — alles über dieselbe {messages}-Registry.",
+    "overridePartial": "partiell",
+    "regionalHeading": "Regionale Varianten & Fallback",
+    "regionalBody": "Eine regionale Locale erbt ihre Basissprache automatisch: {deAt} löst jeden {de}-String auf, und nur die Schlüssel, die du {deAt2} gibst, überschreiben ihn. Setze {fallbackLocale} für einen familienübergreifenden Fallback (vor der englischen Basis versucht). Die vollständige Kette ist: aktive Locale und ihre regionalen Eltern → {fallbackLocale2} und ihre Eltern → Englisch.",
+    "precedenceHeading": "Vorrang",
+    "precedenceIntro": "Jeder Standard-String löst sich in dieser Reihenfolge auf:",
+    "precedenceItem1": "ein {prop} (z. B. {example}) — gewinnt für dieses Element;",
+    "precedenceItem1Prop": "Prop pro Instanz",
+    "precedenceItem2": "das aus der Konfiguration aufgelöste {bundle};",
+    "precedenceItem2Bundle": "aktive Locale-Bundle",
+    "precedenceItem3": "der eingebaute {english}.",
+    "precedenceItem3English": "englische Standard",
+    "runtimeHeading": "Zur Laufzeit umschalten",
+    "runtimeBody": "Die Konfiguration ist reaktiv, sodass das Zuweisen einer neuen {locale} die Labels jeder Komponente neu rendert — kein Reload, kein erneutes Mounten.",
+    "seeAlsoBody": "{link} — die erste Komponente mit lokalisierbaren Strings, und ihre {copyLabel}- / {copiedLabel}-Props."
   }
 }

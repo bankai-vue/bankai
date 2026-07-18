@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { componentMeta } from '../../utils/component-meta.generated';
 
+const { t } = useI18n();
+
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiPage · bankai-vue' });
 
@@ -20,34 +22,44 @@ const usage = `<!-- every route file starts with BankaiPage -->
     <BankaiFlex as="article" direction="column" gap="12">
       <BankaiText as="h1" size="2xl" weight="black">BankaiPage</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
-        The per-route content host — the box at the top of every route file. It sits inside the
-        document's <BankaiCode>&lt;main&gt;</BankaiCode> and hosts a route's content; it is
-        <em>not</em> a landmark of its own.
+        <i18n-t keypath="comp.page.lede" tag="span" scope="global">
+          <template #main><BankaiCode>&lt;main&gt;</BankaiCode></template>
+          <template #not
+            ><em>{{ t('comp.page.ledeNot') }}</em></template
+          >
+        </i18n-t>
       </BankaiText>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('ui.usage') }}</BankaiText>
         <CodeBlock language="vue" :code="usage" />
         <BankaiText size="sm" tone="muted">
-          The nesting is App › Layout › <strong>Page</strong> › Container:
-          <BankaiCode>BankaiLayout</BankaiCode> (or a standalone
-          <BankaiCode>BankaiMain</BankaiCode>) emits the <BankaiCode>&lt;main&gt;</BankaiCode>,
-          <BankaiCode>BankaiPage</BankaiCode> hosts the route inside it, and
-          <BankaiCode>BankaiContainer</BankaiCode> sets the content width.
+          <i18n-t keypath="comp.page.usageBody" tag="span" scope="global">
+            <template #page
+              ><strong>{{ t('comp.page.usagePage') }}</strong></template
+            >
+            <template #bankaiLayout><BankaiCode>BankaiLayout</BankaiCode></template>
+            <template #bankaiMain><BankaiCode>BankaiMain</BankaiCode></template>
+            <template #main><BankaiCode>&lt;main&gt;</BankaiCode></template>
+            <template #bankaiPage><BankaiCode>BankaiPage</BankaiCode></template>
+            <template #bankaiContainer><BankaiCode>BankaiContainer</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Fills the content region</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('comp.page.fillsHeading') }}</BankaiText>
         <BankaiText size="sm" tone="muted">
-          Its one house default is a <BankaiCode>min-block-size</BankaiCode> fill so a short route
-          still occupies the full content region and pushes a footer to the bottom. The fill is
-          <BankaiCode>100%</BankaiCode> of the containing block, <strong>not</strong> a
-          <BankaiCode>100dvh</BankaiCode> viewport unit — a viewport height would break embedded or
-          side-by-side panes where the box is a fraction of the window (it fills whatever space the
-          parent gives it). Every theme rule is zero-specificity
-          (<BankaiCode>:where()</BankaiCode>), so a plain declaration or utility class overrides it
-          without <BankaiCode>!important</BankaiCode>.
+          <i18n-t keypath="comp.page.fillsBody" tag="span" scope="global">
+            <template #minBlockSize><BankaiCode>min-block-size</BankaiCode></template>
+            <template #percent><BankaiCode>100%</BankaiCode></template>
+            <template #not
+              ><strong>{{ t('comp.page.fillsNot') }}</strong></template
+            >
+            <template #dvh><BankaiCode>100dvh</BankaiCode></template>
+            <template #where><BankaiCode>:where()</BankaiCode></template>
+            <template #important><BankaiCode>!important</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
         <div class="page-demo">
           <BankaiPage class="page-box">
@@ -57,15 +69,20 @@ const usage = `<!-- every route file starts with BankaiPage -->
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Not a landmark, no black magic</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{
+          t('comp.page.notLandmarkHeading')
+        }}</BankaiText>
         <BankaiText size="sm" tone="muted">
-          <BankaiCode>BankaiPage</BankaiCode> renders a plain <BankaiCode>&lt;div&gt;</BankaiCode> —
-          it is deliberately not a landmark and never renders its own
-          <BankaiCode>&lt;main&gt;</BankaiCode> (Layout's default slot already emits the sole one).
-          It also does <strong>no</strong> implicit child-rewriting: there is no auto heading-level
-          context, so a <BankaiCode>BankaiHeading</BankaiCode>'s tag is always explicit via its
-          <BankaiCode>level</BankaiCode>. It lands thin today; per-route scroll and route-transition
-          concerns arrive once there is routing to dogfood.
+          <i18n-t keypath="comp.page.notLandmarkBody" tag="span" scope="global">
+            <template #bankaiPage><BankaiCode>BankaiPage</BankaiCode></template>
+            <template #div><BankaiCode>&lt;div&gt;</BankaiCode></template>
+            <template #main><BankaiCode>&lt;main&gt;</BankaiCode></template>
+            <template #no
+              ><strong>{{ t('comp.page.notLandmarkNo') }}</strong></template
+            >
+            <template #bankaiHeading><BankaiCode>BankaiHeading</BankaiCode></template>
+            <template #level><BankaiCode>level</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
       </BankaiFlex>
 

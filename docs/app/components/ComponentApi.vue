@@ -5,23 +5,25 @@
 // when the component has none.
 import type { ComponentMeta } from '../utils/component-meta.generated';
 
+const { t } = useI18n();
+
 defineProps<{ meta: ComponentMeta }>();
 </script>
 
 <template>
   <BankaiFlex v-if="meta.props.length" as="section" direction="column" gap="8">
-    <BankaiText as="h2" size="xl" weight="bold">Props</BankaiText>
+    <BankaiText as="h2" size="xl" weight="bold">{{ t('api.props') }}</BankaiText>
     <PropsTable :rows="meta.props" />
   </BankaiFlex>
 
   <BankaiFlex v-if="meta.slots.length" as="section" direction="column" gap="8">
-    <BankaiText as="h2" size="xl" weight="bold">Slots</BankaiText>
+    <BankaiText as="h2" size="xl" weight="bold">{{ t('api.slots') }}</BankaiText>
     <div class="api-table-wrap">
       <table class="api-table">
         <thead>
           <tr>
-            <th>Slot</th>
-            <th>Description</th>
+            <th>{{ t('table.slot') }}</th>
+            <th>{{ t('table.description') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -37,14 +39,14 @@ defineProps<{ meta: ComponentMeta }>();
   </BankaiFlex>
 
   <BankaiFlex v-if="meta.events.length" as="section" direction="column" gap="8">
-    <BankaiText as="h2" size="xl" weight="bold">Events</BankaiText>
+    <BankaiText as="h2" size="xl" weight="bold">{{ t('api.events') }}</BankaiText>
     <div class="api-table-wrap">
       <table class="api-table">
         <thead>
           <tr>
-            <th>Event</th>
-            <th>Type</th>
-            <th>Description</th>
+            <th>{{ t('table.event') }}</th>
+            <th>{{ t('table.type') }}</th>
+            <th>{{ t('table.description') }}</th>
           </tr>
         </thead>
         <tbody>

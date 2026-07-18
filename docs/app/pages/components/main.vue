@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { componentMeta } from '../../utils/component-meta.generated';
 
+const { t } = useI18n();
+
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiMain · bankai-vue' });
 
@@ -23,42 +25,58 @@ const usage = `<!-- a shell built WITHOUT BankaiLayout -->
     <BankaiFlex as="article" direction="column" gap="12">
       <BankaiText as="h1" size="2xl" weight="black">BankaiMain</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
-        A standalone <BankaiCode>&lt;main&gt;</BankaiCode> content region — the document's primary
-        content. The native element carries the <BankaiCode>main</BankaiCode> role. Reach for it
-        when you build a shell <em>without</em> <BankaiCode>BankaiLayout</BankaiCode>.
+        <i18n-t keypath="comp.main.lede" tag="span" scope="global">
+          <template #main><BankaiCode>&lt;main&gt;</BankaiCode></template>
+          <template #mainRole><BankaiCode>main</BankaiCode></template>
+          <template #without
+            ><em>{{ t('comp.main.ledeWithout') }}</em></template
+          >
+          <template #bankaiLayout><BankaiCode>BankaiLayout</BankaiCode></template>
+        </i18n-t>
       </BankaiText>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('ui.usage') }}</BankaiText>
         <CodeBlock language="html" :code="usage" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">One per document</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('comp.main.oneHeading') }}</BankaiText>
         <BankaiText size="sm" tone="muted">
-          The <BankaiCode>main</BankaiCode> landmark must be <strong>unique</strong> — a page has
-          exactly one <BankaiCode>&lt;main&gt;</BankaiCode>, so
-          <BankaiCode>BankaiMain</BankaiCode> takes no accessible-name prop (unlike
-          <BankaiCode>BankaiAside</BankaiCode>, of which there can be several). Do
-          <strong>not</strong> place it inside a <BankaiCode>BankaiLayout</BankaiCode>: Layout's
-          default slot already emits the sole <BankaiCode>&lt;main&gt;</BankaiCode>, so a nested
-          <BankaiCode>BankaiMain</BankaiCode> would be a
-          <BankaiCode>&lt;main&gt;</BankaiCode> inside a <BankaiCode>&lt;main&gt;</BankaiCode>.
+          <i18n-t keypath="comp.main.oneBody" tag="span" scope="global">
+            <template #mainRole><BankaiCode>main</BankaiCode></template>
+            <template #unique
+              ><strong>{{ t('comp.main.oneUnique') }}</strong></template
+            >
+            <template #main><BankaiCode>&lt;main&gt;</BankaiCode></template>
+            <template #bankaiMain><BankaiCode>BankaiMain</BankaiCode></template>
+            <template #bankaiAside><BankaiCode>BankaiAside</BankaiCode></template>
+            <template #not
+              ><strong>{{ t('comp.main.oneNot') }}</strong></template
+            >
+            <template #bankaiLayout><BankaiCode>BankaiLayout</BankaiCode></template>
+            <template #main2><BankaiCode>&lt;main&gt;</BankaiCode></template>
+            <template #bankaiMain2><BankaiCode>BankaiMain</BankaiCode></template>
+            <template #main3><BankaiCode>&lt;main&gt;</BankaiCode></template>
+            <template #main4><BankaiCode>&lt;main&gt;</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">What it paints</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('comp.main.paintsHeading') }}</BankaiText>
         <BankaiText size="sm" tone="muted">
-          Almost nothing — it <em>is</em> the page surface (no background), and content width and
-          gutter belong to <BankaiCode>BankaiContainer</BankaiCode> (no padding). The one house
-          default is a <BankaiCode>min-inline-size: 0</BankaiCode> floor: as a grid or flex child
-          the region would otherwise floor at its content's min width, so a wide, unbreakable
-          descendant (a long <BankaiCode>&lt;pre&gt;</BankaiCode>, a table) pushes the whole content
-          column wider and causes horizontal overflow. Flooring at <BankaiCode>0</BankaiCode> lets
-          the region shrink to its container and the descendant scroll or wrap within. Every theme
-          rule is zero-specificity (<BankaiCode>:where()</BankaiCode>), so a plain declaration or
-          utility class overrides it without <BankaiCode>!important</BankaiCode>.
+          <i18n-t keypath="comp.main.paintsBody" tag="span" scope="global">
+            <template #is
+              ><em>{{ t('comp.main.paintsIs') }}</em></template
+            >
+            <template #bankaiContainer><BankaiCode>BankaiContainer</BankaiCode></template>
+            <template #minInlineSize><BankaiCode>min-inline-size: 0</BankaiCode></template>
+            <template #pre><BankaiCode>&lt;pre&gt;</BankaiCode></template>
+            <template #zero><BankaiCode>0</BankaiCode></template>
+            <template #where><BankaiCode>:where()</BankaiCode></template>
+            <template #important><BankaiCode>!important</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
       </BankaiFlex>
 

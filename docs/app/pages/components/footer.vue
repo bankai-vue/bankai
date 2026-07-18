@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { componentMeta } from '../../utils/component-meta.generated';
 
+const { t } = useI18n();
+
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiFooter · bankai-vue' });
 
@@ -22,40 +24,57 @@ const usage = `<!-- a shell built WITHOUT BankaiLayout -->
     <BankaiFlex as="article" direction="column" gap="12">
       <BankaiText as="h1" size="2xl" weight="black">BankaiFooter</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
-        A standalone <BankaiCode>&lt;footer&gt;</BankaiCode> contentinfo region — the foot of the
-        page (copyright, secondary links, site meta). The native element carries the
-        <BankaiCode>contentinfo</BankaiCode> role; the theme paints the house foot look, the mirror
-        of <BankaiCode>BankaiHeader</BankaiCode> (padding and a top border). Reach for it when you
-        build a shell <em>without</em> <BankaiCode>BankaiLayout</BankaiCode>.
+        <i18n-t keypath="comp.footer.lede" tag="span" scope="global">
+          <template #footer><BankaiCode>&lt;footer&gt;</BankaiCode></template>
+          <template #contentinfo><BankaiCode>contentinfo</BankaiCode></template>
+          <template #bankaiHeader><BankaiCode>BankaiHeader</BankaiCode></template>
+          <template #without
+            ><em>{{ t('comp.footer.ledeWithout') }}</em></template
+          >
+          <template #bankaiLayout><BankaiCode>BankaiLayout</BankaiCode></template>
+        </i18n-t>
       </BankaiText>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('ui.usage') }}</BankaiText>
         <CodeBlock language="html" :code="usage" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Landmark uniqueness</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('ui.landmarkUniqueness') }}</BankaiText>
         <BankaiText size="sm" tone="muted">
-          A native <BankaiCode>&lt;footer&gt;</BankaiCode> is the
-          <BankaiCode>contentinfo</BankaiCode> landmark only when it is <em>not</em> nested inside
-          <BankaiCode>&lt;article&gt;</BankaiCode>, <BankaiCode>&lt;aside&gt;</BankaiCode>,
-          <BankaiCode>&lt;main&gt;</BankaiCode>, <BankaiCode>&lt;nav&gt;</BankaiCode>, or
-          <BankaiCode>&lt;section&gt;</BankaiCode> — so use <BankaiCode>BankaiFooter</BankaiCode> at
-          the top level of your document, not deep inside content.
+          <i18n-t keypath="comp.footer.uniquenessBody1" tag="span" scope="global">
+            <template #footer><BankaiCode>&lt;footer&gt;</BankaiCode></template>
+            <template #contentinfo><BankaiCode>contentinfo</BankaiCode></template>
+            <template #not
+              ><em>{{ t('comp.footer.uniquenessBody1Not') }}</em></template
+            >
+            <template #article><BankaiCode>&lt;article&gt;</BankaiCode></template>
+            <template #aside><BankaiCode>&lt;aside&gt;</BankaiCode></template>
+            <template #main><BankaiCode>&lt;main&gt;</BankaiCode></template>
+            <template #nav><BankaiCode>&lt;nav&gt;</BankaiCode></template>
+            <template #section><BankaiCode>&lt;section&gt;</BankaiCode></template>
+            <template #bankaiFooter><BankaiCode>BankaiFooter</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
         <BankaiText size="sm" tone="muted">
-          Do <strong>not</strong> place it inside <BankaiCode>BankaiLayout</BankaiCode>'s
-          <BankaiCode>#footer</BankaiCode> slot: <BankaiCode>BankaiLayout</BankaiCode> already emits
-          a <BankaiCode>&lt;footer&gt;</BankaiCode> for that slot, so a nested
-          <BankaiCode>BankaiFooter</BankaiCode> would produce a
-          <BankaiCode>&lt;footer&gt;</BankaiCode> inside a <BankaiCode>&lt;footer&gt;</BankaiCode> —
-          a duplicate contentinfo landmark. With <BankaiCode>BankaiLayout</BankaiCode>, drop your
-          footer content straight into <BankaiCode>#footer</BankaiCode>; use
-          <BankaiCode>BankaiFooter</BankaiCode> only for a hand-rolled shell. Every theme rule is
-          zero-specificity (<BankaiCode>:where()</BankaiCode>), so a plain declaration or utility
-          class overrides the padding, border, or background without
-          <BankaiCode>!important</BankaiCode>.
+          <i18n-t keypath="comp.footer.uniquenessBody2" tag="span" scope="global">
+            <template #not
+              ><strong>{{ t('comp.footer.uniquenessBody2Not') }}</strong></template
+            >
+            <template #bankaiLayout><BankaiCode>BankaiLayout</BankaiCode></template>
+            <template #footerSlot><BankaiCode>#footer</BankaiCode></template>
+            <template #bankaiLayout2><BankaiCode>BankaiLayout</BankaiCode></template>
+            <template #footer><BankaiCode>&lt;footer&gt;</BankaiCode></template>
+            <template #bankaiFooter><BankaiCode>BankaiFooter</BankaiCode></template>
+            <template #footer2><BankaiCode>&lt;footer&gt;</BankaiCode></template>
+            <template #footer3><BankaiCode>&lt;footer&gt;</BankaiCode></template>
+            <template #bankaiLayout3><BankaiCode>BankaiLayout</BankaiCode></template>
+            <template #footerSlot2><BankaiCode>#footer</BankaiCode></template>
+            <template #bankaiFooter2><BankaiCode>BankaiFooter</BankaiCode></template>
+            <template #where><BankaiCode>:where()</BankaiCode></template>
+            <template #important><BankaiCode>!important</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
       </BankaiFlex>
 

@@ -1,26 +1,30 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { componentMeta } from '../../utils/component-meta.generated';
+
+const { t } = useI18n();
 
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiContainer · bankai-vue' });
 
 // The two theme knobs, documented so a consumer knows what to override (both are `:where(:root)` custom
-// properties, so a single plain declaration retunes them — no selector, no `!important`).
+// properties, so a single plain declaration retunes them — no selector, no `!important`). Purposes are
+// localized, so this is a computed that re-evaluates when the locale switches.
 interface TokenRow {
   token: string;
   purpose: string;
 }
 
-const tokens: TokenRow[] = [
+const tokens = computed<TokenRow[]>(() => [
   {
     token: '--bankai-container-max-width',
-    purpose: 'The centered content cap (house default 80rem). Ignored when fluid.',
+    purpose: t('comp.container.tokens.maxWidth'),
   },
   {
     token: '--bankai-container-gutter',
-    purpose: 'Inline padding so content never kisses the edge when the box is edge-to-edge.',
+    purpose: t('comp.container.tokens.gutter'),
   },
-];
+]);
 
 // The max-width is shrunk on the demo wrappers (a plain declaration beats the theme's zero-specificity
 // token) so the centered container's side bars are visible in a narrow doc column.
@@ -31,21 +35,21 @@ const tokens: TokenRow[] = [
     <BankaiFlex as="article" direction="column" gap="12">
       <BankaiText as="h1" size="2xl" weight="black">BankaiContainer</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
-        A width utility: centered at a themeable max-width by default, edge-to-edge with
-        <BankaiCode>fluid</BankaiCode>. Reusable anywhere — a Card, a section, a hero — not once per
-        route. The width layer of App › Layout › Page › Container; it is not a landmark and never
-        renders its own <BankaiCode>&lt;main&gt;</BankaiCode>.
+        <i18n-t keypath="comp.container.lede" tag="span" scope="global">
+          <template #fluid><BankaiCode>fluid</BankaiCode></template>
+          <template #main><BankaiCode>&lt;main&gt;</BankaiCode></template>
+        </i18n-t>
       </BankaiText>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Example</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('ui.example') }}</BankaiText>
         <div class="demo">
-          <BankaiText size="sm" tone="muted">default — centered at max-width</BankaiText>
+          <BankaiText size="sm" tone="muted">{{ t('comp.container.demoDefaultLabel') }}</BankaiText>
           <div class="bounds">
             <BankaiContainer class="box">centered</BankaiContainer>
           </div>
 
-          <BankaiText size="sm" tone="muted">fluid — fills the available width</BankaiText>
+          <BankaiText size="sm" tone="muted">{{ t('comp.container.demoFluidLabel') }}</BankaiText>
           <div class="bounds">
             <BankaiContainer fluid class="box">fluid</BankaiContainer>
           </div>
@@ -53,38 +57,41 @@ const tokens: TokenRow[] = [
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold"
-          >Responsive by available space, not the viewport</BankaiText
-        >
+        <BankaiText as="h2" size="xl" weight="bold">{{
+          t('comp.container.responsiveHeading')
+        }}</BankaiText>
         <BankaiText size="sm" tone="muted">
-          The centered width is intrinsic: <BankaiCode>max-inline-size</BankaiCode> resolves against
-          the containing block, and <BankaiCode>margin-inline: auto</BankaiCode> centers within it.
-          So a container caps at its max-width when there is room (bars on the sides) and
-          <strong>collapses to edge-to-edge on its own</strong> when its parent is narrower — with
-          no media queries. This is deliberate: it stays correct inside an embedded or split-screen
-          pane, where the viewport is wide but the container's box is only a fraction of it — the
-          case a viewport breakpoint gets wrong. <BankaiCode>fluid</BankaiCode> is for the opposite
-          intent: fill the width <em>even when</em> there is room for bars (full-bleed heroes,
-          dashboards). A full-bleed hero over a centered body is just two containers at different
-          widths.
+          <i18n-t keypath="comp.container.responsiveBody" tag="span" scope="global">
+            <template #maxInlineSize><BankaiCode>max-inline-size</BankaiCode></template>
+            <template #marginInline><BankaiCode>margin-inline: auto</BankaiCode></template>
+            <template #collapses
+              ><strong>{{ t('comp.container.responsiveCollapses') }}</strong></template
+            >
+            <template #fluid><BankaiCode>fluid</BankaiCode></template>
+            <template #evenWhen
+              ><em>{{ t('comp.container.responsiveEvenWhen') }}</em></template
+            >
+          </i18n-t>
         </BankaiText>
       </BankaiFlex>
 
       <ComponentApi :meta="componentMeta.BankaiContainer" />
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Theming the width</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{
+          t('comp.container.themingHeading')
+        }}</BankaiText>
         <BankaiText size="sm" tone="muted">
-          The cap and gutter are custom properties, so you retune the width by overriding one
-          property (no selector needed) — globally on <BankaiCode>:root</BankaiCode>, or locally on
-          any ancestor.
+          <i18n-t keypath="comp.container.themingBody" tag="span" scope="global">
+            <template #root><BankaiCode>:root</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
         <div class="tokens-wrap">
           <table class="tokens">
             <thead>
               <tr>
-                <th>Token</th>
-                <th>Purpose</th>
+                <th>{{ t('table.token') }}</th>
+                <th>{{ t('table.purpose') }}</th>
               </tr>
             </thead>
             <tbody>
