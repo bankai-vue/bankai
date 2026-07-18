@@ -97,11 +97,15 @@ const specUrl = `${repoUrl}/blob/main/SPEC.md`;
 }
 
 /*
- * Docs-local button look for the hero CTAs on top of BankaiLink. Scoped (so higher specificity than the
- * theme's zero-specificity `:where(.bankai-link)` rules) — sets color/decoration explicitly so the link's
- * accent/underline defers to this button styling. Draws on the foundation tokens so it tracks the theme.
+ * Docs-local button look for the hero CTAs on top of BankaiLink. Reached via `.hero :deep(...)` rather
+ * than a bare scoped `.cta`: BankaiLink sets `inheritAttrs: false`, so under SSR Vue does not stamp this
+ * component's scoped `data-v-*` id onto the link's root `<a>` (it only reappears after client hydration).
+ * A bare `.cta` (compiled to `.cta[data-v-*]`) would therefore miss the external CTAs until hydration —
+ * a flash of unstyled links on first load. Anchoring on `.hero` (which owns the scope id) with `:deep()`
+ * makes the match independent of the id on the `<a>`, so it holds on the server render too. The higher
+ * specificity still beats the theme's zero-specificity `:where(.bankai-link)` rules.
  */
-.cta {
+.hero :deep(.cta) {
   display: inline-flex;
   align-items: center;
   padding: var(--bankai-space-3, 0.375rem) var(--bankai-space-6, 0.75rem);
@@ -115,22 +119,22 @@ const specUrl = `${repoUrl}/blob/main/SPEC.md`;
     color 150ms ease;
 }
 
-.cta-solid {
+.hero :deep(.cta-solid) {
   background: var(--bankai-color-primary);
   color: var(--bankai-color-primary-fg);
 }
 
-.cta-solid:hover {
+.hero :deep(.cta-solid:hover) {
   background: color-mix(in oklch, var(--bankai-color-primary), black 12%);
   color: var(--bankai-color-primary-fg);
 }
 
-.cta-outline {
+.hero :deep(.cta-outline) {
   border-color: currentColor;
   color: inherit;
 }
 
-.cta-outline:hover {
+.hero :deep(.cta-outline:hover) {
   background: color-mix(in oklch, currentColor 8%, transparent);
   color: inherit;
 }
