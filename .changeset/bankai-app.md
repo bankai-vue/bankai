@@ -1,0 +1,5 @@
+---
+'@bankai-vue/core': minor
+---
+
+Add `BankaiApp` — the infra singleton at the root of the App › Layout › Page › Container structure (à la Nuxt UI `UApp` / Vuetify `v-app`). It renders a plain `.bankai-app` `<div data-part="root">`, merges consumer `class`/`style`/attributes onto the root, and ships no CSS. It is deliberately **not** a landmark. It lands **thin (surface-only)**: its one job today is the **embedded-mode surface** — the theme carries `color-scheme` + the foundation `--bankai-color-bg`/`-fg` tokens on the App's own box, so a bankai island in a foreign page is a self-contained light/dark surface without the global `html` page paint (which an embedded consumer can sever). The richer infra role — a single overlay/portal mount target, toast host and app-config context — is deferred to the overlay foundation, when the overlay root it would provide first has consumers, so it takes no props today. **Singleton at the root**: side-by-side is fine (embedded micro-frontends, split-screen), ancestor/descendant App-in-App nesting is discouraged (an inner App would shadow the outer's future services).

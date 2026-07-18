@@ -1,0 +1,28 @@
+/*
+ * BankaiApp — the infra singleton, embedded-mode theme surface.
+ *
+ * Targets the `bankai-app` class (a plain `<div>` root). The rule is wrapped in `:where()` (zero
+ * specificity) so a consumer's own CSS or utility classes override it with a single plain class, no
+ * `!important` (SPEC.md §4.4, §4.6).
+ *
+ * BankaiApp's one job today is a SELF-CONTAINED surface: it carries the foundation
+ * `--bankai-color-bg` / `--bankai-color-fg` tokens on its OWN box, plus its own `color-scheme`. So a
+ * bankai island dropped into a foreign page paints the house light/dark surface for its whole subtree
+ * WITHOUT the global `html` page paint (see `base.css`, which an embedded consumer can sever). The local
+ * `color-scheme` re-establishes the light/dark context on this box so the `light-dark()` tokens resolve
+ * correctly even inside a host that declared its own scheme — no JS, no flash (SPEC.md §4.18).
+ *
+ * The surface reads the foundation color tokens directly (like `base.css`), so there is no separate
+ * `--bankai-app-*` token family to retune — restyle by overriding the color tokens on this box, or the
+ * `background-color` / `color` themselves via a plain selector.
+ *
+ * Uses the `background-color` longhand (not the `background` shorthand) on purpose, at parity with
+ * `base.css`: it sets only the color and leaves any `background-image` / gradient a consumer layers on
+ * the App box intact — the shorthand would reset those longhands.
+ */
+
+:where(.bankai-app) {
+  color-scheme: light dark;
+  background-color: var(--bankai-color-bg);
+  color: var(--bankai-color-fg);
+}

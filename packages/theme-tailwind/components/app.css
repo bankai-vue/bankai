@@ -1,0 +1,24 @@
+/*
+ * BankaiApp — the infra singleton, embedded-mode theme surface — Tailwind theme.
+ *
+ * Mirrors the house theme's `components/app.css`: it carries the foundation `--bankai-color-bg` /
+ * `--bankai-color-fg` tokens (which in this theme bridge onto the consumer's Tailwind `--color-*`
+ * palette) plus a local `color-scheme` on the App's OWN box, so an embedded bankai island is a
+ * self-contained light/dark surface WITHOUT the global `html` page paint (see `base.css`, which an
+ * embedded consumer can sever). The local `color-scheme` resolves the `light-dark()` tokens on this
+ * subtree even inside a host that declared its own scheme (SPEC.md §4.18).
+ *
+ * Lives in `@layer base` at parity with `base.css`'s surface paint: a consumer's plain `bg-*` / `text-*`
+ * utility (in the `utilities` layer) still overrides it the Tailwind way, with no `!important`. It reads
+ * the color tokens directly — no `@apply` — so, like `base.css`, this file needs no Tailwind
+ * compilation; it is included in the barrel for consistency. Uses the `background-color` longhand (not
+ * the `background` shorthand) so a consumer's `background-image` / gradient on the App box survives.
+ */
+
+@layer base {
+  :where(.bankai-app) {
+    color-scheme: light dark;
+    background-color: var(--bankai-color-bg);
+    color: var(--bankai-color-fg);
+  }
+}

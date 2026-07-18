@@ -33,6 +33,11 @@ export const guideNav: NavItem[] = [
  * grid both read from here, so there is a single source of truth for what exists.
  */
 export const componentNav: NavItem[] = [
+  {
+    name: 'App',
+    to: '/components/app',
+    tagline: 'Infra root wrapper + embedded surface.',
+  },
   { name: 'Button', to: '/components/button', tagline: 'Native <button> with variant/size/type.' },
   {
     name: 'Text',
