@@ -7,12 +7,13 @@ import { highlightToTokens } from '../utils/highlight';
 
 const { code, language } = defineProps<{ code: string; language: string }>();
 
-// Highlight at prerender only (see utils/highlight for why): the handler runs server-side, the token HTML
-// is serialized into the page payload, and a client route change reuses that prerendered payload — so
-// Shiki never runs on the client, and the `import.meta.server` guard lets it tree-shake out of the client
-// bundle. Keyed on language + code so identical snippets are highlighted once and deduped.
+// Highlight server-side (see utils/highlight for why): at prerender the token HTML is baked into the page
+// payload, and a prod client route change reuses that payload — so Shiki never runs in the shipped client.
+// Dev has no payload extraction, so the handler re-runs on client navigation; `import.meta.dev` lets it
+// highlight there too (it is statically false in the prod build, so Shiki still tree-shakes out of the
+// shipped bundle). Keyed on language + code so identical snippets are highlighted once and deduped.
 const { data: tokens } = await useAsyncData(`codeblock:${language}:${code}`, () =>
-  import.meta.server ? highlightToTokens(code, language) : Promise.resolve(null),
+  import.meta.server || import.meta.dev ? highlightToTokens(code, language) : Promise.resolve(null),
 );
 </script>
 

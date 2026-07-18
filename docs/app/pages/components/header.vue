@@ -38,7 +38,7 @@ const stickyCss = `/* the header paints the page background, so a sticky bar cov
 
       <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
-        <CodeBlock language="vue" :code="usage" />
+        <CodeBlock language="html" :code="usage" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">

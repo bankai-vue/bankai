@@ -2,10 +2,11 @@
 // `BankaiCodeBlock` highlights nothing by design (SPEC.md §4.6) and exposes its default slot as the
 // bring-your-own-highlighter seam — this util produces the markup that goes through it.
 //
-// Runs at PRERENDER only. The caller (`CodeBlock.vue`) invokes it inside a `useAsyncData` handler
-// guarded by `import.meta.server`, so the highlighted HTML is baked into the static page and Shiki never
-// executes on — nor ships to — the client. The dynamic `import('shiki')` keeps the (large) highlighter
-// bundle out of the client graph entirely.
+// Runs server-side. The caller (`CodeBlock.vue`) invokes it inside a `useAsyncData` handler so the
+// highlighted HTML is baked into the prerendered page and reused from the payload on prod client nav —
+// Shiki never ships to the production client. (In dev only, the caller also runs it client-side, since
+// dev has no payload extraction.) The dynamic `import('shiki')` behind those static `import.meta` guards
+// keeps the (large) highlighter bundle out of the production client graph.
 //
 // Dual-theme output emits `--shiki-light` / `--shiki-dark` per token, resolved in CSS with `light-dark()`
 // — the very mechanism the house theme uses for dark mode (SPEC.md §4.18). So the docs' color-scheme

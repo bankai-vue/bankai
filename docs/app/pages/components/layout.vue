@@ -95,7 +95,7 @@ const scrollCss = `/* app-shell: fixed header + footer, only main scrolls */
 
       <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
-        <CodeBlock language="vue" :code="usage" />
+        <CodeBlock language="html" :code="usage" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
