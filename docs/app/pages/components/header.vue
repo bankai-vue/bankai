@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { componentMeta } from '../../utils/component-meta.generated';
 
+const { t } = useI18n();
+
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiHeader · bankai-vue' });
 
@@ -29,48 +31,67 @@ const stickyCss = `/* the header paints the page background, so a sticky bar cov
     <BankaiFlex as="article" direction="column" gap="12">
       <BankaiText as="h1" size="2xl" weight="black">BankaiHeader</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
-        A standalone <BankaiCode>&lt;header&gt;</BankaiCode> banner region — the top-of-page
-        landmark that typically holds your navbar. The native element carries the
-        <BankaiCode>banner</BankaiCode> role; the theme paints the house bar look (padding and a
-        bottom border). Reach for it when you build a shell <em>without</em>
-        <BankaiCode>BankaiLayout</BankaiCode>.
+        <i18n-t keypath="comp.header.lede" tag="span" scope="global">
+          <template #header><BankaiCode>&lt;header&gt;</BankaiCode></template>
+          <template #banner><BankaiCode>banner</BankaiCode></template>
+          <template #without
+            ><em>{{ t('comp.header.ledeWithout') }}</em></template
+          >
+          <template #bankaiLayout><BankaiCode>BankaiLayout</BankaiCode></template>
+        </i18n-t>
       </BankaiText>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('ui.usage') }}</BankaiText>
         <CodeBlock language="html" :code="usage" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Landmark uniqueness</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('ui.landmarkUniqueness') }}</BankaiText>
         <BankaiText size="sm" tone="muted">
-          A native <BankaiCode>&lt;header&gt;</BankaiCode> is the
-          <BankaiCode>banner</BankaiCode> landmark only when it is <em>not</em> nested inside
-          <BankaiCode>&lt;article&gt;</BankaiCode>, <BankaiCode>&lt;aside&gt;</BankaiCode>,
-          <BankaiCode>&lt;main&gt;</BankaiCode>, <BankaiCode>&lt;nav&gt;</BankaiCode>, or
-          <BankaiCode>&lt;section&gt;</BankaiCode> — so use <BankaiCode>BankaiHeader</BankaiCode> at
-          the top level of your document, not deep inside content.
+          <i18n-t keypath="comp.header.uniquenessBody1" tag="span" scope="global">
+            <template #header><BankaiCode>&lt;header&gt;</BankaiCode></template>
+            <template #banner><BankaiCode>banner</BankaiCode></template>
+            <template #not
+              ><em>{{ t('comp.header.uniquenessBody1Not') }}</em></template
+            >
+            <template #article><BankaiCode>&lt;article&gt;</BankaiCode></template>
+            <template #aside><BankaiCode>&lt;aside&gt;</BankaiCode></template>
+            <template #main><BankaiCode>&lt;main&gt;</BankaiCode></template>
+            <template #nav><BankaiCode>&lt;nav&gt;</BankaiCode></template>
+            <template #section><BankaiCode>&lt;section&gt;</BankaiCode></template>
+            <template #bankaiHeader><BankaiCode>BankaiHeader</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
         <BankaiText size="sm" tone="muted">
-          Do <strong>not</strong> place it inside <BankaiCode>BankaiLayout</BankaiCode>'s
-          <BankaiCode>#header</BankaiCode> slot: <BankaiCode>BankaiLayout</BankaiCode> already emits
-          a <BankaiCode>&lt;header&gt;</BankaiCode> for that slot, so a nested
-          <BankaiCode>BankaiHeader</BankaiCode> would produce a
-          <BankaiCode>&lt;header&gt;</BankaiCode> inside a <BankaiCode>&lt;header&gt;</BankaiCode> —
-          a duplicate banner landmark. With <BankaiCode>BankaiLayout</BankaiCode>, drop your navbar
-          straight into <BankaiCode>#header</BankaiCode>; use
-          <BankaiCode>BankaiHeader</BankaiCode> only for a hand-rolled shell.
+          <i18n-t keypath="comp.header.uniquenessBody2" tag="span" scope="global">
+            <template #not
+              ><strong>{{ t('comp.header.uniquenessBody2Not') }}</strong></template
+            >
+            <template #bankaiLayout><BankaiCode>BankaiLayout</BankaiCode></template>
+            <template #headerSlot><BankaiCode>#header</BankaiCode></template>
+            <template #bankaiLayout2><BankaiCode>BankaiLayout</BankaiCode></template>
+            <template #header><BankaiCode>&lt;header&gt;</BankaiCode></template>
+            <template #bankaiHeader><BankaiCode>BankaiHeader</BankaiCode></template>
+            <template #header2><BankaiCode>&lt;header&gt;</BankaiCode></template>
+            <template #header3><BankaiCode>&lt;header&gt;</BankaiCode></template>
+            <template #bankaiLayout3><BankaiCode>BankaiLayout</BankaiCode></template>
+            <template #headerSlot2><BankaiCode>#header</BankaiCode></template>
+            <template #bankaiHeader2><BankaiCode>BankaiHeader</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Sticky header</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{
+          t('comp.header.stickyHeading')
+        }}</BankaiText>
         <BankaiText size="sm" tone="muted">
-          The theme paints the page background onto the header's own box, so a
-          <BankaiCode>position: sticky</BankaiCode> bar stays opaque over content scrolling beneath
-          it — no extra background needed. Every theme rule is zero-specificity
-          (<BankaiCode>:where()</BankaiCode>), so a plain declaration or utility class overrides the
-          padding, border, or background without <BankaiCode>!important</BankaiCode>.
+          <i18n-t keypath="comp.header.stickyBody" tag="span" scope="global">
+            <template #sticky><BankaiCode>position: sticky</BankaiCode></template>
+            <template #where><BankaiCode>:where()</BankaiCode></template>
+            <template #important><BankaiCode>!important</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
         <CodeBlock language="css" :code="stickyCss" />
       </BankaiFlex>

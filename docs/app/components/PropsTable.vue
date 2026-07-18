@@ -3,6 +3,8 @@
 // Rows are hand-authored per page today; a source-generated table is a later step.
 import type { PropRow } from '../utils/docs';
 
+const { t } = useI18n();
+
 defineProps<{ rows: PropRow[] }>();
 </script>
 
@@ -11,10 +13,10 @@ defineProps<{ rows: PropRow[] }>();
     <table class="props-table">
       <thead>
         <tr>
-          <th>Prop</th>
-          <th>Type</th>
-          <th>Default</th>
-          <th>Description</th>
+          <th>{{ t('table.prop') }}</th>
+          <th>{{ t('table.type') }}</th>
+          <th>{{ t('table.default') }}</th>
+          <th>{{ t('table.description') }}</th>
         </tr>
       </thead>
       <tbody>

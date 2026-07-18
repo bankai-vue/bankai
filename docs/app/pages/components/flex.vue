@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { componentMeta } from '../../utils/component-meta.generated';
 
+const { t } = useI18n();
+
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiFlex · bankai-vue' });
 </script>
@@ -10,14 +12,16 @@ useHead({ title: 'BankaiFlex · bankai-vue' });
     <BankaiFlex as="article" direction="column" gap="12">
       <BankaiText as="h1" size="2xl" weight="black">BankaiFlex</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
-        A polymorphic flexbox container. Props reflect as <BankaiCode>data-bankai-*</BankaiCode> and
-        <BankaiCode>gap</BankaiCode> rides a custom property, styled by zero-specificity
-        <BankaiCode>:where()</BankaiCode> theme rules — so a consumer's utility classes override
-        without <BankaiCode>!important</BankaiCode>.
+        <i18n-t keypath="comp.flex.lede" tag="span" scope="global">
+          <template #data><BankaiCode>data-bankai-*</BankaiCode></template>
+          <template #gap><BankaiCode>gap</BankaiCode></template>
+          <template #where><BankaiCode>:where()</BankaiCode></template>
+          <template #important><BankaiCode>!important</BankaiCode></template>
+        </i18n-t>
       </BankaiText>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Example</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('ui.example') }}</BankaiText>
         <div class="demo">
           <BankaiText size="sm" tone="muted">justify="between" · gap="4"</BankaiText>
           <BankaiFlex justify="between" gap="4">

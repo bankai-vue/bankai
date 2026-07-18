@@ -46,117 +46,162 @@ export default defineNuxtConfig({
 <template>
   <BankaiPage>
     <BankaiFlex as="article" direction="column" gap="12">
-      <BankaiText as="h1" size="2xl" weight="black">SSR, SPA &amp; routing</BankaiText>
+      <BankaiText as="h1" size="2xl" weight="black">{{ t('guide.rendering.name') }}</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
-        bankai-vue components behave the same in a client-only Vue app (SPA) and under Nuxt server
-        rendering (SSR) or static generation (SSG). This page covers what makes that work — the
-        hydration model, how <BankaiCode>BankaiLink</BankaiCode> finds your router, and the one
-        config value you should set when you server-render.
+        <i18n-t keypath="renderingPage.lede" tag="span" scope="global">
+          <template #bankaiLink><BankaiCode>BankaiLink</BankaiCode></template>
+        </i18n-t>
       </BankaiText>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Environments</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{
+          t('renderingPage.environmentsHeading')
+        }}</BankaiText>
         <ul class="doc-list">
           <li>
-            <strong>SPA (Vite).</strong> Install the plugin with
-            <BankaiCode>createBankai()</BankaiCode> and import components where you use them.
-            Everything runs on the client.
+            <i18n-t keypath="renderingPage.environmentsSpa" tag="span" scope="global">
+              <template #spa
+                ><strong>{{ t('renderingPage.environmentsSpaLead') }}</strong></template
+              >
+              <template #createBankai><BankaiCode>createBankai()</BankaiCode></template>
+            </i18n-t>
           </li>
           <li>
-            <strong>Nuxt SSR / SSG.</strong> The
-            <BankaiLink to="/guide/getting-started" class="doc-link">Nuxt module</BankaiLink>
-            auto-registers every component and installs the config <em>per app</em> via a generated
-            plugin — so under SSR each request gets its own reactive config, with no cross-request
-            leakage.
+            <i18n-t keypath="renderingPage.environmentsNuxt" tag="span" scope="global">
+              <template #nuxtSsr
+                ><strong>{{ t('renderingPage.environmentsNuxtLead') }}</strong></template
+              >
+              <template #module>
+                <BankaiLink to="/guide/getting-started" class="doc-link">{{
+                  t('renderingPage.environmentsNuxtModuleLink')
+                }}</BankaiLink>
+              </template>
+              <template #perApp
+                ><em>{{ t('renderingPage.environmentsNuxtPerApp') }}</em></template
+              >
+            </i18n-t>
           </li>
         </ul>
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Hydration model</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{
+          t('renderingPage.hydrationHeading')
+        }}</BankaiText>
         <BankaiText as="p" tone="muted">
-          Components are SSR-safe by design: they generate hydration-stable ids (Vue's
-          <BankaiCode>useId</BankaiCode>) and read no <BankaiCode>window</BankaiCode> or
-          <BankaiCode>document</BankaiCode> during setup, so the server HTML and the client's first
-          render always agree.
+          <i18n-t keypath="renderingPage.hydrationBody1" tag="span" scope="global">
+            <template #useId><BankaiCode>useId</BankaiCode></template>
+            <template #window><BankaiCode>window</BankaiCode></template>
+            <template #document><BankaiCode>document</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
         <BankaiText as="p" tone="muted">
-          Any state that can only be known on the client is deliberately withheld until
-          <em>after</em> hydration, then updates reactively. The clearest example is
-          <BankaiCode>BankaiLink</BankaiCode>'s <BankaiCode>data-bankai-external</BankaiCode> flag:
-          on the server and the first client render it is computed from
-          <BankaiCode>linkOrigin</BankaiCode> (or an origin-less fallback); the accurate
-          <BankaiCode>window.location</BankaiCode>-based host check only kicks in once the component
-          has mounted. That is why the flag never causes a hydration mismatch.
+          <i18n-t keypath="renderingPage.hydrationBody2" tag="span" scope="global">
+            <template #after
+              ><em>{{ t('renderingPage.hydrationAfter') }}</em></template
+            >
+            <template #bankaiLink><BankaiCode>BankaiLink</BankaiCode></template>
+            <template #external><BankaiCode>data-bankai-external</BankaiCode></template>
+            <template #linkOrigin><BankaiCode>linkOrigin</BankaiCode></template>
+            <template #windowLocation><BankaiCode>window.location</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Router detection</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{
+          t('renderingPage.routerHeading')
+        }}</BankaiText>
         <BankaiText as="p" tone="muted">
-          <BankaiCode>BankaiLink</BankaiCode> renders the right element for internal
-          (<BankaiCode>to</BankaiCode>) navigation with no wiring, resolved in this order:
+          <i18n-t keypath="renderingPage.routerIntro" tag="span" scope="global">
+            <template #bankaiLink><BankaiCode>BankaiLink</BankaiCode></template>
+            <template #to><BankaiCode>to</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
         <ol class="doc-list">
           <li>
-            an explicit <BankaiCode>linkComponent</BankaiCode> override in
-            <BankaiCode>BankaiConfig</BankaiCode>, if you set one;
+            <i18n-t keypath="renderingPage.routerItem1" tag="span" scope="global">
+              <template #linkComponent><BankaiCode>linkComponent</BankaiCode></template>
+              <template #bankaiConfig><BankaiCode>BankaiConfig</BankaiCode></template>
+            </i18n-t>
           </li>
           <li>
-            a globally-registered <BankaiCode>NuxtLink</BankaiCode> (preferred under Nuxt — it adds
-            prefetch, base-URL, and external-URL handling);
+            <i18n-t keypath="renderingPage.routerItem2" tag="span" scope="global">
+              <template #nuxtLink><BankaiCode>NuxtLink</BankaiCode></template>
+            </i18n-t>
           </li>
           <li>
-            a globally-registered <BankaiCode>RouterLink</BankaiCode> (a plain vue-router app);
+            <i18n-t keypath="renderingPage.routerItem3" tag="span" scope="global">
+              <template #routerLink><BankaiCode>RouterLink</BankaiCode></template>
+            </i18n-t>
           </li>
-          <li>otherwise a native <BankaiCode>&lt;a&gt;</BankaiCode> — no router installed.</li>
+          <li>
+            <i18n-t keypath="renderingPage.routerItem4" tag="span" scope="global">
+              <template #a><BankaiCode>&lt;a&gt;</BankaiCode></template>
+            </i18n-t>
+          </li>
         </ol>
         <BankaiText as="p" tone="muted">
-          Detection reads the app's global component registry, which is exactly where
-          <BankaiCode>vue-router</BankaiCode> and Nuxt register these — so core never imports a
-          router and stays dependency-free. A <BankaiCode>string</BankaiCode>
-          <BankaiCode>to</BankaiCode> with no router degrades to a plain
-          <BankaiCode>&lt;a href&gt;</BankaiCode>.
+          <i18n-t keypath="renderingPage.routerBody" tag="span" scope="global">
+            <template #vueRouter><BankaiCode>vue-router</BankaiCode></template>
+            <template #string><BankaiCode>string</BankaiCode></template>
+            <template #to><BankaiCode>to</BankaiCode></template>
+            <template #aHref><BankaiCode>&lt;a href&gt;</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
         <CodeBlock language="vue" :code="linkUsage" />
-        <BankaiText as="h3" size="lg" weight="semibold">vue-router types (opt-in)</BankaiText>
+        <BankaiText as="h3" size="lg" weight="semibold">{{
+          t('renderingPage.typesHeading')
+        }}</BankaiText>
         <BankaiText as="p" tone="muted">
-          By default <BankaiCode>to</BankaiCode> is a router-agnostic type. If you use vue-router,
-          add the types entry to your <BankaiCode>tsconfig.json</BankaiCode> to type it as
-          vue-router's <BankaiCode>RouteLocationRaw</BankaiCode>. It is an opt-in augmentation, so a
-          router-free app stays dependency-free.
+          <i18n-t keypath="renderingPage.typesBody" tag="span" scope="global">
+            <template #to><BankaiCode>to</BankaiCode></template>
+            <template #tsconfig><BankaiCode>tsconfig.json</BankaiCode></template>
+            <template #routeLocationRaw><BankaiCode>RouteLocationRaw</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
         <CodeBlock language="jsonc" :code="tsconfigTypes" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold"
-          >Set <BankaiCode>linkOrigin</BankaiCode> when you server-render</BankaiText
-        >
-        <BankaiText as="p" tone="muted">
-          To decide a link is external, <BankaiCode>BankaiLink</BankaiCode> compares its
-          <BankaiCode>href</BankaiCode> host against a reference origin. On the server there is no
-          <BankaiCode>window</BankaiCode> — and under SSG there is no request at all — so the
-          current origin is not knowable at render time.
+        <BankaiText as="h2" size="xl" weight="bold">
+          <i18n-t keypath="renderingPage.originHeading" tag="span" scope="global">
+            <template #linkOrigin><BankaiCode>linkOrigin</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
         <BankaiText as="p" tone="muted">
-          Set <BankaiCode>linkOrigin</BankaiCode> to your canonical site origin so the check is
-          accurate and identical on server and client. A client-only SPA can leave it unset — it
-          falls back to <BankaiCode>window.location</BankaiCode> after hydration; with no origin
-          available at all, any absolute <BankaiCode>http(s)</BankaiCode> URL is treated as
-          external.
+          <i18n-t keypath="renderingPage.originBody1" tag="span" scope="global">
+            <template #bankaiLink><BankaiCode>BankaiLink</BankaiCode></template>
+            <template #href><BankaiCode>href</BankaiCode></template>
+            <template #window><BankaiCode>window</BankaiCode></template>
+          </i18n-t>
+        </BankaiText>
+        <BankaiText as="p" tone="muted">
+          <i18n-t keypath="renderingPage.originBody2" tag="span" scope="global">
+            <template #linkOrigin><BankaiCode>linkOrigin</BankaiCode></template>
+            <template #windowLocation><BankaiCode>window.location</BankaiCode></template>
+            <template #httpS><BankaiCode>http(s)</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
         <CodeBlock language="ts" :code="linkOriginVite" />
         <CodeBlock language="ts" :code="linkOriginNuxt" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">See also</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('ui.seeAlso') }}</BankaiText>
         <BankaiText as="p" tone="muted">
-          <BankaiLink to="/guide/getting-started" class="doc-link">Getting started</BankaiLink>
-          for install and configuration, and
-          <BankaiLink to="/components/link" class="doc-link">BankaiLink</BankaiLink>
-          for its full props and reflected state.
+          <i18n-t keypath="renderingPage.seeAlsoBody" tag="span" scope="global">
+            <template #gettingStarted>
+              <BankaiLink to="/guide/getting-started" class="doc-link">{{
+                t('renderingPage.seeAlsoGettingStarted')
+              }}</BankaiLink>
+            </template>
+            <template #link>
+              <BankaiLink to="/components/link" class="doc-link">{{
+                t('renderingPage.seeAlsoLink')
+              }}</BankaiLink>
+            </template>
+          </i18n-t>
         </BankaiText>
       </BankaiFlex>
     </BankaiFlex>

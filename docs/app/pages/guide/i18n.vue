@@ -127,46 +127,44 @@ const localeRows = coreLocales.availableLocales.map((code) => {
 <template>
   <BankaiPage>
     <BankaiFlex as="article" direction="column" gap="12">
-      <BankaiText as="h1" size="2xl" weight="black">Internationalization</BankaiText>
+      <BankaiText as="h1" size="2xl" weight="black">{{ t('guide.i18n.name') }}</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
-        Components ship English default strings — a copy button's <em>Copy</em>, and more as
-        components grow. bankai-vue localizes them through one small config surface, so you set a
-        locale once and every component's defaults follow. Per-instance props still override a
-        single element.
+        <i18n-t keypath="i18nPage.lede" tag="span" scope="global">
+          <template #copy
+            ><em>{{ t('i18nPage.ledeCopy') }}</em></template
+          >
+        </i18n-t>
       </BankaiText>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Register a locale</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('i18nPage.registerHeading') }}</BankaiText>
         <BankaiText as="p" tone="muted">
-          Locale bundles are opt-in, tree-shakeable exports. Import the ones you use, register them
-          under <BankaiCode>i18n.messages</BankaiCode>, and set
-          <BankaiCode>i18n.locale</BankaiCode>. A German (<BankaiCode>de</BankaiCode>) bundle ships
-          today; English is the built-in base and needs no import.
+          <i18n-t keypath="i18nPage.registerBody1" tag="span" scope="global">
+            <template #messages><BankaiCode>i18n.messages</BankaiCode></template>
+            <template #locale><BankaiCode>i18n.locale</BankaiCode></template>
+            <template #de><BankaiCode>de</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
         <CodeBlock language="ts" :code="registerVite" />
         <BankaiText as="p" tone="muted">
-          Under Nuxt it is even less: set <BankaiCode>i18n.locale</BankaiCode> and the module
-          auto-injects the matching built-in bundle into its generated plugin — no import, no
-          <BankaiCode>messages</BankaiCode> — as a static, tree-shaken, SSR-safe import. Register a
-          bundle in <BankaiCode>messages</BankaiCode> only to override it or add a locale core
-          doesn't ship. The config is installed per app, so it stays per-request under SSR.
+          <i18n-t keypath="i18nPage.registerBody2" tag="span" scope="global">
+            <template #locale><BankaiCode>i18n.locale</BankaiCode></template>
+            <template #messages><BankaiCode>messages</BankaiCode></template>
+            <template #messages2><BankaiCode>messages</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
         <CodeBlock language="ts" :code="registerNuxt" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Locale coverage</BankaiText>
-        <BankaiText as="p" tone="muted">
-          English is the complete base — 100% by definition. Each shipped bundle covers a share of
-          the message keys; whatever it omits falls through to English. As new components add
-          default strings, a bundle's coverage drops until the new keys are translated.
-        </BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('i18nPage.coverageHeading') }}</BankaiText>
+        <BankaiText as="p" tone="muted">{{ t('i18nPage.coverageBody') }}</BankaiText>
         <div class="coverage-wrap">
           <table class="coverage-table">
             <thead>
               <tr>
-                <th scope="col">Locale</th>
-                <th scope="col">Coverage</th>
+                <th scope="col">{{ t('i18nPage.coverageColLocale') }}</th>
+                <th scope="col">{{ t('i18nPage.coverageColCoverage') }}</th>
               </tr>
             </thead>
             <tbody>
@@ -181,7 +179,8 @@ const localeRows = coreLocales.availableLocales.map((code) => {
                       <div class="coverage-fill" :style="{ inlineSize: `${row.percent}%` }" />
                     </div>
                     <BankaiText as="span" size="sm" tone="muted">
-                      {{ row.percent }}% · {{ row.done }}/{{ row.total }} strings
+                      {{ row.percent }}% · {{ row.done }}/{{ row.total }}
+                      {{ t('i18nPage.coverageStrings') }}
                     </BankaiText>
                   </div>
                 </td>
@@ -191,76 +190,98 @@ const localeRows = coreLocales.availableLocales.map((code) => {
         </div>
 
         <BankaiFlex class="contribute-banner" direction="column" gap="3">
-          <BankaiText as="p" weight="semibold">Missing your language?</BankaiText>
-          <BankaiText as="p" size="sm" tone="muted">
-            Locale bundles are small partial dictionaries — completing a bundle below 100%, or
-            adding a language bankai-vue doesn't ship yet, is a great first contribution. Each is a
-            plain object of message keys with English as the fallback, so you translate only what
-            you want.
-          </BankaiText>
+          <BankaiText as="p" weight="semibold">{{ t('i18nPage.contributeHeading') }}</BankaiText>
+          <BankaiText as="p" size="sm" tone="muted">{{ t('i18nPage.contributeBody') }}</BankaiText>
           <BankaiLink
             href="https://github.com/bankai-vue/bankai/tree/main/packages/core/src/i18n/locales"
             target="_blank"
             class="doc-link"
           >
-            Browse the locale bundles on GitHub →
+            {{ t('i18nPage.contributeLink') }}
           </BankaiLink>
         </BankaiFlex>
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Override just some strings</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('i18nPage.overrideHeading') }}</BankaiText>
         <BankaiText as="p" tone="muted">
-          A bundle can be <em>partial</em>. Any key you leave out falls through to the complete
-          English base, so you can register a shipped bundle, hand-write a bundle for a locale that
-          has none yet, or tweak a single string — all through the same
-          <BankaiCode>messages</BankaiCode> registry.
+          <i18n-t keypath="i18nPage.overrideBody" tag="span" scope="global">
+            <template #partial
+              ><em>{{ t('i18nPage.overridePartial') }}</em></template
+            >
+            <template #messages><BankaiCode>messages</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
         <CodeBlock language="ts" :code="partial" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Regional variants &amp; fallback</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('i18nPage.regionalHeading') }}</BankaiText>
         <BankaiText as="p" tone="muted">
-          A regional locale inherits its base language automatically:
-          <BankaiCode>de-AT</BankaiCode> resolves every <BankaiCode>de</BankaiCode> string, and only
-          the keys you give <BankaiCode>de-AT</BankaiCode> override it. Set
-          <BankaiCode>fallbackLocale</BankaiCode> for a cross-family fallback (tried before the
-          English base). The full chain is: active locale and its regional parents →
-          <BankaiCode>fallbackLocale</BankaiCode> and its parents → English.
+          <i18n-t keypath="i18nPage.regionalBody" tag="span" scope="global">
+            <template #deAt><BankaiCode>de-AT</BankaiCode></template>
+            <template #de><BankaiCode>de</BankaiCode></template>
+            <template #deAt2><BankaiCode>de-AT</BankaiCode></template>
+            <template #fallbackLocale><BankaiCode>fallbackLocale</BankaiCode></template>
+            <template #fallbackLocale2><BankaiCode>fallbackLocale</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
         <CodeBlock language="ts" :code="fallback" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Precedence</BankaiText>
-        <BankaiText as="p" tone="muted"> Each default string resolves in this order: </BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{
+          t('i18nPage.precedenceHeading')
+        }}</BankaiText>
+        <BankaiText as="p" tone="muted">{{ t('i18nPage.precedenceIntro') }}</BankaiText>
         <ol class="doc-list">
           <li>
-            a <strong>per-instance prop</strong> (e.g.
-            <BankaiCode>&lt;BankaiCodeBlock copy-label="…"&gt;</BankaiCode>) — wins for that
-            element;
+            <i18n-t keypath="i18nPage.precedenceItem1" tag="span" scope="global">
+              <template #prop
+                ><strong>{{ t('i18nPage.precedenceItem1Prop') }}</strong></template
+              >
+              <template #example
+                ><BankaiCode>&lt;BankaiCodeBlock copy-label="…"&gt;</BankaiCode></template
+              >
+            </i18n-t>
           </li>
-          <li>the <strong>active locale bundle</strong> resolved from the config;</li>
-          <li>the built-in <strong>English default</strong>.</li>
+          <li>
+            <i18n-t keypath="i18nPage.precedenceItem2" tag="span" scope="global">
+              <template #bundle
+                ><strong>{{ t('i18nPage.precedenceItem2Bundle') }}</strong></template
+              >
+            </i18n-t>
+          </li>
+          <li>
+            <i18n-t keypath="i18nPage.precedenceItem3" tag="span" scope="global">
+              <template #english
+                ><strong>{{ t('i18nPage.precedenceItem3English') }}</strong></template
+              >
+            </i18n-t>
+          </li>
         </ol>
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Switching at runtime</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('i18nPage.runtimeHeading') }}</BankaiText>
         <BankaiText as="p" tone="muted">
-          The config is reactive, so assigning a new <BankaiCode>i18n.locale</BankaiCode> re-renders
-          every component's labels — no reload, no re-mount.
+          <i18n-t keypath="i18nPage.runtimeBody" tag="span" scope="global">
+            <template #locale><BankaiCode>i18n.locale</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
         <CodeBlock language="vue" :code="runtime" />
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">See also</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('ui.seeAlso') }}</BankaiText>
         <BankaiText as="p" tone="muted">
-          <BankaiLink to="/components/code-block" class="doc-link">BankaiCodeBlock</BankaiLink>
-          — the first component with localizable strings, and its
-          <BankaiCode>copyLabel</BankaiCode> / <BankaiCode>copiedLabel</BankaiCode> props.
+          <i18n-t keypath="i18nPage.seeAlsoBody" tag="span" scope="global">
+            <template #link>
+              <BankaiLink to="/components/code-block" class="doc-link">BankaiCodeBlock</BankaiLink>
+            </template>
+            <template #copyLabel><BankaiCode>copyLabel</BankaiCode></template>
+            <template #copiedLabel><BankaiCode>copiedLabel</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
       </BankaiFlex>
     </BankaiFlex>

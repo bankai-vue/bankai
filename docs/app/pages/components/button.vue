@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { componentMeta } from '../../utils/component-meta.generated';
 
+const { t } = useI18n();
+
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiButton · bankai-vue' });
 </script>
@@ -10,14 +12,15 @@ useHead({ title: 'BankaiButton · bankai-vue' });
     <BankaiFlex as="article" direction="column" gap="12">
       <BankaiText as="h1" size="2xl" weight="black">BankaiButton</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
-        A native <BankaiCode>&lt;button&gt;</BankaiCode> with typed variant, size, type, and
-        disabled props. Ships no CSS of its own — the theme styles the
-        <BankaiCode>bankai-button</BankaiCode> class and
-        <BankaiCode>data-bankai-*</BankaiCode> state.
+        <i18n-t keypath="comp.button.lede" tag="span" scope="global">
+          <template #button><BankaiCode>&lt;button&gt;</BankaiCode></template>
+          <template #cls><BankaiCode>bankai-button</BankaiCode></template>
+          <template #state><BankaiCode>data-bankai-*</BankaiCode></template>
+        </i18n-t>
       </BankaiText>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Example</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('ui.example') }}</BankaiText>
         <div class="demo">
           <BankaiFlex align="center" gap="4" wrap="wrap">
             <BankaiButton variant="solid">Solid</BankaiButton>

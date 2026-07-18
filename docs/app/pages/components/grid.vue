@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { componentMeta } from '../../utils/component-meta.generated';
 
+const { t } = useI18n();
+
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiGrid · bankai-vue' });
 </script>
@@ -10,15 +12,21 @@ useHead({ title: 'BankaiGrid · bankai-vue' });
     <BankaiFlex as="article" direction="column" gap="12">
       <BankaiText as="h1" size="2xl" weight="black">BankaiGrid</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
-        A polymorphic CSS-grid container for 2D layouts. Enumerated props reflect as
-        <BankaiCode>data-bankai-*</BankaiCode>; continuous track values
-        (<BankaiCode>columns</BankaiCode>/<BankaiCode>rows</BankaiCode>/<BankaiCode>areas</BankaiCode>/<BankaiCode>gap</BankaiCode>)
-        ride <BankaiCode>--bankai-grid-*</BankaiCode> custom properties read by the theme's
-        <BankaiCode>:where()</BankaiCode> rules.
+        <i18n-t keypath="comp.grid.lede" tag="span" scope="global">
+          <template #data><BankaiCode>data-bankai-*</BankaiCode></template>
+          <template #tracks
+            ><BankaiCode>columns</BankaiCode
+            >/<BankaiCode>rows</BankaiCode>/<BankaiCode>areas</BankaiCode>/<BankaiCode
+              >gap</BankaiCode
+            ></template
+          >
+          <template #vars><BankaiCode>--bankai-grid-*</BankaiCode></template>
+          <template #where><BankaiCode>:where()</BankaiCode></template>
+        </i18n-t>
       </BankaiText>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Example</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('ui.example') }}</BankaiText>
         <div class="demo">
           <BankaiText size="sm" tone="muted">columns="3" · gap="4"</BankaiText>
           <BankaiGrid columns="3" gap="4">

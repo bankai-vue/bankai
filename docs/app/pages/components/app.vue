@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { componentMeta } from '../../utils/component-meta.generated';
 
+const { t } = useI18n();
+
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiApp · bankai-vue' });
 
@@ -20,32 +22,50 @@ const usage = `<!-- the outermost wrapper of an application -->
     <BankaiFlex as="article" direction="column" gap="12">
       <BankaiText as="h1" size="2xl" weight="black">BankaiApp</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
-        The infra singleton at the root of an application — the outermost layer of App › Layout ›
-        Page › Container. It renders a plain <BankaiCode>&lt;div&gt;</BankaiCode> and is
-        <em>not</em> a landmark.
+        <i18n-t keypath="comp.app.lede" tag="span" scope="global">
+          <template #div><BankaiCode>&lt;div&gt;</BankaiCode></template>
+          <template #not
+            ><em>{{ t('comp.app.ledeNot') }}</em></template
+          >
+        </i18n-t>
       </BankaiText>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Usage</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('ui.usage') }}</BankaiText>
         <CodeBlock language="vue" :code="usage" />
         <BankaiText size="sm" tone="muted">
-          Wrap your application once at the root. It is a <strong>singleton</strong>: its services
-          are provided by injection, so nesting an App inside another App would silently shadow the
-          outer one — <BankaiCode>ancestor/descendant nesting is discouraged</BankaiCode>. Placing
-          Apps <strong>side by side</strong> is legitimate (embedded micro-frontends, split-screen).
+          <i18n-t keypath="comp.app.usageBody" tag="span" scope="global">
+            <template #singleton
+              ><strong>{{ t('comp.app.usageSingleton') }}</strong></template
+            >
+            <template #nesting
+              ><BankaiCode>{{ t('comp.app.usageNesting') }}</BankaiCode></template
+            >
+            <template #sideBySide
+              ><strong>{{ t('comp.app.usageSideBySide') }}</strong></template
+            >
+          </i18n-t>
         </BankaiText>
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Embedded-mode surface</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('comp.app.embeddedHeading') }}</BankaiText>
         <BankaiText size="sm" tone="muted">
-          Its one job today is a <strong>self-contained surface</strong>: the theme carries
-          <BankaiCode>color-scheme</BankaiCode> and the foundation
-          <BankaiCode>--bankai-color-bg</BankaiCode>/<BankaiCode>-fg</BankaiCode> tokens on the
-          App's <em>own</em> box. So a bankai island dropped into a foreign page paints the house
-          light/dark surface for its subtree <strong>without</strong> the global
-          <BankaiCode>html</BankaiCode> page paint (which an embedded consumer can sever). The box
-          below sits on a non-house background to show its own painted surface:
+          <i18n-t keypath="comp.app.embeddedBody" tag="span" scope="global">
+            <template #surface
+              ><strong>{{ t('comp.app.embeddedSurface') }}</strong></template
+            >
+            <template #colorScheme><BankaiCode>color-scheme</BankaiCode></template>
+            <template #bg><BankaiCode>--bankai-color-bg</BankaiCode></template>
+            <template #fg><BankaiCode>-fg</BankaiCode></template>
+            <template #own
+              ><em>{{ t('comp.app.embeddedOwn') }}</em></template
+            >
+            <template #without
+              ><strong>{{ t('comp.app.embeddedWithout') }}</strong></template
+            >
+            <template #html><BankaiCode>html</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
         <div class="app-demo">
           <BankaiApp class="app-box">
@@ -53,18 +73,19 @@ const usage = `<!-- the outermost wrapper of an application -->
           </BankaiApp>
         </div>
         <BankaiText size="sm" tone="muted">
-          Every theme rule is zero-specificity (<BankaiCode>:where()</BankaiCode>), so a plain
-          declaration or utility class overrides it without <BankaiCode>!important</BankaiCode>.
+          <i18n-t keypath="comp.app.override" tag="span" scope="global">
+            <template #where><BankaiCode>:where()</BankaiCode></template>
+            <template #important><BankaiCode>!important</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Lands thin</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('comp.app.thinHeading') }}</BankaiText>
         <BankaiText size="sm" tone="muted">
-          <BankaiCode>BankaiApp</BankaiCode> takes no props today. Its richer infra role — a single
-          overlay/portal mount target, a toast host and an app-config context — arrives with the
-          overlay foundation, when the overlay root it would provide first has consumers. Until then
-          it ships only the surface, rather than a speculative empty API.
+          <i18n-t keypath="comp.app.thinBody" tag="span" scope="global">
+            <template #bankaiApp><BankaiCode>BankaiApp</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
       </BankaiFlex>
 

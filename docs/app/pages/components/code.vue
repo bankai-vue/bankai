@@ -1,47 +1,50 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { componentMeta } from '../../utils/component-meta.generated';
+
+const { t } = useI18n();
 
 definePageMeta({ layout: 'docs' });
 useHead({ title: 'BankaiCode · bankai-vue' });
 
 // The theme tokens, documented so a consumer knows what to override (each is a `:where(:root)` custom
-// property, so a single plain declaration overrides one — no selector, no `!important`).
+// property, so a single plain declaration overrides one — no selector, no `!important`). Purposes are
+// localized, so this is a computed that re-evaluates when the locale switches.
 interface TokenRow {
   token: string;
   purpose: string;
 }
 
-const tokens: TokenRow[] = [
+const tokens = computed<TokenRow[]>(() => [
   {
     token: '--bankai-code-font-family',
-    purpose: 'The chip font family (house default: --bankai-font-mono).',
+    purpose: t('comp.code.tokens.fontFamily'),
   },
   {
     token: '--bankai-code-bg',
-    purpose: 'The inline chip background (house default: the surface role).',
+    purpose: t('comp.code.tokens.bg'),
   },
   {
     token: '--bankai-code-radius',
-    purpose: 'The corner radius (house default: --bankai-radius).',
+    purpose: t('comp.code.tokens.radius'),
   },
   {
     token: '--bankai-code-font-size',
-    purpose: 'The chip font-size, em-relative so it scales with the surrounding text.',
+    purpose: t('comp.code.tokens.fontSize'),
   },
   {
     token: '--bankai-code-padding-block',
-    purpose: 'Vertical padding, em-relative.',
+    purpose: t('comp.code.tokens.paddingBlock'),
   },
   {
     token: '--bankai-code-padding-inline',
-    purpose: 'Horizontal padding, em-relative.',
+    purpose: t('comp.code.tokens.paddingInline'),
   },
   {
     token: '--bankai-font-mono',
-    purpose:
-      'The shared monospace stack --bankai-code-font-family defaults to (also feeds BankaiCodeBlock).',
+    purpose: t('comp.code.tokens.fontMono'),
   },
-];
+]);
 </script>
 
 <template>
@@ -49,55 +52,62 @@ const tokens: TokenRow[] = [
     <BankaiFlex as="article" direction="column" gap="12">
       <BankaiText as="h1" size="2xl" weight="black">BankaiCode</BankaiText>
       <BankaiText as="p" size="lg" tone="muted">
-        A minimal inline code primitive: a native <BankaiCode>&lt;code&gt;</BankaiCode> with a
-        monospace font and a subtle chip background. Reach for it for an identifier, token, path, or
-        short snippet inside a sentence — the block, fenced variant is a separate
-        <BankaiCode>BankaiCodeBlock</BankaiCode> (on the roadmap).
+        <i18n-t keypath="comp.code.lede" tag="span" scope="global">
+          <template #code><BankaiCode>&lt;code&gt;</BankaiCode></template>
+          <template #codeBlock><BankaiCode>BankaiCodeBlock</BankaiCode></template>
+        </i18n-t>
       </BankaiText>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Example</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('ui.example') }}</BankaiText>
         <div class="demo">
           <BankaiText as="p">
-            Install <BankaiCode>pnpm add @bankai-vue/core</BankaiCode> and import
-            <BankaiCode>BankaiCode</BankaiCode> from it.
+            <i18n-t keypath="comp.code.exampleP1" tag="span" scope="global">
+              <template #install><BankaiCode>pnpm add @bankai-vue/core</BankaiCode></template>
+              <template #code><BankaiCode>BankaiCode</BankaiCode></template>
+            </i18n-t>
           </BankaiText>
           <BankaiText as="p" size="sm" tone="muted">
-            The size is <BankaiCode>em</BankaiCode>-relative, so a snippet like
-            <BankaiCode>--bankai-code-bg</BankaiCode> stays proportional even in this smaller line.
+            <i18n-t keypath="comp.code.exampleP2" tag="span" scope="global">
+              <template #em><BankaiCode>em</BankaiCode></template>
+              <template #token><BankaiCode>--bankai-code-bg</BankaiCode></template>
+            </i18n-t>
           </BankaiText>
         </div>
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Native semantics, no props</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{
+          t('comp.code.semanticsHeading')
+        }}</BankaiText>
         <BankaiText as="p" size="sm" tone="muted">
-          It renders a real <BankaiCode>&lt;code&gt;</BankaiCode>, so the phrasing semantics live on
-          the element itself — assistive tech and the browser treat it as code for free. Today it
-          takes no props; it is a pure, themeable wrapper. A polymorphic
-          <BankaiCode>as</BankaiCode> (to reach the sibling monospace elements
-          <BankaiCode>&lt;kbd&gt;</BankaiCode>, <BankaiCode>&lt;samp&gt;</BankaiCode>,
-          <BankaiCode>&lt;var&gt;</BankaiCode>) may arrive later if dogfooding calls for it — a
-          non-breaking addition.
+          <i18n-t keypath="comp.code.semanticsBody" tag="span" scope="global">
+            <template #code><BankaiCode>&lt;code&gt;</BankaiCode></template>
+            <template #as><BankaiCode>as</BankaiCode></template>
+            <template #kbd><BankaiCode>&lt;kbd&gt;</BankaiCode></template>
+            <template #samp><BankaiCode>&lt;samp&gt;</BankaiCode></template>
+            <template #var><BankaiCode>&lt;var&gt;</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
       </BankaiFlex>
 
       <ComponentApi :meta="componentMeta.BankaiCode" />
 
       <BankaiFlex as="section" direction="column" gap="8">
-        <BankaiText as="h2" size="xl" weight="bold">Theming</BankaiText>
+        <BankaiText as="h2" size="xl" weight="bold">{{ t('ui.theming') }}</BankaiText>
         <BankaiText as="p" size="sm" tone="muted">
-          Every theme rule is zero-specificity (<BankaiCode>:where()</BankaiCode>), so a single
-          declaration or a utility class overrides the look without
-          <BankaiCode>!important</BankaiCode>. Retune the chip by overriding a token — globally on
-          <BankaiCode>:root</BankaiCode>, or locally on any ancestor.
+          <i18n-t keypath="comp.code.themingBody" tag="span" scope="global">
+            <template #where><BankaiCode>:where()</BankaiCode></template>
+            <template #important><BankaiCode>!important</BankaiCode></template>
+            <template #root><BankaiCode>:root</BankaiCode></template>
+          </i18n-t>
         </BankaiText>
         <div class="tokens-wrap">
           <table class="tokens">
             <thead>
               <tr>
-                <th>Token</th>
-                <th>Purpose</th>
+                <th>{{ t('table.token') }}</th>
+                <th>{{ t('table.purpose') }}</th>
               </tr>
             </thead>
             <tbody>
