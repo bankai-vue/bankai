@@ -1,4 +1,4 @@
-import type { BankaiConfig } from '@bankai-vue/core';
+import type { BankaiConfigInput } from '@bankai-vue/core';
 import {
   addComponent,
   addImports,
@@ -28,13 +28,16 @@ export interface ModuleOptions {
    */
   composables: boolean;
   /**
-   * Initial {@link BankaiConfig} for the library (e.g. `{ idGeneration: false }`). The module installs
-   * it per Nuxt app via `createBankai`, so it is applied per-request under SSR (no cross-request leakage).
-   * Mirrors core's config surface directly, so new `BankaiConfig` fields need no module change.
+   * Initial config for the library (e.g. `{ idGeneration: false }`). The module installs it per Nuxt
+   * app via `createBankai`, so it is applied per-request under SSR (no cross-request leakage). Mirrors
+   * core's config input directly, so new config fields need no module change. Typed as
+   * {@link BankaiConfigInput} — the same partial-accepting shape `createBankai` takes — so a nested
+   * object like `i18n` can be given partially (e.g. `{ i18n: { locale: 'de' } }`), since Nuxt's own
+   * shallow `Partial` wrapper does not reach inside nested config objects.
    *
    * @default { idGeneration: true }
    */
-  config: Partial<BankaiConfig>;
+  config: BankaiConfigInput;
 }
 
 const nodeRequire = createRequire(import.meta.url);
@@ -42,7 +45,12 @@ const logger = useLogger('@bankai-vue/nuxt');
 
 // Composables re-exported by `@bankai-vue/core` (named exports). Hand-listed because there are few and
 // they change rarely — unlike components, which are discovered from the manifest below.
-const COMPOSABLES = ['useBankaiId', 'usePrefixedId', 'useBankaiConfig'] as const;
+const COMPOSABLES = [
+  'useBankaiId',
+  'usePrefixedId',
+  'useBankaiConfig',
+  'useBankaiMessage',
+] as const;
 
 /**
  * Reads `@bankai-vue/core`'s package.json `exports` at the CONSUMER's build time (so it tracks their

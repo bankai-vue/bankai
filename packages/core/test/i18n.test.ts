@@ -32,6 +32,14 @@ test('a partial bundle keeps the English base for omitted keys', () => {
   expect(messages.codeBlock.copied).toBe('Copied');
 });
 
+test('a present-but-undefined leaf falls through to the base, not to undefined', () => {
+  // A programmatically-built bundle can carry an explicit `undefined` (`{ copy: maybeUndefined }`);
+  // it must behave like an omitted key, not blank the English string.
+  const messages = resolveMessages('de', 'en', { de: { codeBlock: { copy: undefined } } });
+  expect(messages.codeBlock.copy).toBe('Copy');
+  expect(messages.codeBlock.copied).toBe('Copied');
+});
+
 test('a regional locale inherits its base-language bundle (de-AT → de)', () => {
   const messages = resolveMessages('de-AT', 'en', { de });
   expect(messages.codeBlock.copy).toBe('Kopieren');

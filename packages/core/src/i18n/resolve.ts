@@ -8,15 +8,19 @@ import { enMessages } from './en';
 // `useBankaiMessage` is a thin reactive wrapper over it.
 
 /**
- * Merges one (possibly partial) bundle over a complete message set, per namespace. A `BankaiMessages`
- * namespace is a flat map of string keys (the SPEC convention), so a shallow spread per namespace is a
- * complete merge — a key the patch omits keeps the base value. Each namespace is listed explicitly so
- * the merge stays assertion-free and the compiler flags a namespace added to `BankaiMessages` but not
- * handled here (the returned object would be missing a required property).
+ * Merges one (possibly partial) bundle over a complete message set. Each key coalesces with `??`, so
+ * a key the patch omits — or carries as an explicit `undefined` (reachable when a bundle is built
+ * programmatically, e.g. `{ copy: maybeUndefined }`, since `DeepPartial` types each leaf as
+ * `copy?: string`) — falls through to the base, never blanking a string. Written out per key (not a
+ * spread or a generic loop) so it stays assertion-free and the compiler flags a key or namespace
+ * added to `BankaiMessages` but not handled here.
  */
 function mergeMessages(base: BankaiMessages, patch: DeepPartial<BankaiMessages>): BankaiMessages {
   return {
-    codeBlock: { ...base.codeBlock, ...patch.codeBlock },
+    codeBlock: {
+      copy: patch.codeBlock?.copy ?? base.codeBlock.copy,
+      copied: patch.codeBlock?.copied ?? base.codeBlock.copied,
+    },
   };
 }
 
