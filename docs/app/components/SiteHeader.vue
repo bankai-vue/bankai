@@ -16,6 +16,11 @@
         <NuxtLink to="/guide/getting-started" class="nav-link">Guide</NuxtLink>
         <NuxtLink to="/components" class="nav-link">Components</NuxtLink>
         <!--
+          Locale switcher (dogfood): session-only + SSR-safe (initial 'en' matches the server), so it
+          renders normally — no <ClientOnly> like the color-scheme toggle needs.
+        -->
+        <LocaleToggle />
+        <!--
           Client-only: the toggle reads localStorage in setup, so it must not server-render (the
           SSR/SSG output would always show 'system' active, then flip on hydration). The fallback
           reserves the control's footprint so the header doesn't shift when it mounts.
