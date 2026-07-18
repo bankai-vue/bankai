@@ -194,6 +194,16 @@ Components adapt to **the space they are given**, never to the browser viewport.
 - **No viewport media queries or viewport-breakpoint props in shipped components.** If responsive _props_ are ever added (a per-breakpoint value syntax), they must be **container-query-based**, keyed to the box, not the screen.
 - _Scope:_ this governs shipped **components/themes**. A consuming application (or this repo's own docs _site_) may use `@media` for its page chrome; that is not a shipped component.
 
+### 4.20 Localizable default strings
+
+Every user-facing string a component ships a default for (a copy button's "Copy", a future pagination's "Next") is **localizable through one shared surface**, designed once rather than per component. The mechanism is a locale registry, not a bundled-translation lookup baked into core — core stays near-zero-dependency (§4.13) and ships no translation library.
+
+- **`BankaiMessages` is the typed registry.** A component that ships default UI text adds a **namespace** to `BankaiMessages` (`codeBlock: { copy; copied }`), a flat map of message keys. This is the single source of truth every locale bundle conforms to, so a bundle typo is a type error, not a silent English fallback.
+- **English is the built-in, complete base.** It is always present (no import), so every registered bundle may be **partial** — an omitted key falls through to English, never to an empty string. This keeps unregistered locales out of the build and lets a consumer with their own i18n inject just the strings they want.
+- **Locale bundles are tree-shakeable, opt-in exports** (`@bankai-vue/core/locales/de`, or the `import { de } from '@bankai-vue/core/locales'` barrel). A consumer registers them under `config.i18n.messages` and sets `config.i18n.locale`. Resolution walks active `locale` (+ regional parents, `de-AT` → `de`) → `fallbackLocale` (+ parents) → English base.
+- **Precedence is prop → locale bundle → English default.** A per-instance prop (e.g. `BankaiCodeBlock`'s `copyLabel`) always wins for a single instance; the global config localizes the default. Resolution is reactive (`useBankaiMessage`), so switching `locale` at runtime re-renders every label. Config is per-app, so it is SSR-safe.
+- **Out of scope here (deferred, §7):** `dir`/RTL and locale-aware `Intl` formatting are separate from message localization and land later, non-breaking.
+
 ---
 
 ## 5. Architecture summary
@@ -261,7 +271,7 @@ Making `Container` own the width toggle (centered vs. edge-to-edge on large view
 
 - **Shikai (`0.x`)** — initial released form. Driven by what the Nuxt docs shell needs first (layout, nav, theme toggle, code block, tabs), then outward to the full basics and the DataTable/Tree spike.
 - **Bankai (`1.0`, 2027)** — stable public API, full basics + DataTable + Tree, WCAG 2.2 AA with per-component conformance docs, plain-Vue + Nuxt SSR/SSG/client-only, dark mode, near-zero-dep core.
-- **Post-`0.1.0` (within `0.x`):** **i18n / RTL** — important, iterated after the initial release rather than blocking `0.1.0`.
+- **Post-`0.1.0` (within `0.x`):** **RTL and locale-aware (`Intl`) formatting** — the remaining i18n concerns, iterated after the initial release rather than blocking `0.1.0`. The **message-localization surface** for components' default strings landed earlier instead (dogfooding-driven, first needed by `BankaiCodeBlock`) — see §4.20.
 - **Discover-as-you-go (deferred by design):** the **theming token system** — to be designed once real components exist, not in the abstract. _Slices landed:_ a rem-based, theme-owned **spacing scale** (`--bankai-space-*`) and **type scale** (`--bankai-text-size-*`), and the foundation semantic **color tokens** (`--bankai-color-*`, `light-dark()`-themed) — each introduced with the component that first needed it. Semantic status colors follow.
 - **When interop matures:** **Vapor builds**.
 

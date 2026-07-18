@@ -25,6 +25,11 @@ export const guideNav: NavItem[] = [
     to: '/guide/rendering',
     tagline: 'Hydration model, router auto-detection, and linkOrigin.',
   },
+  {
+    name: 'Internationalization',
+    to: '/guide/i18n',
+    tagline: 'Localize default strings with locale bundles.',
+  },
 ];
 
 /**

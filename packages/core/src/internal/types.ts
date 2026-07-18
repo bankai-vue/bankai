@@ -13,3 +13,18 @@
 export type LiteralUnion<LiteralType, BaseType extends string | number> =
   | LiteralType
   | (BaseType & Record<never, never>);
+
+/**
+ * Recursively makes every property of `T` optional. Used for message bundles, where a locale may
+ * override only some of the {@link BankaiMessages} keys and let the rest fall through to the English
+ * base. Plain-object properties recurse; anything else (string leaves) is left as-is.
+ *
+ * A deliberately minimal local type — it only recurses plain objects, which is all message bundles
+ * (nested string maps) need. It is NOT type-fest's `PartialDeep`, which additionally handles arrays,
+ * tuples, `Map`/`Set`, `readonly`, and recursion options; reach for that (and vendor it, like
+ * {@link LiteralUnion}) if a future use needs those:
+ * https://github.com/sindresorhus/type-fest/blob/main/source/partial-deep.d.ts
+ */
+export type DeepPartial<T> = {
+  [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K];
+};

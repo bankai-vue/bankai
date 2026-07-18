@@ -1,10 +1,13 @@
 import type { BankaiConfig } from '../src/config';
-import type { App, Component, Plugin, VNode } from 'vue';
+import type { BankaiMessages } from '../src/i18n/types';
+import type { App, Component, ComputedRef, Plugin, VNode } from 'vue';
 import { expect, test } from 'vitest';
 import { createApp, defineComponent, h } from 'vue';
 import { useBankaiId } from '../src/composables/useBankaiId';
+import { useBankaiMessage } from '../src/composables/useBankaiMessage';
 import { usePrefixedId } from '../src/composables/usePrefixedId';
 import { createBankai, useBankaiConfig } from '../src/config';
+import de from '../src/i18n/locales/de';
 
 interface Mounted {
   host: HTMLElement;
@@ -143,5 +146,68 @@ test('useBankaiConfig reflects the installed config', () => {
 
   const { teardown } = mount(Comp, createBankai({ idGeneration: false }));
   expect(config?.idGeneration).toBe(false);
+  teardown();
+});
+
+test('i18n defaults to English messages', () => {
+  let messages: ComputedRef<BankaiMessages> | undefined;
+  const Comp = defineComponent({
+    setup() {
+      messages = useBankaiMessage();
+      return (): VNode => h('div');
+    },
+  });
+
+  const { teardown } = mount(Comp);
+  expect(messages?.value.codeBlock.copy).toBe('Copy');
+  teardown();
+});
+
+test('a partial i18n override keeps the fallbackLocale/messages defaults', () => {
+  let config: BankaiConfig | undefined;
+  const Comp = defineComponent({
+    setup() {
+      config = useBankaiConfig();
+      return (): VNode => h('div');
+    },
+  });
+
+  const { teardown } = mount(Comp, createBankai({ i18n: { locale: 'de' } }));
+  expect(config?.i18n.locale).toBe('de');
+  expect(config?.i18n.fallbackLocale).toBe('en');
+  expect(config?.i18n.messages).toEqual({});
+  teardown();
+});
+
+test('useBankaiMessage resolves a registered locale bundle', () => {
+  let messages: ComputedRef<BankaiMessages> | undefined;
+  const Comp = defineComponent({
+    setup() {
+      messages = useBankaiMessage();
+      return (): VNode => h('div');
+    },
+  });
+
+  const { teardown } = mount(Comp, createBankai({ i18n: { locale: 'de', messages: { de } } }));
+  expect(messages?.value.codeBlock.copy).toBe('Kopieren');
+  teardown();
+});
+
+test('switching config.i18n.locale re-resolves messages reactively', () => {
+  let config: BankaiConfig | undefined;
+  let messages: ComputedRef<BankaiMessages> | undefined;
+  const Comp = defineComponent({
+    setup() {
+      config = useBankaiConfig();
+      messages = useBankaiMessage();
+      return (): VNode => h('div');
+    },
+  });
+
+  const { teardown } = mount(Comp, createBankai({ i18n: { messages: { de } } }));
+  expect(messages?.value.codeBlock.copy).toBe('Copy');
+
+  config!.i18n.locale = 'de';
+  expect(messages?.value.codeBlock.copy).toBe('Kopieren');
   teardown();
 });

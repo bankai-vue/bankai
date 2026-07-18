@@ -34,6 +34,14 @@
       "types": "./dist/vue-router.d.ts",
       "import": "./dist/vue-router.js"
     },
+    "./locales": {
+      "types": "./dist/i18n/locales.d.ts",
+      "import": "./dist/i18n/locales.js"
+    },
+    "./locales/de": {
+      "types": "./dist/i18n/locales/de.d.ts",
+      "import": "./dist/i18n/locales/de.js"
+    },
     "./composables/usePrefixedId": {
       "types": "./dist/composables/usePrefixedId.d.ts",
       "import": "./dist/composables/usePrefixedId.js"
@@ -41,6 +49,10 @@
     "./composables/useBankaiId": {
       "types": "./dist/composables/useBankaiId.d.ts",
       "import": "./dist/composables/useBankaiId.js"
+    },
+    "./composables/useBankaiMessage": {
+      "types": "./dist/composables/useBankaiMessage.d.ts",
+      "import": "./dist/composables/useBankaiMessage.js"
     },
     "./components/app/BankaiApp": {
       "types": "./dist/components/app/BankaiApp.d.ts",
