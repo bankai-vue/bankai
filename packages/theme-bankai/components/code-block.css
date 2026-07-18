@@ -57,11 +57,15 @@
   font-family: inherit;
 }
 
-/* Copy toolbar — pinned to the top inline-end corner, outside the scrolling `<pre>` so it stays put. */
+/* Copy toolbar — pinned to the top inline-end corner, outside the scrolling `<pre>` so it stays put.
+ * It carries an opaque panel-colored tile so a long first line is cleanly masked behind the floating
+ * button instead of colliding with the (transparent ghost) button text. */
 :where(.bankai-code-block > [data-part='copy']) {
   position: absolute;
   inset-block-start: var(--bankai-code-block-copy-offset);
   inset-inline-end: var(--bankai-code-block-copy-offset);
+  border-radius: var(--bankai-code-block-radius);
+  background-color: var(--bankai-code-block-bg);
 }
 
 /* The `role="status"` live region: sr-only. Present in the DOM (so it can announce) but visually hidden. */

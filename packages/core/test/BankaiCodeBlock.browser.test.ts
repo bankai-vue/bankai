@@ -129,6 +129,30 @@ test('copies the code, flips the copied state, and announces it', async () => {
     expect(root.dataset.bankaiCopied).toBe('');
     expect(button?.textContent).toBe('Copied');
     expect(root.querySelector('[data-part="status"]')?.textContent).toBe('Copied');
+    // The accessible name tracks the visible label (WCAG 2.5.3).
+    expect(button?.getAttribute('aria-label')).toBe('Copied');
+  });
+
+  teardown();
+});
+
+test('re-announces on a repeat copy within the window', async () => {
+  const writeText = stubClipboard();
+  const { root, teardown } = mountCodeBlock({ code: 'x' });
+
+  const button = root.querySelector<HTMLButtonElement>('.bankai-code-block-copy');
+  const status = root.querySelector('[data-part="status"]');
+  button?.click();
+  await vi.waitFor(() => {
+    expect(status?.textContent).toBe('Copied');
+  });
+
+  // A second copy while still "copied": the region is cleared then re-set so assistive tech speaks it
+  // again (a static message would be byte-identical and stay silent).
+  button?.click();
+  await vi.waitFor(() => {
+    expect(writeText).toHaveBeenCalledTimes(2);
+    expect(status?.textContent).toBe('Copied');
   });
 
   teardown();

@@ -67,7 +67,7 @@ export interface BankaiCodeBlockProps {
 </script>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref, useAttrs } from 'vue';
+import { computed, nextTick, onBeforeUnmount, ref, useAttrs } from 'vue';
 import BankaiButton from '../button/BankaiButton.vue';
 
 const {
@@ -105,26 +105,34 @@ const languageClass = computed<string | undefined>(() =>
 const COPIED_RESET_MS = 2000;
 
 const copied = ref(false);
+
+// The `role="status"` live-region text, driven imperatively rather than as a `computed` mirror of
+// `copied`. A computed would yield byte-identical text on a repeat copy within the window — no DOM
+// mutation, so assistive tech would stay silent on the second copy. Snapshotting `copiedLabel` at copy
+// time (rather than reading it reactively) also keeps a mid-window prop change from re-announcing.
+const announcement = ref('');
 let resetTimer: ReturnType<typeof setTimeout> | undefined;
 
 // Presence flag (empty string on, absent off) so the theme can match `[data-bankai-copied]` regardless
 // of value; Vue drops the attribute when the value is `undefined`.
 const dataCopied = computed<'' | undefined>(() => (copied.value ? '' : undefined));
 
-// The live-region message: the `copiedLabel` once copied (which fires the `role="status"` announcement),
-// empty otherwise. Reverts when `copied` is reset, clearing the region.
-const statusMessage = computed<string>(() => (copied.value ? copiedLabel : ''));
-
 async function handleCopy(): Promise<void> {
   try {
     // The `code` prop is the exact clipboard source — independent of whatever the default slot renders.
     await navigator.clipboard.writeText(code);
     copied.value = true;
+    // Re-announce on every copy, including a repeat within the window: clear the region, then set it on
+    // the next tick so the text node genuinely changes and `role="status"` speaks it again.
+    announcement.value = '';
+    await nextTick();
+    announcement.value = copiedLabel;
     if (resetTimer) {
       clearTimeout(resetTimer);
     }
     resetTimer = setTimeout(() => {
       copied.value = false;
+      announcement.value = '';
     }, COPIED_RESET_MS);
   } catch {
     // Clipboard API unavailable (insecure context) or permission denied — leave the idle state, so the
@@ -149,19 +157,19 @@ defineSlots<BankaiCodeBlockSlots>();
       data-part="pre"
     ><code data-part="code" :class="languageClass"><slot>{{ code }}</slot></code></pre>
     <div v-if="copyable" data-part="copy">
-      <!-- `aria-label` gives the button a stable accessible name even when the `copy` slot renders an
-        icon; the copy result is announced separately via the `role="status"` region below (so the
-        button's name doesn't churn on every copy). -->
+      <!-- `aria-label` gives the button an accessible name even when the `copy` slot renders only an
+        icon, and tracks the visible label so the accessible name matches it (WCAG 2.5.3 Label in Name);
+        the copy is also announced via the `role="status"` region below. -->
       <BankaiButton
         class="bankai-code-block-copy"
         variant="ghost"
         size="sm"
-        :aria-label="copyLabel"
+        :aria-label="copied ? copiedLabel : copyLabel"
         @click="handleCopy"
       >
         <slot name="copy" :copied="copied">{{ copied ? copiedLabel : copyLabel }}</slot>
       </BankaiButton>
-      <span data-part="status" role="status" aria-live="polite">{{ statusMessage }}</span>
+      <span data-part="status" role="status" aria-live="polite">{{ announcement }}</span>
     </div>
   </div>
 </template>
