@@ -13,3 +13,12 @@
 export type LiteralUnion<LiteralType, BaseType extends string | number> =
   | LiteralType
   | (BaseType & Record<never, never>);
+
+/**
+ * Recursively makes every property of `T` optional. Used for message bundles, where a locale may
+ * override only some of the {@link BankaiMessages} keys and let the rest fall through to the English
+ * base. Plain-object properties recurse; anything else (string leaves) is left as-is.
+ */
+export type DeepPartial<T> = {
+  [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K];
+};

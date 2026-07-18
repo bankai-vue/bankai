@@ -1,5 +1,40 @@
+import type { BankaiMessages } from './i18n/types';
+import type { DeepPartial } from './internal/types';
 import type { App, Component, InjectionKey, Plugin } from 'vue';
 import { inject, reactive } from 'vue';
+
+/**
+ * Localization surface for bankai-vue: the active locale, a cross-family fallback, and the registered
+ * message bundles the components' default strings resolve through (read with {@link useBankaiMessage}).
+ * Component defaults are English out of the box; register a bundle and set a `locale` to localize them
+ * app-wide, while a per-instance prop (e.g. `BankaiCodeBlock`'s `copyLabel`) still overrides per block.
+ */
+export interface BankaiI18nConfig {
+  /**
+   * The active locale, e.g. `'de'` or a regional variant like `'de-AT'` (which inherits `'de'`).
+   * Selects which registered {@link BankaiI18nConfig.messages} bundle resolves the component strings.
+   *
+   * @default 'en'
+   */
+  locale: string;
+  /**
+   * Cross-family fallback tried before the English base when the active locale has no bundle for a
+   * key (e.g. `locale: 'gsw'`, `fallbackLocale: 'de'`). Regional parents (`'de-AT'` → `'de'`) are
+   * already walked automatically, so this is for unrelated-family fallbacks. English is always the
+   * ultimate base regardless.
+   *
+   * @default 'en'
+   */
+  fallbackLocale: string;
+  /**
+   * Registered message bundles keyed by locale (e.g. `{ de }` from `@bankai-vue/core/locales`). Each
+   * bundle may be partial — any key it omits falls through to the English base — so a consumer can
+   * register a full shipped bundle or hand-write just the strings they want to override.
+   *
+   * @default {}
+   */
+  messages: Record<string, DeepPartial<BankaiMessages>>;
+}
 
 /**
  * Global configuration for bankai-vue.
@@ -57,11 +92,31 @@ export interface BankaiConfig {
    * @default 2000
    */
   codeBlockCopiedDuration: number;
+  /**
+   * Localization: active locale, fallback, and registered message bundles the components' default
+   * strings resolve through ({@link useBankaiMessage}). See {@link BankaiI18nConfig}.
+   */
+  i18n: BankaiI18nConfig;
 }
 
 function createDefaultConfig(): BankaiConfig {
-  return { idGeneration: true, warnings: true, linkNoopener: true, codeBlockCopiedDuration: 2000 };
+  return {
+    idGeneration: true,
+    warnings: true,
+    linkNoopener: true,
+    codeBlockCopiedDuration: 2000,
+    i18n: { locale: 'en', fallbackLocale: 'en', messages: {} },
+  };
 }
+
+/**
+ * Input accepted by {@link createBankai}: every top-level field optional, and the nested `i18n`
+ * object itself partial — so a consumer can pass `i18n: { locale: 'de' }` without having to restate
+ * `fallbackLocale`/`messages`. {@link createBankai} deep-merges `i18n` over the defaults.
+ */
+export type BankaiConfigInput = Partial<Omit<BankaiConfig, 'i18n'>> & {
+  i18n?: Partial<BankaiI18nConfig>;
+};
 
 const injectionKey: InjectionKey<BankaiConfig> = Symbol('bankai:config');
 
@@ -73,10 +128,17 @@ const fallbackConfig = reactive<BankaiConfig>(createDefaultConfig());
  * e.g. `app.use(createBankai({ idGeneration: false }))`.
  * The config is provided per-app, so it is SSR-safe (no cross-request leakage).
  *
- * @param options - Overrides merged over the defaults.
+ * @param options - Overrides merged over the defaults. The nested `i18n` object is deep-merged, so a
+ *   partial `i18n` keeps the untouched `i18n` defaults.
  */
-export function createBankai(options: Partial<BankaiConfig> = {}): Plugin {
-  const config = reactive<BankaiConfig>({ ...createDefaultConfig(), ...options });
+export function createBankai(options: BankaiConfigInput = {}): Plugin {
+  const defaults = createDefaultConfig();
+  const config = reactive<BankaiConfig>({
+    ...defaults,
+    ...options,
+    // `i18n` is one level deep; a shallow spread would drop the untouched defaults, so merge it.
+    i18n: { ...defaults.i18n, ...options.i18n },
+  });
 
   return {
     install(app: App): void {

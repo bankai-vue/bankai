@@ -51,14 +51,17 @@ export interface BankaiCodeBlockProps {
   copyable?: boolean;
   /**
    * The copy button's accessible name and its idle label text (when the `copy` slot is not used).
+   * Overrides the resolved `codeBlock.copy` message for this block; unset, it resolves through the
+   * global i18n config ({@link BankaiI18nConfig}), defaulting to the English `'Copy'`.
    *
    * @default 'Copy'
    */
   copyLabel?: string;
   /**
    * The button's label text after a successful copy (when the `copy` slot is not used) and the message
-   * announced by the `role="status"` live region. Overriding both labels localizes the component with no
-   * extra config surface.
+   * announced by the `role="status"` live region. Overrides the resolved `codeBlock.copied` message
+   * for this block; unset, it resolves through the global i18n config ({@link BankaiI18nConfig}),
+   * defaulting to the English `'Copied'`.
    *
    * @default 'Copied'
    */
@@ -75,6 +78,7 @@ export interface BankaiCodeBlockProps {
 
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, ref, useAttrs } from 'vue';
+import { useBankaiMessage } from '../../composables/useBankaiMessage';
 import { useBankaiConfig } from '../../config';
 import BankaiButton from '../button/BankaiButton.vue';
 
@@ -82,8 +86,8 @@ const {
   code,
   language,
   copyable = true,
-  copyLabel = 'Copy',
-  copiedLabel = 'Copied',
+  copyLabel,
+  copiedLabel,
   copiedDuration,
 } = defineProps<BankaiCodeBlockProps>();
 
@@ -103,6 +107,12 @@ defineOptions({ name: 'BankaiCodeBlock', inheritAttrs: false });
 // still merge. Attrs land on the root only; the composed `BankaiButton` keeps its own anatomy.
 const attrs = useAttrs();
 const config = useBankaiConfig();
+const messages = useBankaiMessage();
+
+// Label precedence: per-instance prop → resolved locale bundle → English default (via `messages`).
+// `??` (not `||`) so an explicit empty-string prop is honored rather than falling back.
+const resolvedCopyLabel = computed<string>(() => copyLabel ?? messages.value.codeBlock.copy);
+const resolvedCopiedLabel = computed<string>(() => copiedLabel ?? messages.value.codeBlock.copied);
 
 // The de-facto highlighter hook: `language-<lang>` on the `<code>` (Prism/highlight.js read it), absent
 // when no language is set so the DOM stays clean.
@@ -132,7 +142,7 @@ async function handleCopy(): Promise<void> {
     // the next tick so the text node genuinely changes and `role="status"` speaks it again.
     announcement.value = '';
     await nextTick();
-    announcement.value = copiedLabel;
+    announcement.value = resolvedCopiedLabel.value;
     if (resetTimer) {
       clearTimeout(resetTimer);
     }
@@ -172,10 +182,12 @@ defineSlots<BankaiCodeBlockSlots>();
         class="bankai-code-block-copy"
         variant="ghost"
         size="sm"
-        :aria-label="copied ? copiedLabel : copyLabel"
+        :aria-label="copied ? resolvedCopiedLabel : resolvedCopyLabel"
         @click="handleCopy"
       >
-        <slot name="copy" :copied="copied">{{ copied ? copiedLabel : copyLabel }}</slot>
+        <slot name="copy" :copied="copied">{{
+          copied ? resolvedCopiedLabel : resolvedCopyLabel
+        }}</slot>
       </BankaiButton>
       <span data-part="status" role="status" aria-live="polite">{{ announcement }}</span>
     </div>

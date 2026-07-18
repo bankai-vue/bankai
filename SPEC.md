@@ -194,6 +194,16 @@ Components adapt to **the space they are given**, never to the browser viewport.
 - **No viewport media queries or viewport-breakpoint props in shipped components.** If responsive _props_ are ever added (a per-breakpoint value syntax), they must be **container-query-based**, keyed to the box, not the screen.
 - _Scope:_ this governs shipped **components/themes**. A consuming application (or this repo's own docs _site_) may use `@media` for its page chrome; that is not a shipped component.
 
+### 4.20 Localizable default strings
+
+Every user-facing string a component ships a default for (a copy button's "Copy", a future pagination's "Next") is **localizable through one shared surface**, designed once rather than per component. The mechanism is a locale registry, not a bundled-translation lookup baked into core — core stays near-zero-dependency (§4.13) and ships no translation library.
+
+- **`BankaiMessages` is the typed registry.** A component that ships default UI text adds a **namespace** to `BankaiMessages` (`codeBlock: { copy; copied }`), a flat map of message keys. This is the single source of truth every locale bundle conforms to, so a bundle typo is a type error, not a silent English fallback.
+- **English is the built-in, complete base.** It is always present (no import), so every registered bundle may be **partial** — an omitted key falls through to English, never to an empty string. This keeps unregistered locales out of the build and lets a consumer with their own i18n inject just the strings they want.
+- **Locale bundles are tree-shakeable, opt-in exports** (`@bankai-vue/core/locales/de`, or the `import { de } from '@bankai-vue/core/locales'` barrel). A consumer registers them under `config.i18n.messages` and sets `config.i18n.locale`. Resolution walks active `locale` (+ regional parents, `de-AT` → `de`) → `fallbackLocale` (+ parents) → English base.
+- **Precedence is prop → locale bundle → English default.** A per-instance prop (e.g. `BankaiCodeBlock`'s `copyLabel`) always wins for a single instance; the global config localizes the default. Resolution is reactive (`useBankaiMessage`), so switching `locale` at runtime re-renders every label. Config is per-app, so it is SSR-safe.
+- **Out of scope here (deferred, §7):** `dir`/RTL and locale-aware `Intl` formatting are separate from message localization and land later, non-breaking.
+
 ---
 
 ## 5. Architecture summary

@@ -1,6 +1,8 @@
-import type { Slots } from 'vue';
+import type { Plugin, Slots } from 'vue';
 import { afterEach, expect, test, vi } from 'vitest';
 import { createApp, h } from 'vue';
+import { createBankai } from '../src/config';
+import de from '../src/i18n/locales/de';
 import { BankaiCodeBlock } from '../src/index';
 
 interface Mounted {
@@ -19,11 +21,14 @@ interface CodeBlockMountProps {
 
 // Mounts BankaiCodeBlock into the real browser DOM and returns the rendered root element plus a
 // teardown. Dependency-free (no test-utils). `slots` accepts a Vue slots object so the default /
-// `copy` slots can be exercised.
-function mountCodeBlock(props: CodeBlockMountProps, slots?: Slots): Mounted {
+// `copy` slots can be exercised; `plugin` installs e.g. `createBankai` to drive the i18n config.
+function mountCodeBlock(props: CodeBlockMountProps, slots?: Slots, plugin?: Plugin): Mounted {
   const host = document.createElement('div');
   document.body.append(host);
   const app = createApp(() => h(BankaiCodeBlock, props, slots));
+  if (plugin !== undefined) {
+    app.use(plugin);
+  }
 
   app.mount(host);
 
@@ -222,6 +227,45 @@ test('merges consumer class/style/attributes onto the root', () => {
   expect(root.classList.contains('my-block')).toBe(true);
   expect(root.dataset.testid).toBe('cb');
   expect(root.style.margin).toBe('4px');
+
+  teardown();
+});
+
+test('localizes the labels from the global i18n config', async () => {
+  const writeText = stubClipboard();
+  const { root, teardown } = mountCodeBlock(
+    { code: 'x' },
+    undefined,
+    createBankai({ i18n: { locale: 'de', messages: { de } } }),
+  );
+
+  const button = root.querySelector('.bankai-code-block-copy');
+  // Idle label + accessible name come from the German bundle.
+  expect(button?.textContent).toBe('Kopieren');
+  expect(button?.getAttribute('aria-label')).toBe('Kopieren');
+
+  root.querySelector<HTMLButtonElement>('.bankai-code-block-copy')?.click();
+  await vi.waitFor(() => {
+    expect(writeText).toHaveBeenCalled();
+    // The copied label + the announced status both localize too.
+    expect(button?.textContent).toBe('Kopiert');
+    expect(root.querySelector('[data-part="status"]')?.textContent).toBe('Kopiert');
+  });
+
+  teardown();
+});
+
+test('a per-instance label prop overrides the localized message', () => {
+  const { root, teardown } = mountCodeBlock(
+    { code: 'x', copyLabel: 'Duplicate' },
+    undefined,
+    createBankai({ i18n: { locale: 'de', messages: { de } } }),
+  );
+
+  const button = root.querySelector('.bankai-code-block-copy');
+  // Prop wins over the German bundle (prop → bundle → English default).
+  expect(button?.textContent).toBe('Duplicate');
+  expect(button?.getAttribute('aria-label')).toBe('Duplicate');
 
   teardown();
 });

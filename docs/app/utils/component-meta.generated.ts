@@ -121,15 +121,13 @@ export const componentMeta = {
         "name": "copyLabel",
         "type": "string",
         "required": false,
-        "description": "The copy button's accessible name and its idle label text (when the copy slot is not used).",
-        "default": "'Copy'"
+        "description": "The copy button's accessible name and its idle label text (when the copy slot is not used). Overrides the resolved codeBlock.copy message for this block; unset, it resolves through the global i18n config (BankaiI18nConfig ), defaulting to the English 'Copy'."
       },
       {
         "name": "copiedLabel",
         "type": "string",
         "required": false,
-        "description": "The button's label text after a successful copy (when the copy slot is not used) and the message announced by the role=\"status\" live region. Overriding both labels localizes the component with no extra config surface.",
-        "default": "'Copied'"
+        "description": "The button's label text after a successful copy (when the copy slot is not used) and the message announced by the role=\"status\" live region. Overrides the resolved codeBlock.copied message for this block; unset, it resolves through the global i18n config (BankaiI18nConfig ), defaulting to the English 'Copied'."
       },
       {
         "name": "copiedDuration",
