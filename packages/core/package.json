@@ -98,6 +98,10 @@
       "types": "./dist/components/heading/BankaiHeading.d.ts",
       "import": "./dist/components/heading/BankaiHeading.js"
     },
+    "./components/icon/BankaiIcon": {
+      "types": "./dist/components/icon/BankaiIcon.d.ts",
+      "import": "./dist/components/icon/BankaiIcon.js"
+    },
     "./components/layout/BankaiLayout": {
       "types": "./dist/components/layout/BankaiLayout.d.ts",
       "import": "./dist/components/layout/BankaiLayout.js"

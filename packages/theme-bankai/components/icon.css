@@ -1,0 +1,86 @@
+/*
+ * BankaiIcon styling.
+ *
+ * Targets the `bankai-icon` class and the props reflected as `data-*` (`data-bankai-size`,
+ * `data-bankai-square`). Every selector is wrapped in `:where()` (zero specificity) so a consumer's
+ * utility classes — or their own icon class (UnoCSS `i-*`, a font set, Iconify-CSS) — override any rule
+ * below with a single plain class, no `!important` needed (SPEC.md §4.4, §4.6).
+ *
+ * The box is a square 1:1 frame sized by `font-size` (`--bankai-icon-size`): one knob scales an inline
+ * `<svg>` (via the `> svg` rule below), an em-based mask icon (UnoCSS/Iconify-CSS default to `1em`), and a
+ * glyph font alike. `data-bankai-size` resolves to the `--bankai-icon-size-*` component scale declared in
+ * the `:where(:root)` block; any verbatim `size` rides `--bankai-icon-size` directly.
+ *
+ * The base rule first resets `--bankai-icon-size` to `initial` (the guaranteed-invalid value), so an unset
+ * property is invalid-at-computed-value and `font-size` falls back to normal inheritance — the icon then
+ * matches the surrounding text size (1em). The `data-bankai-size` rules (later in source, equal
+ * specificity) win when a named step is used; a verbatim value set inline on the element wins over the
+ * `:where()` reset (inline beats a zero-specificity rule). Color is left to `currentColor`: the `> svg`
+ * rule fills with it, a mask icon's class paints `background-color: currentColor`, and a glyph font
+ * inherits `color` — so an ambient `color` (or a future `color` prop) tints every mechanism uniformly.
+ */
+
+:where(:root) {
+  /* Icon sizes are their own component scale (not the text type scale): an icon's box is a square driven
+   * by `font-size`, so retune a step here to resize `BankaiIcon` alone without touching text. */
+  --bankai-icon-size-xs: 0.75rem;
+  --bankai-icon-size-sm: 1rem;
+  --bankai-icon-size-md: 1.25rem;
+  --bankai-icon-size-lg: 1.5rem;
+  --bankai-icon-size-xl: 2rem;
+}
+
+:where(.bankai-icon) {
+  --bankai-icon-size: initial;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1em;
+  block-size: 1em;
+  font-size: var(--bankai-icon-size);
+  line-height: 1;
+  vertical-align: middle;
+}
+
+/* An inline SVG fills the square box while keeping its own aspect ratio (contained + centered by the flex
+ * box above), so a non-square glyph is letterboxed, not distorted. `fill: currentColor` makes a monochrome
+ * icon inherit color; art with explicit `fill`s is unaffected. */
+:where(.bankai-icon > svg) {
+  inline-size: 100%;
+  block-size: 100%;
+  max-inline-size: 100%;
+  max-block-size: 100%;
+  fill: currentColor;
+}
+
+:where(.bankai-icon[data-bankai-size='xs']) {
+  font-size: var(--bankai-icon-size-xs);
+}
+
+:where(.bankai-icon[data-bankai-size='sm']) {
+  font-size: var(--bankai-icon-size-sm);
+}
+
+:where(.bankai-icon[data-bankai-size='md']) {
+  font-size: var(--bankai-icon-size-md);
+}
+
+:where(.bankai-icon[data-bankai-size='lg']) {
+  font-size: var(--bankai-icon-size-lg);
+}
+
+:where(.bankai-icon[data-bankai-size='xl']) {
+  font-size: var(--bankai-icon-size-xl);
+}
+
+/* Opt out of the 1:1 box (`no-square`): take the content's intrinsic ratio — height driven by `size`, width
+ * follows the glyph. */
+:where(.bankai-icon[data-bankai-square='false']) {
+  inline-size: auto;
+  block-size: 1em;
+}
+
+:where(.bankai-icon[data-bankai-square='false'] > svg) {
+  inline-size: auto;
+}

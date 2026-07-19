@@ -1,0 +1,80 @@
+/*
+ * BankaiIcon styling — Tailwind theme.
+ *
+ * Mirrors the house theme's `components/icon.css`, but styled `@apply`-first so the icon box speaks the
+ * CONSUMER's Tailwind design language: `inline-flex`, `items-center`, `fill-current`, … resolve against
+ * their Tailwind build (SPEC.md §4.6, §5.4). Because it uses `@apply`, this file is Tailwind *source* —
+ * it must be compiled by the consumer's Tailwind build, not shipped as static CSS.
+ *
+ * Targets the `bankai-icon` class and the props reflected as `data-*` (`data-bankai-size`,
+ * `data-bankai-square`). Every rule stays wrapped in zero-specificity `:where()`, so a consumer's utility
+ * classes — or their own icon class (UnoCSS `i-*`, a font set, Iconify-CSS) — override any rule below with
+ * a single plain class, no `!important` needed (SPEC.md §4.4, §4.6).
+ *
+ * The box is a `font-size`-driven `1em` square, so one knob scales an inline `<svg>` (contained + filled
+ * with `currentColor`, keeping its ratio), an em-based mask icon, and a glyph font alike. Named `size`
+ * steps set that `font-size` from a `--bankai-icon-size-*` token bridged onto Tailwind's `--spacing`
+ * (xs=3 … xl=8 — the same steps Tailwind's `size-*` icon utilities use), so icon size tracks the consumer's
+ * spacing scale. There is no Tailwind font-size utility at these values, so — like `gap` in `flex.css` — the
+ * size stays a custom property applied as plain CSS. A verbatim `size` rides `--bankai-icon-size`, reset to
+ * `initial` on the base rule so an unset value is invalid-at-computed-value and `font-size` inherits (the
+ * icon matches surrounding text); an inline verbatim value still wins over the `:where()` reset.
+ */
+
+:where(:root) {
+  /* Icon-size scale, bridged onto Tailwind's `--spacing` (`calc(var(--bankai-space-unit) * n)`, the same
+   * derivation as the `space-*` scale) — xs=3, sm=4, md=5, lg=6, xl=8 — so a consumer retuning `--spacing`
+   * moves icon sizes with the rest of their scale. Matches the house theme's rem values by default. */
+  --bankai-icon-size-xs: calc(var(--bankai-space-unit) * 3);
+  --bankai-icon-size-sm: calc(var(--bankai-space-unit) * 4);
+  --bankai-icon-size-md: calc(var(--bankai-space-unit) * 5);
+  --bankai-icon-size-lg: calc(var(--bankai-space-unit) * 6);
+  --bankai-icon-size-xl: calc(var(--bankai-space-unit) * 8);
+}
+
+:where(.bankai-icon) {
+  @apply inline-flex flex-none items-center justify-center leading-none align-middle;
+  /* The escape-hatch base: no `@apply` reads an arbitrary custom property, and the `1em` box isn't a
+   * utility (same tension as `code.css`'s em-relative sizes), so these stay plain CSS. */
+  --bankai-icon-size: initial;
+  inline-size: 1em;
+  block-size: 1em;
+  font-size: var(--bankai-icon-size);
+}
+
+/* An inline SVG fills the square box while keeping its own aspect ratio (contained + centered above), so a
+ * non-square glyph is letterboxed, not distorted. `fill-current` makes a monochrome icon inherit color. */
+:where(.bankai-icon > svg) {
+  @apply size-full max-w-full max-h-full fill-current;
+}
+
+:where(.bankai-icon[data-bankai-size='xs']) {
+  font-size: var(--bankai-icon-size-xs);
+}
+
+:where(.bankai-icon[data-bankai-size='sm']) {
+  font-size: var(--bankai-icon-size-sm);
+}
+
+:where(.bankai-icon[data-bankai-size='md']) {
+  font-size: var(--bankai-icon-size-md);
+}
+
+:where(.bankai-icon[data-bankai-size='lg']) {
+  font-size: var(--bankai-icon-size-lg);
+}
+
+:where(.bankai-icon[data-bankai-size='xl']) {
+  font-size: var(--bankai-icon-size-xl);
+}
+
+/* Opt out of the 1:1 box (`no-square`): take the content's intrinsic ratio — height driven by `size`,
+ * width follows the glyph. No clean utility for `auto` inline + `1em` block, so plain CSS. */
+:where(.bankai-icon[data-bankai-square='false']) {
+  inline-size: auto;
+  block-size: 1em;
+}
+
+:where(.bankai-icon[data-bankai-square='false'] > svg) {
+  inline-size: auto;
+}

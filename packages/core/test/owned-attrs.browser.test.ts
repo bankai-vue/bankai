@@ -7,6 +7,7 @@ import {
   BankaiContainer,
   BankaiFlex,
   BankaiGrid,
+  BankaiIcon,
   BankaiLayout,
   BankaiLink,
   BankaiText,
@@ -102,6 +103,14 @@ const CASES: OwnedCase[] = [
       bankaiJustify: 'center',
       bankaiInline: '',
     },
+    deferred: {},
+  },
+  {
+    name: 'BankaiIcon',
+    className: 'bankai-icon',
+    render: (attributes) => h(BankaiIcon, attributes, () => 'content'),
+    props: { size: 'lg', noSquare: true },
+    reflected: { bankaiSize: 'lg', bankaiSquare: 'false' },
     deferred: {},
   },
   {

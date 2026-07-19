@@ -93,6 +93,15 @@ export interface BankaiConfig {
    */
   codeBlockCopiedDuration: number;
   /**
+   * Resolver mapping a `BankaiIcon` `name` token to the CSS class(es) that render it — for icon systems
+   * whose class differs from the token you want to write (a Font Awesome family/style, or normalizing
+   * `'mdi:home'` to a UnoCSS/Iconify-CSS `i-*` class). Leave unset to apply `name` verbatim as a class,
+   * which already works for UnoCSS / Iconify-CSS (`name="i-mdi-home"`).
+   *
+   * @default undefined
+   */
+  iconClass?: (name: string) => string;
+  /**
    * Localization: active locale, fallback, and registered message bundles the components' default
    * strings resolve through ({@link useBankaiMessage}). See {@link BankaiI18nConfig}.
    */

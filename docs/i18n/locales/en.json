@@ -66,7 +66,8 @@
     "footer": { "tagline": "Standalone <footer> contentinfo region." },
     "container": { "tagline": "Centered max-width width utility (↔ fluid)." },
     "page": { "tagline": "Per-route content host inside <main>." },
-    "link": { "tagline": "Router-aware link — <a>, RouterLink, or NuxtLink." }
+    "link": { "tagline": "Router-aware link — <a>, RouterLink, or NuxtLink." },
+    "icon": { "tagline": "Agnostic icon wrapper — SVG, icon fonts, UnoCSS/Iconify." }
   },
   "ui": {
     "example": "Example",
@@ -175,6 +176,11 @@
       "--bankai-heading-line-height-5": "Line height of level 5.",
       "--bankai-heading-size-6": "Font size of level 6.",
       "--bankai-heading-line-height-6": "Line height of level 6.",
+      "--bankai-icon-size-xs": "Icon size at the xs step.",
+      "--bankai-icon-size-sm": "Icon size at the sm step.",
+      "--bankai-icon-size-md": "Icon size at the md step.",
+      "--bankai-icon-size-lg": "Icon size at the lg step.",
+      "--bankai-icon-size-xl": "Icon size at the xl step.",
       "--bankai-layout-min-block-size": "Minimum height of the shell (fills the viewport).",
       "--bankai-layout-columns": "Grid column tracks (sidebar / main).",
       "--bankai-layout-rows": "Grid row tracks (header / main / footer).",
@@ -338,6 +344,15 @@
       "requiredHeading": "Level is required — and it means the outline",
       "requiredBody1": "There is no universally-safe default heading level, and a wrong one silently breaks the document outline screen-reader users navigate by — so {level} has no default and must be stated. Pick it by the heading's place in the page hierarchy (don't skip levels), not by how big you want it to look.",
       "requiredBody2": "Decoupling the visual size from the semantic level (an {h2} styled like an {h1}, the proper fix for wanting a size without skipping a level) is planned as a future {size} prop; today the visual size tracks the level."
+    },
+    "icon": {
+      "lede": "An agnostic icon wrapper: a consistent 1:1 box, sizing, {currentColor} alignment, and accessibility around whatever icon mechanism you already use — an inline {svg}, a CSS icon font, or a mask-based set (UnoCSS/Iconify). It ships no icons of its own.",
+      "stylesHeading": "Three ways to give it an icon",
+      "stylesBody": "Pick whichever fits: put an inline {svg} (or an icon component) in the default {slot}; pass a CSS icon class straight through with {classAttr}; or hand a token to {nameProp}. {nameProp} and {classAttr} do the same job — both put a class on the root — but {nameProp} goes through the optional {iconClass} resolver, so a bare token like {token} can be mapped to your setup's class in one place. With no resolver, {nameProp} is applied verbatim, so it already works for UnoCSS / Iconify-CSS.",
+      "a11yHeading": "Decorative vs meaningful",
+      "a11yBody": "By default an icon is decorative and hidden from assistive tech ({ariaHidden}). Give it a {labelProp} for a meaningful icon and it becomes {roleImg} with an {ariaLabel}, so screen readers announce it.",
+      "sizeHeading": "Sizing & the 1:1 box",
+      "sizeBody": "{sizeProp} is a named {xs}–{xl} step plus a verbatim escape hatch (any CSS length). The box is square by default and a non-square glyph is centered and letterboxed rather than distorted; opt out with {noSquare} to keep the glyph's own aspect ratio."
     },
     "layout": {
       "lede": "The persistent app shell: a CSS-grid root that wraps each slot in its native landmark region ({regions}), so an application gets a correct, unique-per-page landmark set for free. The grid tracks are yours to control with plain CSS against {cls} — there is no {view}-string DSL.",

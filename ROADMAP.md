@@ -227,7 +227,13 @@ Typography — anchors the `@bankai-vue/theme-bankai` type scale; the home for i
 
 Presentational basics — low-effort, high-use, dogfooded by the docs site:
 
-- [ ] `BankaiIcon` — agnostic icon wrapper: renders a BYO SVG/slot with `currentColor` + size tokens + `aria-hidden`/labeling. Ships **no** icon set. Unblocks icon usage across every component
+- [x] `BankaiIcon` — agnostic icon wrapper: a consistent 1:1 box + a11y layer over whatever icon mechanism the consumer already uses (inline SVG/slot, a CSS icon font, or a mask-based set like UnoCSS/Iconify-CSS). Ships **no** icon set. Three input styles: default slot, a CSS icon `class` straight through, or a `name` token routed through an optional `config.iconClass(name)` resolver (unset → applied verbatim, so `name="i-mdi-home"` works out of the box). `size` is a named `xs`–`xl` step (`data-bankai-size` → `--bankai-icon-size-*`) plus a verbatim `--bankai-icon-size` escape hatch; one `font-size` knob scales SVG/masks/glyph-fonts alike. Square 1:1 box (non-square content letterboxed) with a `no-square` opt-out (`data-bankai-square="false"`). Decorative by default (`aria-hidden`); `label` → `role="img"` + `aria-label`, and an explicit consumer labeling is respected. Polymorphic `as` (default `<span>`). Unblocks icon usage across every component
+  - **Potential ideas (not committed; add when dogfooding needs it):**
+    - **`color` prop** — the hue/palette axis (distinct from `tone` = variant style); ships with the semantic color-token system alongside `BankaiButton`'s `color`, not before.
+    - **`animation` prop** — e.g. `spin` for a loading indicator, reflected as `data-bankai-animation`; theme owns the keyframes and **must** gate on `prefers-reduced-motion`.
+    - **`config.iconComponent` resolver** — the second resolver arm: map a `name` token to a component (Iconify runtime `<Icon>`/`<iconify-icon>`, or an SVG-component registry) rather than a class. Composes with the shipped class-mapper.
+    - **`2xl` size** — extend the named scale + add the `--bankai-icon-size-2xl` token (non-breaking).
+    - **App-wide `as` default via config** — deferred (see also `BankaiText`, same shape). `as="span"`/`"i"` is a purely cosmetic choice for an inert host (semantically equivalent, identical to assistive tech), the per-instance `as` prop + a trivial consumer wrapper already cover it, and no config field today just relocates a static default. If added, it should be **one general mechanism across the polymorphic components** (`BankaiText`/`BankaiIcon`/…), not an Icon-only field.
 - [ ] `BankaiButtonGroup` _(universal)_ — segmented/grouped buttons (`role="group"`); toolbars, split actions
 - [ ] `BankaiCard` _(universal)_ — content container
 - [ ] `BankaiBadge` _(universal)_ — count/status marker

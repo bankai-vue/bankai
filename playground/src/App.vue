@@ -11,6 +11,7 @@ import {
   BankaiGrid,
   BankaiHeader,
   BankaiHeading,
+  BankaiIcon,
   BankaiLayout,
   BankaiLink,
   BankaiMain,
@@ -42,6 +43,8 @@ const weights = [
 const tones = ['default', 'muted', 'subtle'] as const;
 
 const levels = [1, 2, 3, 4, 5, 6] as const;
+
+const iconSizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
 
 const codeBlockExample = `pnpm add @bankai-vue/core @bankai-vue/theme-bankai
 # then import a theme's index.css and start composing`;
@@ -289,6 +292,50 @@ const codeBlockExample = `pnpm add @bankai-vue/core @bankai-vue/theme-bankai
     </section>
 
     <section>
+      <h2>BankaiIcon</h2>
+
+      <p>
+        Agnostic icon wrapper — a consistent 1:1 box + a11y layer over whatever icon mechanism you
+        use (inline SVG, a CSS icon font, UnoCSS/Iconify-CSS masks). Core ships no icons. Pick your
+        input style; here the demo glyph is a data-URI mask class so it renders without any icon
+        dependency.
+      </p>
+
+      <h3>Three input styles</h3>
+      <div class="row">
+        <!-- 1) default slot: an inline <svg> -->
+        <BankaiIcon size="lg" label="home (slot svg)">
+          <svg viewBox="0 0 24 24"><path d="M12 3 3 10v11h6v-6h6v6h6V10z" /></svg>
+        </BankaiIcon>
+        <!-- 2) class: a CSS icon class straight through -->
+        <BankaiIcon size="lg" class="demo-mask-icon" label="home (class)" />
+        <!-- 3) name: the same, but through the resolver seam (verbatim by default) -->
+        <BankaiIcon size="lg" name="demo-mask-icon" label="home (name)" />
+      </div>
+
+      <h3>Size scale</h3>
+      <div class="row">
+        <BankaiIcon
+          v-for="size in iconSizes"
+          :key="size"
+          :size="size"
+          class="demo-mask-icon"
+          :label="`home ${size}`"
+        />
+      </div>
+
+      <h3>1:1 box vs `no-square` (wide 2:1 glyph)</h3>
+      <div class="row">
+        <BankaiIcon size="xl" label="wide, square" class="demo-boxed">
+          <svg viewBox="0 0 48 24"><rect x="2" y="2" width="44" height="20" rx="3" /></svg>
+        </BankaiIcon>
+        <BankaiIcon size="xl" no-square label="wide, intrinsic" class="demo-boxed">
+          <svg viewBox="0 0 48 24"><rect x="2" y="2" width="44" height="20" rx="3" /></svg>
+        </BankaiIcon>
+      </div>
+    </section>
+
+    <section>
       <h2>BankaiText</h2>
 
       <h3>Type scale</h3>
@@ -360,6 +407,19 @@ const codeBlockExample = `pnpm add @bankai-vue/core @bankai-vue/theme-bankai
   gap: 0.5rem;
   align-items: center;
   margin-block: 0.5rem 1rem;
+}
+
+/* A dependency-free demo glyph for the BankaiIcon section: a data-URI mask painted with currentColor,
+   so `class`/`name` icon usage renders a real (monochrome) glyph without pulling in an icon set. */
+.demo-mask-icon {
+  background-color: currentcolor;
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3 3 10v11h6v-6h6v6h6V10z"/></svg>')
+    center / contain no-repeat;
+}
+
+/* Outlines the BankaiIcon box so the square (letterboxed) vs `no-square` (intrinsic) difference shows. */
+.demo-boxed {
+  outline: 1px dashed color-mix(in oklch, currentcolor 30%, transparent);
 }
 
 /* Bound the BankaiLayout demo (the theme defaults to min-block-size: 100dvh). */

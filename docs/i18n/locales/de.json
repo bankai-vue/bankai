@@ -66,7 +66,8 @@
     "footer": { "tagline": "Eigenständige <footer>-Region (contentinfo)." },
     "container": { "tagline": "Zentriertes Breiten-Hilfsmittel mit max. Breite (↔ fluid)." },
     "page": { "tagline": "Host für Routen-Inhalt innerhalb von <main>." },
-    "link": { "tagline": "Router-fähiger Link — <a>, RouterLink oder NuxtLink." }
+    "link": { "tagline": "Router-fähiger Link — <a>, RouterLink oder NuxtLink." },
+    "icon": { "tagline": "Agnostischer Icon-Wrapper — SVG, Icon-Fonts, UnoCSS/Iconify." }
   },
   "ui": {
     "example": "Beispiel",
@@ -175,6 +176,11 @@
       "--bankai-heading-line-height-5": "Zeilenhöhe von Ebene 5.",
       "--bankai-heading-size-6": "Schriftgröße von Ebene 6.",
       "--bankai-heading-line-height-6": "Zeilenhöhe von Ebene 6.",
+      "--bankai-icon-size-xs": "Icon-Größe auf der xs-Stufe.",
+      "--bankai-icon-size-sm": "Icon-Größe auf der sm-Stufe.",
+      "--bankai-icon-size-md": "Icon-Größe auf der md-Stufe.",
+      "--bankai-icon-size-lg": "Icon-Größe auf der lg-Stufe.",
+      "--bankai-icon-size-xl": "Icon-Größe auf der xl-Stufe.",
       "--bankai-layout-min-block-size": "Mindesthöhe der Shell (füllt den Viewport).",
       "--bankai-layout-columns": "Grid-Spalten-Tracks (Sidebar / Main).",
       "--bankai-layout-rows": "Grid-Zeilen-Tracks (Header / Main / Footer).",
@@ -338,6 +344,15 @@
       "requiredHeading": "Level ist erforderlich — und es meint die Gliederung",
       "requiredBody1": "Es gibt keine universell sichere Standard-Überschriftenebene, und eine falsche bricht still die Dokument-Gliederung, an der sich Screenreader-Nutzer orientieren — daher hat {level} keinen Standard und muss angegeben werden. Wähle es nach dem Platz der Überschrift in der Seitenhierarchie (überspringe keine Ebenen), nicht danach, wie groß sie aussehen soll.",
       "requiredBody2": "Das Entkoppeln der visuellen Größe von der semantischen Ebene (ein {h2}, der wie ein {h1} gestaltet ist — die richtige Lösung, wenn man eine Größe will, ohne eine Ebene zu überspringen) ist als künftiges {size}-Prop geplant; heute folgt die visuelle Größe der Ebene."
+    },
+    "icon": {
+      "lede": "Ein agnostischer Icon-Wrapper: eine konsistente 1:1-Box, Größensteuerung, {currentColor}-Ausrichtung und Barrierefreiheit um den Icon-Mechanismus, den du ohnehin schon nutzt — ein Inline-{svg}, einen Icon-Font oder ein Mask-Set (UnoCSS/Iconify). Er liefert selbst keine Icons mit.",
+      "stylesHeading": "Drei Wege, ein Icon zu übergeben",
+      "stylesBody": "Wähle, was passt: ein Inline-{svg} (oder eine Icon-Komponente) in den Standard-{slot}; eine CSS-Icon-Klasse direkt über {classAttr}; oder ein Token über {nameProp}. {nameProp} und {classAttr} tun dasselbe — beide setzen eine Klasse auf die Wurzel —, aber {nameProp} läuft durch den optionalen {iconClass}-Resolver, sodass ein bloßes Token wie {token} an einer Stelle auf die Klasse deines Setups abgebildet werden kann. Ohne Resolver wird {nameProp} wörtlich angewendet und funktioniert damit direkt für UnoCSS / Iconify-CSS.",
+      "a11yHeading": "Dekorativ vs. bedeutungstragend",
+      "a11yBody": "Standardmäßig ist ein Icon dekorativ und vor assistiver Technik verborgen ({ariaHidden}). Gib ihm ein {labelProp} für ein bedeutungstragendes Icon, dann wird es zu {roleImg} mit einem {ariaLabel}, sodass Screenreader es ansagen.",
+      "sizeHeading": "Größe & die 1:1-Box",
+      "sizeBody": "{sizeProp} ist eine benannte {xs}–{xl}-Stufe plus eine wörtliche Ausweichmöglichkeit (jede CSS-Länge). Die Box ist standardmäßig quadratisch und ein nicht-quadratisches Glyph wird zentriert und im Letterbox-Format dargestellt statt verzerrt; mit {noSquare} behält es sein eigenes Seitenverhältnis."
     },
     "layout": {
       "lede": "Die persistente App-Shell: eine CSS-Grid-Wurzel, die jeden Slot in seine native Landmark-Region ({regions}) einwickelt, sodass eine Anwendung kostenlos einen korrekten, pro Seite eindeutigen Landmark-Satz erhält. Die Grid-Tracks kannst du mit einfachem CSS gegen {cls} steuern — es gibt keine {view}-String-DSL.",

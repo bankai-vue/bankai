@@ -19,6 +19,9 @@ playwright-report/
 blob-report/
 .playwright/
 .playwright-mcp/
+# Vitest browser-mode failure artifacts
+.vitest-attachments/
+**/test/__screenshots__/
 
 # logs
 *.log
