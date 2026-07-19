@@ -713,6 +713,74 @@ export const componentMeta = {
       ]
     }
   },
+  "BankaiIcon": {
+    "props": [
+      {
+        "name": "as",
+        "type": "BankaiIconElement | string",
+        "required": false,
+        "description": "Element to render as. Polymorphic — suggests BankaiIconElement ('span' / 'i'); any tag string is also accepted.",
+        "default": "'span'"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "Icon token, applied as a class on the root — the ergonomic, reactive counterpart to writing the class yourself. With no resolver it is applied verbatim (so name=\"i-mdi-home\" works out of the box for UnoCSS / Iconify-CSS); set config.iconClass to map a bare token (e.g. 'mdi:home') to your setup's class. Omit it and use the default slot for an inline <svg> / icon component instead."
+      },
+      {
+        "name": "size",
+        "type": "'xs' | 'sm' | 'md' | 'lg' | 'xl' | string",
+        "required": false,
+        "description": "Icon size. A named xs–xl step (--bankai-icon-size-*) reflects as data-bankai-size; any other string is a verbatim CSS font-size driving the 1em box. Omitted when unset (inherits the ambient font size, so the icon matches surrounding text)."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible name for a MEANINGFUL icon: sets role=\"img\" + aria-label, so assistive tech announces it. Leave unset for a DECORATIVE icon — the default — and the root is hidden from assistive tech with aria-hidden (unless you supply your own aria-label/aria-labelledby/title/role=\"img\")."
+      },
+      {
+        "name": "noSquare",
+        "type": "boolean",
+        "required": false,
+        "description": "Opt out of the default 1:1 (square) box and let the icon keep its own aspect ratio (height driven by size, width intrinsic). By default the root is a square box and non-square content is centered and contained (letterboxed) rather than distorted. Reflected as data-bankai-square=\"false\" when set.",
+        "default": "false"
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "description": "The icon markup — an inline <svg>, a third-party icon component (e.g. Iconify's <Icon> / <iconify-icon>), an <img>, or an SVG sprite <use>. The wrapper adds the box + a11y around it."
+      }
+    ],
+    "events": [],
+    "exposed": [],
+    "theming": {
+      "bankai": [
+        {
+          "name": "--bankai-icon-size-xs",
+          "value": "0.75rem"
+        },
+        {
+          "name": "--bankai-icon-size-sm",
+          "value": "1rem"
+        },
+        {
+          "name": "--bankai-icon-size-md",
+          "value": "1.25rem"
+        },
+        {
+          "name": "--bankai-icon-size-lg",
+          "value": "1.5rem"
+        },
+        {
+          "name": "--bankai-icon-size-xl",
+          "value": "2rem"
+        }
+      ]
+    }
+  },
   "BankaiLayout": {
     "props": [],
     "slots": [

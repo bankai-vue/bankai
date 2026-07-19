@@ -58,6 +58,14 @@ export type {
   BankaiHeadingProps,
   BankaiHeadingSlots,
 } from './components/heading/BankaiHeading.vue';
+export { default as BankaiIcon } from './components/icon/BankaiIcon.vue';
+export type {
+  BankaiIconAs,
+  BankaiIconElement,
+  BankaiIconProps,
+  BankaiIconSize,
+  BankaiIconSlots,
+} from './components/icon/BankaiIcon.vue';
 export { default as BankaiLayout } from './components/layout/BankaiLayout.vue';
 export type { BankaiLayoutSlots } from './components/layout/BankaiLayout.vue';
 export { default as BankaiLink } from './components/link/BankaiLink.vue';

@@ -55,6 +55,7 @@ export const componentNav: ComponentNavItem[] = [
   { key: 'container', name: 'Container', to: '/components/container' },
   { key: 'page', name: 'Page', to: '/components/page' },
   { key: 'link', name: 'Link', to: '/components/link' },
+  { key: 'icon', name: 'Icon', to: '/components/icon' },
 ];
 
 /** One row of a component's props table (hand-authored today; to be generated from source later). */
