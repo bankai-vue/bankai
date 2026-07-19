@@ -306,7 +306,7 @@ export const componentMeta = {
         "name": "copiedDuration",
         "type": "number",
         "required": false,
-        "description": "How long (ms) the copy button stays in its \"copied\" state after a successful copy before reverting to idle. Overrides the global codeBlockCopiedDuration config (BankaiConfig ) for this block."
+        "description": "How long (ms) the copy button stays in its \"copied\" state after a successful copy before reverting to idle. Overrides the global codeBlock.copiedDuration config (BankaiConfig ) for this block."
       }
     ],
     "slots": [
@@ -726,7 +726,7 @@ export const componentMeta = {
         "name": "name",
         "type": "string",
         "required": false,
-        "description": "Icon token, applied as a class on the root — the ergonomic, reactive counterpart to writing the class yourself. With no resolver it is applied verbatim (so name=\"i-mdi-home\" works out of the box for UnoCSS / Iconify-CSS); set config.iconClass to map a bare token (e.g. 'mdi:home') to your setup's class. Omit it and use the default slot for an inline <svg> / icon component instead."
+        "description": "Icon token, applied as a class on the root — the ergonomic, reactive counterpart to writing the class yourself. With no resolver it is applied verbatim (so name=\"i-mdi-home\" works out of the box for UnoCSS / Iconify-CSS); set config.icon.class to map a bare token (e.g. 'mdi:home') to your setup's class. Omit it and use the default slot for an inline <svg> / icon component instead."
       },
       {
         "name": "size",

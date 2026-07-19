@@ -39,16 +39,16 @@ useHead({ title: 'BankaiLink · bankai-vue' });
             <template #nuxtLink><BankaiCode>NuxtLink</BankaiCode></template>
             <template #routerLink><BankaiCode>RouterLink</BankaiCode></template>
             <template #a><BankaiCode>&lt;a&gt;</BankaiCode></template>
-            <template #linkComponent><BankaiCode>config.linkComponent</BankaiCode></template>
+            <template #linkComponent><BankaiCode>config.link.component</BankaiCode></template>
             <template #to><BankaiCode>to</BankaiCode></template>
             <template #types><BankaiCode>@bankai-vue/core/vue-router</BankaiCode></template>
             <template #typesKey><BankaiCode>types</BankaiCode></template>
             <template #targetBlank><BankaiCode>target="_blank"</BankaiCode></template>
             <template #rel><BankaiCode>rel="noopener noreferrer"</BankaiCode></template>
-            <template #linkNoopener><BankaiCode>config.linkNoopener</BankaiCode></template>
+            <template #linkNoopener><BankaiCode>config.link.noopener</BankaiCode></template>
             <template #href><BankaiCode>href</BankaiCode></template>
             <template #external><BankaiCode>data-bankai-external</BankaiCode></template>
-            <template #linkOrigin><BankaiCode>config.linkOrigin</BankaiCode></template>
+            <template #linkOrigin><BankaiCode>config.link.origin</BankaiCode></template>
           </i18n-t>
         </BankaiText>
       </BankaiFlex>

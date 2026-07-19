@@ -88,22 +88,22 @@ const attrs = useAttrs();
 // Hydration gate: `onMounted` only runs on the client, only AFTER the hydration render. Reading
 // `window.location` earlier would make the client's first render disagree with the server's HTML — a
 // hydration mismatch on `data-bankai-external`. Deferred here so SSR and the hydration render compute the
-// same value (from `config.linkOrigin` or the origin-less fallback), then the accurate window-based host
+// same value (from `config.link.origin` or the origin-less fallback), then the accurate window-based host
 // check reactively kicks in after mount.
 const hydrated = ref(false);
 onMounted(() => {
   hydrated.value = true;
 });
 
-// Reference origin for the external-host check: an explicit `config.linkOrigin` (identical on server and
+// Reference origin for the external-host check: an explicit `config.link.origin` (identical on server and
 // client — the SSR/SSG-safe path), else `window.location.origin` once hydrated, else `undefined` (SSR, or
 // the pre-hydration client render). Resolving it here keeps `isExternalHref` pure and hydration-safe.
 const referenceOrigin = computed<string | undefined>(
-  () => config.linkOrigin ?? (hydrated.value ? window.location.origin : undefined),
+  () => config.link.origin ?? (hydrated.value ? window.location.origin : undefined),
 );
 
 // The component to use for internal navigation (`undefined` → no router installed, fall back to `<a>`).
-const routerComponent = computed(() => resolveLinkComponent(config.linkComponent, instance));
+const routerComponent = computed(() => resolveLinkComponent(config.link.component, instance));
 
 // Render an `<a>` unless there is a genuine internal `to` navigation AND a router to handle it.
 const usesRouter = computed(
@@ -124,14 +124,14 @@ const anchorHref = computed<string | undefined>(() =>
 const routerTo = computed(() => (usesRouter.value ? to : undefined));
 
 // Auto-add `rel="noopener noreferrer"` for a new-tab link (a security default; `window.opener` reach-back),
-// unless the consumer set their own `rel` or opted out via `config.linkNoopener`. Applies to router links
+// unless the consumer set their own `rel` or opted out via `config.link.noopener`. Applies to router links
 // too, since they also render an `<a>` and can open a new tab.
 const relValue = computed<unknown>(() => {
   if (attrs.rel != null) {
     return attrs.rel;
   }
 
-  return config.linkNoopener && attrs.target === '_blank' ? 'noopener noreferrer' : undefined;
+  return config.link.noopener && attrs.target === '_blank' ? 'noopener noreferrer' : undefined;
 });
 
 // A presence flag (`''` when on, absent when off) marking a destination that leaves the site — a themeable

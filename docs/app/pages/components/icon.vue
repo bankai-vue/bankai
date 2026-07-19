@@ -16,7 +16,7 @@ const usageExample = `<!-- 1) default slot: an inline <svg> (or any icon compone
 <!-- 2) class: a CSS icon class straight through (UnoCSS, Iconify-CSS, a font set) -->
 <BankaiIcon class="i-mdi-home" label="Home" />
 
-<!-- 3) name: the same, but through the optional config.iconClass resolver -->
+<!-- 3) name: the same, but through the optional config.icon.class resolver -->
 <BankaiIcon name="i-mdi-home" label="Home" />`;
 
 const iconSizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
@@ -67,7 +67,7 @@ const iconSizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
             <template #slot><BankaiCode>slot</BankaiCode></template>
             <template #classAttr><BankaiCode>class</BankaiCode></template>
             <template #nameProp><BankaiCode>name</BankaiCode></template>
-            <template #iconClass><BankaiCode>config.iconClass</BankaiCode></template>
+            <template #iconClass><BankaiCode>config.icon.class</BankaiCode></template>
             <template #token><BankaiCode>mdi:home</BankaiCode></template>
           </i18n-t>
         </BankaiText>

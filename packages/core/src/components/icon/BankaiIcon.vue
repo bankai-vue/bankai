@@ -58,7 +58,7 @@ export interface BankaiIconProps {
   /**
    * Icon token, applied as a class on the root — the ergonomic, reactive counterpart to writing the
    * class yourself. With no resolver it is applied verbatim (so `name="i-mdi-home"` works out of the box
-   * for UnoCSS / Iconify-CSS); set `config.iconClass` to map a bare token (e.g. `'mdi:home'`) to your
+   * for UnoCSS / Iconify-CSS); set `config.icon.class` to map a bare token (e.g. `'mdi:home'`) to your
    * setup's class. Omit it and use the default slot for an inline `<svg>` / icon component instead.
    */
   name?: string;
@@ -114,11 +114,11 @@ const attrs = useAttrs();
 
 const config = useBankaiConfig();
 
-// `name` becomes a class on the root: through `config.iconClass` if the consumer registered one (mapping a
+// `name` becomes a class on the root: through `config.icon.class` if the consumer registered one (mapping a
 // bare token to their setup's class), else verbatim (so `i-mdi-home` / a font class just works). The raw
 // `class` attribute is the always-available equivalent; `name` is the same seam, resolver-aware.
 const resolvedClass = computed<string | undefined>(() =>
-  name === undefined ? undefined : (config.iconClass?.(name) ?? name),
+  name === undefined ? undefined : (config.icon.class?.(name) ?? name),
 );
 
 // Split `size` into its `data-bankai-size` (named keyword) vs `--bankai-icon-size` (verbatim escape hatch)

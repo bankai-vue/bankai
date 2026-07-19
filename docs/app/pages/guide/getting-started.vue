@@ -72,7 +72,7 @@ const configExample = `import { createBankai } from '@bankai-vue/core';
 app.use(
   createBankai({
     idGeneration: false,
-    linkOrigin: 'https://example.com',
+    link: { origin: 'https://example.com' },
   }),
 );`;
 
@@ -93,23 +93,23 @@ const configOptions = computed<PropRow[]>(() => [
     description: t('gettingStarted.config.options.warnings'),
   },
   {
-    name: 'linkComponent',
+    name: 'link.component',
     type: 'Component | string',
     description: t('gettingStarted.config.options.linkComponent'),
   },
   {
-    name: 'linkOrigin',
+    name: 'link.origin',
     type: 'string',
     description: t('gettingStarted.config.options.linkOrigin'),
   },
   {
-    name: 'linkNoopener',
+    name: 'link.noopener',
     type: 'boolean',
     default: 'true',
     description: t('gettingStarted.config.options.linkNoopener'),
   },
   {
-    name: 'codeBlockCopiedDuration',
+    name: 'codeBlock.copiedDuration',
     type: 'number',
     default: '2000',
     description: t('gettingStarted.config.options.codeBlockCopiedDuration'),
