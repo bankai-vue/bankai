@@ -66,7 +66,7 @@ const usageExample = `<template>
             <template #copyableFalse><BankaiCode>:copyable="false"</BankaiCode></template>
             <template #copiedDuration><BankaiCode>copiedDuration</BankaiCode></template>
             <template #config
-              ><BankaiCode>BankaiConfig.codeBlockCopiedDuration</BankaiCode></template
+              ><BankaiCode>BankaiConfig.codeBlock.copiedDuration</BankaiCode></template
             >
             <template #default><BankaiCode>2000</BankaiCode></template>
           </i18n-t>

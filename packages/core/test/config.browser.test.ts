@@ -107,7 +107,7 @@ test('createBankai({ idGeneration: false }) disables id generation', () => {
   teardown();
 });
 
-test('codeBlockCopiedDuration defaults to 2000', () => {
+test('codeBlock.copiedDuration defaults to 2000', () => {
   let config: BankaiConfig | undefined;
   const Comp = defineComponent({
     setup() {
@@ -117,11 +117,11 @@ test('codeBlockCopiedDuration defaults to 2000', () => {
   });
 
   const { teardown } = mount(Comp);
-  expect(config?.codeBlockCopiedDuration).toBe(2000);
+  expect(config?.codeBlock.copiedDuration).toBe(2000);
   teardown();
 });
 
-test('createBankai overrides codeBlockCopiedDuration', () => {
+test('createBankai overrides codeBlock.copiedDuration', () => {
   let config: BankaiConfig | undefined;
   const Comp = defineComponent({
     setup() {
@@ -130,8 +130,8 @@ test('createBankai overrides codeBlockCopiedDuration', () => {
     },
   });
 
-  const { teardown } = mount(Comp, createBankai({ codeBlockCopiedDuration: 500 }));
-  expect(config?.codeBlockCopiedDuration).toBe(500);
+  const { teardown } = mount(Comp, createBankai({ codeBlock: { copiedDuration: 500 } }));
+  expect(config?.codeBlock.copiedDuration).toBe(500);
   teardown();
 });
 
@@ -176,6 +176,21 @@ test('a partial i18n override keeps the fallbackLocale/messages defaults', () =>
   expect(config?.i18n.locale).toBe('de');
   expect(config?.i18n.fallbackLocale).toBe('en');
   expect(config?.i18n.messages).toEqual({});
+  teardown();
+});
+
+test('a partial link override keeps the noopener default', () => {
+  let config: BankaiConfig | undefined;
+  const Comp = defineComponent({
+    setup() {
+      config = useBankaiConfig();
+      return (): VNode => h('div');
+    },
+  });
+
+  const { teardown } = mount(Comp, createBankai({ link: { origin: 'https://example.com' } }));
+  expect(config?.link.origin).toBe('https://example.com');
+  expect(config?.link.noopener).toBe(true);
   teardown();
 });
 

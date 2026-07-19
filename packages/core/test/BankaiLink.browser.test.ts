@@ -124,10 +124,10 @@ test('does not mark a relative href external', () => {
   teardown();
 });
 
-test('classifies host against config.linkOrigin over window', () => {
+test('classifies host against config.link.origin over window', () => {
   // A configured origin is authoritative (SSR/SSG-safe): a URL to that host is internal even though it
   // differs from window's origin, and a URL to any other host is external.
-  const plugin = createBankai({ linkOrigin: 'https://my-app.example' });
+  const plugin = createBankai({ link: { origin: 'https://my-app.example' } });
 
   const internal = mountLink({ href: 'https://my-app.example/settings' }, 'Settings', { plugin });
   expect(internal.root.dataset.bankaiExternal).toBeUndefined();
@@ -230,7 +230,7 @@ test('keeps a consumer-provided rel over the auto default', () => {
 
 test('omits the auto rel when disabled via createBankai', () => {
   const { root, teardown } = mountLink({ href: 'https://example.com', target: '_blank' }, 'Ext', {
-    plugin: createBankai({ linkNoopener: false }),
+    plugin: createBankai({ link: { noopener: false } }),
   });
 
   expect(root.hasAttribute('rel')).toBe(false);
@@ -240,9 +240,9 @@ test('omits the auto rel when disabled via createBankai', () => {
   teardown();
 });
 
-test('honors a config-provided linkComponent override', () => {
+test('honors a config-provided link.component override', () => {
   const { root, teardown } = mountLink({ to: '/about' }, 'About', {
-    plugin: createBankai({ linkComponent: stubLink('nuxt') }),
+    plugin: createBankai({ link: { component: stubLink('nuxt') } }),
     // No RouterLink registered: the override alone drives resolution.
   });
 

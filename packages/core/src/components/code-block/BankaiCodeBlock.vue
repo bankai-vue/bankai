@@ -68,7 +68,7 @@ export interface BankaiCodeBlockProps {
   copiedLabel?: string;
   /**
    * How long (ms) the copy button stays in its "copied" state after a successful copy before reverting
-   * to idle. Overrides the global `codeBlockCopiedDuration` config ({@link BankaiConfig}) for this block.
+   * to idle. Overrides the global `codeBlock.copiedDuration` config ({@link BankaiConfig}) for this block.
    *
    * @default 2000
    */
@@ -151,7 +151,7 @@ async function handleCopy(): Promise<void> {
     resetTimer = setTimeout(() => {
       copied.value = false;
       announcement.value = '';
-    }, copiedDuration ?? config.codeBlockCopiedDuration);
+    }, copiedDuration ?? config.codeBlock.copiedDuration);
   } catch {
     // Clipboard API unavailable (insecure context) or permission denied — leave the idle state, so the
     // component never claims a copy that did not happen.

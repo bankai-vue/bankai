@@ -28,7 +28,7 @@ app.use(
   createBankai({
     // Your canonical site origin — makes the external-host check accurate and
     // identical on server and client (hydration-safe) under SSR/SSG.
-    linkOrigin: 'https://example.com',
+    link: { origin: 'https://example.com' },
   }),
 );`;
 
@@ -38,7 +38,7 @@ export default defineNuxtConfig({
   css: ['@bankai-vue/theme-bankai'],
 
   bankai: {
-    config: { linkOrigin: 'https://example.com' },
+    config: { link: { origin: 'https://example.com' } },
   },
 });`;
 </script>
@@ -102,7 +102,7 @@ export default defineNuxtConfig({
             >
             <template #bankaiLink><BankaiCode>BankaiLink</BankaiCode></template>
             <template #external><BankaiCode>data-bankai-external</BankaiCode></template>
-            <template #linkOrigin><BankaiCode>linkOrigin</BankaiCode></template>
+            <template #linkOrigin><BankaiCode>link.origin</BankaiCode></template>
             <template #windowLocation><BankaiCode>window.location</BankaiCode></template>
           </i18n-t>
         </BankaiText>
@@ -121,7 +121,7 @@ export default defineNuxtConfig({
         <ol class="doc-list">
           <li>
             <i18n-t keypath="renderingPage.routerItem1" tag="span" scope="global">
-              <template #linkComponent><BankaiCode>linkComponent</BankaiCode></template>
+              <template #linkComponent><BankaiCode>link.component</BankaiCode></template>
               <template #bankaiConfig><BankaiCode>BankaiConfig</BankaiCode></template>
             </i18n-t>
           </li>
@@ -166,7 +166,7 @@ export default defineNuxtConfig({
       <BankaiFlex as="section" direction="column" gap="8">
         <BankaiText as="h2" size="xl" weight="bold">
           <i18n-t keypath="renderingPage.originHeading" tag="span" scope="global">
-            <template #linkOrigin><BankaiCode>linkOrigin</BankaiCode></template>
+            <template #linkOrigin><BankaiCode>link.origin</BankaiCode></template>
           </i18n-t>
         </BankaiText>
         <BankaiText as="p" tone="muted">
@@ -178,7 +178,7 @@ export default defineNuxtConfig({
         </BankaiText>
         <BankaiText as="p" tone="muted">
           <i18n-t keypath="renderingPage.originBody2" tag="span" scope="global">
-            <template #linkOrigin><BankaiCode>linkOrigin</BankaiCode></template>
+            <template #linkOrigin><BankaiCode>link.origin</BankaiCode></template>
             <template #windowLocation><BankaiCode>window.location</BankaiCode></template>
             <template #httpS><BankaiCode>http(s)</BankaiCode></template>
           </i18n-t>

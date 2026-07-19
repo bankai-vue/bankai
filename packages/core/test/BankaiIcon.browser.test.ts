@@ -85,8 +85,8 @@ test('applies `name` verbatim as a class with no resolver', () => {
   teardown();
 });
 
-test('maps `name` through config.iconClass when registered', () => {
-  const bankai = createBankai({ iconClass: (name) => `x-${name}` });
+test('maps `name` through config.icon.class when registered', () => {
+  const bankai = createBankai({ icon: { class: (name) => `x-${name}` } });
   const { root, teardown } = mountIcon({ name: 'home' }, null, [bankai]);
 
   // The resolver output is the class; the raw token is not.

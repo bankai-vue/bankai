@@ -92,6 +92,13 @@ export { useBankaiId } from './composables/useBankaiId';
 export { useBankaiMessage } from './composables/useBankaiMessage';
 export { usePrefixedId } from './composables/usePrefixedId';
 export { createBankai, useBankaiConfig } from './config';
-export type { BankaiConfig, BankaiConfigInput, BankaiI18nConfig } from './config';
+export type {
+  BankaiCodeBlockConfig,
+  BankaiConfig,
+  BankaiConfigInput,
+  BankaiI18nConfig,
+  BankaiIconConfig,
+  BankaiLinkConfig,
+} from './config';
 export type { BankaiMessages } from './i18n/types';
 export { version } from './version';

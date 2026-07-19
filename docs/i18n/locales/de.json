@@ -43,7 +43,7 @@
     },
     "rendering": {
       "name": "SSR, SPA & Routing",
-      "tagline": "Hydrations-Modell, Router-Auto-Erkennung und linkOrigin."
+      "tagline": "Hydrations-Modell, Router-Auto-Erkennung und link.origin."
     },
     "i18n": {
       "name": "Internationalisierung",
