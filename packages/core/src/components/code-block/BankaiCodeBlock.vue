@@ -167,17 +167,21 @@ onBeforeUnmount(() => {
 defineSlots<BankaiCodeBlockSlots>();
 </script>
 
+<!--
+  Two template notes (kept out of the template block so they don't render as DOM comment nodes):
+
+  - `<pre>`/`<code>`: no whitespace between the tags and the content — `<pre>` preserves it, so a stray
+    newline would render as a blank line in the snippet.
+  - copy `<BankaiButton>`: `:aria-label` gives the button an accessible name even when the `copy` slot
+    renders only an icon, and tracks the visible label so the accessible name matches it (WCAG 2.5.3 Label
+    in Name); the copy is also announced via the `role="status"` region below.
+-->
 <template>
   <div v-bind="attrs" class="bankai-code-block" data-part="root" :data-bankai-copied="dataCopied">
-    <!-- No whitespace between `<pre>`/`<code>`/content: `<pre>` preserves it, so a stray newline would
-      render as a blank line in the snippet. -->
     <pre
       data-part="pre"
     ><code data-part="code" :class="languageClass"><slot>{{ code }}</slot></code></pre>
     <div v-if="copyable" data-part="copy">
-      <!-- `aria-label` gives the button an accessible name even when the `copy` slot renders only an
-        icon, and tracks the visible label so the accessible name matches it (WCAG 2.5.3 Label in Name);
-        the copy is also announced via the `role="status"` region below. -->
       <BankaiButton
         class="bankai-code-block-copy"
         variant="ghost"
