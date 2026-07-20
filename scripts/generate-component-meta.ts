@@ -71,6 +71,16 @@ function cleanType(type: string): string {
   return type.replace(/\s*\|\s*undefined\s*$/u, '').replaceAll('"', "'");
 }
 
+// Render a name as the kebab-case form a consumer writes in a template. Props and events are declared
+// camelCase in the SFC but bound kebab-case in templates — `modelValue` → `model-value`, the event
+// `update:modelValue` → `update:model-value` (Vue's recommended style; it auto-converts). The Props and
+// Emits tables document the template attribute/listener, so they show the kebab form. Only component
+// props/events go through this — exposes are a JS API (accessed via a template ref, no case transform, so
+// they stay camelCase) and the runtime config object documented elsewhere keeps its JS keys.
+function kebabName(name: string): string {
+  return name.replaceAll(/([a-z0-9])([A-Z])/gu, '$1-$2').toLowerCase();
+}
+
 // Extract a component's CSS token surface from its house-theme stylesheet: the `--bankai-*` custom-property
 // declarations in the `:where(:root)` block(s), paired with their default value. Only *declarations* match
 // (a `--name:` in property position), so `var(--x)` references — including the shared-scale tokens a default
@@ -138,7 +148,7 @@ for (const rel of files) {
     .filter((p) => !p.global)
     .map((p) => {
       const prop: MetaProp = {
-        name: p.name,
+        name: kebabName(p.name),
         type: TYPE_OVERRIDES[`${name}.${p.name}`] ?? cleanType(p.type),
         required: p.required,
         description: clean(p.description),
@@ -155,7 +165,7 @@ for (const rel of files) {
     props,
     slots: meta.slots.map((s) => ({ name: s.name, description: clean(s.description) })),
     events: meta.events.map((e) => ({
-      name: e.name,
+      name: kebabName(e.name),
       type: e.type,
       description: clean(e.description),
     })),
