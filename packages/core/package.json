@@ -102,6 +102,10 @@
       "types": "./dist/components/icon/BankaiIcon.d.ts",
       "import": "./dist/components/icon/BankaiIcon.js"
     },
+    "./components/input/BankaiInput": {
+      "types": "./dist/components/input/BankaiInput.d.ts",
+      "import": "./dist/components/input/BankaiInput.js"
+    },
     "./components/layout/BankaiLayout": {
       "types": "./dist/components/layout/BankaiLayout.d.ts",
       "import": "./dist/components/layout/BankaiLayout.js"

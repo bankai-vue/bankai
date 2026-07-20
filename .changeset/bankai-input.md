@@ -1,0 +1,5 @@
+---
+'@bankai-vue/core': minor
+---
+
+Add `BankaiInput` — the raw native single-line `<input>` primitive with a `string` `v-model`, a themed `size` scale (`sm`/`md`/`lg`, reflected as `data-bankai-size`, plus a verbatim escape hatch), a `type` for the plain text-with-a-hint types (`text`/`email`/`search`/`tel`/`url`, plus any other string), and the native `disabled`/`readonly` states (typed off `HTMLInputElement`). It exposes the underlying element and `focus`/`blur`/`select` through a template ref (`el`, the component's first public instance API). Auto-generates a stable `id` (via `useBankaiId`) unless the consumer supplies one, so a future field wrapper can associate a label. Behavior-rich types get their own components later (`BankaiInputNumber`, `BankaiInputPassword`), and the label/help/error + validation concerns belong to a future `BankaiField` — this is intentionally just the control. Core ships **no** CSS; consumers style it through the `bankai-input` class, the `data-part`/`data-bankai-*` hooks, and the native state pseudo-classes.
