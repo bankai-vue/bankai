@@ -28,6 +28,7 @@ export default defineConfig({
     'src/components/header/BankaiHeader.vue',
     'src/components/heading/BankaiHeading.vue',
     'src/components/icon/BankaiIcon.vue',
+    'src/components/input/BankaiInput.vue',
     'src/components/layout/BankaiLayout.vue',
     'src/components/link/BankaiLink.vue',
     'src/components/main/BankaiMain.vue',

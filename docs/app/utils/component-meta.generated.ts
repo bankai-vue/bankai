@@ -781,6 +781,182 @@ export const componentMeta = {
       ]
     }
   },
+  "BankaiInput": {
+    "props": [
+      {
+        "name": "type",
+        "type": "'text' | 'email' | 'search' | 'tel' | 'url' | (string)",
+        "required": false,
+        "description": "Native input type. A named text step (text/email/search/tel/url) is what this component is for; any other string still passes through. Behavior-rich types have dedicated components (BankaiInputNumber, BankaiInputPassword).",
+        "default": "'text'"
+      },
+      {
+        "name": "size",
+        "type": "'sm' | 'md' | 'lg' | (string)",
+        "required": false,
+        "description": "Size scale. A named step (sm/md/lg) is themed; any other string reflects verbatim as data-bankai-size as an escape hatch for a custom consumer-styled size.",
+        "default": "'md'"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disable the input via the native disabled attribute.",
+        "default": "false"
+      },
+      {
+        "name": "readonly",
+        "type": "boolean",
+        "required": false,
+        "description": "Make the input read-only via the native readonly attribute — the value shows and can be selected/copied but not edited (and, unlike disabled, it still submits with a form).",
+        "default": "false"
+      },
+      {
+        "name": "modelValue",
+        "type": "string",
+        "required": false,
+        "description": "The input's value, bound with v-model — string | undefined (see BankaiInputModelValue): a string once set, undefined while unset. An unset model is never coerced to '', which preserves the \"never entered\" vs \"entered then cleared\" distinction a future field/validation layer relies on."
+      }
+    ],
+    "slots": [],
+    "events": [
+      {
+        "name": "update:modelValue",
+        "type": "[value: string | undefined]",
+        "description": ""
+      }
+    ],
+    "exposed": [
+      {
+        "name": "el",
+        "type": "HTMLInputElement | null",
+        "description": "The underlying native <input> element, or null before mount / after unmount."
+      },
+      {
+        "name": "focus",
+        "type": "(options?: FocusOptions | undefined) => void",
+        "description": "Focus the input (delegates to the native HTMLInputElement.focus)."
+      },
+      {
+        "name": "blur",
+        "type": "() => void",
+        "description": "Remove focus from the input (delegates to the native HTMLInputElement.blur)."
+      },
+      {
+        "name": "select",
+        "type": "() => void",
+        "description": "Select all editable text in the input (delegates to the native HTMLInputElement.select)."
+      }
+    ],
+    "theming": {
+      "bankai": [
+        {
+          "name": "--bankai-input-fg",
+          "value": "var(--bankai-color-fg)"
+        },
+        {
+          "name": "--bankai-input-bg",
+          "value": "var(--bankai-color-bg)"
+        },
+        {
+          "name": "--bankai-input-placeholder-color",
+          "value": "var(--bankai-color-fg-subtle)"
+        },
+        {
+          "name": "--bankai-input-border-width",
+          "value": "1px"
+        },
+        {
+          "name": "--bankai-input-border-style",
+          "value": "solid"
+        },
+        {
+          "name": "--bankai-input-border-color",
+          "value": "var(--bankai-color-border)"
+        },
+        {
+          "name": "--bankai-input-radius",
+          "value": "var(--bankai-radius)"
+        },
+        {
+          "name": "--bankai-input-inline-size",
+          "value": "100%"
+        },
+        {
+          "name": "--bankai-input-font",
+          "value": "inherit"
+        },
+        {
+          "name": "--bankai-input-transition",
+          "value": "color 150ms ease, background-color 150ms ease, border-color 150ms ease"
+        },
+        {
+          "name": "--bankai-input-focus-ring",
+          "value": "var(--bankai-focus-ring)"
+        },
+        {
+          "name": "--bankai-input-focus-border-color",
+          "value": "var(--bankai-color-accent)"
+        },
+        {
+          "name": "--bankai-input-focus-outline-width",
+          "value": "2px"
+        },
+        {
+          "name": "--bankai-input-focus-outline-offset",
+          "value": "2px"
+        },
+        {
+          "name": "--bankai-input-readonly-bg",
+          "value": "var(--bankai-color-surface)"
+        },
+        {
+          "name": "--bankai-input-disabled-opacity",
+          "value": "0.5"
+        },
+        {
+          "name": "--bankai-input-disabled-cursor",
+          "value": "not-allowed"
+        },
+        {
+          "name": "--bankai-input-sm-padding-y",
+          "value": "var(--bankai-space-1)"
+        },
+        {
+          "name": "--bankai-input-sm-padding-x",
+          "value": "var(--bankai-space-4)"
+        },
+        {
+          "name": "--bankai-input-sm-font-size",
+          "value": "var(--bankai-text-size-sm)"
+        },
+        {
+          "name": "--bankai-input-md-padding-y",
+          "value": "var(--bankai-space-3)"
+        },
+        {
+          "name": "--bankai-input-md-padding-x",
+          "value": "var(--bankai-space-6)"
+        },
+        {
+          "name": "--bankai-input-md-font-size",
+          "value": "var(--bankai-text-size-md)"
+        },
+        {
+          "name": "--bankai-input-lg-padding-y",
+          "value": "var(--bankai-space-4)"
+        },
+        {
+          "name": "--bankai-input-lg-padding-x",
+          "value": "var(--bankai-space-8)"
+        },
+        {
+          "name": "--bankai-input-lg-font-size",
+          "value": "var(--bankai-text-size-lg)"
+        }
+      ]
+    }
+  },
   "BankaiLayout": {
     "props": [],
     "slots": [

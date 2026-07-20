@@ -254,7 +254,7 @@ Presentational basics — low-effort, high-use, dogfooded by the docs site:
 - [ ] `BankaiField` — label + help + error wrapper for a single control
 - [ ] `BankaiFieldset` — native `<fieldset>` / `<legend>` grouping for related controls (backs `BankaiRadioGroup` + checkbox groups)
 - [ ] `BankaiLabel`
-- [ ] `BankaiInput`
+- [x] `BankaiInput` — raw native single-line `<input>`: string `v-model`, themed `size` (`sm`/`md`/`lg`), `type` (text/email/search/tel/url + escape hatch), native `disabled`/`readonly`, and a `focus`/`blur`/`select`/`el` instance API. Behavior-rich types → dedicated `BankaiInputNumber` / `BankaiInputPassword` (planned); label/help/error/validation → future `BankaiField`
 - [ ] `BankaiTextarea` — native `<textarea>`
 - [ ] `BankaiInputNumber` _(universal)_ — native `<input type=number>` with step/format
 - [ ] `BankaiCheckbox`

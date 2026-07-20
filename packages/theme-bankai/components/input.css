@@ -1,0 +1,110 @@
+/*
+ * BankaiInput styling.
+ *
+ * Targets the `bankai-input` class and reflected state (`data-bankai-size`, native `:focus-visible`,
+ * `:read-only`, `:disabled`, `::placeholder`). Every selector is wrapped in `:where()` so a consumer can
+ * override any rule with a single plain selector.
+ *
+ * Every adjustable property routes through a `--bankai-input-*` component token declared in the
+ * `:where(:root)` block below, each defaulting to a semantic color role, a shared scale value
+ * (`--bankai-space-*`, `--bankai-radius`, `--bankai-text-size-*`, `--bankai-focus-ring` from tokens.css),
+ * or a plain literal. So a consumer restyles the input by overriding one custom property — e.g.
+ * `--bankai-input-radius: 9999px` or `--bankai-input-inline-size: auto` — without writing a selector, and
+ * a shared-scale retune still flows through the defaults.
+ */
+
+:where(:root) {
+  /* Surface + text — a plain field on the page background with the page foreground. */
+  --bankai-input-fg: var(--bankai-color-fg);
+  --bankai-input-bg: var(--bankai-color-bg);
+  --bankai-input-placeholder-color: var(--bankai-color-fg-subtle);
+
+  /* Border — width/style/color as separate knobs; color defaults to the hairline border role. */
+  --bankai-input-border-width: 1px;
+  --bankai-input-border-style: solid;
+  --bankai-input-border-color: var(--bankai-color-border);
+  --bankai-input-radius: var(--bankai-radius);
+
+  /* Layout / typography / motion. `inline-size` defaults to 100% so a field fills its container (the
+   * conventional form default); override this token (e.g. `auto`) or a consumer width utility to change it.
+   * `font` inherits so the input adopts the surrounding text unless a consumer pins it. */
+  --bankai-input-inline-size: 100%;
+  --bankai-input-font: inherit;
+  /* Color-only transition, so it is unaffected by reduced-motion (no movement). Set to `none` to disable. */
+  --bankai-input-transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease;
+
+  /* Focus — the border shifts to the accent role and a ring is drawn; width/offset are knobs. */
+  --bankai-input-focus-ring: var(--bankai-focus-ring);
+  --bankai-input-focus-border-color: var(--bankai-color-accent);
+  --bankai-input-focus-outline-width: 2px;
+  --bankai-input-focus-outline-offset: 2px;
+
+  /* Read-only — a raised surface fill signals the value is shown but not editable. */
+  --bankai-input-readonly-bg: var(--bankai-color-surface);
+
+  /* Disabled state. */
+  --bankai-input-disabled-opacity: 0.5;
+  --bankai-input-disabled-cursor: not-allowed;
+
+  /* Per-size metrics — vertical/horizontal padding and font size for each `data-bankai-size`, resolving to
+   * the shared spacing and type scales by default. Override one token to resize a single dimension of a
+   * single size (e.g. `--bankai-input-md-padding-x`) without touching a selector. */
+  --bankai-input-sm-padding-y: var(--bankai-space-1);
+  --bankai-input-sm-padding-x: var(--bankai-space-4);
+  --bankai-input-sm-font-size: var(--bankai-text-size-sm);
+  --bankai-input-md-padding-y: var(--bankai-space-3);
+  --bankai-input-md-padding-x: var(--bankai-space-6);
+  --bankai-input-md-font-size: var(--bankai-text-size-md);
+  --bankai-input-lg-padding-y: var(--bankai-space-4);
+  --bankai-input-lg-padding-x: var(--bankai-space-8);
+  --bankai-input-lg-font-size: var(--bankai-text-size-lg);
+}
+
+:where(.bankai-input) {
+  /* border-box so the 100% inline-size includes the padding + border and never overflows its container. */
+  box-sizing: border-box;
+  inline-size: var(--bankai-input-inline-size);
+  border: var(--bankai-input-border-width) var(--bankai-input-border-style)
+    var(--bankai-input-border-color);
+  border-radius: var(--bankai-input-radius);
+  background: var(--bankai-input-bg);
+  color: var(--bankai-input-fg);
+  font: var(--bankai-input-font);
+  transition: var(--bankai-input-transition);
+}
+
+:where(.bankai-input)::placeholder {
+  color: var(--bankai-input-placeholder-color);
+}
+
+:where(.bankai-input[data-bankai-size='sm']) {
+  padding: var(--bankai-input-sm-padding-y) var(--bankai-input-sm-padding-x);
+  font-size: var(--bankai-input-sm-font-size);
+}
+
+:where(.bankai-input[data-bankai-size='md']) {
+  padding: var(--bankai-input-md-padding-y) var(--bankai-input-md-padding-x);
+  font-size: var(--bankai-input-md-font-size);
+}
+
+:where(.bankai-input[data-bankai-size='lg']) {
+  padding: var(--bankai-input-lg-padding-y) var(--bankai-input-lg-padding-x);
+  font-size: var(--bankai-input-lg-font-size);
+}
+
+:where(.bankai-input:focus-visible) {
+  border-color: var(--bankai-input-focus-border-color);
+  outline: var(--bankai-input-focus-outline-width) solid var(--bankai-input-focus-ring);
+  outline-offset: var(--bankai-input-focus-outline-offset);
+}
+
+/* `:read-only` also matches disabled inputs (both are non-editable); `:not(:disabled)` keeps the raised
+ * read-only surface off the disabled state, which has its own flat treatment below. */
+:where(.bankai-input:read-only:not(:disabled)) {
+  background: var(--bankai-input-readonly-bg);
+}
+
+:where(.bankai-input:disabled) {
+  cursor: var(--bankai-input-disabled-cursor);
+  opacity: var(--bankai-input-disabled-opacity);
+}

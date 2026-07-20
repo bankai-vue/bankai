@@ -1,0 +1,119 @@
+/*
+ * BankaiInput styling — Tailwind theme.
+ *
+ * Styled with Tailwind's `@apply` (https://tailwindcss.com/docs/functions-and-directives#apply-directive),
+ * so the input adopts the CONSUMER's Tailwind design language: the utility names below resolve against
+ * whatever spacing / radius / type scale their Tailwind config defines (SPEC.md §4.6, §5.4).
+ *
+ * Because it uses `@apply`, this file is Tailwind *source* — it must be compiled by the consumer's
+ * Tailwind build (`@import "@bankai-vue/theme-tailwind"` from a Tailwind-processed stylesheet), not
+ * shipped as static CSS. Every rule stays wrapped in zero-specificity `:where()`, so a single plain
+ * consumer selector — a hand-written rule or a Tailwind utility — overrides it with no `!important`.
+ *
+ * The box is drawn with an **inset `outline`, not a `border`** — the conventional form-control treatment:
+ * a 1px inset outline at rest that focus simply thickens (2px) and recolors, so there is no separate
+ * detached ring and no layout shift (an outline reserves no space, and the negative offset pulls it inside
+ * the box). `border-0` clears the browser's default `<input>` border (2px inset) so only the outline shows;
+ * this is explicit because the theme deliberately ships without Tailwind's Preflight (which is what would
+ * otherwise reset that UA border). `box-border` + explicit outline width/style/offset keep the field
+ * rendering a contained box and focus indicator without Preflight too.
+ *
+ * Sizes are tuned to conventional control heights (border-box, single line): sm 32px, md 36px, lg 40px.
+ * With line-height `24px` (`text-sm/6`, and `text-base`'s own `24px`), the padding steps land those exactly
+ * — sm `py-1` (4+4+24), md `py-1.5` (6+6+24), lg `py-2` (8+8+24) — and lg steps the font up to `text-base`.
+ *
+ * Colors pin to the neutral/indigo ramp (like the button here) so the field matches the stock utility look
+ * while speaking the consumer's palette; each `var(--color-*)` falls back to its exact OKLCH (Tailwind v4
+ * theme.css). `light-dark()` keys the dark treatment off `color-scheme` (a translucent field on dark) with
+ * no Tailwind `dark:` — all exposed through a `--bankai-input-*` override surface at parity with the house theme.
+ */
+
+:where(:root) {
+  --bankai-input-fg: var(--bankai-color-fg);
+  --bankai-input-bg: light-dark(
+    var(--bankai-color-bg),
+    color-mix(in oklab, var(--color-white, #fff) 5%, transparent)
+  );
+  --bankai-input-placeholder-color: light-dark(
+    var(--color-gray-400, oklch(0.707 0.022 261.325)),
+    var(--color-gray-500, oklch(0.551 0.023 264.364))
+  );
+  /* The inset outline at rest (the "border") and its focused color. */
+  --bankai-input-border-color: light-dark(
+    var(--color-gray-300, oklch(0.872 0.01 258.338)),
+    color-mix(in oklab, var(--color-white, #fff) 10%, transparent)
+  );
+  --bankai-input-focus-border-color: var(--bankai-color-accent);
+  --bankai-input-readonly-bg: var(--bankai-color-surface);
+
+  /* Disabled — a filled, dimmed field (not a transparency drop): a gray fill, muted gray-500 text, and a
+   * fainter outline than at rest. `light-dark()` keys the dark treatment (a more-opaque translucent fill
+   * over a fainter outline) off `color-scheme`. */
+  --bankai-input-disabled-bg: light-dark(
+    var(--color-gray-50, oklch(0.985 0.002 247.839)),
+    color-mix(in oklab, var(--color-white, #fff) 10%, transparent)
+  );
+  --bankai-input-disabled-fg: var(--color-gray-500, oklch(0.551 0.027 264.364));
+  --bankai-input-disabled-border-color: light-dark(
+    var(--color-gray-200, oklch(0.928 0.006 264.531)),
+    color-mix(in oklab, var(--color-white, #fff) 5%, transparent)
+  );
+}
+
+/*
+ * `w-full` fills the container (the conventional form default); `box-border` keeps padding + the outline
+ * inside that width. The resting box is `outline outline-1 -outline-offset-1`; its color rides the token.
+ * `text-sm/6` sets the 14px/24px type that (with the padding below) yields the target heights.
+ * `font-family: inherit` (not the `font` shorthand) lets the input adopt the consumer's font without a
+ * shorthand resetting the type. `transition-colors` covers the outline-color change.
+ */
+:where(.bankai-input) {
+  @apply box-border w-full rounded-md border-0 px-3 py-1.5 text-sm/6 outline-1 -outline-offset-1 transition-colors;
+
+  background: var(--bankai-input-bg);
+  color: var(--bankai-input-fg);
+  /* `outline-style` set explicitly (not via a bare `outline` utility) so the 1px outline still renders
+   * solid without Preflight, and to avoid the `outline`/`outline-1` same-property overlap. */
+  outline-style: solid;
+  outline-color: var(--bankai-input-border-color);
+  font-family: inherit;
+}
+
+:where(.bankai-input)::placeholder {
+  color: var(--bankai-input-placeholder-color);
+}
+
+/* Sizes differ in padding (+ font at lg); the radius and outline stay constant. Heights: sm 32 / md 36 /
+ * lg 40, from line-height 24px + these paddings. */
+:where(.bankai-input[data-bankai-size='sm']) {
+  @apply px-2.5 py-1;
+}
+
+:where(.bankai-input[data-bankai-size='md']) {
+  @apply px-3 py-1.5;
+}
+
+:where(.bankai-input[data-bankai-size='lg']) {
+  @apply px-3.5 py-2 text-base;
+}
+
+/* Focus: the inset outline thickens to 2px and recolors to the accent role — no separate detached ring. */
+:where(.bankai-input:focus-visible) {
+  @apply outline-2 -outline-offset-2;
+
+  outline-color: var(--bankai-input-focus-border-color);
+}
+
+/* `:read-only` also matches disabled inputs (both are non-editable); `:not(:disabled)` keeps the raised
+ * read-only surface off the disabled state, which has its own flat treatment below. */
+:where(.bankai-input:read-only:not(:disabled)) {
+  background: var(--bankai-input-readonly-bg);
+}
+
+:where(.bankai-input:disabled) {
+  @apply cursor-not-allowed;
+
+  background: var(--bankai-input-disabled-bg);
+  color: var(--bankai-input-disabled-fg);
+  outline-color: var(--bankai-input-disabled-border-color);
+}

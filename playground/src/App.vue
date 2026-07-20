@@ -12,6 +12,7 @@ import {
   BankaiHeader,
   BankaiHeading,
   BankaiIcon,
+  BankaiInput,
   BankaiLayout,
   BankaiLink,
   BankaiMain,
@@ -24,6 +25,8 @@ import ColorSchemeSwitcher from './components/ColorSchemeSwitcher.vue';
 import ThemeSwitcher from './components/ThemeSwitcher.vue';
 
 const count = ref(0);
+
+const inputValue = ref('');
 
 const variants = ['solid', 'outline', 'ghost'] as const;
 const sizes = ['sm', 'md', 'lg'] as const;
@@ -81,6 +84,42 @@ const codeBlockExample = `pnpm add @bankai-vue/core @bankai-vue/theme-bankai
       <h3>States</h3>
       <div class="row">
         <BankaiButton disabled>disabled</BankaiButton>
+      </div>
+    </section>
+
+    <section>
+      <h2>BankaiInput</h2>
+
+      <p>
+        Raw native <BankaiCode>&lt;input&gt;</BankaiCode> with a <BankaiCode>string</BankaiCode>
+        <BankaiCode>v-model</BankaiCode>. Behavior-rich types (number, password) get dedicated
+        components later; the field wrapper (label + help + error) is a future
+        <BankaiCode>BankaiField</BankaiCode>.
+      </p>
+
+      <p data-testid="input-model">Model: {{ inputValue || '(empty)' }}</p>
+      <div class="col">
+        <BankaiInput
+          v-model="inputValue"
+          placeholder="Type here…"
+          data-testid="input-model-field"
+        />
+      </div>
+
+      <h3>Sizes</h3>
+      <div class="col">
+        <BankaiInput
+          v-for="size in sizes"
+          :key="size"
+          :size="size"
+          :model-value="`${size} value`"
+        />
+      </div>
+
+      <h3>States</h3>
+      <div class="col">
+        <BankaiInput model-value="Disabled" disabled />
+        <BankaiInput model-value="Read-only" readonly />
       </div>
     </section>
 
@@ -406,6 +445,14 @@ const codeBlockExample = `pnpm add @bankai-vue/core @bankai-vue/theme-bankai
   display: flex;
   gap: 0.5rem;
   align-items: center;
+  margin-block: 0.5rem 1rem;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-inline-size: 20rem;
   margin-block: 0.5rem 1rem;
 }
 

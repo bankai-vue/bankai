@@ -44,6 +44,8 @@ const TYPE_OVERRIDES: Record<string, string> = {
   'BankaiGrid.align': "'start' | 'end' | 'center' | 'baseline' | 'stretch' | (string)",
   'BankaiGrid.justify': "'start' | 'end' | 'center' | 'stretch' | (string)",
   'BankaiHeading.level': '1 | 2 | 3 | 4 | 5 | 6',
+  'BankaiInput.type': "'text' | 'email' | 'search' | 'tel' | 'url' | (string)",
+  'BankaiInput.size': "'sm' | 'md' | 'lg' | (string)",
   'BankaiIcon.as': 'BankaiIconElement | string',
   'BankaiIcon.size': "'xs' | 'sm' | 'md' | 'lg' | 'xl' | string",
   'BankaiText.as': 'BankaiTextElement | string',
