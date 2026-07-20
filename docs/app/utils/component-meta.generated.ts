@@ -291,19 +291,19 @@ export const componentMeta = {
         "default": "true"
       },
       {
-        "name": "copyLabel",
+        "name": "copy-label",
         "type": "string",
         "required": false,
         "description": "The copy button's accessible name and its idle label text (when the copy slot is not used). Overrides the resolved codeBlock.copy message for this block; unset, it resolves through the global i18n config (BankaiI18nConfig ), defaulting to the English 'Copy'."
       },
       {
-        "name": "copiedLabel",
+        "name": "copied-label",
         "type": "string",
         "required": false,
         "description": "The button's label text after a successful copy (when the copy slot is not used) and the message announced by the role=\"status\" live region. Overrides the resolved codeBlock.copied message for this block; unset, it resolves through the global i18n config (BankaiI18nConfig ), defaulting to the English 'Copied'."
       },
       {
-        "name": "copiedDuration",
+        "name": "copied-duration",
         "type": "number",
         "required": false,
         "description": "How long (ms) the copy button stays in its \"copied\" state after a successful copy before reverting to idle. Overrides the global codeBlock.copiedDuration config (BankaiConfig ) for this block."
@@ -741,7 +741,7 @@ export const componentMeta = {
         "description": "Accessible name for a MEANINGFUL icon: sets role=\"img\" + aria-label, so assistive tech announces it. Leave unset for a DECORATIVE icon — the default — and the root is hidden from assistive tech with aria-hidden (unless you supply your own aria-label/aria-labelledby/title/role=\"img\")."
       },
       {
-        "name": "noSquare",
+        "name": "no-square",
         "type": "boolean",
         "required": false,
         "description": "Opt out of the default 1:1 (square) box and let the icon keep its own aspect ratio (height driven by size, width intrinsic). By default the root is a square box and non-square content is centered and contained (letterboxed) rather than distorted. Reflected as data-bankai-square=\"false\" when set.",
@@ -812,7 +812,7 @@ export const componentMeta = {
         "default": "false"
       },
       {
-        "name": "modelValue",
+        "name": "model-value",
         "type": "string",
         "required": false,
         "description": "The input's value, bound with v-model — string | undefined (see BankaiInputModelValue): a string once set, undefined while unset. An unset model is never coerced to '', which preserves the \"never entered\" vs \"entered then cleared\" distinction a future field/validation layer relies on."
@@ -821,7 +821,7 @@ export const componentMeta = {
     "slots": [],
     "events": [
       {
-        "name": "update:modelValue",
+        "name": "update:model-value",
         "type": "[value: string | undefined]",
         "description": ""
       }

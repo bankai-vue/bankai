@@ -40,7 +40,8 @@ const activeTheme = 'bankai' as const;
         <tbody>
           <tr v-for="event in meta.events" :key="event.name">
             <td>
-              <BankaiCode>{{ event.name }}</BankaiCode>
+              <!-- Prefixed with `@` — the Emits table documents the template listener you write. -->
+              <BankaiCode>@{{ event.name }}</BankaiCode>
             </td>
             <td>
               <BankaiCode>{{ event.type }}</BankaiCode>
@@ -67,7 +68,10 @@ const activeTheme = 'bankai' as const;
         <tbody>
           <tr v-for="slot in meta.slots" :key="slot.name">
             <td>
-              <BankaiCode>{{ slot.name }}</BankaiCode>
+              <!-- Prefixed with `#` — the Slots table documents the template slot you write (`v-slot`
+                   shorthand). Names are shown verbatim: slots have no case conversion, so the name must
+                   match the source exactly. -->
+              <BankaiCode>#{{ slot.name }}</BankaiCode>
             </td>
             <td>{{ slot.description }}</td>
           </tr>
