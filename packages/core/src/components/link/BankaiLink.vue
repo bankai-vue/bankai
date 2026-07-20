@@ -176,14 +176,14 @@ if ((import.meta as { env?: { DEV?: boolean } }).env?.DEV) {
 defineSlots<BankaiLinkSlots>();
 </script>
 
+<!--
+  `v-bind="attrs"` comes FIRST so every component-owned attribute below wins over consumer fallthrough:
+  a consumer must not be able to clobber our identity/state (`data-part`, `data-bankai-external`) or the
+  resolved destination (`to`/`href`) by passing a same-named attribute. `class` still merges (Vue special-
+  cases class/style regardless of order), and `rel` intentionally defers to a consumer `rel` via `relValue`.
+  Order matters: an owned attr placed BEFORE `v-bind="attrs"` would be silently overridable.
+-->
 <template>
-  <!--
-    `v-bind="attrs"` comes FIRST so every component-owned attribute below wins over consumer fallthrough:
-    a consumer must not be able to clobber our identity/state (`data-part`, `data-bankai-external`) or the
-    resolved destination (`to`/`href`) by passing a same-named attribute. `class` still merges (Vue special-
-    cases class/style regardless of order), and `rel` intentionally defers to a consumer `rel` via `relValue`.
-    Order matters: an owned attr placed BEFORE `v-bind="attrs"` would be silently overridable.
-  -->
   <component
     :is="tag"
     v-bind="attrs"

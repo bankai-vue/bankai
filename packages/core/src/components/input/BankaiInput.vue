@@ -155,14 +155,14 @@ defineExpose<BankaiInputExposes>({
 });
 </script>
 
+<!--
+  `:id` comes BEFORE `v-bind="attrs"` so a consumer `id` (including an empty-string opt-out) still wins by
+  fallthrough — `id` is the consumer's to set (see `useBankaiId`). Everything AFTER `v-bind="attrs"` is
+  component-owned and must win instead: `v-model` (the input's value binding), the prop-backed native
+  attributes (`type`/`disabled`/`readonly`), `data-part` (anatomy), and the reflected `data-bankai-*` state
+  can't be clobbered by a consumer same-named attribute (SPEC.md §4.4, §5.6). `class` merges regardless of order.
+-->
 <template>
-  <!--
-    `:id` comes BEFORE `v-bind="attrs"` so a consumer `id` (including an empty-string opt-out) still wins by
-    fallthrough — `id` is the consumer's to set (see `useBankaiId`). Everything AFTER `v-bind="attrs"` is
-    component-owned and must win instead: `v-model` (the input's value binding), the prop-backed native
-    attributes (`type`/`disabled`/`readonly`), `data-part` (anatomy), and the reflected `data-bankai-*` state
-    can't be clobbered by a consumer same-named attribute (SPEC.md §4.4, §5.6). `class` merges regardless of order.
-  -->
   <input
     :id="id"
     ref="input"
