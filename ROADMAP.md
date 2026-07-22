@@ -256,7 +256,7 @@ Presentational basics — low-effort, high-use, dogfooded by the docs site:
 - [ ] `BankaiLabel`
 - [x] `BankaiInput` — raw native single-line `<input>`: string `v-model`, themed `size` (`sm`/`md`/`lg`), `type` (text/email/search/tel/url + escape hatch), native `disabled`/`readonly`, and a `focus`/`blur`/`select`/`el` instance API. Behavior-rich types → dedicated `BankaiInputNumber` / `BankaiInputPassword` (planned); label/help/error/validation → future `BankaiField`
 - [ ] `BankaiTextarea` — native `<textarea>`
-- [ ] `BankaiInputNumber` _(universal)_ — native `<input type=number>` with step/format
+- [x] `BankaiInputNumber` _(universal)_ — own native `<input type="number">` (reuses the `bankai-input` class), `number` `v-model` (empty/invalid → `undefined`), native `min`/`max`/`step`, smart mobile `inputmode` default. **Bare `<input>` by default;** opt-in stepper controls via `buttons` (`'stacked'`/`'split'` layouts, driving native `stepUp()`/`stepDown()`, `aria-hidden` so the native input stays the accessible spinbutton). Exposes `stepUp`/`stepDown` alongside `el`/`focus`/`blur`/`select`. Locale-aware `Intl` number formatting stays deferred (post-`0.1.0`, see Cross-cutting)
 - [ ] `BankaiCheckbox`
 - [ ] `BankaiRadio` + `BankaiRadioGroup` — group renders `<fieldset>`/`<legend>`
 - [ ] `BankaiSwitch`

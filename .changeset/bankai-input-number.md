@@ -1,0 +1,7 @@
+---
+'@bankai-vue/core': minor
+---
+
+Add `BankaiInputNumber` — the behavior-rich `type="number"` sibling of `BankaiInput`. It renders its own native `<input type="number">` (reusing `BankaiInput`'s look through the shared `bankai-input` class) with a `number` `v-model` (empty or an incomplete/invalid entry resolves to `undefined`, never coerced to `0`; an in-progress decimal like `1.50` is never reformatted), native `min`/`max`/`step`, and a smart mobile `inputmode` default (`numeric` for an integer `step`, `decimal` otherwise; overridable). It exposes the underlying element plus `focus`/`blur`/`select`/`stepUp`/`stepDown` through a template ref.
+
+By default it is a **bare `<input>`** (no wrapper) — the primitive to build on. Set the `buttons` prop to add stepper controls: `buttons` / `buttons="stacked"` gives a vertical pair on the trailing edge, `buttons="split"` flanks the field with `−`/`+`, and any other string reflects verbatim as `data-bankai-buttons` for a consumer-defined layout. Truthy `buttons` wraps the field in a `<div class="bankai-input-number">` (this re-creates the root node when toggled reactively). The controls drive the native `stepUp()`/`stepDown()`, disable at the bounds, and are `aria-hidden` + `tabindex="-1"` so the native input stays the single accessible spinbutton. Core ships **no** CSS and hides the browser's native (unthemeable) spin buttons via the theme; consumers style through the `bankai-input` class, the `bankai-input-number` wrapper, and the `data-part` hooks (`root`/`field`/`decrement`/`increment`).

@@ -68,7 +68,8 @@
     "page": { "tagline": "Per-route content host inside <main>." },
     "link": { "tagline": "Router-aware link — <a>, RouterLink, or NuxtLink." },
     "icon": { "tagline": "Agnostic icon wrapper — SVG, icon fonts, UnoCSS/Iconify." },
-    "input": { "tagline": "Raw native <input> with a string v-model." }
+    "input": { "tagline": "Raw native <input> with a string v-model." },
+    "input-number": { "tagline": "Native <input type=number> with a number v-model and steppers." }
   },
   "ui": {
     "example": "Example",
@@ -208,6 +209,17 @@
       "--bankai-input-lg-padding-y": "Vertical padding of the large size.",
       "--bankai-input-lg-padding-x": "Horizontal padding of the large size.",
       "--bankai-input-lg-font-size": "Font size of the large size.",
+      "--bankai-input-number-radius": "Outer corner radius of the segmented group.",
+      "--bankai-input-number-control-inline-size": "Inline size of each stepper control.",
+      "--bankai-input-number-control-bg": "Background fill of the stepper controls.",
+      "--bankai-input-number-control-fg": "Text/glyph color of the stepper controls.",
+      "--bankai-input-number-control-border-width": "Border width of the stepper controls.",
+      "--bankai-input-number-control-border-color": "Border color of the stepper controls.",
+      "--bankai-input-number-control-font-size": "Font size of the stepper control glyphs.",
+      "--bankai-input-number-control-hover-bg": "Background fill of a stepper control on hover.",
+      "--bankai-input-number-control-disabled-opacity": "Opacity of a stepper control while disabled.",
+      "--bankai-input-number-control-disabled-cursor": "Cursor over a stepper control while disabled.",
+      "--bankai-input-number-control-transition": "Transition applied to the stepper controls' color changes.",
       "--bankai-layout-min-block-size": "Minimum height of the shell (fills the viewport).",
       "--bankai-layout-columns": "Grid column tracks (sidebar / main).",
       "--bankai-layout-rows": "Grid row tracks (header / main / footer).",
@@ -386,9 +398,20 @@
       "modelLabel": "Model",
       "empty": "(empty)",
       "typesHeading": "Types",
-      "typesBody": "The named types ({text}-like) are plain text with an on-screen-keyboard hint. Behavior-rich types get their own components so their extra UI and parsing live there, not behind a bare attribute: reach for {inputNumber} instead of {number}, and {inputPassword} instead of {password} (both planned).",
+      "typesBody": "The named types ({text}-like) are plain text with an on-screen-keyboard hint. Behavior-rich types get their own components so their extra UI and parsing live there, not behind a bare attribute: reach for {inputNumber} instead of {number}, and {inputPassword} instead of {password} (planned).",
       "fieldHeading": "Label, help & validation",
       "fieldBody": "BankaiInput is only the control. A label, description, and error message — plus required/invalid handling that avoids the browser's native validation bubble — will be composed by a future {field} wrapper, so those concerns are intentionally not on the raw input."
+    },
+    "input-number": {
+      "lede": "The behavior-rich {number} sibling of {input}: a {model} typed as a number, native {min}/{max}/{step}, and a mobile keyboard that adapts to the step. It's a bare {input} by default — set {buttons} to add stepper controls that drive the platform's own {stepUp}/{stepDown}. The native input stays the accessible spinbutton; core ships no CSS, so the theme styles the {cls} field and controls.",
+      "modelLabel": "Model",
+      "empty": "(empty)",
+      "buttonsHeading": "Stepper buttons",
+      "buttonsBody": "By default there are no visible controls — just the field (the arrow keys still step). Set {buttons} to add them, in one of two layouts: {stacked} (a vertical pair on the trailing edge) or {split} ({minus}/{plus} flanking the field). The browser's own spin buttons are always hidden — they can't be styled consistently across engines (Firefox offers no hook at all), so the component ships its own.",
+      "stepsHeading": "Stepping & bounds",
+      "stepsBody": "The controls, arrow keys, and {step} all move the value by the same increment; {min}/{max} clamp it and disable the matching control at the bound. An empty field is {undef} — never coerced to {zero} — so a wrapping field/validation layer can tell \"no number yet\" from a real value.",
+      "inputmodeHeading": "Mobile keyboard",
+      "inputmodeBody": "On touch devices the {inputmode} attribute chooses the on-screen keyboard. It defaults from {step} — {numeric} for an integer step, {decimal} for a fractional one — and an explicit {inputmode} prop overrides it."
     },
     "layout": {
       "lede": "The persistent app shell: a CSS-grid root that wraps each slot in its native landmark region ({regions}), so an application gets a correct, unique-per-page landmark set for free. The grid tracks are yours to control with plain CSS against {cls} — there is no {view}-string DSL.",

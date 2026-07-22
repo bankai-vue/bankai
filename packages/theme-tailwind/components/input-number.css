@@ -1,0 +1,120 @@
+/*
+ * BankaiInputNumber styling — Tailwind theme.
+ *
+ * `@apply`-first Tailwind *source* (compiled by the consumer's Tailwind build, not shipped as static CSS),
+ * every rule wrapped in zero-specificity `:where()`. The field is a `bankai-input` (styled by this theme's
+ * `input.css`); this file adds only the number-specific bits: hiding the native spin buttons on any
+ * `.bankai-input[type="number"]` (they can't be themed across engines), and laying out the optional stepper
+ * controls when `buttons` wraps the field in a `.bankai-input-number` grid — driven by `data-bankai-buttons`
+ * (`stacked`/`split`) via `grid-template-areas`. Controls ride the neutral gray ramp through a
+ * `--bankai-input-number-*` override surface at parity with the house theme.
+ */
+
+:where(:root) {
+  --bankai-input-number-control-bg: light-dark(
+    var(--color-gray-50, oklch(0.985 0.002 247.839)),
+    color-mix(in oklab, var(--color-white, #fff) 5%, transparent)
+  );
+  --bankai-input-number-control-hover-bg: light-dark(
+    var(--color-gray-100, oklch(0.967 0.003 264.542)),
+    color-mix(in oklab, var(--color-white, #fff) 10%, transparent)
+  );
+  --bankai-input-number-control-fg: var(--bankai-color-fg);
+  /* Matches the field's resting inset-outline color (input.css) so the seam reads as one hairline. */
+  --bankai-input-number-control-border-color: light-dark(
+    var(--color-gray-300, oklch(0.872 0.01 258.338)),
+    color-mix(in oklab, var(--color-white, #fff) 10%, transparent)
+  );
+}
+
+/* Hide the browser's native spin buttons on every number-typed bankai field (bare or wrapped). */
+:where(.bankai-input[type='number']) {
+  appearance: textfield;
+}
+
+:where(.bankai-input[type='number'])::-webkit-inner-spin-button,
+:where(.bankai-input[type='number'])::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+/* Wrapper — only present when `buttons` is set. */
+:where(.bankai-input-number) {
+  @apply grid w-full;
+}
+
+/* Field fills its cell and flattens corners; per-layout rules re-round the outer ones. */
+:where(.bankai-input-number > .bankai-input) {
+  @apply h-full min-w-0 rounded-none;
+
+  grid-area: field;
+  inline-size: auto;
+}
+
+:where(.bankai-input-number > [data-part='decrement']),
+:where(.bankai-input-number > [data-part='increment']) {
+  @apply inline-flex w-9 cursor-pointer select-none items-center justify-center border p-0 text-base/none transition-colors;
+
+  background: var(--bankai-input-number-control-bg);
+  color: var(--bankai-input-number-control-fg);
+  border-color: var(--bankai-input-number-control-border-color);
+  border-style: solid;
+}
+
+:where(.bankai-input-number > [data-part='decrement']) {
+  grid-area: decrement;
+}
+
+:where(.bankai-input-number > [data-part='increment']) {
+  grid-area: increment;
+}
+
+:where(.bankai-input-number > [data-part='decrement']:hover:not(:disabled)),
+:where(.bankai-input-number > [data-part='increment']:hover:not(:disabled)) {
+  background: var(--bankai-input-number-control-hover-bg);
+}
+
+:where(.bankai-input-number > [data-part='decrement']:disabled),
+:where(.bankai-input-number > [data-part='increment']:disabled) {
+  @apply cursor-not-allowed opacity-50;
+}
+
+/* Split layout — [ − | field | + ] on a single row. */
+:where(.bankai-input-number[data-bankai-buttons='split']) {
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: 'decrement field increment';
+}
+
+:where(.bankai-input-number[data-bankai-buttons='split'] > [data-part='decrement']) {
+  @apply rounded-s-md border-e-0;
+}
+
+:where(.bankai-input-number[data-bankai-buttons='split'] > [data-part='increment']) {
+  @apply rounded-e-md border-s-0;
+}
+
+/* Stacked layout — field on the left, a vertical +/− pair on the trailing edge (each half height). */
+:where(.bankai-input-number[data-bankai-buttons='stacked']) {
+  grid-template-columns: 1fr auto;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+    'field increment'
+    'field decrement';
+}
+
+:where(.bankai-input-number[data-bankai-buttons='stacked'] > .bankai-input) {
+  @apply rounded-s-md;
+}
+
+:where(.bankai-input-number[data-bankai-buttons='stacked'] > [data-part='increment']),
+:where(.bankai-input-number[data-bankai-buttons='stacked'] > [data-part='decrement']) {
+  @apply border-s-0;
+}
+
+:where(.bankai-input-number[data-bankai-buttons='stacked'] > [data-part='increment']) {
+  @apply rounded-tr-md border-b-0;
+}
+
+:where(.bankai-input-number[data-bankai-buttons='stacked'] > [data-part='decrement']) {
+  @apply rounded-br-md;
+}
