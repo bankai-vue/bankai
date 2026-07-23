@@ -49,6 +49,7 @@ const TYPE_OVERRIDES: Record<string, string> = {
   'BankaiInputNumber.size': "'sm' | 'md' | 'lg' | (string)",
   'BankaiInputNumber.buttons': "boolean | 'stacked' | 'split' | (string)",
   'BankaiInputNumber.inputmode': "'numeric' | 'decimal' | (string)",
+  'BankaiInputPassword.size': "'sm' | 'md' | 'lg' | (string)",
   'BankaiIcon.as': 'BankaiIconElement | string',
   'BankaiIcon.size': "'xs' | 'sm' | 'md' | 'lg' | 'xl' | string",
   'BankaiText.as': 'BankaiTextElement | string',

@@ -69,7 +69,8 @@
     "link": { "tagline": "Router-aware link — <a>, RouterLink, or NuxtLink." },
     "icon": { "tagline": "Agnostic icon wrapper — SVG, icon fonts, UnoCSS/Iconify." },
     "input": { "tagline": "Raw native <input> with a string v-model." },
-    "input-number": { "tagline": "Native <input type=number> with a number v-model and steppers." }
+    "input-number": { "tagline": "Native <input type=number> with a number v-model and steppers." },
+    "input-password": { "tagline": "Masked <input> with a reveal toggle." }
   },
   "ui": {
     "example": "Example",
@@ -220,6 +221,17 @@
       "--bankai-input-number-control-disabled-opacity": "Opacity of a stepper control while disabled.",
       "--bankai-input-number-control-disabled-cursor": "Cursor over a stepper control while disabled.",
       "--bankai-input-number-control-transition": "Transition applied to the stepper controls' color changes.",
+      "--bankai-input-password-radius": "Outer corner radius of the field + reveal-button group.",
+      "--bankai-input-password-toggle-padding-inline": "Horizontal padding inside the reveal button.",
+      "--bankai-input-password-toggle-bg": "Background fill of the reveal button.",
+      "--bankai-input-password-toggle-fg": "Text/glyph color of the reveal button.",
+      "--bankai-input-password-toggle-border-width": "Border width of the reveal button.",
+      "--bankai-input-password-toggle-border-color": "Border color of the reveal button.",
+      "--bankai-input-password-toggle-font-size": "Font size of the reveal button's label.",
+      "--bankai-input-password-toggle-hover-bg": "Background fill of the reveal button on hover.",
+      "--bankai-input-password-toggle-disabled-opacity": "Opacity of the reveal button while disabled.",
+      "--bankai-input-password-toggle-disabled-cursor": "Cursor over the reveal button while disabled.",
+      "--bankai-input-password-toggle-transition": "Transition applied to the reveal button's color changes.",
       "--bankai-layout-min-block-size": "Minimum height of the shell (fills the viewport).",
       "--bankai-layout-columns": "Grid column tracks (sidebar / main).",
       "--bankai-layout-rows": "Grid row tracks (header / main / footer).",
@@ -412,6 +424,18 @@
       "stepsBody": "The controls, arrow keys, and {step} all move the value by the same increment; {min}/{max} clamp it and disable the matching control at the bound. An empty field is {undef} — never coerced to {zero} — so a wrapping field/validation layer can tell \"no number yet\" from a real value.",
       "inputmodeHeading": "Mobile keyboard",
       "inputmodeBody": "On touch devices the {inputmode} attribute chooses the on-screen keyboard. It defaults from {step} — {numeric} for an integer step, {decimal} for a fractional one — and an explicit {inputmode} prop overrides it."
+    },
+    "input-password": {
+      "lede": "The reveal-toggle sibling of {input}: a masked single-line {input} whose {password} type flips to {text} when revealed. The value is a string {model}; the reveal state is {revealed}, so it drives the type whether or not the built-in button renders. Core ships no CSS — the theme styles the {cls} field and the reveal button.",
+      "modelLabel": "Model",
+      "revealedLabel": "revealed",
+      "empty": "(empty)",
+      "toggleHeading": "The reveal toggle",
+      "toggleBody": "By default a reveal button sits on the field's trailing edge; it flips the value between masked and visible and syncs {revealed}. Bind that model to drive the reveal from your own control, or drop the built-in button entirely with {toggle}. Swap the button's icon/label through the {slot} slot (it receives the current revealed state).",
+      "toggleIconLabel": "Custom icon via the toggle slot",
+      "toggleBareLabel": "No reveal button",
+      "a11yHeading": "Accessibility",
+      "a11yBody": "The reveal button is a real, focusable, tab-order control. Its accessible name swaps between {show} while masked and {hide} while revealed — announcing both the action and the current state — and is overridable per instance via {showLabel} / {hideLabel}."
     },
     "layout": {
       "lede": "The persistent app shell: a CSS-grid root that wraps each slot in its native landmark region ({regions}), so an application gets a correct, unique-per-page landmark set for free. The grid tracks are yours to control with plain CSS against {cls} — there is no {view}-string DSL.",

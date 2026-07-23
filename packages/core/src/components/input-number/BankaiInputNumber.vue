@@ -194,8 +194,8 @@ export interface BankaiInputNumberExposes {
 </script>
 
 <script setup lang="ts">
-import { computed, ref, useAttrs, useTemplateRef, watch } from 'vue';
-import { useBankaiId } from '../../composables/useBankaiId';
+import { computed, ref, useAttrs, watch } from 'vue';
+import { useBankaiInput } from '../../internal/useBankaiInput';
 
 const {
   min,
@@ -251,8 +251,8 @@ const fieldAttrs = computed<Record<string, unknown>>(() => {
   return rest;
 });
 
-const id = useBankaiId('bankai-input-number');
-const inputRef = useTemplateRef<HTMLInputElement>('input');
+// Shared input-family wiring: the resolved `id`, the native-`<input>` ref, and `focus`/`blur`/`select`.
+const { id, inputRef, focus, blur, select } = useBankaiInput('bankai-input-number');
 
 // The string shown in the field — internal only. The native input value is always a string, so this bridges
 // to/from the numeric `model`. It is kept byte-identical to the DOM on every keystroke (see `onInput`), so
@@ -288,18 +288,6 @@ function onInput(event: Event): void {
   const el = event.target as HTMLInputElement;
   display.value = el.value;
   model.value = Number.isNaN(el.valueAsNumber) ? undefined : el.valueAsNumber;
-}
-
-function focus(options?: FocusOptions): void {
-  inputRef.value?.focus(options);
-}
-
-function blur(): void {
-  inputRef.value?.blur();
-}
-
-function select(): void {
-  inputRef.value?.select();
 }
 
 // Drive the native stepper. `stepUp`/`stepDown` clamp to `min`/`max` and snap to `step` for free; we then

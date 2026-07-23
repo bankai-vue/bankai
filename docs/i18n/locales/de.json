@@ -69,7 +69,8 @@
     "link": { "tagline": "Router-fähiger Link — <a>, RouterLink oder NuxtLink." },
     "icon": { "tagline": "Agnostischer Icon-Wrapper — SVG, Icon-Fonts, UnoCSS/Iconify." },
     "input": { "tagline": "Rohes natives <input> mit einem string-v-model." },
-    "input-number": { "tagline": "Natives <input type=number> mit number-v-model und Steppern." }
+    "input-number": { "tagline": "Natives <input type=number> mit number-v-model und Steppern." },
+    "input-password": { "tagline": "Maskiertes <input> mit Anzeigen-Umschalter." }
   },
   "ui": {
     "example": "Beispiel",
@@ -220,6 +221,17 @@
       "--bankai-input-number-control-disabled-opacity": "Deckkraft eines Stepper-Steuerelements im deaktivierten Zustand.",
       "--bankai-input-number-control-disabled-cursor": "Cursor über einem Stepper-Steuerelement im deaktivierten Zustand.",
       "--bankai-input-number-control-transition": "Übergang für die Farbwechsel der Stepper-Steuerelemente.",
+      "--bankai-input-password-radius": "Äußerer Eckenradius der Gruppe aus Feld und Anzeigen-Schaltfläche.",
+      "--bankai-input-password-toggle-padding-inline": "Horizontaler Innenabstand der Anzeigen-Schaltfläche.",
+      "--bankai-input-password-toggle-bg": "Hintergrundfüllung der Anzeigen-Schaltfläche.",
+      "--bankai-input-password-toggle-fg": "Text-/Symbolfarbe der Anzeigen-Schaltfläche.",
+      "--bankai-input-password-toggle-border-width": "Rahmenbreite der Anzeigen-Schaltfläche.",
+      "--bankai-input-password-toggle-border-color": "Rahmenfarbe der Anzeigen-Schaltfläche.",
+      "--bankai-input-password-toggle-font-size": "Schriftgröße der Beschriftung der Anzeigen-Schaltfläche.",
+      "--bankai-input-password-toggle-hover-bg": "Hintergrundfüllung der Anzeigen-Schaltfläche beim Überfahren.",
+      "--bankai-input-password-toggle-disabled-opacity": "Deckkraft der Anzeigen-Schaltfläche im deaktivierten Zustand.",
+      "--bankai-input-password-toggle-disabled-cursor": "Cursor über der Anzeigen-Schaltfläche im deaktivierten Zustand.",
+      "--bankai-input-password-toggle-transition": "Übergang für die Farbwechsel der Anzeigen-Schaltfläche.",
       "--bankai-layout-min-block-size": "Mindesthöhe der Shell (füllt den Viewport).",
       "--bankai-layout-columns": "Grid-Spalten-Tracks (Sidebar / Main).",
       "--bankai-layout-rows": "Grid-Zeilen-Tracks (Header / Main / Footer).",
@@ -412,6 +424,18 @@
       "stepsBody": "Die Steuerelemente, die Pfeiltasten und {step} ändern den Wert um denselben Betrag; {min}/{max} begrenzen ihn und deaktivieren das jeweilige Steuerelement an der Grenze. Ein leeres Feld ist {undef} — niemals zu {zero} umgewandelt — damit eine umschließende Feld-/Validierungsschicht \"noch keine Zahl\" von einem echten Wert unterscheiden kann.",
       "inputmodeHeading": "Mobile Tastatur",
       "inputmodeBody": "Auf Touch-Geräten wählt das {inputmode}-Attribut die Bildschirmtastatur. Es wird aus {step} abgeleitet — {numeric} für eine ganzzahlige Schrittweite, {decimal} für eine gebrochene — und ein explizites {inputmode}-Prop überschreibt es."
+    },
+    "input-password": {
+      "lede": "Das Geschwister mit Anzeigen-Umschalter von {input}: ein maskiertes einzeiliges {input}, dessen {password}-Typ beim Anzeigen zu {text} wechselt. Der Wert ist ein string-{model}; der Anzeige-Zustand ist {revealed} und steuert den Typ, egal ob die eingebaute Schaltfläche gerendert wird oder nicht. Der Core liefert kein CSS — das Theme gestaltet das {cls}-Feld und die Anzeigen-Schaltfläche.",
+      "modelLabel": "Modell",
+      "revealedLabel": "angezeigt",
+      "empty": "(leer)",
+      "toggleHeading": "Der Anzeigen-Umschalter",
+      "toggleBody": "Standardmäßig sitzt eine Anzeigen-Schaltfläche am nachlaufenden Rand des Felds; sie wechselt den Wert zwischen maskiert und sichtbar und synchronisiert {revealed}. Binde dieses Modell, um die Anzeige über ein eigenes Steuerelement zu steuern, oder entferne die eingebaute Schaltfläche ganz mit {toggle}. Tausche Symbol/Beschriftung der Schaltfläche über den {slot}-Slot aus (er erhält den aktuellen Anzeige-Zustand).",
+      "toggleIconLabel": "Eigenes Icon über den toggle-Slot",
+      "toggleBareLabel": "Keine Anzeigen-Schaltfläche",
+      "a11yHeading": "Barrierefreiheit",
+      "a11yBody": "Die Anzeigen-Schaltfläche ist ein echtes, fokussierbares Steuerelement in der Tabulatorreihenfolge. Ihr zugänglicher Name wechselt zwischen {show} im maskierten und {hide} im angezeigten Zustand — er benennt sowohl die Aktion als auch den aktuellen Zustand — und ist pro Instanz über {showLabel} / {hideLabel} überschreibbar."
     },
     "layout": {
       "lede": "Die persistente App-Shell: eine CSS-Grid-Wurzel, die jeden Slot in seine native Landmark-Region ({regions}) einwickelt, sodass eine Anwendung kostenlos einen korrekten, pro Seite eindeutigen Landmark-Satz erhält. Die Grid-Tracks kannst du mit einfachem CSS gegen {cls} steuern — es gibt keine {view}-String-DSL.",

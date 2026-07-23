@@ -110,6 +110,10 @@
       "types": "./dist/components/input-number/BankaiInputNumber.d.ts",
       "import": "./dist/components/input-number/BankaiInputNumber.js"
     },
+    "./components/input-password/BankaiInputPassword": {
+      "types": "./dist/components/input-password/BankaiInputPassword.d.ts",
+      "import": "./dist/components/input-password/BankaiInputPassword.js"
+    },
     "./components/layout/BankaiLayout": {
       "types": "./dist/components/layout/BankaiLayout.d.ts",
       "import": "./dist/components/layout/BankaiLayout.js"

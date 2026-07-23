@@ -15,6 +15,10 @@ const de: DeepPartial<BankaiMessages> = {
     copy: 'Kopieren',
     copied: 'Kopiert',
   },
+  inputPassword: {
+    show: 'Passwort anzeigen',
+    hide: 'Passwort verbergen',
+  },
 };
 
 export default de;

@@ -43,9 +43,12 @@
   @apply grid w-full;
 }
 
-/* Field fills its cell and flattens corners; per-layout rules re-round the outer ones. */
+/* Field flattens corners; per-layout rules re-round the outer ones. It keeps its own `line-height`-driven
+ * height (do NOT pin `h-full` — on an `<input>` that resolves to the replaced intrinsic height and collapses
+ * the single-row `split` layout below the field's real height; `stacked` masked it via its two rows). The
+ * grid's default `align-items: stretch` grows the shorter controls to match. */
 :where(.bankai-input-number > .bankai-input) {
-  @apply h-full min-w-0 rounded-none;
+  @apply min-w-0 rounded-none;
 
   grid-area: field;
   inline-size: auto;

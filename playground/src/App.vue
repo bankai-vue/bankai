@@ -14,6 +14,7 @@ import {
   BankaiIcon,
   BankaiInput,
   BankaiInputNumber,
+  BankaiInputPassword,
   BankaiLayout,
   BankaiLink,
   BankaiMain,
@@ -29,6 +30,8 @@ const count = ref(0);
 
 const inputValue = ref('');
 const numberValue = ref<number | undefined>(3);
+const passwordValue = ref<string | undefined>('hunter2');
+const passwordRevealed = ref(false);
 
 const variants = ['solid', 'outline', 'ghost'] as const;
 const sizes = ['sm', 'md', 'lg'] as const;
@@ -172,6 +175,48 @@ const codeBlockExample = `pnpm add @bankai-vue/core @bankai-vue/theme-bankai
         <BankaiInputNumber :model-value="1" placeholder="integer step → numeric" />
         <BankaiInputNumber :model-value="1.5" :step="0.5" placeholder="fractional step → decimal" />
         <BankaiInputNumber :model-value="1" inputmode="decimal" placeholder="explicit inputmode" />
+      </div>
+    </section>
+
+    <section>
+      <h2>BankaiInputPassword</h2>
+
+      <p>
+        The reveal-toggle sibling: a masked <BankaiCode>&lt;input&gt;</BankaiCode> whose
+        <BankaiCode>type</BankaiCode> flips between <BankaiCode>password</BankaiCode> and
+        <BankaiCode>text</BankaiCode> via a reveal button (a real, focusable control) and
+        <BankaiCode>v-model:revealed</BankaiCode>. Opt out of the built-in button with
+        <BankaiCode>:toggle="false"</BankaiCode>.
+      </p>
+
+      <p data-testid="input-password-model">
+        Model: {{ passwordValue || '(empty)' }} · revealed: {{ passwordRevealed }}
+      </p>
+      <div class="col">
+        <BankaiInputPassword
+          v-model="passwordValue"
+          v-model:revealed="passwordRevealed"
+          autocomplete="current-password"
+          placeholder="Password"
+          data-testid="input-password-model-field"
+        />
+      </div>
+
+      <h3>Sizes</h3>
+      <div class="col">
+        <BankaiInputPassword
+          v-for="size in sizes"
+          :key="size"
+          :size="size"
+          :model-value="`${size} secret`"
+        />
+      </div>
+
+      <h3>Bare (no toggle) & states</h3>
+      <div class="col">
+        <BankaiInputPassword :model-value="'bare'" :toggle="false" placeholder="no reveal button" />
+        <BankaiInputPassword :model-value="'secret'" disabled />
+        <BankaiInputPassword :model-value="'secret'" readonly />
       </div>
     </section>
 

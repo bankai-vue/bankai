@@ -9,6 +9,7 @@ describe('BankaiMessages', () => {
   test('is the namespaced registry of default UI strings', () => {
     expectTypeOf<BankaiMessages>().toEqualTypeOf<{
       codeBlock: { copy: string; copied: string };
+      inputPassword: { show: string; hide: string };
     }>();
   });
 });
