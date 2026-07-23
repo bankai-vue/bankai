@@ -88,6 +88,16 @@ export type {
   BankaiInputNumberSize,
   BankaiInputNumberSlots,
 } from './components/input-number/BankaiInputNumber.vue';
+export { default as BankaiInputPassword } from './components/input-password/BankaiInputPassword.vue';
+export type {
+  BankaiInputPasswordDisabled,
+  BankaiInputPasswordExposes,
+  BankaiInputPasswordModelValue,
+  BankaiInputPasswordProps,
+  BankaiInputPasswordReadonly,
+  BankaiInputPasswordSize,
+  BankaiInputPasswordSlots,
+} from './components/input-password/BankaiInputPassword.vue';
 export { default as BankaiLayout } from './components/layout/BankaiLayout.vue';
 export type { BankaiLayoutSlots } from './components/layout/BankaiLayout.vue';
 export { default as BankaiLink } from './components/link/BankaiLink.vue';

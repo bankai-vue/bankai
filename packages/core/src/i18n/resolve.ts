@@ -21,6 +21,10 @@ function mergeMessages(base: BankaiMessages, patch: DeepPartial<BankaiMessages>)
       copy: patch.codeBlock?.copy ?? base.codeBlock.copy,
       copied: patch.codeBlock?.copied ?? base.codeBlock.copied,
     },
+    inputPassword: {
+      show: patch.inputPassword?.show ?? base.inputPassword.show,
+      hide: patch.inputPassword?.hide ?? base.inputPassword.hide,
+    },
   };
 }
 

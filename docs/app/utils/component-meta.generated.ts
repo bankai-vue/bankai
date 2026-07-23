@@ -941,6 +941,151 @@ export const componentMeta = {
       ]
     }
   },
+  "BankaiInputPassword": {
+    "props": [
+      {
+        "name": "size",
+        "type": "'sm' | 'md' | 'lg' | (string)",
+        "required": false,
+        "description": "Size scale, forwarded to the field and reflected as data-bankai-size. A named step (sm/md/lg) is themed; any other string reflects verbatim as an escape hatch.",
+        "default": "'md'"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disable the control via the native disabled attribute (also disables the reveal button).",
+        "default": "false"
+      },
+      {
+        "name": "readonly",
+        "type": "boolean",
+        "required": false,
+        "description": "Make the control read-only via the native readonly attribute — the value shows and can be selected/copied but not edited (the reveal button still works). Unlike disabled, it still submits with a form.",
+        "default": "false"
+      },
+      {
+        "name": "toggle",
+        "type": "boolean",
+        "required": false,
+        "description": "Render the built-in reveal toggle. true (default) wraps the field in a <div class=\"bankai-input-password\"> and adds a reveal <button data-part=\"toggle\">. false renders just the bare <input> with no wrapper or button — revealing then requires driving v-model:revealed from a consumer control (the reveal still flips the input type). The reveal state itself is v-model:revealed, independent of this prop.",
+        "default": "true"
+      },
+      {
+        "name": "show-label",
+        "type": "string",
+        "required": false,
+        "description": "The reveal button's accessible name (and its visible label, when the toggle slot is not used) while the password is masked — activating it reveals the value. Overrides the resolved inputPassword.show message for this instance; unset, it resolves through the global i18n config (BankaiI18nConfig ), defaulting to the English 'Show password'."
+      },
+      {
+        "name": "hide-label",
+        "type": "string",
+        "required": false,
+        "description": "The reveal button's accessible name (and its visible label, when the toggle slot is not used) while the value is revealed — activating it masks the value again. Overrides the resolved inputPassword.hide message for this instance; unset, it resolves through the global i18n config (BankaiI18nConfig ), defaulting to the English 'Hide password'."
+      },
+      {
+        "name": "model-value",
+        "type": "string",
+        "required": false,
+        "description": "The password value, bound with the default v-model — string | undefined (see BankaiInputPasswordModelValue): a string once set, undefined while unset."
+      },
+      {
+        "name": "revealed",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the value is revealed, bound with v-model:revealed (default false). Drives the input type (text when revealed, password when masked) and the reveal button's label/state — independent of the toggle prop, so a consumer can drive it from their own control even with the built-in button off.",
+        "default": "false"
+      }
+    ],
+    "slots": [
+      {
+        "name": "toggle",
+        "description": "Content of the reveal button (defaults to the current showLabel / hideLabel text). Receives the current revealed state so a consumer can swap the icon/label (e.g. an eye ↔ eye-off BankaiIcon). The button keeps its accessible name from the labels regardless of what this slot renders. Only rendered when toggle is true."
+      }
+    ],
+    "events": [
+      {
+        "name": "update:model-value",
+        "type": "[value: string | undefined]",
+        "description": ""
+      },
+      {
+        "name": "update:revealed",
+        "type": "[value: boolean]",
+        "description": ""
+      }
+    ],
+    "exposed": [
+      {
+        "name": "el",
+        "type": "HTMLInputElement | null",
+        "description": "The underlying native <input> element, or null before mount / after unmount."
+      },
+      {
+        "name": "focus",
+        "type": "(options?: FocusOptions | undefined) => void",
+        "description": "Focus the input (delegates to the native HTMLInputElement.focus)."
+      },
+      {
+        "name": "blur",
+        "type": "() => void",
+        "description": "Remove focus from the input (delegates to the native HTMLInputElement.blur)."
+      },
+      {
+        "name": "select",
+        "type": "() => void",
+        "description": "Select all editable text in the input (delegates to the native HTMLInputElement.select)."
+      }
+    ],
+    "theming": {
+      "bankai": [
+        {
+          "name": "--bankai-input-password-radius",
+          "value": "var(--bankai-input-radius, var(--bankai-radius))"
+        },
+        {
+          "name": "--bankai-input-password-toggle-padding-inline",
+          "value": "var(--bankai-space-4)"
+        },
+        {
+          "name": "--bankai-input-password-toggle-bg",
+          "value": "var(--bankai-color-surface)"
+        },
+        {
+          "name": "--bankai-input-password-toggle-fg",
+          "value": "var(--bankai-color-fg)"
+        },
+        {
+          "name": "--bankai-input-password-toggle-border-width",
+          "value": "var(--bankai-input-border-width, 1px)"
+        },
+        {
+          "name": "--bankai-input-password-toggle-border-color",
+          "value": "var( --bankai-input-border-color, var(--bankai-color-border) )"
+        },
+        {
+          "name": "--bankai-input-password-toggle-font-size",
+          "value": "var(--bankai-text-size-sm)"
+        },
+        {
+          "name": "--bankai-input-password-toggle-hover-bg",
+          "value": "var(--bankai-color-bg)"
+        },
+        {
+          "name": "--bankai-input-password-toggle-disabled-opacity",
+          "value": "0.5"
+        },
+        {
+          "name": "--bankai-input-password-toggle-disabled-cursor",
+          "value": "not-allowed"
+        },
+        {
+          "name": "--bankai-input-password-toggle-transition",
+          "value": "color 150ms ease, background-color 150ms ease"
+        }
+      ]
+    }
+  },
   "BankaiInput": {
     "props": [
       {

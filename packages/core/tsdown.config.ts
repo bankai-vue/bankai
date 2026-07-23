@@ -30,6 +30,7 @@ export default defineConfig({
     'src/components/icon/BankaiIcon.vue',
     'src/components/input/BankaiInput.vue',
     'src/components/input-number/BankaiInputNumber.vue',
+    'src/components/input-password/BankaiInputPassword.vue',
     'src/components/layout/BankaiLayout.vue',
     'src/components/link/BankaiLink.vue',
     'src/components/main/BankaiMain.vue',

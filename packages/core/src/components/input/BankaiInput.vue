@@ -105,8 +105,8 @@ export interface BankaiInputExposes {
 </script>
 
 <script setup lang="ts">
-import { useAttrs, useTemplateRef } from 'vue';
-import { useBankaiId } from '../../composables/useBankaiId';
+import { useAttrs } from 'vue';
+import { useBankaiInput } from '../../internal/useBankaiInput';
 
 const {
   type = 'text',
@@ -130,20 +130,9 @@ const model = defineModel<BankaiInputModelValue>();
 defineOptions({ name: 'BankaiInput', inheritAttrs: false });
 
 const attrs = useAttrs();
-const id = useBankaiId('bankai-input');
-const inputRef = useTemplateRef<HTMLInputElement>('input');
 
-function focus(options?: FocusOptions): void {
-  inputRef.value?.focus(options);
-}
-
-function blur(): void {
-  inputRef.value?.blur();
-}
-
-function select(): void {
-  inputRef.value?.select();
-}
+// Shared input-family wiring: the resolved `id`, the native-`<input>` ref, and `focus`/`blur`/`select`.
+const { id, inputRef, focus, blur, select } = useBankaiInput('bankai-input');
 
 defineExpose<BankaiInputExposes>({
   get el() {

@@ -11,4 +11,8 @@ export const enMessages: BankaiMessages = {
     copy: 'Copy',
     copied: 'Copied',
   },
+  inputPassword: {
+    show: 'Show password',
+    hide: 'Hide password',
+  },
 };

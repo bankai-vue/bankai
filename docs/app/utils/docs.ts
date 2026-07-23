@@ -58,6 +58,7 @@ export const componentNav: ComponentNavItem[] = [
   { key: 'icon', name: 'Icon', to: '/components/icon' },
   { key: 'input', name: 'Input', to: '/components/input' },
   { key: 'input-number', name: 'InputNumber', to: '/components/input-number' },
+  { key: 'input-password', name: 'InputPassword', to: '/components/input-password' },
 ];
 
 /** One row of a component's props table (hand-authored today; to be generated from source later). */

@@ -16,4 +16,14 @@ export interface BankaiMessages {
     copy: string;
     copied: string;
   };
+  /**
+   * Messages for {@link BankaiInputPassword}. `show` is the reveal toggle's accessible name while the
+   * password is masked (activating it reveals the value); `hide` is its accessible name while the value
+   * is revealed (activating it masks it again). Both are also the button's visible label when the `toggle`
+   * slot is not used.
+   */
+  inputPassword: {
+    show: string;
+    hide: string;
+  };
 }
