@@ -34,7 +34,7 @@ catalog:
   # vue-router — an OPTIONAL peer of core (BankaiLink's first-class internal-link
   # target). Only used for the `@bankai-vue/core/vue-router` types augmentation and
   # runtime detection; core never imports it on the router-free `<a>` path.
-  vue-router: 5.1.0
+  vue-router: 5.2.0
 
   # TypeScript hybrid (SPEC.md §4.8):
   #  - typescript 6.x is the last JS-based release; it provides the compiler
@@ -50,16 +50,16 @@ catalog:
   vue-component-meta: 3.3.7
 
   # Build / bundling (rolldown-based; fits the oxc/voidzero stack).
-  tsdown: 0.22.7
+  tsdown: 0.22.12
   unplugin-vue: 7.2.0
-  vite: 8.1.4
+  vite: 8.1.5
   '@vitejs/plugin-vue': 6.0.8
 
   # Tailwind CSS — dev-only in this workspace: the playground uses it to exercise
   # `@bankai-vue/theme-tailwind`'s token remap. `@bankai-vue/theme-tailwind` declares
   # `tailwindcss` as a peer (range, not this pin); this pin is what the playground installs.
-  tailwindcss: 4.3.2
-  '@tailwindcss/vite': 4.3.2
+  tailwindcss: 4.3.3
+  '@tailwindcss/vite': 4.3.3
 
   # Test stack (SPEC.md §4.14).
   vitest: 4.1.10
@@ -73,7 +73,7 @@ catalog:
   oxfmt: 0.60.0
 
   # Release (SPEC.md §4.14).
-  '@changesets/cli': 2.31.0
+  '@changesets/cli': 2.31.1
 
   # Monorepo script runner — `run-s` for the `preflight` chain.
   npm-run-all2: 9.0.2
