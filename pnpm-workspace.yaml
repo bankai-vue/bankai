@@ -68,7 +68,7 @@ catalog:
   '@playwright/test': 1.61.1
 
   # Lint / format — oxc toolchain.
-  oxlint: 1.74.0
+  oxlint: 1.75.0
   oxlint-tsgolint: 0.25.0 # enables `options.typeAware` type-aware lint rules
   oxfmt: 0.60.0
 
