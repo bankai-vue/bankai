@@ -33,8 +33,16 @@ const usageExample = `<template>
             <template #copy><BankaiCode>Copy</BankaiCode></template>
           </i18n-t>
         </BankaiText>
-        <BankaiCodeBlock language="bash" :code="installExample" />
-        <BankaiCodeBlock language="vue" :code="usageExample" />
+        <BankaiCodeBlock language="bash" :code="installExample">
+          <template #copy="{ copied }">
+            <CopyButtonIcon :copied="copied" />
+          </template>
+        </BankaiCodeBlock>
+        <BankaiCodeBlock language="vue" :code="usageExample">
+          <template #copy="{ copied }">
+            <CopyButtonIcon :copied="copied" />
+          </template>
+        </BankaiCodeBlock>
       </BankaiFlex>
 
       <BankaiFlex as="section" direction="column" gap="8">
