@@ -1,0 +1,161 @@
+/*
+ * BankaiInputNumber styling.
+ *
+ * The field itself is a `bankai-input` (styled by `input.css`); this file adds only the number-specific
+ * bits: it hides the browser's native spin buttons on any `.bankai-input[type="number"]` (they are not
+ * themeable across engines — Firefox exposes no pseudo-element for them — so the component ships its own
+ * controls), and it lays out the optional stepper controls when the `buttons` prop wraps the field in a
+ * `.bankai-input-number` grid. Layout is driven by `data-bankai-buttons` (`stacked`/`split`) via
+ * `grid-template-areas`, the same prop→`data-*`→`:where()` model `BankaiGrid` uses — so a consumer can add
+ * a custom layout by targeting a custom `data-bankai-buttons` value.
+ *
+ * Every selector is wrapped in `:where()` (zero specificity) and every value routes through a
+ * `--bankai-input-number-*` token declared below, so a consumer overrides with one plain selector or one
+ * custom property.
+ */
+
+:where(:root) {
+  --bankai-input-number-radius: var(--bankai-input-radius, var(--bankai-radius));
+
+  /* Stepper controls — a raised surface with the field's hairline border and the page foreground. */
+  --bankai-input-number-control-inline-size: 2.25rem;
+  --bankai-input-number-control-bg: var(--bankai-color-surface);
+  --bankai-input-number-control-fg: var(--bankai-color-fg);
+  --bankai-input-number-control-border-width: var(--bankai-input-border-width, 1px);
+  --bankai-input-number-control-border-color: var(
+    --bankai-input-border-color,
+    var(--bankai-color-border)
+  );
+  --bankai-input-number-control-font-size: var(--bankai-text-size-md);
+  /* Hover — the control lifts to the page background (lighter than the resting surface). */
+  --bankai-input-number-control-hover-bg: var(--bankai-color-bg);
+  --bankai-input-number-control-disabled-opacity: 0.5;
+  --bankai-input-number-control-disabled-cursor: not-allowed;
+  /* Color-only transition, unaffected by reduced-motion (no movement). Set to `none` to disable. */
+  --bankai-input-number-control-transition: color 150ms ease, background-color 150ms ease;
+}
+
+/* Hide the browser's native spin buttons on every number-typed bankai field (bare or wrapped) — the
+ * component provides its own accessible controls, and native spinners can't be themed consistently. */
+:where(.bankai-input[type='number']) {
+  appearance: textfield;
+}
+
+:where(.bankai-input[type='number'])::-webkit-inner-spin-button,
+:where(.bankai-input[type='number'])::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+/* Wrapper — only present when `buttons` is set. A grid whose areas are placed per layout below. */
+:where(.bankai-input-number) {
+  display: grid;
+  inline-size: var(--bankai-input-inline-size, 100%);
+}
+
+/* The field fills its `field` cell and flattens its corners so the group reads as one control; per-layout
+ * rules below re-round the outer corners that face the edge. */
+:where(.bankai-input-number > .bankai-input) {
+  grid-area: field;
+  inline-size: auto;
+  min-inline-size: 0;
+  block-size: 100%;
+  border-radius: 0;
+}
+
+/* Inside the group the field's focus ring is drawn INSET (negative offset) instead of the field's default
+ * outward offset — an outward ring would spill over the adjacent stepper controls (the field sits flush
+ * against them). A bare BankaiInputNumber keeps the normal outward ring. */
+:where(.bankai-input-number > .bankai-input:focus-visible) {
+  outline-offset: calc(-1 * var(--bankai-input-focus-outline-width, 2px));
+}
+
+:where(.bankai-input-number > [data-part='decrement']),
+:where(.bankai-input-number > [data-part='increment']) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--bankai-input-number-control-inline-size);
+  padding: 0;
+  border: var(--bankai-input-number-control-border-width) solid
+    var(--bankai-input-number-control-border-color);
+  background: var(--bankai-input-number-control-bg);
+  color: var(--bankai-input-number-control-fg);
+  font-size: var(--bankai-input-number-control-font-size);
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  transition: var(--bankai-input-number-control-transition);
+}
+
+:where(.bankai-input-number > [data-part='decrement']) {
+  grid-area: decrement;
+}
+
+:where(.bankai-input-number > [data-part='increment']) {
+  grid-area: increment;
+}
+
+:where(.bankai-input-number > [data-part='decrement']:hover:not(:disabled)),
+:where(.bankai-input-number > [data-part='increment']:hover:not(:disabled)) {
+  background: var(--bankai-input-number-control-hover-bg);
+}
+
+:where(.bankai-input-number > [data-part='decrement']:disabled),
+:where(.bankai-input-number > [data-part='increment']:disabled) {
+  cursor: var(--bankai-input-number-control-disabled-cursor);
+  opacity: var(--bankai-input-number-control-disabled-opacity);
+}
+
+/*
+ * Split layout — [ − | field | + ] on a single row. The controls drop the border they share with the
+ * field (single hairline seam) and round only their outer corners.
+ */
+:where(.bankai-input-number[data-bankai-buttons='split']) {
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: 'decrement field increment';
+}
+
+:where(.bankai-input-number[data-bankai-buttons='split'] > [data-part='decrement']) {
+  border-inline-end: 0;
+  border-start-start-radius: var(--bankai-input-number-radius);
+  border-end-start-radius: var(--bankai-input-number-radius);
+}
+
+:where(.bankai-input-number[data-bankai-buttons='split'] > [data-part='increment']) {
+  border-inline-start: 0;
+  border-start-end-radius: var(--bankai-input-number-radius);
+  border-end-end-radius: var(--bankai-input-number-radius);
+}
+
+/*
+ * Stacked layout — the field on the left with a vertical increment/decrement pair on the trailing edge,
+ * each half the field height. The controls drop the border shared with the field (inline-start) and the
+ * seam between themselves (increment's block-end); the field rounds its leading corners.
+ */
+:where(.bankai-input-number[data-bankai-buttons='stacked']) {
+  grid-template-columns: 1fr auto;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+    'field increment'
+    'field decrement';
+}
+
+:where(.bankai-input-number[data-bankai-buttons='stacked'] > .bankai-input) {
+  border-start-start-radius: var(--bankai-input-number-radius);
+  border-end-start-radius: var(--bankai-input-number-radius);
+}
+
+:where(.bankai-input-number[data-bankai-buttons='stacked'] > [data-part='increment']),
+:where(.bankai-input-number[data-bankai-buttons='stacked'] > [data-part='decrement']) {
+  border-inline-start: 0;
+}
+
+:where(.bankai-input-number[data-bankai-buttons='stacked'] > [data-part='increment']) {
+  border-block-end: 0;
+  border-start-end-radius: var(--bankai-input-number-radius);
+}
+
+:where(.bankai-input-number[data-bankai-buttons='stacked'] > [data-part='decrement']) {
+  border-end-end-radius: var(--bankai-input-number-radius);
+}

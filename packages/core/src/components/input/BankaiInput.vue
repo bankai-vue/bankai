@@ -9,7 +9,7 @@ import type { LiteralUnion } from '../../internal/types';
  * The named steps (`text`/`email`/`search`/`tel`/`url`) are the plain text-with-a-hint types this
  * component is meant for; any other string is an escape hatch that still passes through. The
  * behavior-rich types get dedicated components instead — `type="number"` → `BankaiInputNumber`,
- * `type="password"` → `BankaiInputPassword` (both planned) — so their extra UI/parsing lives there,
+ * `type="password"` → `BankaiInputPassword` (planned) — so their extra UI/parsing lives there,
  * not behind a bare attribute here. Unlike `variant`/`size`, `type` is a real native attribute, so it
  * is set as `type` directly (no `data-bankai-type` mirror — a `[type='…']` selector already works).
  *
@@ -43,7 +43,7 @@ export type BankaiInputReadonly = HTMLInputElement['readOnly'];
  * (`undefined`) vs "entered then cleared" (`''`) distinction is preserved for a wrapping field/validation
  * layer. Backend-shaped `null` and numeric values are intentionally out of scope for the raw input: a
  * `null` (e.g. from a Java/SQL backend) is a future `BankaiField` concern, and numbers belong to the
- * dedicated `BankaiInputNumber` (planned).
+ * dedicated `BankaiInputNumber`.
  */
 export type BankaiInputModelValue = string;
 

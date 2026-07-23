@@ -1,0 +1,5 @@
+---
+'@bankai-vue/theme-bankai': minor
+---
+
+Style `BankaiInputNumber` and introduce the `--bankai-input-number-*` token surface — painted at zero specificity (`:where()`). Hides the browser's native spin buttons on any `.bankai-input[type="number"]` (they aren't themeable across engines — Firefox exposes no pseudo-element for them — so the component ships its own controls). When the `buttons` prop wraps the field, lays out the field + stepper controls as one segmented control via CSS grid keyed on `data-bankai-buttons`: `stacked` (a vertical increment/decrement pair on the trailing edge, each half the field height) and `split` (`−`/`+` flanking the field), with a consumer free to add a custom layout by targeting a custom `data-bankai-buttons` value. Each control is a raised-surface square with the field's hairline border that rounds only its outer corners and drops the shared seam; controls lift on `:hover` and dim with the not-allowed cursor when `:disabled`. Every value routes through a `--bankai-input-number-*` custom property (defaulting to the field's own tokens and the foundation roles).

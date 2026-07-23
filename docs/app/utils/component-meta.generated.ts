@@ -781,6 +781,166 @@ export const componentMeta = {
       ]
     }
   },
+  "BankaiInputNumber": {
+    "props": [
+      {
+        "name": "min",
+        "type": "number",
+        "required": false,
+        "description": "Minimum value, set as the native min attribute — the platform clamps stepping and flags out-of-range values. Also disables the decrement control once the value reaches it."
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "required": false,
+        "description": "Maximum value, set as the native max attribute — the platform clamps stepping and flags out-of-range values. Also disables the increment control once the value reaches it."
+      },
+      {
+        "name": "step",
+        "type": "number",
+        "required": false,
+        "description": "Step granularity, set as the native step attribute — the amount each stepper control and each arrow-key press changes the value by, and the allowed value increments. Also drives the default inputmode (integer → 'numeric', fractional → 'decimal').",
+        "default": "1"
+      },
+      {
+        "name": "size",
+        "type": "'sm' | 'md' | 'lg' | (string)",
+        "required": false,
+        "description": "Size scale, forwarded to the field and reflected as data-bankai-size. A named step (sm/md/lg) is themed; any other string reflects verbatim as an escape hatch.",
+        "default": "'md'"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disable the control via the native disabled attribute (also disables both stepper controls).",
+        "default": "false"
+      },
+      {
+        "name": "readonly",
+        "type": "boolean",
+        "required": false,
+        "description": "Make the control read-only via the native readonly attribute — the value shows and can be selected/copied but not edited, and both stepper controls are disabled. Unlike disabled, it still submits with a form.",
+        "default": "false"
+      },
+      {
+        "name": "buttons",
+        "type": "boolean | 'stacked' | 'split' | (string)",
+        "required": false,
+        "description": "The stepper controls. false (default) renders just the bare <input> — no wrapper, no controls (keyboard/arrow-key stepping still works). true renders the controls in the default 'stacked' layout; a BankaiInputNumberButtons string ('stacked'/'split' or a custom value) picks the layout explicitly. Any truthy value wraps the field in a <div class=\"bankai-input-number\"> and reflects the resolved layout as data-bankai-buttons.",
+        "default": "false"
+      },
+      {
+        "name": "inputmode",
+        "type": "'numeric' | 'decimal' | (string)",
+        "required": false,
+        "description": "Mobile keyboard hint, set as the native inputmode attribute. Defaults smartly from step ('numeric' for an integer step, 'decimal' otherwise); set explicitly to override."
+      },
+      {
+        "name": "model-value",
+        "type": "number",
+        "required": false,
+        "description": "The numeric value, bound with v-model — number | undefined (see BankaiInputNumberModelValue): undefined while unset and whenever the field is empty or holds an incomplete/invalid entry. Never coerced to 0, so a wrapping field/validation layer can tell \"no number yet\" from an entered value."
+      }
+    ],
+    "slots": [
+      {
+        "name": "decrement",
+        "description": "Content of the decrement control (defaults to a minus glyph). Swap in an icon (e.g. BankaiIcon). Only rendered when buttons is truthy; the control is aria-hidden, so slot content is not announced."
+      },
+      {
+        "name": "increment",
+        "description": "Content of the increment control (defaults to a plus glyph). Swap in an icon (e.g. BankaiIcon). Only rendered when buttons is truthy; the control is aria-hidden, so slot content is not announced."
+      }
+    ],
+    "events": [
+      {
+        "name": "update:model-value",
+        "type": "[value: number | undefined]",
+        "description": ""
+      }
+    ],
+    "exposed": [
+      {
+        "name": "el",
+        "type": "HTMLInputElement | null",
+        "description": "The underlying native <input type=\"number\"> element, or null before mount / after unmount."
+      },
+      {
+        "name": "focus",
+        "type": "(options?: FocusOptions | undefined) => void",
+        "description": "Focus the input."
+      },
+      {
+        "name": "blur",
+        "type": "() => void",
+        "description": "Remove focus from the input."
+      },
+      {
+        "name": "select",
+        "type": "() => void",
+        "description": "Select the input's text."
+      },
+      {
+        "name": "stepUp",
+        "type": "(count?: number | undefined) => void",
+        "description": "Increment the value by count steps (delegates to the native HTMLInputElement.stepUp, so it honors min/max/step). No-op while disabled/readonly."
+      },
+      {
+        "name": "stepDown",
+        "type": "(count?: number | undefined) => void",
+        "description": "Decrement the value by count steps (delegates to the native HTMLInputElement.stepDown). No-op while disabled/readonly."
+      }
+    ],
+    "theming": {
+      "bankai": [
+        {
+          "name": "--bankai-input-number-radius",
+          "value": "var(--bankai-input-radius, var(--bankai-radius))"
+        },
+        {
+          "name": "--bankai-input-number-control-inline-size",
+          "value": "2.25rem"
+        },
+        {
+          "name": "--bankai-input-number-control-bg",
+          "value": "var(--bankai-color-surface)"
+        },
+        {
+          "name": "--bankai-input-number-control-fg",
+          "value": "var(--bankai-color-fg)"
+        },
+        {
+          "name": "--bankai-input-number-control-border-width",
+          "value": "var(--bankai-input-border-width, 1px)"
+        },
+        {
+          "name": "--bankai-input-number-control-border-color",
+          "value": "var( --bankai-input-border-color, var(--bankai-color-border) )"
+        },
+        {
+          "name": "--bankai-input-number-control-font-size",
+          "value": "var(--bankai-text-size-md)"
+        },
+        {
+          "name": "--bankai-input-number-control-hover-bg",
+          "value": "var(--bankai-color-bg)"
+        },
+        {
+          "name": "--bankai-input-number-control-disabled-opacity",
+          "value": "0.5"
+        },
+        {
+          "name": "--bankai-input-number-control-disabled-cursor",
+          "value": "not-allowed"
+        },
+        {
+          "name": "--bankai-input-number-control-transition",
+          "value": "color 150ms ease, background-color 150ms ease"
+        }
+      ]
+    }
+  },
   "BankaiInput": {
     "props": [
       {

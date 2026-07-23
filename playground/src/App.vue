@@ -13,6 +13,7 @@ import {
   BankaiHeading,
   BankaiIcon,
   BankaiInput,
+  BankaiInputNumber,
   BankaiLayout,
   BankaiLink,
   BankaiMain,
@@ -27,6 +28,7 @@ import ThemeSwitcher from './components/ThemeSwitcher.vue';
 const count = ref(0);
 
 const inputValue = ref('');
+const numberValue = ref<number | undefined>(3);
 
 const variants = ['solid', 'outline', 'ghost'] as const;
 const sizes = ['sm', 'md', 'lg'] as const;
@@ -92,9 +94,9 @@ const codeBlockExample = `pnpm add @bankai-vue/core @bankai-vue/theme-bankai
 
       <p>
         Raw native <BankaiCode>&lt;input&gt;</BankaiCode> with a <BankaiCode>string</BankaiCode>
-        <BankaiCode>v-model</BankaiCode>. Behavior-rich types (number, password) get dedicated
-        components later; the field wrapper (label + help + error) is a future
-        <BankaiCode>BankaiField</BankaiCode>.
+        <BankaiCode>v-model</BankaiCode>. Behavior-rich types get dedicated components — see
+        <BankaiCode>BankaiInputNumber</BankaiCode> below (password is planned); the field wrapper
+        (label + help + error) is a future <BankaiCode>BankaiField</BankaiCode>.
       </p>
 
       <p data-testid="input-model">Model: {{ inputValue || '(empty)' }}</p>
@@ -120,6 +122,56 @@ const codeBlockExample = `pnpm add @bankai-vue/core @bankai-vue/theme-bankai
       <div class="col">
         <BankaiInput model-value="Disabled" disabled />
         <BankaiInput model-value="Read-only" readonly />
+      </div>
+    </section>
+
+    <section>
+      <h2>BankaiInputNumber</h2>
+
+      <p>
+        The behavior-rich <BankaiCode>type="number"</BankaiCode> sibling: a
+        <BankaiCode>number</BankaiCode> <BankaiCode>v-model</BankaiCode>, native
+        <BankaiCode>min</BankaiCode>/<BankaiCode>max</BankaiCode>/<BankaiCode>step</BankaiCode>, a
+        smart mobile <BankaiCode>inputmode</BankaiCode> default, and opt-in stepper controls via
+        <BankaiCode>buttons</BankaiCode>. Bare <BankaiCode>&lt;input&gt;</BankaiCode> by default.
+      </p>
+
+      <p data-testid="input-number-model">
+        Model: {{ numberValue === undefined ? '(empty)' : numberValue }}
+      </p>
+      <div class="col">
+        <BankaiInputNumber
+          v-model="numberValue"
+          :min="0"
+          :max="10"
+          buttons
+          placeholder="0–10"
+          data-testid="input-number-model-field"
+        />
+      </div>
+
+      <h3>Bare (default) — sizes</h3>
+      <div class="col">
+        <BankaiInputNumber v-for="size in sizes" :key="size" :size="size" :model-value="42" />
+      </div>
+
+      <h3>Button layouts</h3>
+      <div class="col">
+        <BankaiInputNumber :model-value="7" buttons="stacked" />
+        <BankaiInputNumber :model-value="7" buttons="split" />
+      </div>
+
+      <h3>States (with buttons)</h3>
+      <div class="col">
+        <BankaiInputNumber :model-value="5" buttons disabled />
+        <BankaiInputNumber :model-value="5" buttons readonly />
+      </div>
+
+      <h3>Mobile keyboard (inputmode)</h3>
+      <div class="col">
+        <BankaiInputNumber :model-value="1" placeholder="integer step → numeric" />
+        <BankaiInputNumber :model-value="1.5" :step="0.5" placeholder="fractional step → decimal" />
+        <BankaiInputNumber :model-value="1" inputmode="decimal" placeholder="explicit inputmode" />
       </div>
     </section>
 
