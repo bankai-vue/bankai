@@ -68,6 +68,53 @@
   background-color: var(--bankai-code-block-bg);
 }
 
+/*
+ * Copy button as an ICON (the theme's own iconography — `core` ships none, SPEC.md §4.6).
+ *
+ * Core wraps the button's DEFAULT label text in a `<span data-part="label">`, present only when the `#copy`
+ * slot is NOT overridden. So these rules key off `[data-part='label']`: the label text is pushed out of a
+ * fixed 1em box (`text-indent` — kept in the accessibility tree, and the button's `aria-label` names it
+ * regardless) and a `mask-image` glyph is painted in its place, `currentColor`-tinted like every other
+ * house icon. A consumer `#copy` slot renders no `[data-part='label']`, so custom content is never touched.
+ *
+ * Three override tiers: (1) default theme icon, free; (2) a custom icon, same theme — declare
+ * `--bankai-code-block-copy-icon` / `--bankai-code-block-copied-icon` (a `url("data:image/svg+xml,…")`, or
+ * any `mask-image` value) and/or `--bankai-code-block-copy-icon-size` anywhere in your CSS; (3) full
+ * control — the `#copy` slot. The glyph tokens are escape-hatch `var()` seams rather than `:where(:root)`
+ * declarations on purpose: a multi-KB data-URI does not belong in the generated docs Theming table.
+ */
+:where(.bankai-code-block [data-part='copy'] [data-part='label']) {
+  position: relative;
+  display: inline-block;
+  inline-size: var(--bankai-code-block-copy-icon-size, 1.15em);
+  block-size: var(--bankai-code-block-copy-icon-size, 1.15em);
+  overflow: hidden;
+  text-indent: 100%;
+  white-space: nowrap;
+}
+
+:where(.bankai-code-block [data-part='copy'] [data-part='label'])::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: currentColor;
+  mask-image: var(
+    --bankai-code-block-copy-icon,
+    url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='9' y='9' width='11' height='11' rx='2'/><path d='M5 15a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2'/></svg>")
+  );
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+}
+
+/* Copied state (`data-bankai-copied` on the root): swap the clipboard glyph for a check. */
+:where(.bankai-code-block[data-bankai-copied] [data-part='copy'] [data-part='label'])::before {
+  mask-image: var(
+    --bankai-code-block-copied-icon,
+    url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M20 6 9 17l-5-5'/></svg>")
+  );
+}
+
 /* The `role="status"` live region: sr-only. Present in the DOM (so it can announce) but visually hidden. */
 :where(.bankai-code-block [data-part='status']) {
   position: absolute;

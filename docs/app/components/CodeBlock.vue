@@ -24,6 +24,11 @@ const { data: tokens } = await useAsyncData(`codeblock:${language}:${code}`, () 
       `tokens` is always present). -->
     <span v-if="tokens" v-html="tokens" />
     <template v-else>{{ code }}</template>
+    <!-- Copy button as an icon (the docs ship no icon set, so dogfood BankaiIcon over an inline <svg>); the
+      button keeps its "Copy"/"Copied" accessible name from the core aria-label, so the icon is decorative. -->
+    <template #copy="{ copied }">
+      <CopyButtonIcon :copied="copied" />
+    </template>
   </BankaiCodeBlock>
 </template>
 

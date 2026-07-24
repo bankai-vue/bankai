@@ -178,7 +178,8 @@ const revealed = defineModel<boolean>('revealed', { default: false });
  * `type` between `password` and `text` via `v-model:revealed`. Bare `<input>` with `toggle="false"`; a
  * `bankai-input-password` wrapper + reveal button by default. Reuses the `bankai-input` field theme,
  * reflects `data-bankai-size` (+ `data-bankai-revealed` on the wrapper), exposes `data-part` hooks
- * (`root`/`field`/`toggle`), and ships no CSS. Exposes the native element plus `focus`/`blur`/`select`. The
+ * (`root`/`field`/`toggle`, plus `label` around the default reveal-label text — present only when the
+ * `toggle` slot is not overridden, so a theme can swap that text for an icon), and ships no CSS. Exposes the native element plus `focus`/`blur`/`select`. The
  * reveal-toggle sibling of `BankaiInput`.
  */
 defineOptions({ name: 'BankaiInputPassword', inheritAttrs: false });
@@ -267,6 +268,10 @@ defineSlots<BankaiInputPasswordSlots>();
     no `aria-hidden`); `:aria-label` gives it an accessible name that swaps with the reveal state and matches
     its visible label (WCAG 2.5.3 Label in Name). Disabled only with the field's `disabled` (a read-only
     field can still be revealed).
+  - The default reveal-label text is wrapped in a `<span data-part="label">` — rendered only when the
+    `toggle` slot is not overridden (it is the slot's fallback). The `aria-label` names the button
+    regardless, so a theme may visually hide this text and paint an icon in its place; a consumer `#toggle`
+    slot omits the wrapper (their content shows instead).
 -->
 <template>
   <div
@@ -285,7 +290,9 @@ defineSlots<BankaiInputPasswordSlots>();
       :disabled="disabled"
       @click="revealed = !revealed"
     >
-      <slot name="toggle" :revealed="revealed">{{ toggleLabel }}</slot>
+      <slot name="toggle" :revealed="revealed"
+        ><span data-part="label">{{ toggleLabel }}</span></slot
+      >
     </button>
   </div>
   <input v-else ref="input" v-model="model" v-bind="bareBindings" />
