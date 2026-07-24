@@ -33,7 +33,8 @@
   },
   "dependencies": {
     "@bankai-vue/core": "workspace:*",
-    "@nuxt/kit": "catalog:"
+    "@nuxt/kit": "catalog:",
+    "@nuxt/schema": "catalog:"
   },
   "devDependencies": {
     "@nuxt/module-builder": "catalog:",
