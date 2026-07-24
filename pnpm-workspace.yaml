@@ -47,10 +47,10 @@ catalog:
   # Docs props/slots/events tables are generated from core's source SFCs by
   # `scripts/generate-component-meta.ts`. Kept in lockstep with vue-tsc (same
   # @vue/language-tools release line).
-  vue-component-meta: 3.3.7
+  vue-component-meta: 3.3.8
 
   # Build / bundling (rolldown-based; fits the oxc/voidzero stack).
-  tsdown: 0.22.13
+  tsdown: 0.22.14
   unplugin-vue: 7.2.0
   vite: 8.1.5
   '@vitejs/plugin-vue': 6.0.8
