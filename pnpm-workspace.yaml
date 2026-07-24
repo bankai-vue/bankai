@@ -3,13 +3,13 @@ packages:
   - playground
   - docs
 
-# Beta Vue (3.6.0-beta) is intentionally installed against a ^3.5 peer range, so
-# peer mismatches are warnings, not failures (SPEC.md §4.11/§6).
+# Release-candidate Vue (3.6.0-rc) is intentionally installed against a ^3.5 peer
+# range, so peer mismatches are warnings, not failures (SPEC.md §4.11/§6).
 strictPeerDependencies: false
 autoInstallPeers: true
 peerDependencyRules:
   allowedVersions:
-    vue: 3.6.0-beta.17
+    vue: 3.6.0-rc.2
 
 # Approved native build scripts (pnpm only runs postinstall for these).
 # Kept to a deliberately short, audited list (SPEC.md §4.13).
@@ -25,9 +25,9 @@ allowBuilds:
 
 # Single source of version truth for the workspace (pnpm catalog).
 # Packages reference these via "catalog:" instead of hardcoding versions.
-# Versions verified against npm on 2026-06-30 — see SPEC.md §6 (currency).
+# Versions verified against npm on 2026-07-24 — see SPEC.md §6 (currency).
 catalog:
-  # Vue — develop/test against the 3.6 beta (Vapor-complete); packages still
+  # Vue — develop/test against the 3.6 rc (Vapor-complete); packages still
   # declare a peer of ^3.5.0 so stable consumers work (SPEC.md §4.11/§6).
   vue: 3.6.0-rc.2
 
