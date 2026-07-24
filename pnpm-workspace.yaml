@@ -50,7 +50,7 @@ catalog:
   vue-component-meta: 3.3.7
 
   # Build / bundling (rolldown-based; fits the oxc/voidzero stack).
-  tsdown: 0.22.12
+  tsdown: 0.22.13
   unplugin-vue: 7.2.0
   vite: 8.1.5
   '@vitejs/plugin-vue': 6.0.8
@@ -87,7 +87,7 @@ catalog:
   # Docs-only Nuxt i18n module — localizes the documentation SITE itself
   # (nav/chrome/prose, en + de) via @nuxtjs/i18n. Distinct from @bankai-vue/core's
   # component i18n (BankaiMessages). v10 peers @nuxt/kit ^4.4.8 (matches the pin).
-  '@nuxtjs/i18n': 10.4.1
+  '@nuxtjs/i18n': 10.5.0
 
   # Docs-only syntax highlighter. Runs at prerender (server-side) to bake
   # highlighted markup into the static HTML; guarded behind `import.meta.server`
