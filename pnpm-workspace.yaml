@@ -81,6 +81,7 @@ catalog:
   # Nuxt module toolchain.
   nuxt: 4.5.0
   '@nuxt/kit': 4.5.0
+  '@nuxt/schema': 4.5.0
   '@nuxt/module-builder': 1.0.2
 
   # Docs-only Nuxt i18n module — localizes the documentation SITE itself

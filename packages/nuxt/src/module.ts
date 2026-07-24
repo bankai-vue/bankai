@@ -1,4 +1,5 @@
 import type { BankaiConfigInput } from '@bankai-vue/core';
+import type { NuxtModule } from '@nuxt/schema';
 import { availableLocales } from '@bankai-vue/core/locales';
 import {
   addComponent,
@@ -83,7 +84,7 @@ function readCoreExports(): unknown {
  * It is deliberately theme-agnostic — it registers `@bankai-vue/core` only. The consumer picks and loads
  * a theme's CSS themselves (`css: ['@bankai-vue/theme-bankai']`).
  */
-export default defineNuxtModule<ModuleOptions>({
+const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
   meta: {
     name: '@bankai-vue/nuxt',
     configKey: 'bankai',
@@ -133,3 +134,5 @@ export default defineNuxtModule<ModuleOptions>({
     });
   },
 });
+
+export default module;
