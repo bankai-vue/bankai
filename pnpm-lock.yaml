@@ -64,8 +64,8 @@ catalogs:
       specifier: 4.3.3
       version: 4.3.3
     tsdown:
-      specifier: 0.22.13
-      version: 0.22.13
+      specifier: 0.22.14
+      version: 0.22.14
     typescript:
       specifier: 6.0.3
       version: 6.0.3
@@ -82,8 +82,8 @@ catalogs:
       specifier: 3.6.0-rc.2
       version: 3.6.0-rc.2
     vue-component-meta:
-      specifier: 3.3.7
-      version: 3.3.7
+      specifier: 3.3.8
+      version: 3.3.8
     vue-router:
       specifier: 5.2.0
       version: 5.2.0
@@ -130,7 +130,7 @@ importers:
         version: 1.61.1
       tsdown:
         specifier: 'catalog:'
-        version: 0.22.13(@typescript/native-preview@7.0.0-dev.20260707.2)(@volar/typescript@2.4.28)(typescript@6.0.3)(vue-tsc@3.3.7(typescript@6.0.3))
+        version: 0.22.14(@typescript/native-preview@7.0.0-dev.20260707.2)(@volar/typescript@2.4.28)(typescript@6.0.3)(vue-tsc@3.3.7(typescript@6.0.3))
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
@@ -142,7 +142,7 @@ importers:
         version: 4.1.10(@types/node@26.1.1)(@vitest/browser-playwright@4.1.10)(vite@8.1.5(@types/node@26.1.1)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))
       vue-component-meta:
         specifier: 'catalog:'
-        version: 3.3.7(typescript@6.0.3)
+        version: 3.3.8(typescript@6.0.3)
       vue-tsc:
         specifier: 'catalog:'
         version: 3.3.7(typescript@6.0.3)
@@ -2603,6 +2603,9 @@ packages:
 
   '@vue/language-core@3.3.7':
     resolution: {integrity: sha512-LzmkKinXAMMoh8Jfi/jMUSDUjuPdv8mynH5WJGKfXyZtDw3hQ6GBaoI6Bcnl/Xqlu32q/0Z6i/trp4VXykzyLw==}
+
+  '@vue/language-core@3.3.8':
+    resolution: {integrity: sha512-ieGT8jJdhhy0mGzStZhsg/qPw5bQZJg5yF+3+XU6saf4sM7yo9ZXy3h+nCwrm2+b4qS/SypkNdR2jAF3uei9tA==}
 
   '@vue/reactivity@3.5.40':
     resolution: {integrity: sha512-B7ot9UlUZOi1zbq61/LvE88ZLTV8IlajTdiZTAEiDQgrnIMIZoPr9kGw0Zw46ObW62O9+H/Be3kMbfb7kYPQZA==}
@@ -5408,14 +5411,14 @@ packages:
       typescript:
         optional: true
 
-  tsdown@0.22.13:
-    resolution: {integrity: sha512-XaYFhtiKRUvTpXv/YAehsHdbEb3LN/iMlzjSINbjlaATtXN2zVPKox2STKhcyFPlh++8Zg7suNN27E679IfAUA==}
+  tsdown@0.22.14:
+    resolution: {integrity: sha512-ule7Y+fsAN2iZbLDoo7C4KYljFJNJJ+fLshyn+9gozeTspVersWHxwdGB+Dm2hzA38s6muFnUTl0jK3vJm9ifQ==}
     engines: {node: ^22.18.0 || >=24.11.0}
     hasBin: true
     peerDependencies:
       '@arethetypeswrong/core': ^0.18.1
-      '@tsdown/css': 0.22.13
-      '@tsdown/exe': 0.22.13
+      '@tsdown/css': 0.22.14
+      '@tsdown/exe': 0.22.14
       '@vitejs/devtools': '*'
       publint: ^0.3.8
       tsx: '*'
@@ -5705,8 +5708,8 @@ packages:
       typescript:
         optional: true
 
-  verkit@0.1.2:
-    resolution: {integrity: sha512-WqkT8n3hqizuCu71W3bUzf5fjBmkbXcudsehe/NbxA8PgqoKnSOY5K0Ba2ckg1qaRaSpSz7as/n9K1R9JXjQKg==}
+  verkit@0.3.0:
+    resolution: {integrity: sha512-Njrh4U8UODGajoZ44QS2C/BsoEM9DTI/aCqY5swsizb+/ap0FamvnCMcZAxrR5+aoC0ZqkawEfpC/N2SBc+xeA==}
     engines: {node: '>=18.12.0'}
 
   vfile-message@4.0.3:
@@ -5867,8 +5870,8 @@ packages:
   vue-bundle-renderer@2.3.1:
     resolution: {integrity: sha512-7F4LNMopUw5RgYWo4zCmVUHCc6aQRC6dCKHUYkM/n+fux4AUGdL1x6m5A515WWyFysRRN7cx3hBzVqoisfRfzw==}
 
-  vue-component-meta@3.3.7:
-    resolution: {integrity: sha512-rqMY/EGOHGLcUbCb1VRZNBlDpUS12O0kMJL133Z3TrWpKmwtdGNLALTwEX1jBskoV+ibQp/aWEW+87a79FexCA==}
+  vue-component-meta@3.3.8:
+    resolution: {integrity: sha512-ISPs6028bEvf1Hn44kFZ+uOiDomEkZCvfUgcdA83sVOYJ9g6EkH1M8yCmJP0ewLyf/0M+sF41bjgIg7jPw4MmA==}
     peerDependencies:
       typescript: '*'
     peerDependenciesMeta:
@@ -8591,6 +8594,16 @@ snapshots:
   '@vue/devtools-shared@8.1.5': {}
 
   '@vue/language-core@3.3.7':
+    dependencies:
+      '@volar/language-core': 2.4.28
+      '@vue/compiler-dom': 3.5.40
+      '@vue/shared': 3.5.40
+      alien-signals: 3.2.1
+      muggle-string: 0.4.1
+      path-browserify: 1.0.1
+      picomatch: 4.0.5
+
+  '@vue/language-core@3.3.8':
     dependencies:
       '@volar/language-core': 2.4.28
       '@vue/compiler-dom': 3.5.40
@@ -11767,7 +11780,7 @@ snapshots:
     optionalDependencies:
       typescript: 6.0.3
 
-  tsdown@0.22.13(@typescript/native-preview@7.0.0-dev.20260707.2)(@volar/typescript@2.4.28)(typescript@6.0.3)(vue-tsc@3.3.7(typescript@6.0.3)):
+  tsdown@0.22.14(@typescript/native-preview@7.0.0-dev.20260707.2)(@volar/typescript@2.4.28)(typescript@6.0.3)(vue-tsc@3.3.7(typescript@6.0.3)):
     dependencies:
       ansis: 4.3.1
       cac: 7.0.0
@@ -11783,7 +11796,7 @@ snapshots:
       tinyglobby: 0.2.17
       tree-kill: 1.2.2
       unconfig-core: 7.5.0
-      verkit: 0.1.2
+      verkit: 0.3.0
     optionalDependencies:
       typescript: 6.0.3
     transitivePeerDependencies:
@@ -12064,7 +12077,7 @@ snapshots:
     optionalDependencies:
       typescript: 6.0.3
 
-  verkit@0.1.2: {}
+  verkit@0.3.0: {}
 
   vfile-message@4.0.3:
     dependencies:
@@ -12198,10 +12211,10 @@ snapshots:
     dependencies:
       ufo: 1.6.4
 
-  vue-component-meta@3.3.7(typescript@6.0.3):
+  vue-component-meta@3.3.8(typescript@6.0.3):
     dependencies:
       '@volar/typescript': 2.4.28
-      '@vue/language-core': 3.3.7
+      '@vue/language-core': 3.3.8
       path-browserify: 1.0.1
     optionalDependencies:
       typescript: 6.0.3
