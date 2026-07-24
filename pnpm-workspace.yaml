@@ -82,7 +82,7 @@ catalog:
   nuxt: 4.5.0
   '@nuxt/kit': 4.5.0
   '@nuxt/schema': 4.5.0
-  '@nuxt/module-builder': 1.0.2
+  '@nuxt/module-builder': 1.0.3
 
   # Docs-only Nuxt i18n module — localizes the documentation SITE itself
   # (nav/chrome/prose, en + de) via @nuxtjs/i18n. Distinct from @bankai-vue/core's
