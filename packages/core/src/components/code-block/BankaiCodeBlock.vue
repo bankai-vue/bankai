@@ -2,7 +2,8 @@
 import type { VNode } from 'vue';
 
 // Ships no CSS (SPEC.md §7): the theme styles the `bankai-code-block` class + the `data-part`s
-// (`root`/`pre`/`code`/`copy`/`status`) and the reflected `data-bankai-copied` state.
+// (`root`/`pre`/`code`/`copy`/`status`, plus `label` around the default copy-button text) and the
+// reflected `data-bankai-copied` state.
 // The block, fenced counterpart to the inline `BankaiCode`: it renders a native `<pre><code>` so the
 // block-code semantics live on the elements themselves (SPEC.md §4.9), and layers on a copy-to-clipboard
 // button (composed from `BankaiButton`) with an accessible `role="status"` live region announcing the copy.
@@ -97,7 +98,9 @@ const {
  * `role="status"` live region. Core ships no CSS and highlights nothing — the `code` prop renders
  * verbatim (or pass pre-highlighted markup through the default slot), and `language` reflects as the
  * `language-<lang>` class on the `<code>` for a BYO highlighter. Exposes `data-part` hooks
- * (`pre`/`code`/`copy`/`status`), reflects the transient `data-bankai-copied` state, and merges consumer
+ * (`pre`/`code`/`copy`/`status`, plus `label` around the default copy-button text — present only when the
+ * `copy` slot is not overridden, so a theme can swap that text for an icon), reflects the transient
+ * `data-bankai-copied` state, and merges consumer
  * `class`/`style`/attributes onto the root (SPEC.md §4.4, §4.6). Distinct from the inline `BankaiCode`.
  */
 defineOptions({ name: 'BankaiCodeBlock', inheritAttrs: false });
@@ -175,6 +178,9 @@ defineSlots<BankaiCodeBlockSlots>();
   - copy `<BankaiButton>`: `:aria-label` gives the button an accessible name even when the `copy` slot
     renders only an icon, and tracks the visible label so the accessible name matches it (WCAG 2.5.3 Label
     in Name); the copy is also announced via the `role="status"` region below.
+  - the default copy-button text is wrapped in a `<span data-part="label">`, rendered only when the `copy`
+    slot is not overridden (it is the slot's fallback). The `aria-label` names the button regardless, so a
+    theme may visually hide this text and paint an icon in its place; a consumer `#copy` slot omits it.
 -->
 <template>
   <div v-bind="attrs" class="bankai-code-block" data-part="root" :data-bankai-copied="dataCopied">
@@ -189,9 +195,11 @@ defineSlots<BankaiCodeBlockSlots>();
         :aria-label="copied ? resolvedCopiedLabel : resolvedCopyLabel"
         @click="handleCopy"
       >
-        <slot name="copy" :copied="copied">{{
-          copied ? resolvedCopiedLabel : resolvedCopyLabel
-        }}</slot>
+        <slot name="copy" :copied="copied"
+          ><span data-part="label">{{
+            copied ? resolvedCopiedLabel : resolvedCopyLabel
+          }}</span></slot
+        >
       </BankaiButton>
       <span data-part="status" role="status" aria-live="polite">{{ announcement }}</span>
     </div>
