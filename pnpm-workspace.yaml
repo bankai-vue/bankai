@@ -62,8 +62,8 @@ catalog:
   '@tailwindcss/vite': 4.3.3
 
   # Test stack (SPEC.md §4.14).
-  vitest: 4.1.10
-  '@vitest/browser-playwright': 4.1.10
+  vitest: 4.1.11
+  '@vitest/browser-playwright': 4.1.11
   playwright: 1.61.1
   '@playwright/test': 1.61.1
 
