@@ -70,7 +70,7 @@ catalog:
   # Lint / format — oxc toolchain.
   oxlint: 1.75.0
   oxlint-tsgolint: 7.0.2001 # enables `options.typeAware` type-aware lint rules
-  oxfmt: 0.60.0
+  oxfmt: 0.67.0
 
   # Release (SPEC.md §4.14).
   '@changesets/cli': 2.31.1
