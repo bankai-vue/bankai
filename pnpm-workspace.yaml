@@ -64,8 +64,8 @@ catalog:
   # Test stack (SPEC.md §4.14).
   vitest: 4.1.10
   '@vitest/browser-playwright': 4.1.10
-  playwright: 1.61.1
-  '@playwright/test': 1.61.1
+  playwright: 1.63.0
+  '@playwright/test': 1.63.0
 
   # Lint / format — oxc toolchain.
   oxlint: 1.75.0
